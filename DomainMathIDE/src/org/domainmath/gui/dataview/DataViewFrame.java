@@ -29,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 
 
@@ -161,11 +162,13 @@ public class DataViewFrame extends javax.swing.JFrame {
     
     private  JMenuItem functionsItem;
     private final JMenu trigonometryInverseMenu;
+    private final String _title;
+    private String var_name;
     public DataViewFrame(String path) {
          
          File f = new File(path);
-                    String t= f.getName().substring(0, f.getName().indexOf("."));
-        setTitle("Variable View-"+t);            
+                _title= f.getName().substring(0, f.getName().indexOf("."));
+        setTitle("Variable View-"+_title);            
         newContentPane = new DataViewPanel(path);
                     newContentPane.setOpaque(true);
                     setContentPane(newContentPane);
@@ -175,21 +178,25 @@ public class DataViewFrame extends javax.swing.JFrame {
             for(int i= 0; i<REARRANGE_MATRIX_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(REARRANGE_MATRIX_FUNCTIONS[i].toUpperCase()) ;
                this.rearrageMtxMenu.add(functionsItem);
+               MenuAction();
             }
             
              for(int i= 0; i<EXPONENTS_AND_LOGARITHMS_FUNCTIONS.length; i++) {
                 functionsItem=new JMenuItem(EXPONENTS_AND_LOGARITHMS_FUNCTIONS[i].toUpperCase()) ;
                this.expAndLogMenu.add(functionsItem);
+               MenuAction();
             }
              
             for(int i= 0; i<COMPLEX_FUNCTIONS.length; i++) {
                 functionsItem=new JMenuItem(COMPLEX_FUNCTIONS[i].toUpperCase()) ;
                this.complexMenu.add(functionsItem);
+               MenuAction();
             }
             
             for(int i= 0; i<TRIGONOMETRY_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(TRIGONOMETRY_FUNCTIONS[i].toUpperCase()) ;
                this.trigonometryMenu.add(functionsItem);
+               MenuAction();
             }
             trigonometryInverseMenu = new JMenu("Inverse Functions");
             this.trigonometryMenu.add(trigonometryInverseMenu);
@@ -197,33 +204,30 @@ public class DataViewFrame extends javax.swing.JFrame {
             for(int i= 0; i<TRIGONOMETRY_INVERSE_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(TRIGONOMETRY_INVERSE_FUNCTIONS[i].toUpperCase()) ;
                this.trigonometryInverseMenu.add(functionsItem);
+               MenuAction();
             }
              for(int i= 0; i< SUMS_AND_PRODUCTS_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem( SUMS_AND_PRODUCTS_FUNCTIONS[i].toUpperCase()) ;
                this.sumProdMenu.add(functionsItem);
+               MenuAction();
             }
               for(int i= 0; i<UTILITY_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(UTILITY_FUNCTIONS[i].toUpperCase()) ;
                this.utilityMenu.add(functionsItem);
+               MenuAction();
             }
              
            for(int i= 0; i<SPECIAL_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(SPECIAL_FUNCTIONS[i].toUpperCase()) ;
                this.specialFunctionsMenu.add(functionsItem);
+               MenuAction();
             }
            for(int i= 0; i<STATISTICS_FUNCTIONS.length; i++) {
                functionsItem =new JMenuItem(STATISTICS_FUNCTIONS[i].toUpperCase()) ;
                this.StatisticsMenu.add(functionsItem);
+               MenuAction();
             }
         
-           functionsItem.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-            }
-
-           });
         this.setIconImage(icon);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -231,6 +235,39 @@ public class DataViewFrame extends javax.swing.JFrame {
         newContentPane.reload();
     }
 
+    private void MenuAction() {
+        functionsItem.addActionListener(new ActionListener() {
+            private String source;
+           
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                source = e.getActionCommand().toLowerCase();
+                findAns(source);
+                
+            }
+            
+
+           });
+    }
+    
+    public void findAns(String source) {
+        var_name =_title;
+                MainFrame.octavePanel.evaluate("if(exist('"+var_name+"','var'))");
+                MainFrame.octavePanel.evaluate("tempName=genvarname ('"+var_name+"',who());");
+                MainFrame.octavePanel.evaluate("eval ([tempName ' = "+var_name+";']);");
+                MainFrame.octavePanel.evaluate(var_name+"="+source+"("+_title+");");
+                MainFrame.octavePanel.evaluate("clear('tempName');");
+                MainFrame.reloadWorkspace();
+                
+                MainFrame.octavePanel.evaluate("else");
+                MainFrame.octavePanel.evaluate(var_name+"="+source+"("+_title+");");
+                MainFrame.octavePanel.evaluate("endif");
+                
+                MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+var_name+".dat',"+var_name+");");
+
+                newContentPane.reload();
+                newContentPane.reload();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -492,13 +529,7 @@ public class DataViewFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DataViewFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DataViewFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DataViewFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DataViewFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
