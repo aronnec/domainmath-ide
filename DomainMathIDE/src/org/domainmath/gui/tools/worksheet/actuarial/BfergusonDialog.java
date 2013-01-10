@@ -391,12 +391,24 @@ public class BfergusonDialog extends javax.swing.JDialog {
     
     private void hiddenWork(String cmd){
          MainFrame.octavePanel.eval("pkg load actuarial;");
-              MainFrame.octavePanel.eval("BF=bferguson("+cmd+")");
+              
              MainFrame.octavePanel.evaluate("pkg load java;");
              MainFrame.octavePanel.evaluate(jar_path);
              MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp('BF'));");
              MainFrame.octavePanel.evaluate("_obResult.appendText(disp(BF))");
              
              
+    }
+     public void findAns(String cmd) {
+                MainFrame.octavePanel.evaluate("if(exist('BF','var')))");
+                MainFrame.octavePanel.evaluate("tempName1=genvarname ('BF',who());");
+                MainFrame.octavePanel.evaluate("eval ([tempName1 ' = BF;']);");
+                MainFrame.octavePanel.eval("BF=bferguson("+cmd+")");
+                MainFrame.octavePanel.evaluate("clear('tempName1');");
+                MainFrame.reloadWorkspace();
+                MainFrame.octavePanel.evaluate("else");
+                MainFrame.octavePanel.eval("BF=bferguson("+cmd+")");
+                MainFrame.octavePanel.evaluate("endif");
+
     }
 }
