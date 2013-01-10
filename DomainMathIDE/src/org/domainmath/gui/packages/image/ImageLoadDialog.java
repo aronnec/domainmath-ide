@@ -150,6 +150,7 @@ public class ImageLoadDialog extends javax.swing.JDialog {
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
          MainFrame.octavePanel.eval(this.workspaceField.getText()+"=imread('"+this.imagePathField.getText()+"');");
          MainFrame.reloadWorkspace();
+         MainFrame.octavePanel.eval("imshow('"+this.imagePathField.getText()+"');");
          dispose();
          
     }//GEN-LAST:event_loadButtonActionPerformed
