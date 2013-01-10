@@ -61,6 +61,8 @@ public class DataSmoothFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         yDataField = new javax.swing.JTextField();
         runButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -115,6 +117,20 @@ public class DataSmoothFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("[mxn]");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("[mxn]");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -133,11 +149,15 @@ public class DataSmoothFrame extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(xDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                                .addComponent(xDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(yDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)))))
+                                .addComponent(yDataField)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -150,12 +170,14 @@ public class DataSmoothFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(xDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(xDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(yDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 293, Short.MAX_VALUE)
+                    .addComponent(yDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
                 .addComponent(runButton)
                 .addContainerGap())
         );
@@ -209,7 +231,7 @@ public class DataSmoothFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel10))
                                 .addGap(181, 181, 181)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(xhatField)
+                                    .addComponent(xhatField, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                                     .addComponent(lgussField)
                                     .addComponent(gcvField)
                                     .addComponent(stdevField)
@@ -492,6 +514,20 @@ public class DataSmoothFrame extends javax.swing.JFrame {
         aboutDlg.setVisible(true);
     }//GEN-LAST:event_AboutItemActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         String text = this.xDataField.getText();
+        this.xDataField.setText("["+createOctMtx(text)+"]");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         String text = this.yDataField.getText();
+        this.yDataField.setText("["+createOctMtx(text)+"]");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+     private String createOctMtx(String text) {
+        String val = text.replaceAll("\t", ",");
+       return val.replaceAll(" ", ";");
+    }
     private void pltCmd(String xData,String yData) {
         
              MainFrame.octavePanel.eval("plot("+xData+","+yData+",'o',"+xData+",yh);");
@@ -533,6 +569,8 @@ public class DataSmoothFrame extends javax.swing.JFrame {
     private javax.swing.JTextField gcvField;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem howToItem;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
