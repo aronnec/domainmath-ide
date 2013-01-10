@@ -35,7 +35,7 @@ import org.domainmath.gui.about.AboutDlg;
 
 public class DataViewFrame extends javax.swing.JFrame {
 
-    private java.net.URL imgURL = getClass().getResource("Resources/DomainMath.png");
+    private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
     private Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     private final DataViewPanel newContentPane;
     
