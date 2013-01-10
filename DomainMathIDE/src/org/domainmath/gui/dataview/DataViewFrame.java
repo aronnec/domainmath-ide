@@ -249,7 +249,10 @@ public class DataViewFrame extends javax.swing.JFrame {
 
            });
     }
-    
+    public void reloadData() {
+        this.newContentPane.reload();
+        this.newContentPane.reload();
+    }
     public void findAns(String source) {
         var_name =_title;
                 MainFrame.octavePanel.evaluate("if(exist('"+var_name+"','var'))");
