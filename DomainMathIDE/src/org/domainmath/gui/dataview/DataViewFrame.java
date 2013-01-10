@@ -167,7 +167,7 @@ public class DataViewFrame extends javax.swing.JFrame {
     public DataViewFrame(String path) {
          
          File f = new File(path);
-                _title= f.getName().substring(0, f.getName().indexOf("."));
+                _title= f.getName().substring(0, f.getName().indexOf(".dat"));
         setTitle("Variable View-"+_title);            
         newContentPane = new DataViewPanel(path);
                     newContentPane.setOpaque(true);

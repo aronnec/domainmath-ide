@@ -202,10 +202,10 @@ public class DataViewPanel extends JPanel {
                      if(r>=0 && c>=0) {
                         File f = new File(directory);
                         String f_name = f.getName();
-                        String name = f_name.substring(0, f_name.indexOf("."));
+                        String name = f_name.substring(0, f_name.indexOf(".dat"));
 
-                      MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+name+"."+variable+");");
-                                DataViewFrame main =new DataViewFrame(MainFrame.log_root+variable+".dat");
+                      MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+name+"."+variable+".dat',"+name+"."+variable+");");
+                                DataViewFrame main =new DataViewFrame(MainFrame.log_root+name+"."+variable+".dat");
                                 
                     } 
                   }
