@@ -45,11 +45,7 @@ public class DataViewPanel extends JPanel {
     private final ToolBarActionListener toolBarActionListener;
     private final DataViewFileTableModel model;
     private final TableMouseListener tableMouseListener;
-    private JMenuBar menubar;
-    private JMenu fileMenu;
-    private JMenuItem exitItem;
-    private JMenuItem printItem;
-    private JMenuItem refreshItem;
+
     
     public DataViewPanel(String directory) {
         super(new BorderLayout());
@@ -210,7 +206,7 @@ public class DataViewPanel extends JPanel {
 
                       MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+name+"."+variable+");");
                                 DataViewFrame main =new DataViewFrame(MainFrame.log_root+variable+".dat");
-                                 
+                                
                     } 
                   }
                     
