@@ -353,10 +353,14 @@ public class OctavePanel extends JPanel{
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload();
+         MainFrame.histArea.append(c+"\n");
     }
       
      public void eval(String c) {
-        oc.find(c);
+         append(new Color(0,153,5),"octave:"+id+"> ");
+        id++;
+         append(c+"\n");
+         oc.find(c);
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload();
