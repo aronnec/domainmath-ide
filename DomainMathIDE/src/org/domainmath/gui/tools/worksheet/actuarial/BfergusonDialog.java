@@ -379,7 +379,7 @@ public class BfergusonDialog extends javax.swing.JDialog {
                 
     }
      public void findAns(String cmd) {
-                MainFrame.octavePanel.evaluate("if(exist('BF','var')))");
+                MainFrame.octavePanel.evaluate("if(exist('BF','var'))");
                 MainFrame.octavePanel.evaluate("tempName1=genvarname ('BF',who());");
                 MainFrame.octavePanel.evaluate("eval ([tempName1 ' = BF;']);");
                 MainFrame.octavePanel.eval("BF=bferguson("+cmd+")");
