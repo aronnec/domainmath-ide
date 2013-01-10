@@ -343,8 +343,7 @@ public class BfergusonDialog extends javax.swing.JDialog {
             }
         });
     }
-    public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton helpButton;
     private javax.swing.JButton jButton1;
@@ -376,13 +375,8 @@ public class BfergusonDialog extends javax.swing.JDialog {
     
     private void hiddenWork(String cmd){
          MainFrame.octavePanel.eval("pkg load actuarial;");
-              
-             MainFrame.octavePanel.evaluate("pkg load java;");
-             MainFrame.octavePanel.evaluate(jar_path);
-             MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp('BF'));");
-             MainFrame.octavePanel.evaluate("_obResult.appendText(disp(BF))");
-             
-             
+           findAns(cmd);
+                
     }
      public void findAns(String cmd) {
                 MainFrame.octavePanel.evaluate("if(exist('BF','var')))");
