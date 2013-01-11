@@ -388,6 +388,7 @@ public class BfergusonDialog extends javax.swing.JDialog {
                 MainFrame.octavePanel.evaluate("else");
                 MainFrame.octavePanel.eval("BF=bferguson("+cmd+")");
                 MainFrame.octavePanel.evaluate("endif");
+                MainFrame.reloadWorkspace();
 
     }
 }

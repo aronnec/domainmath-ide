@@ -376,6 +376,7 @@ public class BfanalisisDialog extends javax.swing.JDialog {
                 MainFrame.octavePanel.evaluate("else");
                 MainFrame.octavePanel.eval("[quotas,outcome]=bfanalisis("+cmd+")");
                 MainFrame.octavePanel.evaluate("endif");
+                MainFrame.reloadWorkspace();
 
     }
 }
