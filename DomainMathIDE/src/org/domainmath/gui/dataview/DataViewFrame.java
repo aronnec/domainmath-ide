@@ -160,6 +160,35 @@ public class DataViewFrame extends javax.swing.JFrame {
                                                     "spearman",
                                                     "kendall"};
     
+    public static String PLOT_FUNCTIONS[] = {  "plot",
+                                                "semilogx",
+                                                "semilogy",
+                                                "loglog",
+                                                "bar",
+                                                "barh",
+                                                "hist",
+                                                "stairs",
+                                                "stem",
+                                                "plotmatrix",
+                                                "pareto", 
+                                                "contour",
+                                                "contourf",
+                                                "contour3",
+                                                "pie",
+                                                "pie3",
+                                                "compass",
+                                                "feather",
+                                                "pcolor",
+                                                "area",
+                                                "comet", 
+                                                "comet3",
+                                                "mesh",
+                                                "surf",
+                                                "surfl",
+                                                "lsurfnorm",
+                                                "ribbon"};
+    
+    public static String IMAGE_FUNCTIONS[] ={"imshow", "image", "imagesc" };
     private  JMenuItem functionsItem;
     private final JMenu trigonometryInverseMenu;
     private final String _title;
@@ -227,7 +256,16 @@ public class DataViewFrame extends javax.swing.JFrame {
                this.StatisticsMenu.add(functionsItem);
                MenuAction();
             }
-        
+          for(int i= 0; i<PLOT_FUNCTIONS.length; i++) {
+               functionsItem =new JMenuItem(PLOT_FUNCTIONS[i].toUpperCase()) ;
+               this.plotMenu.add(functionsItem);
+               PlotAndImageAction();
+            }
+          for(int i= 0; i<IMAGE_FUNCTIONS.length; i++) {
+               functionsItem =new JMenuItem(IMAGE_FUNCTIONS[i].toUpperCase()) ;
+               this.imageMenu.add(functionsItem);
+               PlotAndImageAction();
+            }
         this.setIconImage(icon);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -243,6 +281,20 @@ public class DataViewFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 source = e.getActionCommand().toLowerCase();
                 findAns(source);
+                
+            }
+            
+
+           });
+    }
+    private void PlotAndImageAction() {
+        functionsItem.addActionListener(new ActionListener() {
+            private String source;
+           
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                source = e.getActionCommand().toLowerCase();
+                MainFrame.octavePanel.evaluate(source+"("+_title+")");
                 
             }
             
@@ -288,6 +340,9 @@ public class DataViewFrame extends javax.swing.JFrame {
         exitItem = new javax.swing.JMenuItem();
         formulasMenu = new javax.swing.JMenu();
         rearrageMtxMenu = new javax.swing.JMenu();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        plotMenu = new javax.swing.JMenu();
+        imageMenu = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         expAndLogMenu = new javax.swing.JMenu();
         complexMenu = new javax.swing.JMenu();
@@ -351,6 +406,13 @@ public class DataViewFrame extends javax.swing.JFrame {
 
         rearrageMtxMenu.setText(bundle.getString("rearrageMtxMenu.title")); // NOI18N
         formulasMenu.add(rearrageMtxMenu);
+        formulasMenu.add(jSeparator4);
+
+        plotMenu.setText(bundle.getString("plotMenu.title")); // NOI18N
+        formulasMenu.add(plotMenu);
+
+        imageMenu.setText(bundle.getString("imageMenu.title")); // NOI18N
+        formulasMenu.add(imageMenu);
         formulasMenu.add(jSeparator1);
 
         expAndLogMenu.setText(bundle.getString("expAndLogMenu.title")); // NOI18N
@@ -557,13 +619,16 @@ public class DataViewFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem forumItem2;
     private javax.swing.JMenu helpMenu2;
     private javax.swing.JMenuItem howToItem;
+    private javax.swing.JMenu imageMenu;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JMenuItem onlineHelpItem;
+    private javax.swing.JMenu plotMenu;
     private javax.swing.JMenuItem printItem;
     private javax.swing.JMenu rearrageMtxMenu;
     private javax.swing.JMenuItem refreshItem;
