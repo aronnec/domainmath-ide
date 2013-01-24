@@ -62,9 +62,8 @@ import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
-import org.domainmath.gui.packages.db.DataBaseFrame;
-import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothPanel;
+import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
 import org.domainmath.gui.packages.phyconst.PhyConstMain;
 import org.domainmath.gui.pathsview.PathsViewMain;
@@ -72,7 +71,6 @@ import org.domainmath.gui.pkg.PkgDlg;
 import org.domainmath.gui.pkgview.PkgViewMain;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
-import org.domainmath.gui.tools.glpk.GlpkFrame;
 import org.domainmath.gui.tools.glpk.GlpkPanel;
 import org.domainmath.gui.tools.worksheet.WorksheetFrame;
 import org.domainmath.gui.varview.VarViewPanel;
@@ -471,16 +469,7 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
     private JPanel histPanel(){
         JPanel p = new JPanel(new BorderLayout());
         JToolBar b = new JToolBar("");
@@ -1902,9 +1891,7 @@ private void openscript(File file) {
         }
 }
 private void setPathsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPathsItemActionPerformed
-        //pathDlg.setLocationRelativeTo(this);
-         //pathDlg.setVisible(true);
-    
+
         PathsViewMain ma =new PathsViewMain(parent_root+"DomainMath_OctavePaths.dat",this.getIconImage());
             ma.show();
 }//GEN-LAST:event_setPathsItemActionPerformed
@@ -2138,7 +2125,7 @@ public void saveplot() {
                    sessionTab.setTabPlacement(JTabbedPane.BOTTOM);
                    sessionTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
                    sessionTab.add("Code Editor", copy);
-                   
+                   createSessionPopupMenu(sessionTab);
          
                     DataSmoothPanel dataSmoothPanel = new DataSmoothPanel();
                    sessionTab.addTab("Data Smooth #"+dataSmoothIndex,dataSmoothPanel);
@@ -2171,11 +2158,12 @@ public void saveplot() {
         if(this.sessionTab == null) {
                    JTabbedPane copy = fileTab;
                    sp2.remove(this.fileTab);
+                   
                    sessionTab = new JTabbedPane();
                    sessionTab.setTabPlacement(JTabbedPane.BOTTOM);
                    sessionTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
                    sessionTab.add("Code Editor", copy);
-                   
+                   createSessionPopupMenu(sessionTab);
          
                 GlpkPanel glpkPanel = new GlpkPanel();
                 
@@ -2576,6 +2564,60 @@ public void saveplot() {
            
         });
     }
+    private void createSessionPopupMenu(final JTabbedPane _tab) {
+        JPopupMenu popup = new JPopupMenu();
+        JMenuItem pcloseItem = new JMenuItem("Close");
+        JMenuItem pcloseAllItem = new JMenuItem("Close All");
+        
+        popup.add(pcloseItem);
+        popup.add(pcloseAllItem);
+        _tab.addMouseListener(new MainFrame.SessionPopupListener(popup,_tab));
+        
+        pcloseItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!_tab.getTitleAt(_tab.getSelectedIndex()).equals("Code Editor")) { 
+                    _tab.remove(_tab.getSelectedIndex());
+                    if(sessionIndex >= 0){
+                        sessionIndex--;
+                    }
+                        
+               }
+               
+            }
+
+            
+           
+        });
+        
+        pcloseAllItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i=_tab.getTabCount()-1;
+                while(i != -1) {
+                   
+                    checkCodeEditorIsVisible(_tab,i);
+                    i--;
+                }
+            }
+
+           
+
+            
+           
+        });
+    }
+     private void checkCodeEditorIsVisible(JTabbedPane _tab,int i) {
+           if(!_tab.getTitleAt(_tab.getSelectedIndex()).equals("Code Editor")) { 
+                    _tab.remove(_tab.getSelectedIndex());
+                    if(sessionIndex >= 0){
+                        sessionIndex--;
+                    }
+                        
+               }     
+     }
     public void askSave(int selectedIndex) {
             String s = fileTab.getTitleAt(selectedIndex) ; 
             
@@ -2619,6 +2661,32 @@ public void saveplot() {
 
         private void maybeShowPopup(MouseEvent e) {
             if (e.isPopupTrigger() && fileTab.getTabCount() > 0) {
+                popup.show(e.getComponent(),
+                           e.getX(), e.getY());
+            }
+        }
+    }
+     class SessionPopupListener extends MouseAdapter {
+        JPopupMenu popup;
+        private  JTabbedPane tab;
+
+        SessionPopupListener(JPopupMenu popupMenu,JTabbedPane tab) {
+            popup = popupMenu;
+            this.tab =tab;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        private void maybeShowPopup(MouseEvent e) {
+            if (e.isPopupTrigger() && tab.getTabCount() > 0) {
                 popup.show(e.getComponent(),
                            e.getX(), e.getY());
             }
