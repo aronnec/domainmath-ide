@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.pacakges.db;
+package org.domainmath.gui.packages.db;
 
 import java.awt.Desktop;
 import java.awt.Image;
@@ -71,7 +71,7 @@ public class DataBaseFrame extends javax.swing.JFrame {
         sqlExeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         SqlCmdList = new javax.swing.JList();
-        statusPanel1 = new org.domainmath.gui.pacakges.db.StatusPanel();
+        statusPanel1 = new org.domainmath.gui.packages.db.StatusPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         connectMenu = new javax.swing.JMenu();
@@ -531,7 +531,7 @@ public void setPath(String path) {
     private javax.swing.JButton sqlExeButton;
     private javax.swing.JTextField sqlField;
     private javax.swing.JMenuItem sqliteDirverItem;
-    private org.domainmath.gui.pacakges.db.StatusPanel statusPanel1;
+    private org.domainmath.gui.packages.db.StatusPanel statusPanel1;
     private javax.swing.JMenuItem suggestionsItem;
     // End of variables declaration//GEN-END:variables
 }
