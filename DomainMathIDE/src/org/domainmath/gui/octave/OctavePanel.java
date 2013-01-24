@@ -173,6 +173,7 @@ public class OctavePanel extends JPanel{
        commandArea.setBorder(null);
        JSplitPane p  = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
        p.setDividerLocation(130);
+       p.setOneTouchExpandable(true);
        p.add(scrollOutputArea);
        p.add(new RTextScrollPane(commandArea));
      
