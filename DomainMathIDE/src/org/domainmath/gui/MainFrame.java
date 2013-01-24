@@ -72,6 +72,7 @@ import org.domainmath.gui.pkgview.PkgViewMain;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
 import org.domainmath.gui.tools.glpk.GlpkFrame;
+import org.domainmath.gui.tools.glpk.GlpkPanel;
 import org.domainmath.gui.tools.worksheet.WorksheetFrame;
 import org.domainmath.gui.varview.VarViewPanel;
 import org.fife.ui.autocomplete.AutoCompletion;
@@ -122,6 +123,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private final JSplitPane sp2;
     private final File logDir;
     public static  int index;
+    private JTabbedPane sessionTab;
+    private int glpkIndex=1;
     /** Creates new form MainFrame */
     public MainFrame()  {
        
@@ -2137,9 +2140,31 @@ public void saveplot() {
     }//GEN-LAST:event_worksheetItemActionPerformed
 
     private void glpkItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glpkItemActionPerformed
-       GlpkFrame glpkFrame = new GlpkFrame();
-        glpkFrame.setLocationRelativeTo(this);
-        glpkFrame.setVisible(true);
+        if(this.sessionTab == null) {
+                   JTabbedPane copy = fileTab;
+                   sp2.remove(this.fileTab);
+                   sessionTab = new JTabbedPane();
+                   sessionTab.add("Code Editor", copy);
+                   
+         
+                GlpkPanel glpkPanel = new GlpkPanel();
+                
+                sessionTab.addTab("Glpk #"+glpkIndex,glpkPanel);
+
+                sessionTab.setSelectedIndex(glpkIndex);
+                 sp2.add(sessionTab);
+                 glpkIndex++;
+                 setCurrentDir("");
+               }else{
+                   GlpkPanel glpkPanel = new GlpkPanel();
+                
+                sessionTab.addTab("Glpk #"+glpkIndex,glpkPanel);
+
+                sessionTab.setSelectedIndex(glpkIndex);
+                
+                 glpkIndex++;
+                 setCurrentDir("");
+               }
     }//GEN-LAST:event_glpkItemActionPerformed
 
     private void folderUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folderUpButtonActionPerformed
