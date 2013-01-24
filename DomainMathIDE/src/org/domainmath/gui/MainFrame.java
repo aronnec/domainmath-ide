@@ -64,6 +64,7 @@ import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
+import org.domainmath.gui.packages.datasmooth.DataSmoothPanel;
 import org.domainmath.gui.packages.image.ImageToolFrame;
 import org.domainmath.gui.packages.phyconst.PhyConstMain;
 import org.domainmath.gui.pathsview.PathsViewMain;
@@ -125,6 +126,8 @@ public final class MainFrame extends javax.swing.JFrame {
     public static  int index;
     private JTabbedPane sessionTab;
     private int glpkIndex=1;
+    private int dataSmoothIndex = 1;
+    private int sessionIndex = 1;
     /** Creates new form MainFrame */
     public MainFrame()  {
        
@@ -2127,10 +2130,35 @@ public void saveplot() {
     }//GEN-LAST:event_bioInfoItemActionPerformed
 
     private void dSmoothItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dSmoothItemActionPerformed
-         MainFrame.octavePanel.eval("pkg load data-smoothing;");
-        DataSmoothFrame dataSmoothFrame = new DataSmoothFrame();
-        dataSmoothFrame.setLocationRelativeTo(this);
-        dataSmoothFrame.setVisible(true);
+         MainFrame.octavePanel.evaluate("pkg load data-smoothing;");
+         if(this.sessionTab == null) {
+                   JTabbedPane copy = fileTab;
+                   sp2.remove(this.fileTab);
+                   sessionTab = new JTabbedPane();
+                   sessionTab.setTabPlacement(JTabbedPane.BOTTOM);
+                   sessionTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+                   sessionTab.add("Code Editor", copy);
+                   
+         
+                    DataSmoothPanel dataSmoothPanel = new DataSmoothPanel();
+                   sessionTab.addTab("Data Smooth #"+dataSmoothIndex,dataSmoothPanel);
+
+                sessionTab.setSelectedIndex(sessionIndex);
+                 sp2.add(sessionTab);
+                 dataSmoothIndex++;
+                 sessionIndex++;
+                 
+               }else{
+                   DataSmoothPanel dataSmoothPanel = new DataSmoothPanel();
+                   sessionTab.addTab("Data Smooth #"+dataSmoothIndex,dataSmoothPanel);
+                
+
+                sessionTab.setSelectedIndex(sessionIndex);
+                
+                 dataSmoothIndex++;
+                 sessionIndex++;
+               }
+
     }//GEN-LAST:event_dSmoothItemActionPerformed
 
     private void worksheetItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_worksheetItemActionPerformed
@@ -2144,6 +2172,8 @@ public void saveplot() {
                    JTabbedPane copy = fileTab;
                    sp2.remove(this.fileTab);
                    sessionTab = new JTabbedPane();
+                   sessionTab.setTabPlacement(JTabbedPane.BOTTOM);
+                   sessionTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
                    sessionTab.add("Code Editor", copy);
                    
          
@@ -2151,19 +2181,21 @@ public void saveplot() {
                 
                 sessionTab.addTab("Glpk #"+glpkIndex,glpkPanel);
 
-                sessionTab.setSelectedIndex(glpkIndex);
+                sessionTab.setSelectedIndex(sessionIndex);
                  sp2.add(sessionTab);
                  glpkIndex++;
-                 setCurrentDir("");
+                 sessionIndex++;
+                
                }else{
                    GlpkPanel glpkPanel = new GlpkPanel();
                 
                 sessionTab.addTab("Glpk #"+glpkIndex,glpkPanel);
 
-                sessionTab.setSelectedIndex(glpkIndex);
+                sessionTab.setSelectedIndex(sessionIndex);
                 
                  glpkIndex++;
-                 setCurrentDir("");
+                 sessionIndex++;
+                 
                }
     }//GEN-LAST:event_glpkItemActionPerformed
 
