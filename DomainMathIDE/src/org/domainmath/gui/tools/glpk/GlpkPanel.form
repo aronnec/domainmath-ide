@@ -82,7 +82,7 @@
                                   <Component id="ubTextField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="ctypeTextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="vartypeTextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="senseComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="senseComboBox" alignment="0" pref="169" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -95,7 +95,6 @@
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="runButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="helpButton" min="-2" max="-2" attributes="0"/>
@@ -392,7 +391,7 @@
                                   <Component id="param_dualComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_priceComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_roundComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="param_itlimTextField" alignment="0" pref="117" max="32767" attributes="0"/>
+                                  <Component id="param_itlimTextField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="param_itcntTextField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="param_branchComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_btrackComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
