@@ -150,6 +150,7 @@ public class OctavePanel extends JPanel{
     private void init() {
         Font font = new	Font("Monospaced",Font.PLAIN,13);
         outputArea.setFont(font);
+        outputArea.setBackground(new Color(255,255,193));
         commandArea =new RSyntaxTextArea();
         commandArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         outputArea.setDragEnabled(true);
