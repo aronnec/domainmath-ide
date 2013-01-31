@@ -233,10 +233,10 @@ public class FileViewPanel extends JPanel {
                      String ext =name.substring(name.lastIndexOf("."));
              
             if(ext.equalsIgnoreCase(".m")){
-                MainFrame.octavePanel.evaluate("profile on");
-                 MainFrame.octavePanel.evaluate(f+";");
-                 MainFrame.octavePanel.evaluate("profile off");
-                 MainFrame.octavePanel.evaluate("profshow (profile ("+Character.toString('"')+"info"+Character.toString('"')+"), 20);");
+                MainFrame.octavePanel.evalWithOutput("profile on");
+                 MainFrame.octavePanel.evalWithOutput(f+";");
+                 MainFrame.octavePanel.evalWithOutput("profile off");
+                 MainFrame.octavePanel.evalWithOutput("profshow (profile ("+Character.toString('"')+"info"+Character.toString('"')+"), 20);");
                  MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          
                    System.out.println("File: "+path.toString());
@@ -334,7 +334,7 @@ public class FileViewPanel extends JPanel {
                      MainFrame.octavePanel.evaluate("run("+"'"+path.getParent().resolve(Paths.get(file)).toString() +"'"+");");
               
                      MainFrame.octavePanel.evaluate("whos");
-                     MainFrame.octavePanel.eval("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                     MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          
                 }else if( dynarePath != null){
                      File f = new File(dynarePath+File.separator+"dynare_m.exe");
@@ -346,7 +346,7 @@ public class FileViewPanel extends JPanel {
                      String file =p.substring(0, p.indexOf("."))+".m" ;
                      MainFrame.octavePanel.evaluate("run("+"'"+path.getParent().resolve(Paths.get(file)).toString() +"'"+");");
                      MainFrame.octavePanel.evaluate("whos");
-                      MainFrame.octavePanel.eval("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                      MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          
                 }
         }
@@ -357,17 +357,16 @@ public class FileViewPanel extends JPanel {
              
             if(ext.equalsIgnoreCase(".m")){
                 
-                 MainFrame.octavePanel.evaluate("run("+"'"+path.toString()+"'"+");");
-                 MainFrame.octavePanel.commandArea.append("run("+"'"+path.toString()+"'"+");\n");
-                  MainFrame.octavePanel.eval("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                 MainFrame.octavePanel.evalWithOutput("run("+"'"+path.toString()+"'"+");");
+                
+                  MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
                   
             }else if(ext.equalsIgnoreCase(".pl")) {
-                MainFrame.octavePanel.evaluate("perl("+"'"+path.toString()+"'"+");");
-                MainFrame.octavePanel.commandArea.append("perl("+"'"+path.toString()+"'"+");\n");
+                MainFrame.octavePanel.evalWithOutput("perl("+"'"+path.toString()+"'"+");");
+                
             }
             else if(ext.equalsIgnoreCase(".py")) {
-                MainFrame.octavePanel.evaluate("python("+"'"+path.toString()+"'"+");");
-                MainFrame.octavePanel.commandArea.append("python("+"'"+path.toString()+"'"+");\n");
+                MainFrame.octavePanel.evalWithOutput("python("+"'"+path.toString()+"'"+");");
             }
             else if(ext.equalsIgnoreCase(".mod")) {
                 setUpDynare(path);
@@ -411,8 +410,8 @@ public class FileViewPanel extends JPanel {
               DirectoryStream<Path> stream = Files.newDirectoryStream(p);
               for (Path file: stream) {
                   f=_c+file.getFileName()+_c;
-                  MainFrame.octavePanel.evaluate("tar("+_c+p.getFileName()+".tar"+_c+","+f+");");
-                  MainFrame.octavePanel.evaluate("gzip("+_c+p.getFileName()+".tar"+_c+");");
+                  MainFrame.octavePanel.evalWithOutput("tar("+_c+p.getFileName()+".tar"+_c+","+f+");");
+                  MainFrame.octavePanel.evalWithOutput("gzip("+_c+p.getFileName()+".tar"+_c+");");
                  
                }
                refresh();
