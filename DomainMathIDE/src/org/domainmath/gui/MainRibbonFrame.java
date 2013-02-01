@@ -47,40 +47,41 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton undoTaskBarButton;
     private JCommandButton redoTaskBarButton;
     private JCommandButton saveAllTaskBarButton;
-    private JCommandButton cutTaskBarButton;
-    private JCommandButton copyTaskBarButton;
-    private JCommandButton pasteTaskBarButton;
     private JRibbonBand workspaceBand;
     private JCommandButton varNewCommandButton;
     private JCommandButton varRemoveCommandButton;
-    private JCommandButton importCommandButton;
-    private JCommandButton exportCommandButton;
     private JCommandButton refreshCommandButton;
     private JRibbonBand historyBand;
     private final RibbonTask homeRibbonTask;
     private JCommandButton saveHistoryCommandButton;
     private JCommandButton clearHistoryCommandButton;
     private JCommandButton runInCommandButton;
+    private JRibbonBand clipboardBand;
+    private JCommandButton cutCommandButton;
+    private JCommandButton copyCommandButton;
+    private JCommandButton pasteCommandButton;
+    private final RibbonTask dataRibbonTask;
+    private final RibbonTask toolsRibbonTask;
     
     public MainRibbonFrame()  {
         this.setApplicationIcon(new DomainMathIDE_SVG_ICON());
         initComponents();
-        homeRibbonTask = new RibbonTask("Home", createWorkspaceBand(),
-                                                createHistoryBand());
+        homeRibbonTask = new RibbonTask(bundle.getString("homeRibbonTask.title"), createClipboardBand()); 
+        dataRibbonTask = new RibbonTask(bundle.getString("dataRibbonTask.title"), createWorkspaceBand());
+        toolsRibbonTask = new RibbonTask(bundle.getString("toolsRibbonTask.title"), createHistoryBand());
+        
         getRibbon().addTask(homeRibbonTask);
+        getRibbon().addTask(dataRibbonTask);
+        getRibbon().addTask(toolsRibbonTask);
     }
 
     private JRibbonBand createWorkspaceBand(){
-        workspaceBand = new JRibbonBand("Workspace",null);
+        workspaceBand = new JRibbonBand(bundle.getString("workspaceBand.title"),null);
         
-        varNewCommandButton = new JCommandButton(bundle.getString("varNewCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/var-new.png"));
-        varRemoveCommandButton = new JCommandButton(bundle.getString("varRemoveCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/var-remove.png"));
-        importCommandButton = new JCommandButton(bundle.getString("importCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/var-import.png"));
-        exportCommandButton = new JCommandButton(bundle.getString("exportCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/var-export.png"));
-        refreshCommandButton = new JCommandButton(bundle.getString("refreshCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/refresh.png"));
+        varNewCommandButton = new JCommandButton(bundle.getString("varNewCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/var-new.png"));
+        varRemoveCommandButton = new JCommandButton(bundle.getString("varRemoveCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/var-remove.png"));
+         refreshCommandButton = new JCommandButton(bundle.getString("refreshCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/refresh.png"));
         
-        workspaceBand.addCommandButton(importCommandButton, RibbonElementPriority.TOP);
-        workspaceBand.addCommandButton(exportCommandButton, RibbonElementPriority.TOP);
         workspaceBand.addCommandButton(varNewCommandButton, RibbonElementPriority.MEDIUM);
         workspaceBand.addCommandButton(varRemoveCommandButton, RibbonElementPriority.MEDIUM);      
         workspaceBand.addCommandButton(refreshCommandButton, RibbonElementPriority.MEDIUM);
@@ -89,8 +90,23 @@ public class MainRibbonFrame extends JRibbonFrame {
         return workspaceBand;
     }
 
+    private JRibbonBand createClipboardBand(){
+        clipboardBand = new JRibbonBand(bundle.getString("clipboardBand.title"),null);
+        
+        cutCommandButton = new JCommandButton(bundle.getString("cutCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-cut.png"));
+        copyCommandButton = new JCommandButton(bundle.getString("copyCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-copy.png"));
+        pasteCommandButton = new JCommandButton(bundle.getString("pasteCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/edit-paste.png"));
+        
+        clipboardBand.addCommandButton(pasteCommandButton, RibbonElementPriority.TOP);
+        clipboardBand.addCommandButton(cutCommandButton, RibbonElementPriority.MEDIUM);
+        clipboardBand.addCommandButton(copyCommandButton, RibbonElementPriority.MEDIUM);
+      
+        
+        setPolicy(clipboardBand);
+        return clipboardBand;
+    }
     private JRibbonBand createHistoryBand(){
-        historyBand = new JRibbonBand("History",null);
+        historyBand = new JRibbonBand(bundle.getString("historyBand.title"),null);
         
         saveHistoryCommandButton = new JCommandButton(bundle.getString("saveHistoryCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/save-history.png"));
         clearHistoryCommandButton = new JCommandButton(bundle.getString("clearHistoryCommandButton.text"),getResizableIcoFromResource24("resources/icons/size32/clear-history.png"));
