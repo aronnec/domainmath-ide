@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -43,7 +44,7 @@ import org.pushingpixels.flamingo.api.ribbon.resize.RibbonBandResizePolicy;
 
 
 public class MainRibbonFrame extends JRibbonFrame {
-     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMathIDE_en");
+    private ResourceBundle bundle = ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMathIDE_en");
     private RibbonApplicationMenu ribbonApplicationMenu;
     private JCommandButton undoTaskBarButton;
     private JCommandButton redoTaskBarButton;
@@ -53,7 +54,7 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton varRemoveCommandButton;
     private JCommandButton refreshCommandButton;
     private JRibbonBand historyBand;
-    private final RibbonTask homeRibbonTask;
+    private RibbonTask homeRibbonTask;
     private JCommandButton saveHistoryCommandButton;
     private JCommandButton clearHistoryCommandButton;
     private JCommandButton runInCommandButton;
@@ -61,8 +62,8 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton cutCommandButton;
     private JCommandButton copyCommandButton;
     private JCommandButton pasteCommandButton;
-    private final RibbonTask dataRibbonTask;
-    private final RibbonTask toolsRibbonTask;
+    private RibbonTask dataRibbonTask;
+    private RibbonTask toolsRibbonTask;
     
     public MainRibbonFrame()  {
         this.setApplicationIcon(new DomainMathIDE_SVG_ICON());
@@ -101,6 +102,10 @@ public class MainRibbonFrame extends JRibbonFrame {
         cutCommandButton = new JCommandButton(bundle.getString("cutCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-cut.png"));
         copyCommandButton = new JCommandButton(bundle.getString("copyCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-copy.png"));
         pasteCommandButton = new JCommandButton(bundle.getString("pasteCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/edit-paste.png"));
+        
+        cutCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("cutCommandButton.tooltipHead"),bundle.getString("cutCommandButton.tooltip")));
+        copyCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("copyCommandButton.tooltipHead"),bundle.getString("copyCommandButton.tooltip")));
+        pasteCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("pasteCommandButton.tooltipHead"),bundle.getString("pasteCommandButton.tooltip")));
         
         clipboardBand.addCommandButton(pasteCommandButton, RibbonElementPriority.TOP);
         clipboardBand.addCommandButton(cutCommandButton, RibbonElementPriority.MEDIUM);
