@@ -67,6 +67,7 @@ public class MainRibbonFrame extends JRibbonFrame {
     
     public MainRibbonFrame()  {
         this.setApplicationIcon(new DomainMathIDE_SVG_ICON());
+        this.setTitle(bundle.getString("DomainMathIDE.title"));
         initComponents();
         homeRibbonTask = new RibbonTask(bundle.getString("homeRibbonTask.title"), createClipboardBand()); 
         dataRibbonTask = new RibbonTask(bundle.getString("dataRibbonTask.title"), createWorkspaceBand());
