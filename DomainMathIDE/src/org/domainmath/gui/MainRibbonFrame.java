@@ -28,6 +28,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.domainmath.gui.resources.icons.DomainMathIDE_SVG_ICON;
 import org.pushingpixels.flamingo.api.common.JCommandButton;
+import org.pushingpixels.flamingo.api.common.RichTooltip;
 import org.pushingpixels.flamingo.api.common.icon.ImageWrapperResizableIcon;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
 import org.pushingpixels.flamingo.api.ribbon.JRibbonBand;
@@ -80,8 +81,12 @@ public class MainRibbonFrame extends JRibbonFrame {
         
         varNewCommandButton = new JCommandButton(bundle.getString("varNewCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/var-new.png"));
         varRemoveCommandButton = new JCommandButton(bundle.getString("varRemoveCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/var-remove.png"));
-         refreshCommandButton = new JCommandButton(bundle.getString("refreshCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/refresh.png"));
+        refreshCommandButton = new JCommandButton(bundle.getString("refreshCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/refresh.png"));
         
+        varNewCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("varNewCommandButton.tooltipHead"),bundle.getString("varNewCommandButton.tooltip")));
+        varRemoveCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("varRemoveCommandButton.tooltipHead"),bundle.getString("varRemoveCommandButton.tooltip")));
+        refreshCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("refreshCommandButton.tooltipHead"),bundle.getString("refreshCommandButton.tooltip")));
+       
         workspaceBand.addCommandButton(varNewCommandButton, RibbonElementPriority.MEDIUM);
         workspaceBand.addCommandButton(varRemoveCommandButton, RibbonElementPriority.MEDIUM);      
         workspaceBand.addCommandButton(refreshCommandButton, RibbonElementPriority.MEDIUM);
@@ -300,8 +305,7 @@ public class MainRibbonFrame extends JRibbonFrame {
         undoTaskBarButton = new JCommandButton(null,getResizableIcoFromResource24("resources/icons/size24/edit-undo.png"));
         this.getRibbon().addTaskbarComponent(this.undoTaskBarButton);
         redoTaskBarButton = new JCommandButton(null,getResizableIcoFromResource24("resources/icons/size24/edit-redo.png"));
-        this.getRibbon().addTaskbarComponent(this.redoTaskBarButton);
-  
+        this.getRibbon().addTaskbarComponent(this.redoTaskBarButton);    
     }
     private void initComponents() {
        ribbonApplicationMenu = new RibbonApplicationMenu();
