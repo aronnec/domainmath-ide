@@ -175,8 +175,6 @@ public class PlotDialog extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try{
             String l = this.jList1.getSelectedValue().toString();
-            MainFrame.octavePanel.append(l+"("+this.jTextField1.getText()+")\n");
-            
             MainFrame.octavePanel.eval("figure;"+l+"("+this.jTextField1.getText()+");"+"hold off;"); 
             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat"+"',whos);");
              

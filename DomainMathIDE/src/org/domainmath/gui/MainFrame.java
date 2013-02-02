@@ -659,6 +659,7 @@ public final class MainFrame extends javax.swing.JFrame {
         dynareItem = new javax.swing.JMenuItem();
         worksheetItem = new javax.swing.JMenuItem();
         glpkItem = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
         octaveInfoItem = new javax.swing.JMenuItem();
@@ -1452,6 +1453,15 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         toolsMenu.add(glpkItem);
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItem7.setText("Interrupt");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(jMenuItem7);
 
         jMenuBar1.add(toolsMenu);
 
@@ -2584,6 +2594,10 @@ public void saveplot() {
         imageToolFrame.setVisible(true);
     }//GEN-LAST:event_imageToolItemActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+       
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2669,6 +2683,7 @@ public void saveplot() {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
