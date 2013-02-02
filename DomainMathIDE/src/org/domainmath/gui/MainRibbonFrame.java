@@ -42,29 +42,51 @@ import org.pushingpixels.flamingo.api.ribbon.RibbonTask;
 import org.pushingpixels.flamingo.api.ribbon.resize.CoreRibbonResizePolicies;
 import org.pushingpixels.flamingo.api.ribbon.resize.RibbonBandResizePolicy;
 
-
+/**
+ * Creates a frame with Flemingo Ribbon Control
+ * <code>MainRibbonFrame</code>
+ * @author Vinu K.N
+ */
 public class MainRibbonFrame extends JRibbonFrame {
+    
     private ResourceBundle bundle = ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMathIDE_en");
+    
     private RibbonApplicationMenu ribbonApplicationMenu;
+
+    // TaskBar buttons.
     private JCommandButton undoTaskBarButton;
     private JCommandButton redoTaskBarButton;
     private JCommandButton saveAllTaskBarButton;
-    private JRibbonBand workspaceBand;
-    private JCommandButton varNewCommandButton;
-    private JCommandButton varRemoveCommandButton;
-    private JCommandButton refreshCommandButton;
-    private JRibbonBand historyBand;
+    
+    // RibbonTask.
     private RibbonTask homeRibbonTask;
-    private JCommandButton saveHistoryCommandButton;
-    private JCommandButton clearHistoryCommandButton;
-    private JCommandButton runInCommandButton;
-    private JRibbonBand clipboardBand;
-    private JCommandButton cutCommandButton;
-    private JCommandButton copyCommandButton;
-    private JCommandButton pasteCommandButton;
     private RibbonTask dataRibbonTask;
     private RibbonTask toolsRibbonTask;
     
+    //RibbonBand.
+    private JRibbonBand workspaceBand;
+    private JRibbonBand historyBand;
+    private JRibbonBand clipboardBand;
+    
+    // JCommandButtons for workspaceBand.
+    private JCommandButton varNewCommandButton;
+    private JCommandButton varRemoveCommandButton;
+    private JCommandButton refreshCommandButton;
+    
+    // JCommandButtons for historyBand.
+    private JCommandButton saveHistoryCommandButton;
+    private JCommandButton clearHistoryCommandButton;
+    private JCommandButton runInCommandButton;
+    
+    // JCommandButtons for clipBand.
+    private JCommandButton cutCommandButton;
+    private JCommandButton copyCommandButton;
+    private JCommandButton pasteCommandButton;
+    
+    /**
+     * Constructs a frame with Flemingo Ribbon control
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbon
+     */
     public MainRibbonFrame()  {
         this.setApplicationIcon(new DomainMathIDE_SVG_ICON());
         this.setTitle(bundle.getString("DomainMathIDE.title"));
@@ -78,6 +100,11 @@ public class MainRibbonFrame extends JRibbonFrame {
         getRibbon().addTask(toolsRibbonTask);
     }
 
+    /**
+     * Handles workspace related operations like creating new variable,removing variable in Octave workspace.
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand
+     * @return JRibbonBand
+     */
     private JRibbonBand createWorkspaceBand(){
         workspaceBand = new JRibbonBand(bundle.getString("workspaceBand.title"),null);
         
@@ -97,6 +124,11 @@ public class MainRibbonFrame extends JRibbonFrame {
         return workspaceBand;
     }
 
+     /**
+     * Handles clipboard operations like cut,copy and paste.
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand
+     * @return JRibbonBand
+     */
     private JRibbonBand createClipboardBand(){
         clipboardBand = new JRibbonBand(bundle.getString("clipboardBand.title"),null);
         
@@ -116,6 +148,12 @@ public class MainRibbonFrame extends JRibbonFrame {
         setPolicy(clipboardBand);
         return clipboardBand;
     }
+    
+     /**
+     * Handles history related functions.
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand
+     * @return JRibbonBand
+     */
     private JRibbonBand createHistoryBand(){
         historyBand = new JRibbonBand(bundle.getString("historyBand.title"),null);
         
@@ -132,6 +170,10 @@ public class MainRibbonFrame extends JRibbonFrame {
         return historyBand;
     }
     
+    /**
+     * 
+     * @param band 
+     */
     private void setPolicy(JRibbonBand band) {
         List<RibbonBandResizePolicy> resizePolicies = new ArrayList<RibbonBandResizePolicy>();
 		resizePolicies.add(new CoreRibbonResizePolicies.Mirror(band
@@ -160,6 +202,12 @@ public class MainRibbonFrame extends JRibbonFrame {
        });
     }
 
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It shows new file dialog box.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntryNew() {
          RibbonApplicationMenuEntryPrimary entryNew = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/document-new.png"),
@@ -172,12 +220,23 @@ public class MainRibbonFrame extends JRibbonFrame {
            
 				}, JCommandButton.CommandButtonKind.ACTION_ONLY);
 		entryNew.setActionKeyTip("N");
-      return entryNew;
+        return entryNew;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entryNew
+     * @param e 
+     */
     private void entryNewActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "New");
     }
     
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It open file(s).
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntryOpen() {
          RibbonApplicationMenuEntryPrimary entryOpen = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/document-open.png"),
@@ -192,10 +251,21 @@ public class MainRibbonFrame extends JRibbonFrame {
 		entryOpen.setActionKeyTip("O");
       return entryOpen;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entryOpen
+     * @param e 
+     */
     private void entryOpenActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "Open");
     }
     
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It save file(s).
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntrySave() {
          RibbonApplicationMenuEntryPrimary entrySave = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/document-save.png"),
@@ -210,10 +280,21 @@ public class MainRibbonFrame extends JRibbonFrame {
 		entrySave.setActionKeyTip("S");
       return entrySave;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entrySave
+     * @param e 
+     */
     private void entrySaveActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "Save");
     }
     
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It analyze or profile Octave script.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntryAnalyze() {
          RibbonApplicationMenuEntryPrimary entryAnalyze = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/analyze.png"),
@@ -228,9 +309,21 @@ public class MainRibbonFrame extends JRibbonFrame {
 		entryAnalyze.setActionKeyTip("L");
       return entryAnalyze;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entryAnalyze
+     * @param e 
+     */
     private void entryAnalyzeActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "Analyze");
     }
+    
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It print  file.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntryPrint() {
          RibbonApplicationMenuEntryPrimary entryPrint = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/document-print.png"),
@@ -245,10 +338,21 @@ public class MainRibbonFrame extends JRibbonFrame {
 		entryPrint.setActionKeyTip("P");
       return entryPrint;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entryPrint
+     * @param e 
+     */
     private void entryPrintActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "Print");
     }
       
+    /**
+     * Creates RibbonApplicationMenuEntry in the Application Menu.
+     * It closes a file.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryPrimary
+     * @return RibbonApplicationMenuEntryPrimary
+     */
     private RibbonApplicationMenuEntryPrimary createEntryClose() {
          RibbonApplicationMenuEntryPrimary entryClose = new RibbonApplicationMenuEntryPrimary(
 				 getResizableIcoFromResource48("resources/icons/size48/document-close.png"),
@@ -263,11 +367,21 @@ public class MainRibbonFrame extends JRibbonFrame {
 		entryClose.setActionKeyTip("L");
       return entryClose;
     }
+    
+    /**
+     * Handle actions of RibbonApplicationMenuEntryPrimary entryClose
+     * @param e 
+     */
     private void entryCloseActionPerformed(ActionEvent e) {
          JOptionPane.showMessageDialog(rootPane, "Close");
     }
     
-    
+     /**
+     * Creates RibbonApplicationMenuEntryFooter in the Application Menu.
+     * It shows Preferences dialog box.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryFooter
+     * @return RibbonApplicationMenuEntryFooter
+     */
     private RibbonApplicationMenuEntryFooter createFootEntryPreferences() {
         RibbonApplicationMenuEntryFooter footerEntryPreferences = new RibbonApplicationMenuEntryFooter(
                                 getResizableIcoFromResource32("resources/icons/size32/configure.png")
@@ -283,9 +397,20 @@ public class MainRibbonFrame extends JRibbonFrame {
         return footerEntryPreferences ;
     }
     
+    /**
+     * Handle actions of RibbonApplicationMenuEntryFooter footerEntryPreferences
+     * @param e 
+     */
     private void footerEntryPreferencesActionPerformed(ActionEvent e) {
                JOptionPane.showMessageDialog(rootPane, "Preferences"); 
       }
+    
+    /**
+     * Creates RibbonApplicationMenuEntryFooter in the Application Menu.
+     * It closes the application.
+     * @see org.pushingpixels.flamingo.api.ribbon.RibbonApplicationMenuEntryFooter
+     * @return RibbonApplicationMenuEntryFooter
+     */
     private RibbonApplicationMenuEntryFooter createFootEntryExit() {
         RibbonApplicationMenuEntryFooter footerEntryExit = new RibbonApplicationMenuEntryFooter(
                                 getResizableIcoFromResource32("resources/icons/size32/application-exit.png")
@@ -301,10 +426,19 @@ public class MainRibbonFrame extends JRibbonFrame {
         return footerEntryExit ;
     }
     
+    /**
+     * Handle actions of RibbonApplicationMenuEntryFooter footerEntryExit
+     * @param e 
+     */
     private void footerEntryExitActionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(rootPane, "Exit");
                  
      }
+    
+    /**
+     * Creates Task bar. It contains Save all,undo and  redo buttons
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbon
+     */
     private void createTaskBar(){
         saveAllTaskBarButton = new JCommandButton(null,getResizableIcoFromResource24("resources/icons/size24/document-save-all.png"));
         this.getRibbon().addTaskbarComponent(this.saveAllTaskBarButton);
@@ -313,6 +447,10 @@ public class MainRibbonFrame extends JRibbonFrame {
         redoTaskBarButton = new JCommandButton(null,getResizableIcoFromResource24("resources/icons/size24/edit-redo.png"));
         this.getRibbon().addTaskbarComponent(this.redoTaskBarButton);    
     }
+    
+    /**
+     * Initiate all components.
+     */
     private void initComponents() {
        ribbonApplicationMenu = new RibbonApplicationMenu();
         ribbonApplicationMenu.addMenuEntry(this.createEntryNew());
@@ -332,13 +470,32 @@ public class MainRibbonFrame extends JRibbonFrame {
        
     }
     
-
+    /**
+     * Create ResizableIcon 24x24 from Resource.
+     * @see org.pushingpixels.flamingo.api.common.icon.ResizableIcon
+     * @param resource
+     * @return ResizableIcon
+     */
     private  ResizableIcon getResizableIcoFromResource24(String resource) {
         return  ImageWrapperResizableIcon.getIcon(getClass().getResource(resource),new Dimension(24,24));
     }
+    
+    /**
+     * Create ResizableIcon 32x32 from Resource.
+     * @see org.pushingpixels.flamingo.api.common.icon.ResizableIcon
+     * @param resource
+     * @return ResizableIcon
+     */
     private  ResizableIcon getResizableIcoFromResource32(String resource) {
         return  ImageWrapperResizableIcon.getIcon(getClass().getResource(resource),new Dimension(32,32));
     }
+    
+    /**
+     * Create ResizableIcon 48x48 from Resource.
+     * @see org.pushingpixels.flamingo.api.common.icon.ResizableIcon
+     * @param resource
+     * @return ResizableIcon
+     */
      private  ResizableIcon getResizableIcoFromResource48(String resource) {
         return  ImageWrapperResizableIcon.getIcon(getClass().getResource(resource),new Dimension(48,48));
     }
