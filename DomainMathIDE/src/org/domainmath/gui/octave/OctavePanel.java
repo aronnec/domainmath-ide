@@ -36,10 +36,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.arrayeditor.ArrayEditorPanel;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
@@ -57,11 +53,9 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class OctavePanel extends JPanel{
 
-  
-    
     private  JScrollPane scrollOutputArea;
     public RSyntaxTextArea commandArea;
-    public JTextPane outputArea = new JTextPane();
+    public JTextArea outputArea = new JTextArea();
     OctaveEngine oc = new OctaveEngine();
     public static String line2;
     CompletionProvider provider = createCompletionProvider();
@@ -82,36 +76,11 @@ public class OctavePanel extends JPanel{
         this.path = path;
         
         init();
-        
     }
-
-
-    public void append(Color c, String s) { 
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-            StyleConstants.Foreground, c);
-
-        int len = outputArea.getDocument().getLength(); 
-                          
-        outputArea.setCaretPosition(len); 
-        outputArea.setCharacterAttributes(aset, false);
-        outputArea.replaceSelection(s); 
-   }
-     public void append( String s) { 
-                    
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-            StyleConstants.Foreground, Color.BLACK);
-
-        int len = outputArea.getDocument().getLength(); 
-                           
-        outputArea.setCaretPosition(len); 
-        outputArea.setCharacterAttributes(aset, false);
-        outputArea.replaceSelection(s); 
-   }
- public void start() {
+    
+    public void start() {
          try {
-                    append("Connecting..."+"\n");
+                    outputArea.append("Connecting..."+"\n");
                     String path =frame.getOctavePath();
                     String addpath = " --path "+Character.toString('"') +System.getProperty("user.dir")+File.separator+"scripts"+Character.toString('"');
                     oc.run(path+addpath);
@@ -147,15 +116,15 @@ public class OctavePanel extends JPanel{
      
  }
 
+
     private void init() {
         Font font = new	Font("Monospaced",Font.PLAIN,13);
         outputArea.setFont(font);
-        outputArea.setBackground(new Color(255,255,193));
         commandArea =new RSyntaxTextArea();
         commandArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         outputArea.setDragEnabled(true);
         scrollOutputArea = new JScrollPane(outputArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
+        outputArea.setBackground(new Color(255,255,193));    
         commandArea.setToolTipText("Type commands here,press Enter to get output");
         scrollOutputArea.setWheelScrollingEnabled(true);
         
@@ -170,14 +139,13 @@ public class OctavePanel extends JPanel{
         PkgViewPanel pkgView = new PkgViewPanel(path+"DomainMath_OctavePackages.dat",frame);
         
         
-        
+       outputArea.setEditable(false);
        commandArea.setBorder(null);
        JSplitPane p  = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
        p.setDividerLocation(130);
-       p.setOneTouchExpandable(true);
        p.add(scrollOutputArea);
        p.add(new RTextScrollPane(commandArea));
-     
+       p.setOneTouchExpandable(true);
        tab.addTab("Console",p);
        tab.addTab("Set Paths", pathPanel);
        tab.addTab("Packages", pkgView);
@@ -186,32 +154,25 @@ public class OctavePanel extends JPanel{
 
 
        _p1 = new JPopupMenu();
-       JMenuItem _cut = new JMenuItem("Cut");
+
        JMenuItem _copy = new JMenuItem("Copy");
        JMenuItem _paste = new JMenuItem("Paste");
        JMenuItem _selectAll = new JMenuItem("Select All");
        
-       _p1.add(_cut);
+
        _p1.add(_copy);
        _p1.add(_paste);
        _p1.add(_selectAll);
        
        outputArea.add(_p1);
        
-       _cut.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                outputArea.cut();
-            }
-           
-       }); 
+      
        
        _copy.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                outputArea.cut();
+                outputArea.copy();
             }
            
        }); 
@@ -346,22 +307,25 @@ public class OctavePanel extends JPanel{
 	}
    
       public void evalWithOutput(String c) {
-         
-      
-        append(new Color(0,153,5),"octave:"+id+"> ");
+        outputArea.append("octave:"+id+"> ");
         id++;
-         append(c+"\n");
+         outputArea.append(c+"\n");
          oc.find(c);
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload();
          MainFrame.histArea.append(c+"\n");
     }
-      
-     public void eval(String c) {
-         append(new Color(0,153,5),"octave:"+id+"> ");
+     
+     public void setOctaveTag(String s) {
+         outputArea.append("octave:"+id+"> ");
         id++;
-         append(c+"\n");
+         outputArea.append(s+"\n");
+     }
+     public void eval(String c) {
+         outputArea.append("octave:"+id+"> ");
+        id++;
+         outputArea.append(c+"\n");
          oc.find(c);
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
@@ -405,8 +369,8 @@ public class OctavePanel extends JPanel{
      public void eval(String c) {
          
       
-        append(new Color(0,204,0),"octave:"+id+"> ");
-         append(c+"\n");
+        outputArea.append("octave:"+id+"> ");
+         outputArea.append(c+"\n");
          id++;
         input.write(c+"\n");
         input.flush();
@@ -416,8 +380,8 @@ public class OctavePanel extends JPanel{
     }
      public void eval(String c,String tag) {
 
-         append(new Color(0,153,5),tag);
-         append(c+"\n");
+         outputArea.append(tag);
+         outputArea.append(c+"\n");
          id++;
         input.write(c+"\n");
         input.flush();
@@ -428,42 +392,36 @@ public class OctavePanel extends JPanel{
 }
 
         
-   public void displayText(Color c,String output) {
+   public void displayText(String output) {
        
         if (output.indexOf('\n') >= 0) {
-            append(c,output+"\n");
-          
+            outputArea.append(output+"\n");
+            
             output = output.substring(output.indexOf('\n') +1);
-				displayText(c,output);
+				displayText(output);
         }else {
 				if(!"".equals(output)) {
-                                    append(c,output+"\n");
+                                    outputArea.append(output+"\n");
                                
 				}
 
                                 
                                 
     }
-        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+     outputArea.setCaretPosition(outputArea.getDocument().getLength());
    }
    
    public void setText(Color c, String output)  {
-       
-           if (output.indexOf('\n') >= 0) {
-            
-            append(output+"\n");
-          
+           if (output.indexOf('\n') >= 0) {      
+            outputArea.append(output+"\n");
             output = output.substring(output.indexOf('\n') +1);
-				displayText(c,output);
+				displayText(output);
         }else {
 				if(!"".equals(output)) {
                                     
-                                    append(output+"\n");
+                                    outputArea.append(output+"\n");
                                       
-				}
-
-                                
-                                
+				}        
     }
         
    }
@@ -498,10 +456,7 @@ public class OctavePanel extends JPanel{
       for(int i=0;i<a.size();i++) {
           provider.addCompletion(new BasicCompletion(provider, a.get(i).toString()));
       }
-     
 
-     
-     
       return provider;
 
    }
@@ -516,32 +471,24 @@ public class OctavePanel extends JPanel{
         start();
     }
 
-
-
         @Override
         public void run() {
-	try {
-				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);
-				String line = null;
-                                
-				while ((line = br.readLine()) != null) {
-					line = line.replaceAll("octave(\\.exe)?:[0-9]*>[ ]*", "");
-                                        if(isErr) {
-                                           displayText(Color.RED,line); 
-                                        }else{
-                                             displayText(Color.BLACK,line); 
-                                        }
-                                	
-                                      
-				}
-                                
-                                
-			} catch (Exception ioe) {
-				ioe.printStackTrace();
-			}
-                     
-		}
+            try {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                        line = line.replaceAll("octave(\\.exe)?:[0-9]*>[ ]*", "");
+                        if(isErr) {
+                           displayText(line); 
+                        }else{
+                             displayText(line); 
+                        }
+                }
+            }catch (Exception ioe) {
+                    ioe.printStackTrace();
+            }
+        }
     }
 
     public void clear() {
