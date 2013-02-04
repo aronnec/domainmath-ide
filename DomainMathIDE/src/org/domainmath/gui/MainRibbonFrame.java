@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Vinu K.N
+ * Copyright (C) 2013 Vinu K.N
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -171,7 +171,8 @@ public class MainRibbonFrame extends JRibbonFrame {
     }
     
     /**
-     * 
+     * Set Ribbon band policy.
+     * @see org.pushingpixels.flamingo.api.ribbon.resize.BaseRibbonBandResizePolicy
      * @param band 
      */
     private void setPolicy(JRibbonBand band) {
@@ -183,6 +184,10 @@ public class MainRibbonFrame extends JRibbonFrame {
 		band.setResizePolicies(resizePolicies);
     }
     
+    /**
+     * Main entry point to the application.
+     * @param args 
+     */
     public static void main(String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
