@@ -67,6 +67,7 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JRibbonBand workspaceBand;
     private JRibbonBand historyBand;
     private JRibbonBand clipboardBand;
+    private JRibbonBand editBand;
     
     // JCommandButtons for workspaceBand.
     private JCommandButton varNewCommandButton;
@@ -149,6 +150,30 @@ public class MainRibbonFrame extends JRibbonFrame {
         return clipboardBand;
     }
     
+     /**
+     * Handles edit operations like comment,increase indent,decrease indent.
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand
+     * @return JRibbonBand
+     */
+    private JRibbonBand createEditBand(){
+        editBand = new JRibbonBand(bundle.getString("edit.title"),null);
+        
+        cutCommandButton = new JCommandButton(bundle.getString("cutCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-cut.png"));
+        copyCommandButton = new JCommandButton(bundle.getString("copyCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-copy.png"));
+        pasteCommandButton = new JCommandButton(bundle.getString("pasteCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/edit-paste.png"));
+        
+        cutCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("cutCommandButton.tooltipHead"),bundle.getString("cutCommandButton.tooltip")));
+        copyCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("copyCommandButton.tooltipHead"),bundle.getString("copyCommandButton.tooltip")));
+        pasteCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("pasteCommandButton.tooltipHead"),bundle.getString("pasteCommandButton.tooltip")));
+        
+        clipboardBand.addCommandButton(pasteCommandButton, RibbonElementPriority.TOP);
+        clipboardBand.addCommandButton(cutCommandButton, RibbonElementPriority.MEDIUM);
+        clipboardBand.addCommandButton(copyCommandButton, RibbonElementPriority.MEDIUM);
+      
+        
+        setPolicy(clipboardBand);
+        return clipboardBand;
+    }
      /**
      * Handles history related functions.
      * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand

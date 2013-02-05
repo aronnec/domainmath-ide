@@ -385,9 +385,11 @@ public class OctavePanel extends JPanel{
          id++;
         input.write(c+"\n");
         input.flush();
+        if(!c.contains("input")) {
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload();
+        }
      }
 }
 
