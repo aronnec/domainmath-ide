@@ -78,6 +78,16 @@ function DomainMath_OctaveDataView(sFileName,variables)
 
 		fprintf(pFile,'\n');  
 		fclose(pFile);	
+	elseif(isbool(variables))
+		pFile =fopen(sFileName,'w');
+		fprintf(pFile,'1|1\n');
+		if(variables)
+			fprintf(pFile,"'true'|");
+		else
+			fprintf(pFile,"'false'|");
+		endif
+		fprintf(pFile,'\n'); 
+		fclose(pFile);  
 	endif
     
 
@@ -91,4 +101,3 @@ clear('jj');
 clear('s');
 clear('_i');
 clear('r');
-clear('c');
