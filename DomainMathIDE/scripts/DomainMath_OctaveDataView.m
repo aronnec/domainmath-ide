@@ -65,9 +65,8 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		
 		for _i =1:length(s)
 		   if(isstruct(s{_i}))
-		   	v = fieldnames(s{_i});
-			[r1,c1]=size(v);
-		   	fprintf(pFile,"struct<%dx%d>.|",r1,c1);
+			[r1,c1]=size(s{_i});
+		   	fprintf(pFile,"struct<%dx%d>|",r1,c1);
 		   else
 		   	if(isnumeric(s{_i}))
 		   		fprintf(pFile,"%f|",s{_i});

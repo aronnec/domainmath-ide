@@ -198,6 +198,17 @@ public class DataViewPanel extends JPanel {
                 int r=table.getSelectedRow();
                 int c=table.getSelectedColumn();
                   String variable = table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                  if(variable.startsWith("struct<")){
+                      if(r>=0 && c>=0) {
+                        File f = new File(directory);
+                        String f_name = f.getName();
+                        String name = f_name.substring(0, f_name.indexOf(".dat"));
+
+                      MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+name+"{"+(table.getSelectedRow()+1)+"}.dat',"+name+"{"+(table.getSelectedRow()+1)+"});");
+                                DataViewFrame main =new DataViewFrame(MainFrame.log_root+name+"{"+(table.getSelectedRow()+1)+"}.dat");
+                                
+                    }
+                  }else{
                   if(!variable.contains(".")){
                      if(r>=0 && c>=0) {
                         File f = new File(directory);
@@ -210,7 +221,7 @@ public class DataViewPanel extends JPanel {
                     } 
                   }
                     
-               
+                  }
             }
         }
 
