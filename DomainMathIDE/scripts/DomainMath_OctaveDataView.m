@@ -59,13 +59,23 @@ function DomainMath_OctaveDataView(sFileName,variables)
         
 	elseif(iscell(variables))
 		s = variables;
-
+		
 		pFile =fopen(sFileName,'w');
 		fprintf(pFile,'%d|1\n',length(s));
-
+		
 		for _i =1:length(s)
-		   fprintf(pFile,"%s|",s{_i});
-                end;
+		   if(isstruct(s{_i}))
+		   	v = fieldnames(s{_i});
+			[r1,c1]=size(v);
+		   	fprintf(pFile,"struct<%dx%d>.|",r1,c1);
+		   else
+		   	if(isnumeric(s{_i}))
+		   		fprintf(pFile,"%f|",s{_i});
+		   	else
+		   		fprintf(pFile,"%s|",s{_i});
+		   	endif
+		   endif	
+            end;
 
 		fprintf(pFile,'\n');  
 		fclose(pFile);	
