@@ -53,7 +53,7 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		
 		pFile =fopen(sFileName,'w');
 		fprintf(pFile,'1|1\n');
-		fprintf(pFile,"%s|",variables);
+		fprintf(pFile,"'%s'|",variables);
 		fprintf(pFile,'\n'); 
 		fclose(pFile);  
         

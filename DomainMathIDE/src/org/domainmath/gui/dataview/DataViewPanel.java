@@ -197,7 +197,7 @@ public class DataViewPanel extends JPanel {
             if(e.getClickCount() == 2) {
                 int r=table.getSelectedRow();
                 int c=table.getSelectedColumn();
-                  String variable = table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                  String variable = table.getValueAt(table.getSelectedRow(), 0).toString();
                   if(variable.startsWith("struct<")){
                       if(r>=0 && c>=0) {
                         File f = new File(directory);
@@ -209,7 +209,7 @@ public class DataViewPanel extends JPanel {
                                 
                     }
                   }else{
-                  if(!variable.contains(".")){
+                  if(!variable.contains("'")){
                      if(r>=0 && c>=0) {
                         File f = new File(directory);
                         String f_name = f.getName();
