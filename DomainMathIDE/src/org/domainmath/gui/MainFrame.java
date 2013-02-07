@@ -2389,9 +2389,11 @@ public void saveplot() {
             
             String name =path.getFileName().toString();
             String ext =name.substring(name.lastIndexOf("."));
-             
+            String m_file_name=name.substring(0, name.indexOf(".m")) ;
             if(ext.equalsIgnoreCase(".m")){
-                 MainFrame.octavePanel.evalWithOutput("run("+"'"+path.toString()+"'"+")");
+                 MainFrame.octavePanel.evalWithOutput(m_file_name);
+                 MainFrame.octavePanel.commandArea.setText("");
+                 MainFrame.octavePanel.commandArea.setText(m_file_name);
                  reloadWorkspace();
             
             }else if(ext.equalsIgnoreCase(".pl")) {
@@ -2571,9 +2573,10 @@ public void saveplot() {
         if(fileTab.getSelectedIndex() >= 0) {
             save();
             File file_selected = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
-            this.runFile(Paths.get(file_selected.getAbsolutePath()));
-            currentDirField.setText(file_selected.getParent());
             octavePanel.evaluate("chdir "+"'"+file_selected.getParent()+"'"); 
+            currentDirField.setText(file_selected.getParent());
+            this.runFile(Paths.get(file_selected.getAbsolutePath()));
+
        }
         
     }//GEN-LAST:event_runScriptItemActionPerformed
