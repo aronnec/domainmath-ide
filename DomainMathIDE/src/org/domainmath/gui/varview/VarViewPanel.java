@@ -745,29 +745,24 @@ public class VarViewPanel extends JPanel {
                  }
     }
    
-     private void viewIn() {
+    /**
+     * Shows variable view frame.
+     */
+    private void viewIn() {
         if(table.getSelectedRow() >= 0)  {
-                     try {
-                            String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
-                           // MainFrame.octavePanel.evaluate(variable);
-//                            MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
-//                            MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.parent_root+"DomainMath_OctaveDataView.dat',"+variable+");");
-
-                         
-                             MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
-                //DataViewMain dataViewMain = new DataViewMain(MainFrame.log_root+variable+".dat");
-                //dataViewMain.show();
-                DataViewFrame n = new DataViewFrame(MainFrame.log_root+variable+".dat");
-                //                            MainFrame.octavePanel.dataView.reload();
-                //                            MainFrame.octavePanel.tab.setSelectedIndex(2);
-                // reload();
-                           
-                            
-                        } catch (Exception ex) {
-                        }
-               
-                   
-                 }
+            String size =table.getValueAt(table.getSelectedRow(), 1).toString();
+            StringTokenizer t = new StringTokenizer(size,"x");
+            if(t.countTokens() >= 3) {
+                view();
+            }else{
+                try {
+                     String variable =table.getValueAt(table.getSelectedRow(), 0).toString();                          
+                     MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                     DataViewFrame n = new DataViewFrame(MainFrame.log_root+variable+".dat");
+                } catch (Exception ex) {
+                } 
+            } 
+        }
     }
     private  class ToolBarActionListener implements ActionListener {
 
