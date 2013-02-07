@@ -315,6 +315,7 @@ public class OctavePanel extends JPanel{
          MainFrame.varView.reload();
          MainFrame.varView.reload();
          MainFrame.histArea.append(c+"\n");
+         history.add(c);
     }
      
      public void setOctaveTag(String s) {

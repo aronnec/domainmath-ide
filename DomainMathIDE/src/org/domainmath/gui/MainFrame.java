@@ -2573,7 +2573,7 @@ public void saveplot() {
         if(fileTab.getSelectedIndex() >= 0) {
             save();
             File file_selected = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
-            octavePanel.evaluate("chdir "+"'"+file_selected.getParent()+"'"); 
+            octavePanel.evalWithOutput("chdir "+"'"+file_selected.getParent()+"'"); 
             currentDirField.setText(file_selected.getParent());
             this.runFile(Paths.get(file_selected.getAbsolutePath()));
 
