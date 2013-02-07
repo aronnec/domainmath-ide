@@ -78,7 +78,12 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		   		endif
 		   elseif(ismatrix(k))
 				[r4,c4]=size(k);
-		   		fprintf(pFile,"%s|matrix<%dx%d>|",s{_i},r4,c4);
+				if(r4==0 && c4==0)
+					fprintf(pFile,"[]|");
+				else
+		   			fprintf(pFile,"%s|matrix<%dx%d>|",s{_i},r4,c4);	
+		   		endif
+		   		
 		   elseif(isvector(k))
 				[r5,c5]=size(k);
 		   		fprintf(pFile,"%s|vector<%dx%d>|",s{_i},r5,c5);
@@ -126,9 +131,15 @@ function DomainMath_OctaveDataView(sFileName,variables)
 				else
 					fprintf(pFile,"'false'|");
 				endif
+		    elseif(isnull(s{_i}))
+		    		fprintf(pFile,"'null'|");
 		    elseif(ismatrix(s{_i}))
 				[r2,c2]=size(s{_i});
-		   		fprintf(pFile,"matrix<%dx%d>|",r2,c2);
+				if(r2==0 && c2==0)
+					fprintf(pFile,"[]|");
+				else
+		   			fprintf(pFile,"matrix<%dx%d>|",r2,c2);
+		   		endif
 		   elseif(isvector(s{_i}))
 				[r3,c3]=size(s{_i});
 		   		fprintf(pFile,"vector<%dx%d>|",r3,c3);
