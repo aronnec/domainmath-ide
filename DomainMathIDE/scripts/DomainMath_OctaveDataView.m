@@ -81,12 +81,19 @@ function DomainMath_OctaveDataView(sFileName,variables)
 				if(r4==0 && c4==0)
 					fprintf(pFile,"[]|");
 				else
-		   			fprintf(pFile,"%s|matrix<%dx%d>|",s{_i},r4,c4);	
+					if(r4<=3 && c4<=3)
+						_s1=mat2str(k,[4 2]);
+						fprintf(pFile,"%s|%s|",s{_i},_s1);
+					else
+		   				fprintf(pFile,"%s|matrix<%dx%d>|",s{_i},r4,c4);	
+		   			endif
 		   		endif
 		   		
 		   elseif(isvector(k))
 				[r5,c5]=size(k);
 		   		fprintf(pFile,"%s|vector<%dx%d>|",s{_i},r5,c5);
+		   elseif(isobject(k))
+		   		fprintf(pFile,"object|");
 		   else
 		   	fprintf(pFile,"%s|-|",s{_i});
 		   endif
@@ -143,6 +150,8 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		   elseif(isvector(s{_i}))
 				[r3,c3]=size(s{_i});
 		   		fprintf(pFile,"vector<%dx%d>|",r3,c3);
+		   elseif(isobject(s{_i}))
+		   		fprintf(pFile,"object|");
 		   else
 		   		fprintf(pFile,"'%s'|",s{_i});
 		   	endif
@@ -159,6 +168,13 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		else
 			fprintf(pFile,"'false'|");
 		endif
+		fprintf(pFile,'\n'); 
+		fclose(pFile); 
+	elseif(is_function_handle(variables))
+		pFile =fopen(sFileName,'w');
+		fprintf(pFile,'1|1\n');
+		fprintf(pFile,"'%s'|",func2str(variables));
+
 		fprintf(pFile,'\n'); 
 		fclose(pFile); 
 	else
