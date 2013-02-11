@@ -62,6 +62,7 @@ public class MainRibbonFrame extends JRibbonFrame {
     private RibbonTask homeRibbonTask;
     private RibbonTask dataRibbonTask;
     private RibbonTask toolsRibbonTask;
+    private JRibbonBand debugBand;
     
     //RibbonBand.
     private JRibbonBand workspaceBand;
@@ -93,6 +94,9 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton lowerCaseCommandButton;
     private JCommandButton deleteCommandButton;
     
+    // JCommandButtons for debugBand.
+    private JCommandButton runScriptCommandButton;
+    
     /**
      * Constructs a frame with Flemingo Ribbon control
      * @see org.pushingpixels.flamingo.api.ribbon.JRibbon
@@ -102,7 +106,8 @@ public class MainRibbonFrame extends JRibbonFrame {
         this.setTitle(bundle.getString("DomainMathIDE.title"));
         initComponents();
         homeRibbonTask = new RibbonTask(bundle.getString("homeRibbonTask.title"), createClipboardBand(),
-                                                                                  createEditBand()); 
+                                                                                  createEditBand(),
+                                                                                  createDebugBand()); 
         dataRibbonTask = new RibbonTask(bundle.getString("dataRibbonTask.title"), createWorkspaceBand());
         toolsRibbonTask = new RibbonTask(bundle.getString("toolsRibbonTask.title"), createHistoryBand());
         
@@ -160,6 +165,24 @@ public class MainRibbonFrame extends JRibbonFrame {
         
         setPolicy(clipboardBand);
         return clipboardBand;
+    }
+    
+    /**
+     * Handles edit operations like comment,increase indent,decrease indent.
+     * @see org.pushingpixels.flamingo.api.ribbon.JRibbonBand
+     * @return JRibbonBand
+     */
+    private JRibbonBand createDebugBand(){
+        debugBand = new JRibbonBand(bundle.getString("debugBand.title"),null);
+        
+        runScriptCommandButton = new JCommandButton(bundle.getString("runScriptCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/run-script.png"));
+         
+        runScriptCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("runScriptCommandButton.tooltipHead"),bundle.getString("runScriptCommandButton.tooltip")));
+      
+        debugBand.addCommandButton(runScriptCommandButton, RibbonElementPriority.TOP);
+        
+        setPolicy(debugBand);
+        return debugBand;
     }
     
      /**
