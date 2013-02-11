@@ -85,6 +85,14 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton pasteCommandButton;
     private JCommandButton selectAllCommandButton;
     
+    // JCommandButtons for editBand.
+    private JCommandButton commentCommandButton;
+    private JCommandButton increaseIndentCommandButton;
+    private JCommandButton decreaseIndentCommandButton;
+    private JCommandButton upperCaseCommandButton;
+    private JCommandButton lowerCaseCommandButton;
+    private JCommandButton deleteCommandButton;
+    
     /**
      * Constructs a frame with Flemingo Ribbon control
      * @see org.pushingpixels.flamingo.api.ribbon.JRibbon
@@ -93,7 +101,8 @@ public class MainRibbonFrame extends JRibbonFrame {
         this.setApplicationIcon(new DomainMathIDE_SVG_ICON());
         this.setTitle(bundle.getString("DomainMathIDE.title"));
         initComponents();
-        homeRibbonTask = new RibbonTask(bundle.getString("homeRibbonTask.title"), createClipboardBand()); 
+        homeRibbonTask = new RibbonTask(bundle.getString("homeRibbonTask.title"), createClipboardBand(),
+                                                                                  createEditBand()); 
         dataRibbonTask = new RibbonTask(bundle.getString("dataRibbonTask.title"), createWorkspaceBand());
         toolsRibbonTask = new RibbonTask(bundle.getString("toolsRibbonTask.title"), createHistoryBand());
         
@@ -159,23 +168,31 @@ public class MainRibbonFrame extends JRibbonFrame {
      * @return JRibbonBand
      */
     private JRibbonBand createEditBand(){
-        editBand = new JRibbonBand(bundle.getString("edit.title"),null);
+        editBand = new JRibbonBand(bundle.getString("editBand.title"),null);
         
-        cutCommandButton = new JCommandButton(bundle.getString("cutCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-cut.png"));
-        copyCommandButton = new JCommandButton(bundle.getString("copyCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-copy.png"));
-        pasteCommandButton = new JCommandButton(bundle.getString("pasteCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/edit-paste.png"));
+        commentCommandButton = new JCommandButton(bundle.getString("commentCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/comment.png"));
+        increaseIndentCommandButton = new JCommandButton(bundle.getString("increaseIndentCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/indent-more.png"));
+        decreaseIndentCommandButton = new JCommandButton(bundle.getString("decreaseIndentCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/indent-less.png"));
+        upperCaseCommandButton = new JCommandButton(bundle.getString("upperCaseCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/uppercase.png"));
+        lowerCaseCommandButton = new JCommandButton(bundle.getString("lowerCaseCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/lowercase.png"));
+        deleteCommandButton = new JCommandButton(bundle.getString("deleteCommandButton.text"),getResizableIcoFromResource32("resources/icons/size48/edit-delete.png"));
+       
+        commentCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("commentCommandButton.tooltipHead"),bundle.getString("commentCommandButton.tooltip")));
+        increaseIndentCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("increaseIndentCommandButton.tooltipHead"),bundle.getString("increaseIndentCommandButton.tooltip")));
+        decreaseIndentCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("decreaseIndentCommandButton.tooltipHead"),bundle.getString("decreaseIndentCommandButton.tooltip")));
+        upperCaseCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("upperCaseCommandButton.tooltipHead"),bundle.getString("upperCaseCommandButton.tooltip")));
+        lowerCaseCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("lowerCaseCommandButton.tooltipHead"),bundle.getString("lowerCaseCommandButton.tooltip")));
+        deleteCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("deleteCommandButton.tooltipHead"),bundle.getString("deleteCommandButton.tooltip")));
         
-        cutCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("cutCommandButton.tooltipHead"),bundle.getString("cutCommandButton.tooltip")));
-        copyCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("copyCommandButton.tooltipHead"),bundle.getString("copyCommandButton.tooltip")));
-        pasteCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("pasteCommandButton.tooltipHead"),bundle.getString("pasteCommandButton.tooltip")));
+        editBand.addCommandButton(commentCommandButton, RibbonElementPriority.MEDIUM);
+        editBand.addCommandButton(increaseIndentCommandButton, RibbonElementPriority.MEDIUM);
+        editBand.addCommandButton(decreaseIndentCommandButton, RibbonElementPriority.MEDIUM);
+        editBand.addCommandButton(deleteCommandButton, RibbonElementPriority.MEDIUM);       
+        editBand.addCommandButton(upperCaseCommandButton, RibbonElementPriority.MEDIUM);
+        editBand.addCommandButton(lowerCaseCommandButton, RibbonElementPriority.MEDIUM);
         
-        clipboardBand.addCommandButton(pasteCommandButton, RibbonElementPriority.TOP);
-        clipboardBand.addCommandButton(cutCommandButton, RibbonElementPriority.MEDIUM);
-        clipboardBand.addCommandButton(copyCommandButton, RibbonElementPriority.MEDIUM);
-      
-        
-        setPolicy(clipboardBand);
-        return clipboardBand;
+        setPolicy(editBand);
+        return editBand;
     }
      /**
      * Handles history related functions.
