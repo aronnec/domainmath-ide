@@ -83,6 +83,7 @@ public class MainRibbonFrame extends JRibbonFrame {
     private JCommandButton cutCommandButton;
     private JCommandButton copyCommandButton;
     private JCommandButton pasteCommandButton;
+    private JCommandButton selectAllCommandButton;
     
     /**
      * Constructs a frame with Flemingo Ribbon control
@@ -136,15 +137,17 @@ public class MainRibbonFrame extends JRibbonFrame {
         cutCommandButton = new JCommandButton(bundle.getString("cutCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-cut.png"));
         copyCommandButton = new JCommandButton(bundle.getString("copyCommandButton.text"),getResizableIcoFromResource32("resources/icons/size32/edit-copy.png"));
         pasteCommandButton = new JCommandButton(bundle.getString("pasteCommandButton.text"),getResizableIcoFromResource48("resources/icons/size48/edit-paste.png"));
-        
+        selectAllCommandButton = new JCommandButton(bundle.getString("selectAllCommandButton.text"),getResizableIcoFromResource48("resources/icons/size32/edit-select-all.png"));
+       
         cutCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("cutCommandButton.tooltipHead"),bundle.getString("cutCommandButton.tooltip")));
         copyCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("copyCommandButton.tooltipHead"),bundle.getString("copyCommandButton.tooltip")));
         pasteCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("pasteCommandButton.tooltipHead"),bundle.getString("pasteCommandButton.tooltip")));
-        
+        selectAllCommandButton.setActionRichTooltip(new RichTooltip(bundle.getString("selectAllCommandButton.tooltipHead"),bundle.getString("selectAllCommandButton.tooltip")));
+       
         clipboardBand.addCommandButton(pasteCommandButton, RibbonElementPriority.TOP);
         clipboardBand.addCommandButton(cutCommandButton, RibbonElementPriority.MEDIUM);
         clipboardBand.addCommandButton(copyCommandButton, RibbonElementPriority.MEDIUM);
-      
+        clipboardBand.addCommandButton(selectAllCommandButton, RibbonElementPriority.MEDIUM);
         
         setPolicy(clipboardBand);
         return clipboardBand;
