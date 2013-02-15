@@ -1,13 +1,27 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2013 Vinu K.N
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.domainmath.gui.tools.multicore;
 
-/**
- *
- * @author Autotest
- */
+import java.nio.file.Path;
+import javax.swing.JFileChooser;
+import org.domainmath.gui.MainFrame;
+
+
 public class MulticoreDialog extends javax.swing.JDialog {
 
     /**
@@ -44,26 +58,53 @@ public class MulticoreDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/tools/multicore/resources/multicore_en"); // NOI18N
         setTitle(bundle.getString("Dialog.title")); // NOI18N
+        setResizable(false);
 
         jLabel1.setText(bundle.getString("functionHandleLabel.text")); // NOI18N
 
         functionHandleTextField.setText("@");
+        functionHandleTextField.setToolTipText(bundle.getString("functionHandleTextField.tooltip")); // NOI18N
 
         jLabel2.setText(bundle.getString("commondirLabel.text")); // NOI18N
 
+        commonDirTextField.setText(" ");
+        commonDirTextField.setToolTipText(bundle.getString("commondirTextField.tooltip")); // NOI18N
+
         browseButton.setText(bundle.getString("browseButton.text")); // NOI18N
+        browseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseButtonActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText(bundle.getString("paramCellLabel")); // NOI18N
+
+        paramCellTextField.setText(" ");
+        paramCellTextField.setToolTipText(bundle.getString("paramCellTextField.tooltip")); // NOI18N
 
         jLabel4.setText(bundle.getString("masterEvaluationsLabel.text")); // NOI18N
 
         masterEvaluations.setText("Inf");
+        masterEvaluations.setToolTipText(bundle.getString("masterEvaluationsTextField.tooltip")); // NOI18N
 
-        jLabel5.setText(bundle.getString("resultCellLabel")); // NOI18N
+        jLabel5.setText(bundle.getString("resultCellLabel.text")); // NOI18N
+
+        resultCellTextField.setText(" ");
+        resultCellTextField.setToolTipText(bundle.getString("resultCellTextField.tooltip")); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         okButton.setText(bundle.getString("okButton.text")); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,6 +173,48 @@ public class MulticoreDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Dispose dialog box.
+     * @param evt 
+     */
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+       dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    /**
+     * It shows dialog box to choose directory.
+     * @param evt 
+     */
+    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        JFileChooser fc = new JFileChooser();
+        
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        
+        Path browse_file;
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                 browse_file = fc.getSelectedFile().toPath();
+                 this.commonDirTextField.setText(browse_file.toString());
+            } 
+    }//GEN-LAST:event_browseButtonActionPerformed
+
+    /**
+     *  Multicore process.
+     * @param evt 
+     */
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        
+        MainFrame.octavePanel.evaluate("DomainMath_Multicore("+
+                this.functionHandleTextField.getText()+","+
+                this.commonDirTextField.getText()+","+
+                this.paramCellTextField.getText()+","+
+                "'"+MainFrame.octavePath+"'"+","+
+                this.masterEvaluations.getText()+","+
+                this.resultCellTextField.getText()+","
+                );
+    }//GEN-LAST:event_okButtonActionPerformed
 
     /**
      * @param args the command line arguments
