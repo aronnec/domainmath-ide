@@ -72,6 +72,7 @@ import org.domainmath.gui.pkgview.PkgViewMain;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
 import org.domainmath.gui.tools.glpk.GlpkFrame;
+import org.domainmath.gui.tools.multicore.MulticoreDialog;
 import org.domainmath.gui.tools.worksheet.WorksheetFrame;
 import org.domainmath.gui.varview.VarViewPanel;
 import org.fife.ui.autocomplete.AutoCompletion;
@@ -646,6 +647,7 @@ public final class MainFrame extends javax.swing.JFrame {
         dataBaseMenuItem = new javax.swing.JMenuItem();
         dSmoothItem = new javax.swing.JMenuItem();
         imageToolItem = new javax.swing.JMenuItem();
+        multicoreItem = new javax.swing.JMenuItem();
         phyConstItem = new javax.swing.JMenuItem();
         docPkgItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
@@ -1330,6 +1332,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         pkgMenuItem.add(imageToolItem);
+
+        multicoreItem.setText("Multicore");
+        multicoreItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multicoreItemActionPerformed(evt);
+            }
+        });
+        pkgMenuItem.add(multicoreItem);
 
         phyConstItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("phyConstItem.mnemonic").charAt(0));
         phyConstItem.setText(bundle.getString("phyConstItem.name")); // NOI18N
@@ -2587,6 +2597,12 @@ public void saveplot() {
         imageToolFrame.setVisible(true);
     }//GEN-LAST:event_imageToolItemActionPerformed
 
+    private void multicoreItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multicoreItemActionPerformed
+        MulticoreDialog multicoreDialog = new MulticoreDialog(this,true);
+        multicoreDialog.setLocationRelativeTo(this);
+        multicoreDialog.setVisible(true);
+    }//GEN-LAST:event_multicoreItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2696,6 +2712,7 @@ public void saveplot() {
     private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem multicoreItem;
     private javax.swing.JMenuItem newFileItem;
     private javax.swing.JMenuItem octaveCmdItem;
     private javax.swing.JMenuItem octaveInfoItem;

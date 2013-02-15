@@ -19,6 +19,7 @@ package org.domainmath.gui.tools.multicore;
 
 import java.nio.file.Path;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
 
 
@@ -62,12 +63,10 @@ public class MulticoreDialog extends javax.swing.JDialog {
 
         jLabel1.setText(bundle.getString("functionHandleLabel.text")); // NOI18N
 
-        functionHandleTextField.setText("@");
         functionHandleTextField.setToolTipText(bundle.getString("functionHandleTextField.tooltip")); // NOI18N
 
         jLabel2.setText(bundle.getString("commondirLabel.text")); // NOI18N
 
-        commonDirTextField.setText(" ");
         commonDirTextField.setToolTipText(bundle.getString("commondirTextField.tooltip")); // NOI18N
 
         browseButton.setText(bundle.getString("browseButton.text")); // NOI18N
@@ -79,7 +78,6 @@ public class MulticoreDialog extends javax.swing.JDialog {
 
         jLabel3.setText(bundle.getString("paramCellLabel")); // NOI18N
 
-        paramCellTextField.setText(" ");
         paramCellTextField.setToolTipText(bundle.getString("paramCellTextField.tooltip")); // NOI18N
 
         jLabel4.setText(bundle.getString("masterEvaluationsLabel.text")); // NOI18N
@@ -89,7 +87,6 @@ public class MulticoreDialog extends javax.swing.JDialog {
 
         jLabel5.setText(bundle.getString("resultCellLabel.text")); // NOI18N
 
-        resultCellTextField.setText(" ");
         resultCellTextField.setToolTipText(bundle.getString("resultCellTextField.tooltip")); // NOI18N
 
         cancelButton.setText(bundle.getString("cancelButton.text")); // NOI18N
@@ -205,15 +202,30 @@ public class MulticoreDialog extends javax.swing.JDialog {
      * @param evt 
      */
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        String f=this.functionHandleTextField.getText();
+        String dir = this.commonDirTextField.getText();
+        String param=this.paramCellTextField.getText();
+        String eval = this.masterEvaluations.getText();
+        String result = this.resultCellTextField.getText();
         
-        MainFrame.octavePanel.evaluate("DomainMath_Multicore("+
-                this.functionHandleTextField.getText()+","+
-                this.commonDirTextField.getText()+","+
-                this.paramCellTextField.getText()+","+
+        if(f.equals("") ||
+           dir.equals("") ||
+           param.equals("") ||
+           eval.equals("") ||
+           result.equals("")) {
+            JOptionPane.showMessageDialog(this,"Data missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+           MainFrame.octavePanel.evaluate("pkg load multicore;"); 
+          MainFrame.octavePanel.evaluate("DomainMath_Multicore("+
+                f+","+
+                dir+","+
+                param+","+
                 "'"+MainFrame.octavePath+"'"+","+
-                this.masterEvaluations.getText()+","+
-                this.resultCellTextField.getText()+","
-                );
+                eval+","+
+                result+");");  
+          dispose();
+        }
+        
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**

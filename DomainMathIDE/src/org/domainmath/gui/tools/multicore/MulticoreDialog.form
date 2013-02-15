@@ -105,7 +105,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="functionHandleTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="@"/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/domainmath/gui/tools/multicore/resources/multicore_en.properties" key="functionHandleTextField.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
@@ -120,7 +119,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="commonDirTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value=" "/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/domainmath/gui/tools/multicore/resources/multicore_en.properties" key="commondirTextField.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
@@ -145,7 +143,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="paramCellTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value=" "/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/domainmath/gui/tools/multicore/resources/multicore_en.properties" key="paramCellTextField.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
@@ -175,7 +172,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="resultCellTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value=" "/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/domainmath/gui/tools/multicore/resources/multicore_en.properties" key="resultCellTextField.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
