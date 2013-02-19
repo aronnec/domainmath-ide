@@ -79,7 +79,7 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		   elseif(ismatrix(k))
 				[r4,c4]=size(k);
 				if(r4==0 && c4==0)
-					fprintf(pFile,"[]|");
+					fprintf(pFile,"%s|[]|",s{_i});
 				else
 					if(r4<=3 && c4<=3)
 						_s1=mat2str(k,[4 2]);
