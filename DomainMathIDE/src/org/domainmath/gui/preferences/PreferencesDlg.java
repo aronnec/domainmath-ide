@@ -38,7 +38,7 @@ public class PreferencesDlg extends javax.swing.JDialog {
         initComponents();
         
         this.frame = frame;
-        cmdLinField.setText("--interactive --no-history");
+        cmdLinField.setText("--interactive --no-history --traditional");
         startupCmdField.setText("graphics_toolkit gnuplot;");
         setPath();
         setCmdLineOptions();
@@ -67,10 +67,10 @@ public class PreferencesDlg extends javax.swing.JDialog {
                 this.cmdLinField.setText(path);
             }
             else {
-                cmdLinField.setText("--interactive --no-history");
+                cmdLinField.setText("--interactive --no-history --traditional");
             }
         }catch(Exception e) {
-            cmdLinField.setText("--interactive --no-history");
+            cmdLinField.setText("--interactive --no-history --traditional");
         }
     }
     private void setStartupCmd() {
@@ -244,8 +244,8 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if(!cmdline.equals("")) {
             pr.put("DomainMath_CmdLine", cmdline);
         }else {
-            pr.put("DomainMath_CmdLine", "--interactive");
-            this.cmdLinField.setText("--interactive");
+            pr.put("DomainMath_CmdLine", "--interactive --traditional");
+            this.cmdLinField.setText("--interactive --traditional");
         }
        JOptionPane.showMessageDialog(frame, "Please restart DomainMath to take the changes effect.","Information",JOptionPane.INFORMATION_MESSAGE);    
        
