@@ -87,10 +87,7 @@ public class OctavePanel extends JPanel{
                     oc.find(frame.getStartupCmd());
                     oc.find("warning off");
                     
-                    // BUG FIX: 
-                    // oc.find("pkg load java windows io\n");
-                    // Above code displays an error on non-Windows platforms,because
-                    // windows package is not available on non-Windows platforms. 
+
                     String os =System.getProperty("os.name").toLowerCase();
                     boolean isWindows= (os.indexOf("win") >=0);
 
