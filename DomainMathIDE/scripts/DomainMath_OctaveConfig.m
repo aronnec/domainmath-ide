@@ -20,7 +20,7 @@
 
 pkg load java;
 
-configOb=javaObject('GridFrame',"Octave Configuration",false);
+configOb=javaObject('GridFrame',"Octave Configuration",true,false,true);
 configOb.addCol("Property");
 configOb.addCol("Value");
 s = octave_config_info();
