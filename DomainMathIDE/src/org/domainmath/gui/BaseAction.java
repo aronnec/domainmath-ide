@@ -26,7 +26,7 @@ import javax.swing.KeyStroke;
 
 
 /**
- *
+ * Abstract Action.
  * @author Vinu K.N
  */
 public  class BaseAction extends AbstractAction{
