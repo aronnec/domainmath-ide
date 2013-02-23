@@ -297,7 +297,7 @@ public class OctavePanel extends JPanel{
 	}
    
       public void evalWithOutput(String c) {
-        outputArea.append("octave:"+id+"> ");
+        outputArea.append(">> ");
         id++;
          outputArea.append(c+"\n");
          oc.find(c);
@@ -309,12 +309,12 @@ public class OctavePanel extends JPanel{
     }
      
      public void setOctaveTag(String s) {
-         outputArea.append("octave:"+id+"> ");
+         outputArea.append(">> ");
         id++;
          outputArea.append(s+"\n");
      }
      public void eval(String c) {
-         outputArea.append("octave:"+id+"> ");
+         outputArea.append(">> ");
         id++;
          outputArea.append(c+"\n");
          oc.find(c);
@@ -360,7 +360,7 @@ public class OctavePanel extends JPanel{
      public void eval(String c) {
          
       
-        outputArea.append("octave:"+id+"> ");
+        outputArea.append(">> ");
          outputArea.append(c+"\n");
          id++;
         input.write(c+"\n");
@@ -471,7 +471,8 @@ public class OctavePanel extends JPanel{
                 BufferedReader br = new BufferedReader(isr);
                 String line = null;
                 while ((line = br.readLine()) != null) {
-                        line = line.replaceAll("octave(\\.exe)?:[0-9]*>[ ]*", "");
+                       
+                        line = line.replaceAll(">> ", "");
                         if(isErr) {
                            displayText(line); 
                         }else{
@@ -510,7 +511,7 @@ public class OctavePanel extends JPanel{
     public void actionPerformed(ActionEvent e) {
         i++;
         
-        oc.eval(area.getText(),"octave:"+id+"> ");
+        oc.eval(area.getText(),">> ");
 
             DateFormat formatter = 
         DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
