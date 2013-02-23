@@ -18,7 +18,7 @@
  #
 
 
-pkg load java;
+
 
 configOb=javaObject('GridFrame',"Octave Configuration",true,false,true);
 configOb.addCol("Property");

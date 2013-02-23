@@ -24,7 +24,7 @@ _canonical_host_type  	= ['Canonical Host: ',computer()];
 _toolkit 			= ['Graphics Toolkit: ',graphics_toolkit()];
 _string 			= [_version,10,_home,10,_license,10,_canonical_host_type ,10,_toolkit];
 
-pkg load java;
+
 helpdlg(_string,"Octave");
 
 # clear all variables

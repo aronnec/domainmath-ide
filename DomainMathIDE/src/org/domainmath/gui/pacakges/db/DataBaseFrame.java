@@ -317,7 +317,7 @@ public class DataBaseFrame extends javax.swing.JFrame {
             
        this.sqlField.setSelectionStart(0);
        this.sqlField.setSelectionEnd(cmd.length());
-        MainFrame.octavePanel.evaluate("pkg load java;");
+       
          MainFrame.octavePanel.evaluate(jar_path);
         MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+"sql("+Character.toString('"')+cmd+Character.toString('"')+")"+"));");
     }//GEN-LAST:event_sqlFieldActionPerformed
@@ -327,13 +327,13 @@ public class DataBaseFrame extends javax.swing.JFrame {
         String var_name = this.octVarField.getText();
         if(!cmd.equals("") && !var_name.equals("")) {
             MainFrame.octavePanel.eval(octVarField.getText()+"=sql("+Character.toString('"')+cmd+Character.toString('"')+");");
-               MainFrame.octavePanel.evaluate("pkg load java;");
+              
             MainFrame.octavePanel.evaluate(jar_path);
             MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+octVarField.getText()+"));");
        
         }else if(var_name.equals("") && !cmd.equals("")) {         
             MainFrame.octavePanel.eval("sql("+Character.toString('"')+cmd+Character.toString('"')+");");
-              MainFrame.octavePanel.evaluate("pkg load java;");
+             
               MainFrame.octavePanel.evaluate(jar_path);
               MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+"sql("+Character.toString('"')+cmd+Character.toString('"')+")"+"));");
   

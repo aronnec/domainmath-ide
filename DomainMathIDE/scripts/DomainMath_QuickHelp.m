@@ -18,7 +18,7 @@
  #
 
 function DomainMath_QuickHelp(help_text,jar_path,ob_name) 
-		pkg load java;
+		
 		javaaddpath(jar_path);
 		ob = javaObject(ob_name,help_text);
 	

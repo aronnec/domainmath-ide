@@ -18,7 +18,7 @@
  #
 
 function DomainMath_Image(file_img)
-    pkg load java;
+    
 
     configOb=javaObject('GridFrame',["Image Properties - ",file_img],false,false,false);
     configOb.addCol("Property");

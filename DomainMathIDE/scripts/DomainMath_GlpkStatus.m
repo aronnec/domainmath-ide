@@ -18,7 +18,7 @@
  #
 
 function DomainMath_GlpkStatus(status)
-	pkg load java;
+	
 	if(status == 180)
 		helpdlg('Solution is optimal.','Glpk status');
 	elseif(status == 181)

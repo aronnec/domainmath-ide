@@ -686,7 +686,7 @@ public class GlpkFrame extends javax.swing.JFrame {
             MainFrame.octavePanel.eval("[xmin, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, s, param)");
             MainFrame.octavePanel.evaluate("DomainMath_GlpkStatus(status);");
                  
-            MainFrame.octavePanel.evaluate("pkg load java;");
+            
              MainFrame.octavePanel.evaluate(jar_path);
              MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp('xmin'));");
              MainFrame.octavePanel.evaluate("_obResult.appendText(disp(xmin))");

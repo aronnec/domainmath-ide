@@ -18,7 +18,7 @@
  #
 
 function symja(text)
-	pkg load java;
+	
 
 	symjaOb = javaObject('symja');
 	symjaOb.eval(text)

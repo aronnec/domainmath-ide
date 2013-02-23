@@ -147,7 +147,7 @@ public class FtnDialog extends javax.swing.JDialog {
     
     public void showDlg(boolean show,String text) {
        
-            MainFrame.octavePanel.evaluate("pkg load java;");
+         
          MainFrame.octavePanel.evaluate(jar_path);
         MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+text+"));");
         

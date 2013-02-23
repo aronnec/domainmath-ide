@@ -88,14 +88,7 @@ public class OctavePanel extends JPanel{
                     oc.find("warning off");
                     
 
-                    String os =System.getProperty("os.name").toLowerCase();
-                    boolean isWindows= (os.indexOf("win") >=0);
-
-                    if(isWindows) {
-                        oc.find("pkg load java windows io\n");
-                    }else{
-                        oc.find("pkg load java io\n");
-                    }
+                   
                    
 
                  } catch (Exception ex) {
