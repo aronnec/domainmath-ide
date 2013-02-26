@@ -16,25 +16,29 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  #
-function DomainMath_OctPhyConst(file_name)
-f = physical_constant();
 
-fid= fopen(file_name,'w');
-	
-for _dmn_index=1:length(f);
-	fprintf(fid,'%s|',disp(f(_dmn_index).name));
-	fprintf(fid,'%s|',disp(f(_dmn_index).description)); 
-	fprintf(fid,'%s|',disp(f(_dmn_index).value)); 
-	
-	
-if (strcmp(f(_dmn_index).units,"")),fprintf(fid,'-|'); else fprintf(fid,'%s|',disp(f(_dmn_index).units)); end;
- fprintf(fid,'%s\n',disp(f(_dmn_index).uncertanity)); 
+pkg load physicalconstants;
+f=physical_constant();
+configOb=javaObject('GridFrame',"Physical Constants",true,false,true);
 
-end;
+	configOb.addCol('Name');
+	configOb.addCol('Description');
+	configOb.addCol('Value');
+	configOb.addCol('Units');
+	configOb.addCol('Uncertainty');
 
-fclose(fid);
+for i=1:length(f)
+		s=f(i);
+		configOb.addRow(disp(s.name));
+		configOb.addRow(disp(s.description));
+		configOb.addRow(disp(s.value));
+		configOb.addRow(disp(s.units));
+		configOb.addRow(disp(s.uncertanity));
+end
+
+configOb.showGrid()
+
 clear('f');
-clear('file_name');
-clear('fid');
-clear('_dmn_index');
-
+clear('configOb');
+clear('i');
+clear('s');
