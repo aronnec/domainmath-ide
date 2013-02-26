@@ -112,7 +112,9 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		fprintf(pFile,'%d|1\n',length(s));
 		
 		for _i =1:length(s)
-		   if(isstruct(s{_i}))
+			if(ischar(s{_i}))
+		   		fprintf(pFile,"'%s'|",s{_i});
+		   elseif(isstruct(s{_i}))
 				[r1,c1]=size(s{_i});
 		   		fprintf(pFile,"struct<%dx%d>|",r1,c1);	
 		   elseif(isscalar(s{_i}))
@@ -130,8 +132,7 @@ function DomainMath_OctaveDataView(sFileName,variables)
 		   elseif(iscell(s{_i}))
 				[r3,c3]=size(s{_i});
 		   		fprintf(pFile,"cell<%dx%d>|",r3,c3);
-		    elseif(ischar(s{_i}))
-		   		fprintf(pFile,"'%s'|",s{_i});
+		    
 		    elseif(isbool(s{_i}))
 				if(s{_i})
 					fprintf(pFile,"'true'|");
