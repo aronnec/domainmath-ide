@@ -65,7 +65,6 @@ import org.domainmath.gui.pacakges.bioinfo.BioInfoFrame;
 import org.domainmath.gui.pacakges.db.DataBaseFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
-import org.domainmath.gui.packages.phyconst.PhyConstMain;
 import org.domainmath.gui.pathsview.PathsViewMain;
 import org.domainmath.gui.pkg.PkgDlg;
 import org.domainmath.gui.pkgview.PkgViewMain;
@@ -1975,12 +1974,8 @@ private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }//GEN-LAST:event_fileViewItemActionPerformed
 
     private void phyConstItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phyConstItemActionPerformed
-         MainFrame.octavePanel.evaluate("pkg load physicalconstants");
-         MainFrame.octavePanel.evaluate("DomainMath_OctavePhyConst('"+MainFrame.parent_root+"DomainMath_OctavePhyConst.dat');");
-        
-        PhyConstMain main =new PhyConstMain(parent_root+"DomainMath_OctavePhyConst.dat",this.getIconImage());
-            main.show();
-            
+        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"Grid.jar')");
+         MainFrame.octavePanel.evaluate("DomainMath_OctavePhyConst");     
     }//GEN-LAST:event_phyConstItemActionPerformed
 
     private void dynareItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dynareItemActionPerformed
