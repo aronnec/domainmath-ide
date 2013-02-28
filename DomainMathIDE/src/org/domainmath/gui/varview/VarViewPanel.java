@@ -488,7 +488,7 @@ public class VarViewPanel extends JPanel {
     
     private void writeDCM(String path, String var) {
         MainFrame.octavePanel.evaluate("pkg load dicom");
-        MainFrame.octavePanel.evalWithOutput("dicomwirte("+var+",'"+path+"');");
+        MainFrame.octavePanel.evalWithOutput("dicomwrite("+var+",'"+path+"');");
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
         reload();
     }
