@@ -200,11 +200,12 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.FLOAT_BINARY_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.BINARY_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
+       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.ASCII_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.AUDIO_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.MATLAB_FILE_FILTER);
-       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
+       
        
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
@@ -387,10 +388,11 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.BINARY_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.ASCII_FILE_FILTER);
+       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.AUDIO_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.MATLAB_FILE_FILTER);
-       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
+       
        
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
