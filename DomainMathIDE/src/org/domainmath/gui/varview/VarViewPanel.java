@@ -204,6 +204,7 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.AUDIO_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.MATLAB_FILE_FILTER);
+       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
        
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
@@ -270,7 +271,9 @@ public class VarViewPanel extends JPanel {
                  else if(name.endsWith(".snd")) {
                       loadAudio1(file.getAbsolutePath(),"snd");
                  }
-                 
+                  else if(name.endsWith(".dcm")) {
+                      loadDCM(file.getAbsolutePath());
+                 }
                  else if(name.endsWith(".wav") ||
                          name.endsWith(".riff"))
                          {
@@ -280,7 +283,12 @@ public class VarViewPanel extends JPanel {
             } 
        }
     
-    
+    private void loadDCM(String path) {
+        MainFrame.octavePanel.evaluate("pkg load dicom");
+        MainFrame.octavePanel.evalWithOutput("im=dicomread('"+path+"');");
+        MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+        reload();
+    }
     private void loadAudio1(String filename,String ext) {
         String txt ="loadaudio('"+filename+"','"+ext+"',8)";
         MainFrame.octavePanel.eval(txt);
@@ -382,8 +390,8 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.AUDIO_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.MATLAB_FILE_FILTER);
-        //fc.setFileFilter(this.matlabFileFilter);
-       // fc.setFileFilter(filter2);
+       fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
+       
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
         
@@ -459,7 +467,12 @@ public class VarViewPanel extends JPanel {
                           Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
                           ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
                  }
-                 
+                  else if(name.endsWith(".dcm")) {
+                       writeDCM(file.getAbsolutePath(),var);
+                        MainFrame.octavePanel.evaluate("obOctDefaultApp=javaObject("+
+                          Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
+                          ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
+                 }
                  else if(name.endsWith(".wav") ||
                          name.endsWith(".riff"))
                          {
@@ -471,7 +484,12 @@ public class VarViewPanel extends JPanel {
             }
        }
     
-    
+    private void writeDCM(String path, String var) {
+        MainFrame.octavePanel.evaluate("pkg load dicom");
+        MainFrame.octavePanel.evalWithOutput("dicomwirte("+var+",'"+path+"');");
+        MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+        reload();
+    }
     private void writeAudio1(String name,String var,String ext) {
         MainFrame.octavePanel.eval("saveaudio('"+name+"',"+var+",'"+ext+"');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
@@ -769,6 +787,10 @@ public class VarViewPanel extends JPanel {
                    
                  }
     }
+
+    
+
+    
     private  class ToolBarActionListener implements ActionListener {
 
          @Override
