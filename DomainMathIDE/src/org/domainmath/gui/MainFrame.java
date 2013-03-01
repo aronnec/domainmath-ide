@@ -31,6 +31,7 @@ import java.awt.print.PrinterException;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +49,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
@@ -81,6 +83,8 @@ import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.Gutter;
+import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -122,6 +126,9 @@ public final class MainFrame extends javax.swing.JFrame {
     private final JSplitPane sp2;
     private final File logDir;
     public static  int index;
+    private Gutter gutter;
+    private boolean isSetBreakpoint;
+    private URL url;
     /** Creates new form MainFrame */
     public MainFrame()  {
        
@@ -244,11 +251,14 @@ public final class MainFrame extends javax.swing.JFrame {
       
         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         scroll1 = new RTextScrollPane(area1);
-        scroll1.getGutter().setVisible(true);
-        scroll1.getGutter().setBookmarkingEnabled(true);
-        scroll1.setFoldIndicatorEnabled(true);
+         gutter = scroll1.getGutter();
+        gutter.setVisible(true);
+        gutter.setBookmarkingEnabled(true);
+        url = getClass().getResource("resources/stop.png");
+
+        gutter.setFoldIndicatorEnabled(true);
         needOct(true);
-       
+      
         scroll1.setWheelScrollingEnabled(true);
         
          
@@ -649,8 +659,23 @@ public final class MainFrame extends javax.swing.JFrame {
         multicoreItem = new javax.swing.JMenuItem();
         phyConstItem = new javax.swing.JMenuItem();
         docPkgItem = new javax.swing.JMenuItem();
-        toolsMenu = new javax.swing.JMenu();
+        debugMenu = new javax.swing.JMenu();
         runScriptItem = new javax.swing.JMenuItem();
+        toggleBreakpointItem = new javax.swing.JMenuItem();
+        removeToggleBreakpointItem = new javax.swing.JMenuItem();
+        clearAllBreakpointsItem = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        stepItem = new javax.swing.JMenuItem();
+        stepInItem = new javax.swing.JMenuItem();
+        stepOutItem = new javax.swing.JMenuItem();
+        continueItem = new javax.swing.JMenuItem();
+        jSeparator26 = new javax.swing.JPopupMenu.Separator();
+        stackItem = new javax.swing.JMenuItem();
+        dbupItem = new javax.swing.JMenuItem();
+        dbdownItem = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        finishDebugItem = new javax.swing.JMenuItem();
+        toolsMenu = new javax.swing.JMenu();
         fileViewItem = new javax.swing.JMenuItem();
         codeEditorItem = new javax.swing.JMenuItem();
         dleEditorItem = new javax.swing.JMenuItem();
@@ -1361,17 +1386,129 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(pkgMenuItem);
 
-        toolsMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("ToolsMenu.mnemonic").charAt(0));
-        toolsMenu.setText(bundle.getString("ToolsMenu.name")); // NOI18N
+        debugMenu.setText("Debug");
 
         runScriptItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        runScriptItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/Run.png"))); // NOI18N
         runScriptItem.setText("Run Script");
         runScriptItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runScriptItemActionPerformed(evt);
             }
         });
-        toolsMenu.add(runScriptItem);
+        debugMenu.add(runScriptItem);
+
+        toggleBreakpointItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        toggleBreakpointItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/resources/stop.png"))); // NOI18N
+        toggleBreakpointItem.setText("Toggle Breakpoint");
+        toggleBreakpointItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleBreakpointItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(toggleBreakpointItem);
+
+        removeToggleBreakpointItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.SHIFT_MASK));
+        removeToggleBreakpointItem.setText("Remove Toggle Breakpoint");
+        removeToggleBreakpointItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeToggleBreakpointItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(removeToggleBreakpointItem);
+
+        clearAllBreakpointsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        clearAllBreakpointsItem.setText("Clear All Breakpoints...");
+        clearAllBreakpointsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAllBreakpointsItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(clearAllBreakpointsItem);
+        debugMenu.add(jSeparator10);
+
+        stepItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.SHIFT_MASK));
+        stepItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/step.png"))); // NOI18N
+        stepItem.setText("Step");
+        stepItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stepItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(stepItem);
+
+        stepInItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        stepInItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/step-in.png"))); // NOI18N
+        stepInItem.setText("Step in");
+        stepInItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stepInItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(stepInItem);
+
+        stepOutItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.SHIFT_MASK));
+        stepOutItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/step-out.png"))); // NOI18N
+        stepOutItem.setText("Step out");
+        stepOutItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stepOutItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(stepOutItem);
+
+        continueItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        continueItem.setText("Continue");
+        continueItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continueItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(continueItem);
+        debugMenu.add(jSeparator26);
+
+        stackItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        stackItem.setText("Stack");
+        stackItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stackItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(stackItem);
+
+        dbupItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.SHIFT_MASK));
+        dbupItem.setText("Move up");
+        dbupItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbupItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(dbupItem);
+
+        dbdownItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        dbdownItem.setText("Move down");
+        dbdownItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbdownItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(dbdownItem);
+        debugMenu.add(jSeparator5);
+
+        finishDebugItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.SHIFT_MASK));
+        finishDebugItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/finish.png"))); // NOI18N
+        finishDebugItem.setText("Finish Debugger Session");
+        finishDebugItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishDebugItemActionPerformed(evt);
+            }
+        });
+        debugMenu.add(finishDebugItem);
+
+        jMenuBar1.add(debugMenu);
+
+        toolsMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("ToolsMenu.mnemonic").charAt(0));
+        toolsMenu.setText(bundle.getString("ToolsMenu.name")); // NOI18N
 
         fileViewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
         fileViewItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("fileViewItem.mnemonic").charAt(0));
@@ -1384,7 +1521,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(fileViewItem);
 
-        codeEditorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
         codeEditorItem.setText("Code Editor");
         codeEditorItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1393,7 +1529,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(codeEditorItem);
 
-        dleEditorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.SHIFT_MASK));
         dleEditorItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("dleEditorItem.mnemonic").charAt(0));
         dleEditorItem.setText(bundle1.getString("dleEditor.name")); // NOI18N
         dleEditorItem.setToolTipText(bundle1.getString("dleEditorItem.tooltip")); // NOI18N
@@ -1404,7 +1539,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(dleEditorItem);
 
-        arrayEditorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
         arrayEditorItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("arrayEditor.mnemonic").charAt(0));
         arrayEditorItem.setText(bundle.getString("arrayEditor.name")); // NOI18N
         arrayEditorItem.setToolTipText(bundle.getString("arrayEditor.tooltip")); // NOI18N
@@ -1445,7 +1579,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(dynareItem);
 
-        worksheetItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         worksheetItem.setText("Worksheet");
         worksheetItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2598,6 +2731,134 @@ public void saveplot() {
         multicoreDialog.setVisible(true);
     }//GEN-LAST:event_multicoreItemActionPerformed
 
+    private void finishDebugItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishDebugItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbquit");
+    }//GEN-LAST:event_finishDebugItemActionPerformed
+
+    private void stepItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbstep");
+    }//GEN-LAST:event_stepItemActionPerformed
+
+    private void stepInItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepInItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbstep in");
+    }//GEN-LAST:event_stepInItemActionPerformed
+
+    private void stepOutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepOutItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbstep out");
+    }//GEN-LAST:event_stepOutItemActionPerformed
+
+    private void setToggleBreakpoint() {
+        if(fileTab.getSelectedIndex() >= 0) {
+            
+            save();
+            
+            String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
+            if(file_selected.endsWith(".m")) {
+                
+                 String ftn_name=file_selected.substring(0,file_selected.indexOf(".m"));
+                 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+                 RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+                 
+             octavePanel.evalWithOutput( "dbstop ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
+           
+                }
+                   
+            }else{
+                System.out.println("Hello");
+            } 
+       
+    }
+    
+    private void removeToggleBreakpoint() {
+        if(fileTab.getSelectedIndex() >= 0) {
+            
+            save();
+            
+            String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
+            if(file_selected.endsWith(".m")) {
+                
+                 String ftn_name=file_selected.substring(0,file_selected.indexOf(".m"));
+                 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+                 RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+                 
+                octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
+                }
+                   
+            }else{
+                System.out.println("Hello");
+            } 
+    }
+    private void toggleBreakpointItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleBreakpointItemActionPerformed
+         if(fileTab.getSelectedIndex() >= 0) {
+        RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+                    RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+							
+            try {
+                   
+                    setToggleBreakpoint();
+                    t.getGutter().addLineTrackingIcon(selectedArea.getCaretLineNumber(), new ImageIcon(url));
+  
+            } catch (BadLocationException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         }		
+                        
+    }//GEN-LAST:event_toggleBreakpointItemActionPerformed
+
+    private void clearAllBreakpointsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllBreakpointsItemActionPerformed
+         
+        if(fileTab.getSelectedIndex() >= 0) {
+            
+            save();
+            
+            String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
+            if(file_selected.endsWith(".m")) {
+                String ftn_name=file_selected.substring(0,file_selected.indexOf(".m"));
+                
+                 
+             octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',dbstatus('"+ftn_name+"'.line)"); 
+             
+             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+                    t.getGutter().removeAllTrackingIcons();
+            }else{
+                System.out.println("");
+            }
+             
+            
+        
+       }
+    }//GEN-LAST:event_clearAllBreakpointsItemActionPerformed
+
+    private void removeToggleBreakpointItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeToggleBreakpointItemActionPerformed
+         if(fileTab.getSelectedIndex() >= 0) {
+         RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+                    RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+        try {
+            GutterIconInfo[] trackingIcons = gutter.getTrackingIcons(selectedArea.getCaret().getMagicCaretPosition());
+            removeToggleBreakpoint();
+                    t.getGutter().removeTrackingIcon(trackingIcons[0]);
+        } catch (Exception ex) {
+           
+        }
+         }
+    }//GEN-LAST:event_removeToggleBreakpointItemActionPerformed
+
+    private void continueItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbcont");
+    }//GEN-LAST:event_continueItemActionPerformed
+
+    private void stackItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stackItemActionPerformed
+       MainFrame.octavePanel.evalWithOutput("dbstack");
+    }//GEN-LAST:event_stackItemActionPerformed
+
+    private void dbupItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbupItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbup");
+    }//GEN-LAST:event_dbupItemActionPerformed
+
+    private void dbdownItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbdownItemActionPerformed
+        MainFrame.octavePanel.evalWithOutput("dbdown");
+    }//GEN-LAST:event_dbdownItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2629,17 +2890,22 @@ public void saveplot() {
     private javax.swing.JMenuItem bioInfoItem;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JMenuItem clearAllBreakpointsItem;
     private javax.swing.JMenuItem clearOutWindowItem;
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
     private javax.swing.JMenuItem codeEditorItem;
     private javax.swing.JButton connectButton;
     private javax.swing.JMenuItem connectItem;
+    private javax.swing.JMenuItem continueItem;
     private javax.swing.JMenuItem copyItem;
     public static javax.swing.JTextField currentDirField;
     private javax.swing.JMenuItem cutItem;
     private javax.swing.JMenuItem dSmoothItem;
     private javax.swing.JMenuItem dataBaseMenuItem;
+    private javax.swing.JMenuItem dbdownItem;
+    private javax.swing.JMenuItem dbupItem;
+    private javax.swing.JMenu debugMenu;
     private javax.swing.JMenuItem deleteItem;
     private javax.swing.JMenu diaryMenu;
     private javax.swing.JRadioButtonMenuItem diaryOffItem;
@@ -2657,6 +2923,7 @@ public void saveplot() {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem fileViewItem;
     private javax.swing.JMenuItem findItem;
+    private javax.swing.JMenuItem finishDebugItem;
     private javax.swing.JMenuItem fltkplotItem;
     private javax.swing.JButton folderUpButton;
     private javax.swing.JMenuItem forumItem;
@@ -2684,6 +2951,7 @@ public void saveplot() {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JToolBar.Separator jSeparator13;
@@ -2700,8 +2968,10 @@ public void saveplot() {
     private javax.swing.JPopupMenu.Separator jSeparator23;
     private javax.swing.JPopupMenu.Separator jSeparator24;
     private javax.swing.JPopupMenu.Separator jSeparator25;
+    private javax.swing.JPopupMenu.Separator jSeparator26;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JToolBar.Separator jSeparator8;
@@ -2726,6 +2996,7 @@ public void saveplot() {
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem referenceItem;
     private javax.swing.JMenu referenceMenu;
+    private javax.swing.JMenuItem removeToggleBreakpointItem;
     private javax.swing.JMenuItem replaceItem;
     private javax.swing.JMenuItem reportBugItem;
     private javax.swing.JMenuItem runScriptItem;
@@ -2736,7 +3007,12 @@ public void saveplot() {
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;
     private javax.swing.JMenuItem setPathsItem;
+    private javax.swing.JMenuItem stackItem;
+    private javax.swing.JMenuItem stepInItem;
+    private javax.swing.JMenuItem stepItem;
+    private javax.swing.JMenuItem stepOutItem;
     private javax.swing.JMenuItem suggestionsItem;
+    private javax.swing.JMenuItem toggleBreakpointItem;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem undoItem;
     private javax.swing.JMenuItem wikiItem;
