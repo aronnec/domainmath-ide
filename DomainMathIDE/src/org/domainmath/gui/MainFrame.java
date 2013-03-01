@@ -2816,7 +2816,7 @@ public void saveplot() {
                 String ftn_name=file_selected.substring(0,file_selected.indexOf(".m"));
                 
                  
-             octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',dbstatus('"+ftn_name+"'.line)"); 
+             octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',dbstatus('"+ftn_name+"'.line))"); 
              
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
                     t.getGutter().removeAllTrackingIcons();

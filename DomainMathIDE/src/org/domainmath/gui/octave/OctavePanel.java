@@ -470,13 +470,15 @@ public class OctavePanel extends JPanel{
                 InputStreamReader isr = new InputStreamReader(is);
                 BufferedReader br = new BufferedReader(isr);
                 String line = null;
+                String c;
                 while ((line = br.readLine()) != null) {
                        
                         line = line.replaceAll(">> ", "");
+                        c=line.replaceAll("debug>", "");
                         if(isErr) {
-                           displayText(line); 
+                           displayText(c); 
                         }else{
-                             displayText(line); 
+                             displayText(c); 
                         }
                 }
             }catch (Exception ioe) {
