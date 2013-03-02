@@ -1549,7 +1549,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(arrayEditorItem);
 
-        fltkplotItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        fltkplotItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         fltkplotItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("fltkPlotItem.mnemonic").charAt(0));
         fltkplotItem.setText(bundle.getString("fltkPlotItem.name")); // NOI18N
         fltkplotItem.setToolTipText(bundle.getString("fltkPlotItem.tooltip")); // NOI18N
