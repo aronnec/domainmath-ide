@@ -28,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
+import org.domainmath.gui.tools.plot.PlotOptionsDialog;
 
 
 public class DataSmoothFrame extends javax.swing.JFrame {
@@ -530,17 +531,39 @@ public class DataSmoothFrame extends javax.swing.JFrame {
     }
     private void pltCmd(String xData,String yData) {
         
-             MainFrame.octavePanel.eval("plot("+xData+","+yData+",'o',"+xData+",yh);");
-             MainFrame.octavePanel.eval("legend('noisy','smoothed');");
-             
-             MainFrame.octavePanel.eval("grid on");
+            
+            PlotOptionsDialog plotOptionsDialog = new PlotOptionsDialog(this,true);
+            String x[] = {xData,"None"};
+            String y[]={yData,"'o'"};
+           
+            String yh[] = {"yh","None"};
+            
+            plotOptionsDialog.model.addRow(x);
+            plotOptionsDialog.model.addRow(y);
+            
+            plotOptionsDialog.model.addRow(yh);
+            plotOptionsDialog.setMore_cmd("legend('noisy','smoothed');grid on");
+            plotOptionsDialog.setLocationRelativeTo(this);
+            plotOptionsDialog.setVisible(true);
+            
     }
     private void pltCmd(String xData,String yData,String xHat) {
         
-             MainFrame.octavePanel.eval("plot("+xData+","+yData+",'o',"+xHat+",yh);");
-             MainFrame.octavePanel.eval("legend('noisy','smoothed');");
-             
-             MainFrame.octavePanel.eval("grid on");
+            
+            PlotOptionsDialog plotOptionsDialog = new PlotOptionsDialog(this,true);
+            String x[] = {xData,"None"};
+            String y[]={yData,"'o'"};
+            String xh[] = {xHat,"None"};
+            String yh[] = {"yh","None"};
+            
+            plotOptionsDialog.model.addRow(x);
+            plotOptionsDialog.model.addRow(y);
+            plotOptionsDialog.model.addRow(xh);
+            plotOptionsDialog.model.addRow(yh);
+            plotOptionsDialog.setLocationRelativeTo(this);
+            plotOptionsDialog.setVisible(true);
+            plotOptionsDialog.setMore_cmd("legend('noisy','smoothed');grid on");
+            
     }
     /**
      * @param args the command line arguments
