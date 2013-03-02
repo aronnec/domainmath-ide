@@ -683,6 +683,11 @@ public class GlpkFrame extends javax.swing.JFrame {
             if(param_lpsolver != 0) {
                 declare("param.lpsolver",""+(param_lpsolver-1));
             }
+             if(param_lpsolver ==0) {
+                declare("param.lpsolver","1");
+            }else{
+                declare("param.lpsolver","2");
+            }
             MainFrame.octavePanel.eval("[xmin, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, s, param)");
             MainFrame.octavePanel.evaluate("DomainMath_GlpkStatus(status);");
                  
