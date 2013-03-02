@@ -26,18 +26,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 
 
 public class OptimizationFrame extends javax.swing.JFrame {
-
+    private final JTabbedPane tab;
+    private int glpkIndex=1;
     /**
      * Creates new form GlpkFrame
      */
     public OptimizationFrame() {
         this.setIconImage(icon);
         initComponents();
+        tab= new JTabbedPane();
     }
 
     /**
@@ -70,10 +73,16 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Optimization Tool");
+        getContentPane().add(statusPanel2, java.awt.BorderLayout.PAGE_END);
 
         jMenu1.setText("File");
 
         jMenuItem2.setText("glpk");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("qp");
@@ -169,19 +178,6 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(407, Short.MAX_VALUE)
-                .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -222,6 +218,11 @@ public class OptimizationFrame extends javax.swing.JFrame {
         aboutDlg.setLocationRelativeTo(this);
         aboutDlg.setVisible(true);
     }//GEN-LAST:event_AboutItemActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        tab.add("glpk #"+this.glpkIndex, new GlpkPanel());
+        this.glpkIndex++;
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
