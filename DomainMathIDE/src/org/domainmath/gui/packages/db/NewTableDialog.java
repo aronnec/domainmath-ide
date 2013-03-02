@@ -1,5 +1,5 @@
 
-package org.domainmath.gui.pacakges.db;
+package org.domainmath.gui.packages.db;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;

@@ -300,7 +300,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="org.domainmath.gui.pacakges.db.StatusPanel" name="statusPanel1">
+    <Component class="org.domainmath.gui.packages.db.StatusPanel" name="statusPanel1">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Last"/>

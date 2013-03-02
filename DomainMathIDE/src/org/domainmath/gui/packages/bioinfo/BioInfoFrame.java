@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.pacakges.bioinfo;
+package org.domainmath.gui.packages.bioinfo;
 
 import java.awt.Desktop;
 import java.awt.Image;
