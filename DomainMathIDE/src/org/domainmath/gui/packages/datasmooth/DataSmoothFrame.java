@@ -540,7 +540,7 @@ public class DataSmoothFrame extends javax.swing.JFrame {
             
             plotOptionsDialog.model.addRow(x);
             plotOptionsDialog.model.addRow(y);
-            
+            plotOptionsDialog.model.addRow(x);
             plotOptionsDialog.model.addRow(yh);
             plotOptionsDialog.setMore_cmd("legend('noisy','smoothed');grid on");
             plotOptionsDialog.setLocationRelativeTo(this);
