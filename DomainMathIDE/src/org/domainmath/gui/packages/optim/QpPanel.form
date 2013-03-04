@@ -84,8 +84,8 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="runButton" min="-2" pref="76" max="-2" attributes="0"/>
+                              <EmptySpace pref="125" max="32767" attributes="0"/>
+                              <Component id="runButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -180,6 +180,7 @@
             <Component class="javax.swing.JButton" name="jButton3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Help"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function File: [&lt;var&gt;x&lt;/var&gt;, &lt;var&gt;obj&lt;/var&gt;, &lt;var&gt;info&lt;/var&gt;,&#xa;&lt;var&gt;lambda&lt;/var&gt;] = &lt;b&gt;qp&lt;/b&gt; (&lt;var&gt;x0,&#xa;H, q, A, b, lb, ub, A_lb, A_in, A_ub&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-qp-2454&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve the quadratic program &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min 0.5 x&apos;*H*x + x&apos;*q&lt;br&gt;           x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x = b&lt;br&gt;          lb &amp;lt;= x &amp;lt;= ub&lt;br&gt;          A_lb &amp;lt;= A_in*x &amp;lt;= A_ub&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p class=&quot;noindent&quot;&gt;using a null-space active-set method. &lt;/p&gt;&lt;/html&gt;&#xa;"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -200,7 +201,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSeparator2" pref="637" max="32767" attributes="0"/>
+                              <Component id="jSeparator2" pref="543" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -217,7 +218,7 @@
                               <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="dField" max="32767" attributes="0"/>
-                                  <Component id="lambdaField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lambdaField" alignment="0" pref="387" max="32767" attributes="0"/>
                                   <Component id="stdevField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="gcvField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lgussField" alignment="0" max="32767" attributes="0"/>

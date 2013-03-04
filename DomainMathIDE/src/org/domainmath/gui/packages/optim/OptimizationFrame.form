@@ -12,6 +12,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="glpk"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt; Function File: [&lt;var&gt;xopt&lt;/var&gt;,&#xa;&lt;var&gt;fmin&lt;/var&gt;, &lt;var&gt;status&lt;/var&gt;, &lt;var&gt;extra&lt;/var&gt;]&#xa;= &lt;b&gt;glpk&lt;/b&gt; (&lt;var&gt;c, A, b, lb, ub, ctype, vartype,&#xa;sense, param&lt;/var&gt;)&lt;var&gt;&lt;a name=&quot;index-glpk-2449&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve a linear program using the GNU &lt;span class=&quot;sc&quot;&gt;glpk&lt;/span&gt;&#xa;library. Given three&#xa;arguments, &lt;code&gt;glpk&lt;/code&gt; solves the following standard&#xa;LP: &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min C&apos;*x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x  = b&lt;br&gt;            x &amp;gt;= 0&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;but may also solve problems of the form &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          [ min | max ] C&apos;*x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x [ &quot;=&quot; | &quot;&amp;lt;=&quot; | &quot;&amp;gt;=&quot; ] b&lt;br&gt;            x &amp;gt;= LB&lt;br&gt;            x &amp;lt;= UB&lt;br&gt;&lt;/pre&gt;&lt;/html&gt;"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
@@ -20,12 +21,53 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="qp"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function File: [&lt;var&gt;x&lt;/var&gt;, &lt;var&gt;obj&lt;/var&gt;, &lt;var&gt;info&lt;/var&gt;,&#xa;&lt;var&gt;lambda&lt;/var&gt;] = &lt;b&gt;qp&lt;/b&gt; (&lt;var&gt;x0,&#xa;H, q, A, b, lb, ub, A_lb, A_in, A_ub&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-qp-2454&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve the quadratic program &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min 0.5 x&apos;*H*x + x&apos;*q&lt;br&gt;           x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x = b&lt;br&gt;          lb &amp;lt;= x &amp;lt;= ub&lt;br&gt;          A_lb &amp;lt;= A_in*x &amp;lt;= A_ub&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p class=&quot;noindent&quot;&gt;using a null-space active-set method. &lt;/p&gt;&lt;/html&gt;&#xa;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="sqp"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function File: [&lt;small class=&quot;dots&quot;&gt;...&lt;/small&gt;] = &lt;b&gt;sqp&lt;/b&gt;&#xa;(&lt;var&gt;x0, phi, g, h, lb, ub, maxiter, tol&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-sqp-2467&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve the nonlinear program &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min phi (x)&lt;br&gt;           x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          g(x)  = 0&lt;br&gt;          h(x) &amp;gt;= 0&lt;br&gt;          lb &amp;lt;= x &amp;lt;= ub&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p class=&quot;noindent&quot;&gt;using a sequential quadratic&#xa;programming method. &lt;/p&gt;&lt;html&gt;&#xa;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="closeItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+W"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/packages/image/resources/image-tool_en.properties" key="closeItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/packages/image/resources/image-tool_en.properties" key="closeItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="closeAllItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+W"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/packages/image/resources/image-tool_en.properties" key="closeAllItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeAllItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
@@ -155,14 +197,32 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="statusPanel2" pref="647" max="32767" attributes="0"/>
+          <Component id="tabbedPane" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <Component id="tabbedPane" pref="460" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              <Component id="statusPanel2" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
   <SubComponents>
     <Component class="org.domainmath.gui.StatusPanel" name="statusPanel2">
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-          <BorderConstraints direction="Last"/>
-        </Constraint>
-      </Constraints>
     </Component>
+    <Container class="javax.swing.JTabbedPane" name="tabbedPane">
+      <Properties>
+        <Property name="tabLayoutPolicy" type="int" value="1"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+    </Container>
   </SubComponents>
 </Form>

@@ -16,10 +16,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="722" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="774" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jSplitPane1" max="32767" attributes="0"/>
+                  <Component id="jSplitPane1" pref="774" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -80,9 +80,9 @@
                                   <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lbTextField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="ubTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ctypeTextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="vartypeTextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="senseComboBox" alignment="0" pref="169" max="32767" attributes="0"/>
+                                  <Component id="ctypeTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="vartypeTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="senseComboBox" alignment="0" pref="142" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -195,7 +195,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="ATextField">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="A matrix containing the constraints coefficients"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A matrix containing the &lt;b&gt;constraints coefficients&lt;/b&gt;&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel15">
@@ -203,12 +203,12 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="lb"/>
+                <Property name="text" type="java.lang.String" value="Lower Bound"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="bTextField">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="A column array containing the right-hand side value for each constraint in the constraint matrix"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A column array containing the&lt;b&gt; right-hand side value for&lt;br&gt; each constraint in the constraint matrix&lt;/b&gt;&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="bButton">
@@ -222,7 +222,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="ubTextField">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="An array containing the upper bound on each of the variables. If ub is not supplied, the default upper bound is assumed to be infinite"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;An array containing the &lt;b&gt;upper bound&lt;/b&gt; on each of the variables.&lt;br&gt; If ub is not supplied, the default upper bound is assumed to be infinite&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel16">
@@ -230,7 +230,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="ub"/>
+                <Property name="text" type="java.lang.String" value="Upper Bound"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="lbButton">
@@ -244,7 +244,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="lbTextField">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="An array containing the lower bound on each of the variables. If lb is not supplied, the default lower bound for the variables is zero"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;An array containing the&lt;b&gt; lower bound&lt;/b&gt; on each of the variables.&lt;br&gt; If lb is not supplied, the default lower bound for the variables is zero&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel17">
@@ -258,7 +258,7 @@
             <Component class="javax.swing.JTextField" name="vartypeTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&quot;CCC&quot;"/>
-                <Property name="toolTipText" type="java.lang.String" value="A column array containing the types of the variables"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A column array containing the types of the variables.&lt;br&gt;&quot;C&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;A continuous variable.&lt;br&gt;&quot;I&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;An integer variable.&lt;/html&gt; "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel18">
@@ -272,6 +272,7 @@
             <Component class="javax.swing.JButton" name="helpButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Help"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt; Function File: [&lt;var&gt;xopt&lt;/var&gt;,&#xa;&lt;var&gt;fmin&lt;/var&gt;, &lt;var&gt;status&lt;/var&gt;, &lt;var&gt;extra&lt;/var&gt;]&#xa;= &lt;b&gt;glpk&lt;/b&gt; (&lt;var&gt;c, A, b, lb, ub, ctype, vartype,&#xa;sense, param&lt;/var&gt;)&lt;var&gt;&lt;a name=&quot;index-glpk-2449&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve a linear program using the GNU &lt;span class=&quot;sc&quot;&gt;glpk&lt;/span&gt;&#xa;library. Given three&#xa;arguments, &lt;code&gt;glpk&lt;/code&gt; solves the following standard&#xa;LP: &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min C&apos;*x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x  = b&lt;br&gt;            x &amp;gt;= 0&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;but may also solve problems of the form &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          [ min | max ] C&apos;*x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x [ &quot;=&quot; | &quot;&amp;lt;=&quot; | &quot;&amp;gt;=&quot; ] b&lt;br&gt;            x &amp;gt;= LB&lt;br&gt;            x &amp;lt;= UB&lt;br&gt;&lt;/pre&gt;&lt;/html&gt;"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpButtonActionPerformed"/>
@@ -297,7 +298,7 @@
             <Component class="javax.swing.JTextField" name="ctypeTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&quot;UUU&quot;"/>
-                <Property name="toolTipText" type="java.lang.String" value="An array of characters containing the sense of each constraint in the constraint matrix"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;An array of characters containing the sense of each constraint in the constraint matrix.&lt;br&gt; Each element of the array may be one of the following values&lt;br&gt;&quot;F&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;A free (unbounded) constraint (the constraint is ignored).&lt;br&gt;&quot;U&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;An inequality constraint with an upper bound (A(i,:)*x &lt;= b(i)).&lt;br&gt;&quot;S&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; An equality constraint (A(i,:)*x = b(i)).&lt;br&gt;&quot;L&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;An inequality with a lower bound (A(i,:)*x &gt;= b(i)).&lt;br&gt;&#xa;&quot;D&quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;An inequality constraint with both upper and lower bounds (A(i,:)*x &gt;= -b(i) and (A(i,:)*x &lt;= b(i)).&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel20">
@@ -329,7 +330,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="cTextField">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="A column array containing the objective function coefficients"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A column array containing&lt;br&gt; the &lt;b&gt;objective function coefficients&lt;b&gt;&lt;html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="runButton">
@@ -363,7 +364,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -387,8 +388,6 @@
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="param_scaleComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="param_dualComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_priceComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_roundComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_itlimTextField" alignment="0" max="32767" attributes="0"/>
@@ -396,8 +395,10 @@
                                   <Component id="param_branchComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_btrackComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_lpsolverComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="param_msglevComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="param_presolTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="param_msglevComboBox" pref="0" max="32767" attributes="0"/>
+                                  <Component id="param_scaleComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="param_dualComboBox" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
                           </Group>

@@ -103,6 +103,7 @@ public class QpPanel extends javax.swing.JPanel {
         });
 
         jButton3.setText("Help");
+        jButton3.setToolTipText("<html>Function File: [<var>x</var>, <var>obj</var>, <var>info</var>,\n<var>lambda</var>] = <b>qp</b> (<var>x0,\nH, q, A, b, lb, ub, A_lb, A_in, A_ub</var>)<var><a\n name=\"index-qp-2454\"></a></var><var></var><var></var><var></var><var></var><var></var><br>\n<p>Solve the quadratic program </p>\n<pre class=\"example\">          min 0.5 x'*H*x + x'*q<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x = b<br>          lb &lt;= x &lt;= ub<br>          A_lb &lt;= A_in*x &lt;= A_ub<br></pre>\n<p class=\"noindent\">using a null-space active-set method. </p></html>\n");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,8 +131,8 @@ public class QpPanel extends javax.swing.JPanel {
                             .addComponent(jButton2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addComponent(runButton)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -203,7 +204,7 @@ public class QpPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE))
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +219,7 @@ public class QpPanel extends javax.swing.JPanel {
                         .addGap(162, 162, 162)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dField)
-                            .addComponent(lambdaField)
+                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                             .addComponent(stdevField)
                             .addComponent(gcvField)
                             .addComponent(lgussField)

@@ -17,32 +17,101 @@
 
 package org.domainmath.gui.packages.optim;
 
-import org.domainmath.gui.tools.glpk.*;
+
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
+import org.domainmath.gui.packages.image.ImageLoadDialog;
+import org.domainmath.gui.packages.image.ImageToolFrame;
 
 
 public class OptimizationFrame extends javax.swing.JFrame {
-    private final JTabbedPane tab;
     private int glpkIndex=1;
+    private JPopupMenu popup;
+    private JMenuItem pcloseItem;
+    private JMenuItem pcloseAllItem;
+    private  List fileNameList =Collections.synchronizedList(new ArrayList());
+    private int qpIndex=1;
+    private int sqpIndex=1;
     /**
      * Creates new form GlpkFrame
      */
     public OptimizationFrame() {
         this.setIconImage(icon);
+       
         initComponents();
-        tab= new JTabbedPane();
+        this.popupTab(); 
     }
 
+    private void popupTab(){
+         popup = new JPopupMenu();
+         
+         pcloseItem = new JMenuItem("Close");
+         pcloseAllItem = new JMenuItem("Close All");
+        
+       
+        popup.add(pcloseItem);
+        popup.add(pcloseAllItem);
+        
+        tabbedPane.addMouseListener(new PopupListener(popup));
+        
+        
+        pcloseItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 if(tabbedPane.getSelectedIndex() >= 0) { 
+                   
+                    removeFileNameFromList(tabbedPane.getSelectedIndex());
+                   
+                   tabbedPane.remove(tabbedPane.getSelectedIndex());
+                  
+               }
+               
+            }
+  
+        });
+        
+        pcloseAllItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i=tabbedPane.getTabCount()-1;
+                while(i != -1) {
+
+                    removeFileNameFromList(i);
+                    tabbedPane.remove(i);
+                    i--;
+                }
+ 
+           }
+
+        });
+
+    }
+     public void removeFileNameFromList(int index) {
+        fileNameList.remove(index);
+    }
+      public void addFileNameToList(String name) {
+        fileNameList.add(name);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,11 +122,16 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
+        tabbedPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        closeItem = new javax.swing.JMenuItem();
+        closeAllItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
@@ -73,11 +147,13 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Optimization Tool");
-        getContentPane().add(statusPanel2, java.awt.BorderLayout.PAGE_END);
+
+        tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jMenu1.setText("File");
 
         jMenuItem2.setText("glpk");
+        jMenuItem2.setToolTipText("<html> Function File: [<var>xopt</var>,\n<var>fmin</var>, <var>status</var>, <var>extra</var>]\n= <b>glpk</b> (<var>c, A, b, lb, ub, ctype, vartype,\nsense, param</var>)<var><a name=\"index-glpk-2449\"></a></var><br>\n<p>Solve a linear program using the GNU <span class=\"sc\">glpk</span>\nlibrary. Given three\narguments, <code>glpk</code> solves the following standard\nLP: </p>\n<pre class=\"example\">          min C'*x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x  = b<br>            x &gt;= 0<br></pre>\n<p>but may also solve problems of the form </p>\n<pre class=\"example\">          [ min | max ] C'*x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x [ \"=\" | \"&lt;=\" | \"&gt;=\" ] b<br>            x &gt;= LB<br>            x &lt;= UB<br></pre></html>");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -86,10 +162,44 @@ public class OptimizationFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("qp");
+        jMenuItem3.setToolTipText("<html>Function File: [<var>x</var>, <var>obj</var>, <var>info</var>,\n<var>lambda</var>] = <b>qp</b> (<var>x0,\nH, q, A, b, lb, ub, A_lb, A_in, A_ub</var>)<var><a\n name=\"index-qp-2454\"></a></var><var></var><var></var><var></var><var></var><var></var><br>\n<p>Solve the quadratic program </p>\n<pre class=\"example\">          min 0.5 x'*H*x + x'*q<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x = b<br>          lb &lt;= x &lt;= ub<br>          A_lb &lt;= A_in*x &lt;= A_ub<br></pre>\n<p class=\"noindent\">using a null-space active-set method. </p></html>\n");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("sqp");
+        jMenuItem4.setToolTipText("<html>Function File: [<small class=\"dots\">...</small>] = <b>sqp</b>\n(<var>x0, phi, g, h, lb, ub, maxiter, tol</var>)<var><a\n name=\"index-sqp-2467\"></a></var><br>\n<p>Solve the nonlinear program </p>\n<pre class=\"example\">          min phi (x)<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          g(x)  = 0<br>          h(x) &gt;= 0<br>          lb &lt;= x &lt;= ub<br></pre>\n<p class=\"noindent\">using a sequential quadratic\nprogramming method. </p><html>\n");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator1);
+
+        closeItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/packages/image/resources/image-tool_en"); // NOI18N
+        closeItem.setText(bundle.getString("closeItem.name")); // NOI18N
+        closeItem.setToolTipText(bundle.getString("closeItem.tooltip")); // NOI18N
+        closeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(closeItem);
+
+        closeAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        closeAllItem.setText(bundle.getString("closeAllItem.name")); // NOI18N
+        closeAllItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeAllItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(closeAllItem);
+        jMenu1.add(jSeparator2);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem1.setText("Exit");
@@ -102,8 +212,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en"); // NOI18N
-        helpMenu.setText(bundle.getString("helpMenu.name")); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en"); // NOI18N
+        helpMenu.setText(bundle1.getString("helpMenu.name")); // NOI18N
 
         forumItem.setText("Forum");
         forumItem.addActionListener(new java.awt.event.ActionListener() {
@@ -146,8 +256,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
         });
         helpMenu.add(suggestionsItem);
 
-        reportBugItem.setText(bundle.getString("reportBugItem.name")); // NOI18N
-        reportBugItem.setToolTipText(bundle.getString("reportBugItem.tooltip")); // NOI18N
+        reportBugItem.setText(bundle1.getString("reportBugItem.name")); // NOI18N
+        reportBugItem.setToolTipText(bundle1.getString("reportBugItem.tooltip")); // NOI18N
         reportBugItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reportBugItemActionPerformed(evt);
@@ -155,8 +265,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
         });
         helpMenu.add(reportBugItem);
 
-        feedBackItem.setText(bundle.getString("yourFeedbackItem.name")); // NOI18N
-        feedBackItem.setToolTipText(bundle.getString("yourFeedbackItem.tooltip")); // NOI18N
+        feedBackItem.setText(bundle1.getString("yourFeedbackItem.name")); // NOI18N
+        feedBackItem.setToolTipText(bundle1.getString("yourFeedbackItem.tooltip")); // NOI18N
         feedBackItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 feedBackItemActionPerformed(evt);
@@ -165,8 +275,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
         helpMenu.add(feedBackItem);
         helpMenu.add(jSeparator7);
 
-        AboutItem.setText(bundle.getString("aboutItem.name")); // NOI18N
-        AboutItem.setToolTipText(bundle.getString("aboutItem.tooltip")); // NOI18N
+        AboutItem.setText(bundle1.getString("aboutItem.name")); // NOI18N
+        AboutItem.setToolTipText(bundle1.getString("aboutItem.tooltip")); // NOI18N
         AboutItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AboutItemActionPerformed(evt);
@@ -177,6 +287,21 @@ public class OptimizationFrame extends javax.swing.JFrame {
         jMenuBar1.add(helpMenu);
 
         setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+            .addComponent(tabbedPane)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                .addGap(1, 1, 1)
+                .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -220,41 +345,55 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        tab.add("glpk #"+this.glpkIndex, new GlpkPanel());
+        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel());
+        tabbedPane.setSelectedIndex(this.glpkIndex-1);
+         this.addFileNameToList("glpk #"+this.glpkIndex);
         this.glpkIndex++;
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void closeAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeAllItemActionPerformed
+        int i=tabbedPane.getTabCount()-1;
+        while(i != -1) {
+
+            removeFileNameFromList(i);
+            tabbedPane.remove(i);
+            i--;
+        }
+    }//GEN-LAST:event_closeAllItemActionPerformed
+
+    private void closeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeItemActionPerformed
+        if(tabbedPane.getSelectedIndex() >= 0) {
+
+            removeFileNameFromList(tabbedPane.getSelectedIndex());
+
+            tabbedPane.remove(tabbedPane.getSelectedIndex());
+
+        }
+    }//GEN-LAST:event_closeItemActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        tabbedPane.add("qp #"+this.qpIndex, new QpPanel());
+        tabbedPane.setSelectedIndex(this.qpIndex-1);
+         this.addFileNameToList("qp #"+this.qpIndex);
+        this.qpIndex++;
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel());
+        tabbedPane.setSelectedIndex(this.sqpIndex-1);
+         this.addFileNameToList("sqp #"+this.sqpIndex);
+        this.sqpIndex++;
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GlpkFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GlpkFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GlpkFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GlpkFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GlpkFrame().setVisible(true);
+                new OptimizationFrame().setVisible(true);
             }
         });
     }
@@ -281,6 +420,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenuItem closeAllItem;
+    private javax.swing.JMenuItem closeItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JMenuItem forumItem;
@@ -292,11 +433,39 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenuItem reportBugItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
+    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
+
+     class PopupListener extends MouseAdapter {
+        JPopupMenu popup;
+
+        PopupListener(JPopupMenu popupMenu) {
+            popup = popupMenu;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        private void maybeShowPopup(MouseEvent e) {
+            if (e.isPopupTrigger() && tabbedPane.getTabCount() > 0) {
+                popup.show(e.getComponent(),
+                           e.getX(), e.getY());
+            }
+        }
+    }
 }

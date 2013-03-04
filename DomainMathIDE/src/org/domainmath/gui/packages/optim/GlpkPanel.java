@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.tools.glpk;
+package org.domainmath.gui.packages.optim;
 
 import java.io.File;
 import javax.swing.JOptionPane;
@@ -116,12 +116,12 @@ public class GlpkPanel extends javax.swing.JPanel {
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("A");
 
-        ATextField.setToolTipText("A matrix containing the constraints coefficients");
+        ATextField.setToolTipText("<html>A matrix containing the <b>constraints coefficients</b></html>");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setText("lb");
+        jLabel15.setText("Lower Bound");
 
-        bTextField.setToolTipText("A column array containing the right-hand side value for each constraint in the constraint matrix");
+        bTextField.setToolTipText("<html>A column array containing the<b> right-hand side value for<br> each constraint in the constraint matrix</b></html>");
 
         bButton.setText("[mxn]");
         bButton.setToolTipText("Convert the text to Octave matrix style");
@@ -131,10 +131,10 @@ public class GlpkPanel extends javax.swing.JPanel {
             }
         });
 
-        ubTextField.setToolTipText("An array containing the upper bound on each of the variables. If ub is not supplied, the default upper bound is assumed to be infinite");
+        ubTextField.setToolTipText("<html>An array containing the <b>upper bound</b> on each of the variables.<br> If ub is not supplied, the default upper bound is assumed to be infinite</html>");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel16.setText("ub");
+        jLabel16.setText("Upper Bound");
 
         lbButton.setText("[mxn]");
         lbButton.setToolTipText("Convert the text to Octave matrix style");
@@ -144,18 +144,19 @@ public class GlpkPanel extends javax.swing.JPanel {
             }
         });
 
-        lbTextField.setToolTipText("An array containing the lower bound on each of the variables. If lb is not supplied, the default lower bound for the variables is zero");
+        lbTextField.setToolTipText("<html>An array containing the<b> lower bound</b> on each of the variables.<br> If lb is not supplied, the default lower bound for the variables is zero</html>");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setText("sense");
 
         vartypeTextField.setText("\"CCC\"");
-        vartypeTextField.setToolTipText("A column array containing the types of the variables");
+        vartypeTextField.setToolTipText("<html>A column array containing the types of the variables.<br>\"C\"<br>&nbsp;&nbsp;&nbsp;A continuous variable.<br>\"I\"<br>&nbsp;&nbsp;&nbsp;An integer variable.</html> ");
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setText("ctype");
 
         helpButton.setText("Help");
+        helpButton.setToolTipText("<html> Function File: [<var>xopt</var>,\n<var>fmin</var>, <var>status</var>, <var>extra</var>]\n= <b>glpk</b> (<var>c, A, b, lb, ub, ctype, vartype,\nsense, param</var>)<var><a name=\"index-glpk-2449\"></a></var><br>\n<p>Solve a linear program using the GNU <span class=\"sc\">glpk</span>\nlibrary. Given three\narguments, <code>glpk</code> solves the following standard\nLP: </p>\n<pre class=\"example\">          min C'*x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x  = b<br>            x &gt;= 0<br></pre>\n<p>but may also solve problems of the form </p>\n<pre class=\"example\">          [ min | max ] C'*x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x [ \"=\" | \"&lt;=\" | \"&gt;=\" ] b<br>            x &gt;= LB<br>            x &lt;= UB<br></pre></html>");
         helpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 helpButtonActionPerformed(evt);
@@ -174,7 +175,7 @@ public class GlpkPanel extends javax.swing.JPanel {
         jLabel19.setText("vartype");
 
         ctypeTextField.setText("\"UUU\"");
-        ctypeTextField.setToolTipText("An array of characters containing the sense of each constraint in the constraint matrix");
+        ctypeTextField.setToolTipText("<html>An array of characters containing the sense of each constraint in the constraint matrix.<br> Each element of the array may be one of the following values<br>\"F\"<br>&nbsp;&nbsp;&nbsp;A free (unbounded) constraint (the constraint is ignored).<br>\"U\"<br>&nbsp;&nbsp;&nbsp;An inequality constraint with an upper bound (A(i,:)*x <= b(i)).<br>\"S\"<br>&nbsp;&nbsp;&nbsp; An equality constraint (A(i,:)*x = b(i)).<br>\"L\"<br>&nbsp;&nbsp;&nbsp;An inequality with a lower bound (A(i,:)*x >= b(i)).<br>\n\"D\"<br>&nbsp;&nbsp;&nbsp;An inequality constraint with both upper and lower bounds (A(i,:)*x >= -b(i) and (A(i,:)*x <= b(i)).</html>");
 
         jLabel20.setForeground(new java.awt.Color(0, 0, 255));
         jLabel20.setText("Data");
@@ -190,7 +191,7 @@ public class GlpkPanel extends javax.swing.JPanel {
             }
         });
 
-        cTextField.setToolTipText("A column array containing the objective function coefficients");
+        cTextField.setToolTipText("<html>A column array containing<br> the <b>objective function coefficients<b><html>");
 
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -231,9 +232,9 @@ public class GlpkPanel extends javax.swing.JPanel {
                             .addComponent(bTextField)
                             .addComponent(lbTextField)
                             .addComponent(ubTextField)
-                            .addComponent(ctypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(vartypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(senseComboBox, 0, 1, Short.MAX_VALUE))
+                            .addComponent(ctypeTextField)
+                            .addComponent(vartypeTextField)
+                            .addComponent(senseComboBox, 0, 142, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cButton)
@@ -243,7 +244,6 @@ public class GlpkPanel extends javax.swing.JPanel {
                             .addComponent(ubButton))
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(runButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(helpButton)
@@ -371,17 +371,17 @@ public class GlpkPanel extends javax.swing.JPanel {
                             .addComponent(jLabel12))
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(param_scaleComboBox, 0, 1, Short.MAX_VALUE)
-                            .addComponent(param_dualComboBox, 0, 1, Short.MAX_VALUE)
                             .addComponent(param_priceComboBox, 0, 1, Short.MAX_VALUE)
                             .addComponent(param_roundComboBox, 0, 1, Short.MAX_VALUE)
-                            .addComponent(param_itlimTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(param_itlimTextField)
                             .addComponent(param_itcntTextField)
                             .addComponent(param_branchComboBox, 0, 1, Short.MAX_VALUE)
                             .addComponent(param_btrackComboBox, 0, 1, Short.MAX_VALUE)
                             .addComponent(param_lpsolverComboBox, 0, 1, Short.MAX_VALUE)
+                            .addComponent(param_presolTextField)
                             .addComponent(param_msglevComboBox, 0, 1, Short.MAX_VALUE)
-                            .addComponent(param_presolTextField))
+                            .addComponent(param_scaleComboBox, 0, 1, Short.MAX_VALUE)
+                            .addComponent(param_dualComboBox, 0, 1, Short.MAX_VALUE))
                         .addGap(87, 87, 87)))
                 .addGap(55, 55, 55))
         );
@@ -445,10 +445,10 @@ public class GlpkPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 722, Short.MAX_VALUE)
+            .addGap(0, 774, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jSplitPane1)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
                     .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(

@@ -65,21 +65,21 @@ public class SqpPanel extends javax.swing.JPanel {
         lgussField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         xhatField = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        weightsField = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
 
-        jSplitPane1.setDividerLocation(250);
+        jSplitPane1.setDividerLocation(350);
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("Data");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("x0");
+        jLabel3.setText("Initial Guess");
+
+        xDataField.setToolTipText("<html>Initial guess for the vector <b>x0</b></html>");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("H");
+        jLabel4.setText("Objective Function");
+
+        hDataField.setToolTipText("<html>Function handle pointing to the objective function <b>phi</b>.<br> The objective function must accept one vector argument and return a scalar.</html>");
 
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -103,6 +103,7 @@ public class SqpPanel extends javax.swing.JPanel {
         });
 
         jButton3.setText("Help");
+        jButton3.setToolTipText("<html>Function File: [<small class=\"dots\">...</small>] = <b>sqp</b>\n(<var>x0, phi, g, h, lb, ub, maxiter, tol</var>)<var><a\n name=\"index-sqp-2467\"></a></var><br>\n<p>Solve the nonlinear program </p>\n<pre class=\"example\">          min phi (x)<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          g(x)  = 0<br>          h(x) &gt;= 0<br>          lb &lt;= x &lt;= ub<br></pre>\n<p class=\"noindent\">using a sequential quadratic\nprogramming method. </p><html>\n");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -122,7 +123,7 @@ public class SqpPanel extends javax.swing.JPanel {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(xDataField)
+                            .addComponent(xDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                             .addComponent(hDataField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,35 +164,29 @@ public class SqpPanel extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
         jLabel2.setText("Options");
 
-        jLabel5.setText("q");
+        jLabel5.setText("Equality Constraints");
 
-        jLabel6.setText("A");
+        dField.setToolTipText("Function handle pointing to function that compute the equality constraints");
 
-        lambdaField.setText("[]");
+        jLabel6.setText("Inequality Constraints");
 
-        jLabel7.setText("b");
+        lambdaField.setToolTipText("Function handle pointing to function that compute the inequality constraints");
 
-        stdevField.setText("[]");
+        jLabel7.setText("Lower Bound");
 
-        jLabel8.setText("lb");
+        stdevField.setToolTipText("Lower bound on x");
 
-        gcvField.setText("[]");
+        jLabel8.setText("Upper Bound");
 
-        jLabel9.setText("ub");
+        gcvField.setToolTipText("Upper bound on x");
 
-        lgussField.setText("[]");
+        jLabel9.setText("Max.Number of Iterations");
 
-        jLabel10.setText("A_lb");
+        lgussField.setToolTipText("Maximum number of iterations. The default value is 100");
 
-        xhatField.setText("[]");
+        jLabel10.setText("Tolerance");
 
-        jLabel11.setText("A_in");
-
-        weightsField.setText("[]");
-
-        jLabel12.setText("A_ub");
-
-        jTextField1.setText("[]");
+        xhatField.setToolTipText("Tolerance for the stopping criteria. The default value is sqrt (eps)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -203,7 +198,7 @@ public class SqpPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE))
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,19 +207,15 @@ public class SqpPanel extends javax.swing.JPanel {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
+                            .addComponent(jLabel10))
                         .addGap(162, 162, 162)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dField)
-                            .addComponent(lambdaField)
+                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                             .addComponent(stdevField)
                             .addComponent(gcvField)
                             .addComponent(lgussField)
-                            .addComponent(xhatField)
-                            .addComponent(weightsField)
-                            .addComponent(jTextField1))))
+                            .addComponent(xhatField))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -258,15 +249,7 @@ public class SqpPanel extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(xhatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(weightsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(223, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel1);
@@ -321,8 +304,6 @@ public class SqpPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -336,12 +317,10 @@ public class SqpPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField lambdaField;
     private javax.swing.JTextField lgussField;
     private javax.swing.JButton runButton;
     private javax.swing.JTextField stdevField;
-    private javax.swing.JTextField weightsField;
     private javax.swing.JTextField xDataField;
     private javax.swing.JTextField xhatField;
     // End of variables declaration//GEN-END:variables
