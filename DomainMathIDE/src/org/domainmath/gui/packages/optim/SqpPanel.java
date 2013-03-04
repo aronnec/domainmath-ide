@@ -18,7 +18,6 @@
 package org.domainmath.gui.packages.optim;
 
 import java.io.File;
-import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
 
 
@@ -52,7 +51,6 @@ public class SqpPanel extends javax.swing.JPanel {
         phiDataField = new javax.swing.JTextField();
         runButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -99,13 +97,6 @@ public class SqpPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("[mxn]");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton3.setText("Help");
         jButton3.setToolTipText("<html>Function File: [<small class=\"dots\">...</small>] = <b>sqp</b>\n(<var>x0, phi, g, h, lb, ub, maxiter, tol</var>)<var><a\n name=\"index-sqp-2467\"></a></var><br>\n<p>Solve the nonlinear program </p>\n<pre class=\"example\">          min phi (x)<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          g(x)  = 0<br>          h(x) &gt;= 0<br>          lb &lt;= x &lt;= ub<br></pre>\n<p class=\"noindent\">using a sequential quadratic\nprogramming method. </p><html>\n");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -135,9 +126,7 @@ public class SqpPanel extends javax.swing.JPanel {
                             .addComponent(xDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                             .addComponent(phiDataField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)))
+                        .addComponent(jButton1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -159,9 +148,8 @@ public class SqpPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(phiDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
+                    .addComponent(phiDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(runButton)
                     .addComponent(jButton3))
@@ -327,11 +315,6 @@ public class SqpPanel extends javax.swing.JPanel {
         this.xDataField.setText("["+createOctMtx(text)+"]");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String text = this.phiDataField.getText();
-        this.phiDataField.setText("["+createOctMtx(text)+"]");
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
             String jar_path2 = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
         MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('sqp'),"+jar_path2+","+"'QuickHelpFrame');");
@@ -342,7 +325,6 @@ public class SqpPanel extends javax.swing.JPanel {
     private javax.swing.JTextField gField;
     private javax.swing.JTextField hField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -18,7 +18,6 @@
 package org.domainmath.gui.packages.optim;
 
 import java.io.File;
-import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
 
 
@@ -330,16 +329,16 @@ public class QpPanel extends javax.swing.JPanel {
         this.xDataField.setText("["+createOctMtx(text)+"]");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String text = this.hDataField.getText();
-        this.hDataField.setText("["+createOctMtx(text)+"]");
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
              String jar_path2 = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
         MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('qp'),"+jar_path2+","+"'QuickHelpFrame');");
    
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String text = this.hDataField.getText();
+        this.hDataField.setText("["+createOctMtx(text)+"]");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AField;

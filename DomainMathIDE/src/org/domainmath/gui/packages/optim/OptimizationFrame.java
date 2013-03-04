@@ -415,13 +415,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 }
-    private String createOctMtx(String text) {
-        String val = text.replaceAll("\t", ",");
-       return val.replaceAll(" ", ";");
-    }
-    private void declare(String name, String value) {
-        MainFrame.octavePanel.eval(name+"="+value+";");
-    }
+  
       public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
 
        private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");

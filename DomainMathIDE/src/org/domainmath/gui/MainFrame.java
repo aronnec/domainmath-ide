@@ -67,6 +67,7 @@ import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
+import org.domainmath.gui.packages.optim.OptimizationFrame;
 import org.domainmath.gui.pathsview.PathsViewMain;
 import org.domainmath.gui.pkg.PkgDlg;
 import org.domainmath.gui.pkgview.PkgViewMain;
@@ -684,7 +685,7 @@ public final class MainFrame extends javax.swing.JFrame {
         octaveCmdItem = new javax.swing.JMenuItem();
         dynareItem = new javax.swing.JMenuItem();
         worksheetItem = new javax.swing.JMenuItem();
-        glpkItem = new javax.swing.JMenuItem();
+        optimItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
         octaveInfoItem = new javax.swing.JMenuItem();
@@ -1587,13 +1588,13 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(worksheetItem);
 
-        glpkItem.setText("Glpk Tool");
-        glpkItem.addActionListener(new java.awt.event.ActionListener() {
+        optimItem.setText("Optimization Tool");
+        optimItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                glpkItemActionPerformed(evt);
+                optimItemActionPerformed(evt);
             }
         });
-        toolsMenu.add(glpkItem);
+        toolsMenu.add(optimItem);
 
         jMenuBar1.add(toolsMenu);
 
@@ -2274,11 +2275,11 @@ public void saveplot() {
         actFrame.setVisible(true);
     }//GEN-LAST:event_worksheetItemActionPerformed
 
-    private void glpkItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glpkItemActionPerformed
-       GlpkFrame glpkFrame = new GlpkFrame();
-        glpkFrame.setLocationRelativeTo(this);
-        glpkFrame.setVisible(true);
-    }//GEN-LAST:event_glpkItemActionPerformed
+    private void optimItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optimItemActionPerformed
+       OptimizationFrame optimFrame = new OptimizationFrame();
+        optimFrame.setLocationRelativeTo(this);
+        optimFrame.setVisible(true);
+    }//GEN-LAST:event_optimItemActionPerformed
 
     private void folderUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folderUpButtonActionPerformed
         File f = new File(currentDirField.getText());
@@ -2927,7 +2928,6 @@ public void saveplot() {
     private javax.swing.JMenuItem fltkplotItem;
     private javax.swing.JButton folderUpButton;
     private javax.swing.JMenuItem forumItem;
-    private javax.swing.JMenuItem glpkItem;
     private javax.swing.JMenuItem googleItem;
     private javax.swing.JMenuItem gotoItem;
     private javax.swing.JMenu helpMenu;
@@ -2984,6 +2984,7 @@ public void saveplot() {
     private javax.swing.JMenuItem octaveItem;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenuItem openItem;
+    private javax.swing.JMenuItem optimItem;
     private javax.swing.JMenuItem pasteItem;
     private javax.swing.JMenuItem phyConstItem;
     private javax.swing.JMenuItem pkgItem;
