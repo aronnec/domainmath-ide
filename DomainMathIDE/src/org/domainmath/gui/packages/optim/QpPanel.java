@@ -17,6 +17,10 @@
 
 package org.domainmath.gui.packages.optim;
 
+import java.io.File;
+import javax.swing.JOptionPane;
+import org.domainmath.gui.MainFrame;
+
 
 
 
@@ -54,21 +58,21 @@ public class QpPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
-        dField = new javax.swing.JTextField();
+        qField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        lambdaField = new javax.swing.JTextField();
+        AField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        stdevField = new javax.swing.JTextField();
+        bField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        gcvField = new javax.swing.JTextField();
+        lbField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        lgussField = new javax.swing.JTextField();
+        ubField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        xhatField = new javax.swing.JTextField();
+        a_lbField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        weightsField = new javax.swing.JTextField();
+        a_inField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        a_ubField = new javax.swing.JTextField();
 
         jSplitPane1.setDividerLocation(350);
 
@@ -104,6 +108,11 @@ public class QpPanel extends javax.swing.JPanel {
 
         jButton3.setText("Help");
         jButton3.setToolTipText("<html>Function File: [<var>x</var>, <var>obj</var>, <var>info</var>,\n<var>lambda</var>] = <b>qp</b> (<var>x0,\nH, q, A, b, lb, ub, A_lb, A_in, A_ub</var>)<var><a\n name=\"index-qp-2454\"></a></var><var></var><var></var><var></var><var></var><var></var><br>\n<p>Solve the quadratic program </p>\n<pre class=\"example\">          min 0.5 x'*H*x + x'*q<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          A*x = b<br>          lb &lt;= x &lt;= ub<br>          A_lb &lt;= A_in*x &lt;= A_ub<br></pre>\n<p class=\"noindent\">using a null-space active-set method. </p></html>\n");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -166,33 +175,35 @@ public class QpPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Linear Penalty");
 
+        qField.setText("[]");
+
         jLabel6.setText("Constraints Coefficients");
 
-        lambdaField.setText("[]");
+        AField.setText("[]");
 
         jLabel7.setText("RHS value for Constraints");
 
-        stdevField.setText("[]");
+        bField.setText("[]");
 
         jLabel8.setText("Lower Bound");
 
-        gcvField.setText("[]");
+        lbField.setText("[]");
 
         jLabel9.setText("Upper Bound");
 
-        lgussField.setText("[]");
+        ubField.setText("[]");
 
         jLabel10.setText("Lower Bound of Constraints Coefficients");
 
-        xhatField.setText("[]");
+        a_lbField.setText("[]");
 
         jLabel11.setText("Inequality Constraint Coefficients ");
 
-        weightsField.setText("[]");
+        a_inField.setText("[]");
 
         jLabel12.setText("Upper Bound of Constraints Coefficients");
 
-        jTextField1.setText("[]");
+        a_ubField.setText("[]");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -218,14 +229,14 @@ public class QpPanel extends javax.swing.JPanel {
                             .addComponent(jLabel12))
                         .addGap(162, 162, 162)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dField)
-                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                            .addComponent(stdevField)
-                            .addComponent(gcvField)
-                            .addComponent(lgussField)
-                            .addComponent(xhatField)
-                            .addComponent(weightsField)
-                            .addComponent(jTextField1))))
+                            .addComponent(qField)
+                            .addComponent(AField, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(bField)
+                            .addComponent(lbField)
+                            .addComponent(ubField)
+                            .addComponent(a_lbField)
+                            .addComponent(a_inField)
+                            .addComponent(a_ubField))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -238,35 +249,35 @@ public class QpPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(dField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(qField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(lambdaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(stdevField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(gcvField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(lgussField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ubField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(xhatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(a_lbField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(weightsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(a_inField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(a_ubField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(171, Short.MAX_VALUE))
         );
 
@@ -280,7 +291,7 @@ public class QpPanel extends javax.swing.JPanel {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+                    .addComponent(jSplitPane1)
                     .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
@@ -295,7 +306,18 @@ public class QpPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-
+            String x0 = this.xDataField.getText();
+            String h = this.hDataField.getText();
+            
+            if(!x0.equals("") || !h.equals("")){
+                String  cmd = x0+","+h+","+this.qField.getText()+","+
+                        this.AField.getText()+","+this.bField.getText()+","+
+                        this.lbField.getText()+","+this.ubField.getText()+","+
+                        this.a_lbField.getText()+","+this.a_inField.getText()+","+
+                        this.a_ubField.getText();
+                MainFrame.octavePanel.evalWithOutput(
+                "[x, obj, info, lambda] = qp ("+cmd+");");
+            }
     }//GEN-LAST:event_runButtonActionPerformed
 
      private String createOctMtx(String text) {
@@ -313,9 +335,18 @@ public class QpPanel extends javax.swing.JPanel {
         this.hDataField.setText("["+createOctMtx(text)+"]");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+             String jar_path2 = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
+        MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('qp'),"+jar_path2+","+"'QuickHelpFrame');");
+   
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField dField;
-    private javax.swing.JTextField gcvField;
+    private javax.swing.JTextField AField;
+    private javax.swing.JTextField a_inField;
+    private javax.swing.JTextField a_lbField;
+    private javax.swing.JTextField a_ubField;
+    private javax.swing.JTextField bField;
     private javax.swing.JTextField hDataField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -337,13 +368,10 @@ public class QpPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField lambdaField;
-    private javax.swing.JTextField lgussField;
+    private javax.swing.JTextField lbField;
+    private javax.swing.JTextField qField;
     private javax.swing.JButton runButton;
-    private javax.swing.JTextField stdevField;
-    private javax.swing.JTextField weightsField;
+    private javax.swing.JTextField ubField;
     private javax.swing.JTextField xDataField;
-    private javax.swing.JTextField xhatField;
     // End of variables declaration//GEN-END:variables
 }

@@ -74,7 +74,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="xDataField" pref="137" max="32767" attributes="0"/>
-                                  <Component id="hDataField" max="32767" attributes="0"/>
+                                  <Component id="phiDataField" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -109,7 +109,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="hDataField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="phiDataField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="287" max="32767" attributes="0"/>
@@ -154,7 +154,7 @@
                 <Property name="text" type="java.lang.String" value="Objective Function"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="hDataField">
+            <Component class="javax.swing.JTextField" name="phiDataField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function handle pointing to the objective function &lt;b&gt;phi&lt;/b&gt;.&lt;br&gt; The objective function must accept one vector argument and return a scalar.&lt;/html&gt;"/>
               </Properties>
@@ -188,6 +188,9 @@
                 <Property name="text" type="java.lang.String" value="Help"/>
                 <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function File: [&lt;small class=&quot;dots&quot;&gt;...&lt;/small&gt;] = &lt;b&gt;sqp&lt;/b&gt;&#xa;(&lt;var&gt;x0, phi, g, h, lb, ub, maxiter, tol&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-sqp-2467&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve the nonlinear program &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min phi (x)&lt;br&gt;           x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          g(x)  = 0&lt;br&gt;          h(x) &amp;gt;= 0&lt;br&gt;          lb &amp;lt;= x &amp;lt;= ub&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p class=&quot;noindent&quot;&gt;using a sequential quadratic&#xa;programming method. &lt;/p&gt;&lt;html&gt;&#xa;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -221,12 +224,12 @@
                               </Group>
                               <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dField" max="32767" attributes="0"/>
-                                  <Component id="lambdaField" alignment="0" pref="188" max="32767" attributes="0"/>
-                                  <Component id="stdevField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="gcvField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lgussField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="xhatField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="gField" max="32767" attributes="0"/>
+                                  <Component id="hField" alignment="0" pref="188" max="32767" attributes="0"/>
+                                  <Component id="lbField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ubField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="maxtermField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tolField" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -245,32 +248,32 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lambdaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="hField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="stdevField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="gcvField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ubField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lgussField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="maxtermField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="xhatField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tolField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="223" max="32767" attributes="0"/>
                   </Group>
@@ -293,7 +296,7 @@
                 <Property name="text" type="java.lang.String" value="Equality Constraints"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="dField">
+            <Component class="javax.swing.JTextField" name="gField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Function handle pointing to function that compute the equality constraints"/>
               </Properties>
@@ -303,7 +306,7 @@
                 <Property name="text" type="java.lang.String" value="Inequality Constraints"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="lambdaField">
+            <Component class="javax.swing.JTextField" name="hField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Function handle pointing to function that compute the inequality constraints"/>
               </Properties>
@@ -313,7 +316,7 @@
                 <Property name="text" type="java.lang.String" value="Lower Bound"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="stdevField">
+            <Component class="javax.swing.JTextField" name="lbField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Lower bound on x"/>
               </Properties>
@@ -323,7 +326,7 @@
                 <Property name="text" type="java.lang.String" value="Upper Bound"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="gcvField">
+            <Component class="javax.swing.JTextField" name="ubField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Upper bound on x"/>
               </Properties>
@@ -333,7 +336,7 @@
                 <Property name="text" type="java.lang.String" value="Max.Number of Iterations"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="lgussField">
+            <Component class="javax.swing.JTextField" name="maxtermField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Maximum number of iterations. The default value is 100"/>
               </Properties>
@@ -343,7 +346,7 @@
                 <Property name="text" type="java.lang.String" value="Tolerance"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="xhatField">
+            <Component class="javax.swing.JTextField" name="tolField">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Tolerance for the stopping criteria. The default value is sqrt (eps)"/>
               </Properties>

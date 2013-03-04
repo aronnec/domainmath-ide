@@ -20,7 +20,7 @@
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                  <Component id="jSplitPane1" pref="860" max="32767" attributes="0"/>
+                  <Component id="jSplitPane1" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -182,6 +182,9 @@
                 <Property name="text" type="java.lang.String" value="Help"/>
                 <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Function File: [&lt;var&gt;x&lt;/var&gt;, &lt;var&gt;obj&lt;/var&gt;, &lt;var&gt;info&lt;/var&gt;,&#xa;&lt;var&gt;lambda&lt;/var&gt;] = &lt;b&gt;qp&lt;/b&gt; (&lt;var&gt;x0,&#xa;H, q, A, b, lb, ub, A_lb, A_in, A_ub&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-qp-2454&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;var&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;p&gt;Solve the quadratic program &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          min 0.5 x&apos;*H*x + x&apos;*q&lt;br&gt;           x&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p&gt;subject to &lt;/p&gt;&#xa;&lt;pre class=&quot;example&quot;&gt;          A*x = b&lt;br&gt;          lb &amp;lt;= x &amp;lt;= ub&lt;br&gt;          A_lb &amp;lt;= A_in*x &amp;lt;= A_ub&lt;br&gt;&lt;/pre&gt;&#xa;&lt;p class=&quot;noindent&quot;&gt;using a null-space active-set method. &lt;/p&gt;&lt;/html&gt;&#xa;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -217,14 +220,14 @@
                               </Group>
                               <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dField" max="32767" attributes="0"/>
-                                  <Component id="lambdaField" alignment="0" pref="119" max="32767" attributes="0"/>
-                                  <Component id="stdevField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="gcvField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lgussField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="xhatField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="weightsField" max="32767" attributes="0"/>
-                                  <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="qField" max="32767" attributes="0"/>
+                                  <Component id="AField" alignment="0" pref="119" max="32767" attributes="0"/>
+                                  <Component id="bField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lbField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ubField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="a_lbField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="a_inField" max="32767" attributes="0"/>
+                                  <Component id="a_ubField" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -243,42 +246,42 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="qField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lambdaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="AField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="stdevField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="gcvField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lgussField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ubField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="xhatField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="a_lbField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="weightsField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="a_inField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="a_ubField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="171" max="32767" attributes="0"/>
                   </Group>
@@ -301,14 +304,17 @@
                 <Property name="text" type="java.lang.String" value="Linear Penalty"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="dField">
+            <Component class="javax.swing.JTextField" name="qField">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="[]"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Constraints Coefficients"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="lambdaField">
+            <Component class="javax.swing.JTextField" name="AField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -318,7 +324,7 @@
                 <Property name="text" type="java.lang.String" value="RHS value for Constraints"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="stdevField">
+            <Component class="javax.swing.JTextField" name="bField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -328,7 +334,7 @@
                 <Property name="text" type="java.lang.String" value="Lower Bound"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="gcvField">
+            <Component class="javax.swing.JTextField" name="lbField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -338,7 +344,7 @@
                 <Property name="text" type="java.lang.String" value="Upper Bound"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="lgussField">
+            <Component class="javax.swing.JTextField" name="ubField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -348,7 +354,7 @@
                 <Property name="text" type="java.lang.String" value="Lower Bound of Constraints Coefficients"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="xhatField">
+            <Component class="javax.swing.JTextField" name="a_lbField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -358,7 +364,7 @@
                 <Property name="text" type="java.lang.String" value="Inequality Constraint Coefficients "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="weightsField">
+            <Component class="javax.swing.JTextField" name="a_inField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>
@@ -368,7 +374,7 @@
                 <Property name="text" type="java.lang.String" value="Upper Bound of Constraints Coefficients"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="a_ubField">
               <Properties>
                 <Property name="text" type="java.lang.String" value="[]"/>
               </Properties>

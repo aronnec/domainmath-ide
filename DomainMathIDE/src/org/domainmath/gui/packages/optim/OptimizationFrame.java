@@ -50,6 +50,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private  List fileNameList =Collections.synchronizedList(new ArrayList());
     private int qpIndex=1;
     private int sqpIndex=1;
+    private int tabIndex=1;
     /**
      * Creates new form GlpkFrame
      */
@@ -82,7 +83,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
                     removeFileNameFromList(tabbedPane.getSelectedIndex());
                    
                    tabbedPane.remove(tabbedPane.getSelectedIndex());
-                  
+                   tabIndex--;
                }
                
             }
@@ -98,6 +99,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
                     removeFileNameFromList(i);
                     tabbedPane.remove(i);
+                    tabIndex--;
                     i--;
                 }
  
@@ -346,9 +348,11 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel());
-        tabbedPane.setSelectedIndex(this.glpkIndex-1);
+        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        this.tabIndex++;
          this.addFileNameToList("glpk #"+this.glpkIndex);
         this.glpkIndex++;
+        
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -358,6 +362,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
             removeFileNameFromList(i);
             tabbedPane.remove(i);
+            this.tabIndex--;
             i--;
         }
     }//GEN-LAST:event_closeAllItemActionPerformed
@@ -368,20 +373,23 @@ public class OptimizationFrame extends javax.swing.JFrame {
             removeFileNameFromList(tabbedPane.getSelectedIndex());
 
             tabbedPane.remove(tabbedPane.getSelectedIndex());
+            this.tabIndex--;
 
         }
     }//GEN-LAST:event_closeItemActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         tabbedPane.add("qp #"+this.qpIndex, new QpPanel());
-        tabbedPane.setSelectedIndex(this.qpIndex-1);
+        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        this.tabIndex++;
          this.addFileNameToList("qp #"+this.qpIndex);
         this.qpIndex++;
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel());
-        tabbedPane.setSelectedIndex(this.sqpIndex-1);
+        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        this.tabIndex++;
          this.addFileNameToList("sqp #"+this.sqpIndex);
         this.sqpIndex++;
     }//GEN-LAST:event_jMenuItem4ActionPerformed

@@ -17,6 +17,10 @@
 
 package org.domainmath.gui.packages.optim;
 
+import java.io.File;
+import javax.swing.JOptionPane;
+import org.domainmath.gui.MainFrame;
+
 
 
 
@@ -45,7 +49,7 @@ public class SqpPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         xDataField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        hDataField = new javax.swing.JTextField();
+        phiDataField = new javax.swing.JTextField();
         runButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -54,17 +58,17 @@ public class SqpPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
-        dField = new javax.swing.JTextField();
+        gField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        lambdaField = new javax.swing.JTextField();
+        hField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        stdevField = new javax.swing.JTextField();
+        lbField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        gcvField = new javax.swing.JTextField();
+        ubField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        lgussField = new javax.swing.JTextField();
+        maxtermField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        xhatField = new javax.swing.JTextField();
+        tolField = new javax.swing.JTextField();
 
         jSplitPane1.setDividerLocation(350);
 
@@ -79,7 +83,7 @@ public class SqpPanel extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Objective Function");
 
-        hDataField.setToolTipText("<html>Function handle pointing to the objective function <b>phi</b>.<br> The objective function must accept one vector argument and return a scalar.</html>");
+        phiDataField.setToolTipText("<html>Function handle pointing to the objective function <b>phi</b>.<br> The objective function must accept one vector argument and return a scalar.</html>");
 
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +108,11 @@ public class SqpPanel extends javax.swing.JPanel {
 
         jButton3.setText("Help");
         jButton3.setToolTipText("<html>Function File: [<small class=\"dots\">...</small>] = <b>sqp</b>\n(<var>x0, phi, g, h, lb, ub, maxiter, tol</var>)<var><a\n name=\"index-sqp-2467\"></a></var><br>\n<p>Solve the nonlinear program </p>\n<pre class=\"example\">          min phi (x)<br>           x<br></pre>\n<p>subject to </p>\n<pre class=\"example\">          g(x)  = 0<br>          h(x) &gt;= 0<br>          lb &lt;= x &lt;= ub<br></pre>\n<p class=\"noindent\">using a sequential quadratic\nprogramming method. </p><html>\n");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -124,7 +133,7 @@ public class SqpPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(xDataField, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                            .addComponent(hDataField))
+                            .addComponent(phiDataField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
@@ -150,7 +159,7 @@ public class SqpPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(hDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phiDataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -166,27 +175,27 @@ public class SqpPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Equality Constraints");
 
-        dField.setToolTipText("Function handle pointing to function that compute the equality constraints");
+        gField.setToolTipText("Function handle pointing to function that compute the equality constraints");
 
         jLabel6.setText("Inequality Constraints");
 
-        lambdaField.setToolTipText("Function handle pointing to function that compute the inequality constraints");
+        hField.setToolTipText("Function handle pointing to function that compute the inequality constraints");
 
         jLabel7.setText("Lower Bound");
 
-        stdevField.setToolTipText("Lower bound on x");
+        lbField.setToolTipText("Lower bound on x");
 
         jLabel8.setText("Upper Bound");
 
-        gcvField.setToolTipText("Upper bound on x");
+        ubField.setToolTipText("Upper bound on x");
 
         jLabel9.setText("Max.Number of Iterations");
 
-        lgussField.setToolTipText("Maximum number of iterations. The default value is 100");
+        maxtermField.setToolTipText("Maximum number of iterations. The default value is 100");
 
         jLabel10.setText("Tolerance");
 
-        xhatField.setToolTipText("Tolerance for the stopping criteria. The default value is sqrt (eps)");
+        tolField.setToolTipText("Tolerance for the stopping criteria. The default value is sqrt (eps)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -210,12 +219,12 @@ public class SqpPanel extends javax.swing.JPanel {
                             .addComponent(jLabel10))
                         .addGap(162, 162, 162)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dField)
-                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(stdevField)
-                            .addComponent(gcvField)
-                            .addComponent(lgussField)
-                            .addComponent(xhatField))))
+                            .addComponent(gField)
+                            .addComponent(hField, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(lbField)
+                            .addComponent(ubField)
+                            .addComponent(maxtermField)
+                            .addComponent(tolField))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -228,27 +237,27 @@ public class SqpPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(dField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(lambdaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(stdevField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(gcvField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ubField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(lgussField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(maxtermField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(xhatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tolField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(223, Short.MAX_VALUE))
         );
 
@@ -277,6 +286,34 @@ public class SqpPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
+        String x0 = this.xDataField.getText();
+        String phi = this.phiDataField.getText();
+        String c="";
+            String cmd[] = {x0,phi,this.gField.getText(),
+                    this.hField.getText(),this.lbField.getText(),
+                    this.ubField.getText(),this.maxtermField.getText(),
+                    this.tolField.getText()};
+            for(int i=0; i<cmd.length;i++) {
+                if(!cmd[i].equals("")) {
+                    c+=cmd[i]+",";
+                }
+ 
+            }
+             if(!c.equals("")) {
+            StringBuilder b= new StringBuilder(c);
+            if(c.endsWith(",")) {
+               String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+b.deleteCharAt(c.length()-1) +");";
+               MainFrame.octavePanel.evalWithOutput(cmd2); 
+               
+               
+            }else{
+                String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+c.substring(c.lastIndexOf(","))+");";
+                MainFrame.octavePanel.evalWithOutput(cmd2); 
+                
+                
+            }
+            
+        }
 
     }//GEN-LAST:event_runButtonActionPerformed
 
@@ -291,14 +328,19 @@ public class SqpPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String text = this.hDataField.getText();
-        this.hDataField.setText("["+createOctMtx(text)+"]");
+        String text = this.phiDataField.getText();
+        this.phiDataField.setText("["+createOctMtx(text)+"]");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+            String jar_path2 = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
+        MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('sqp'),"+jar_path2+","+"'QuickHelpFrame');");
+   
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField dField;
-    private javax.swing.JTextField gcvField;
-    private javax.swing.JTextField hDataField;
+    private javax.swing.JTextField gField;
+    private javax.swing.JTextField hField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -317,11 +359,12 @@ public class SqpPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField lambdaField;
-    private javax.swing.JTextField lgussField;
+    private javax.swing.JTextField lbField;
+    private javax.swing.JTextField maxtermField;
+    private javax.swing.JTextField phiDataField;
     private javax.swing.JButton runButton;
-    private javax.swing.JTextField stdevField;
+    private javax.swing.JTextField tolField;
+    private javax.swing.JTextField ubField;
     private javax.swing.JTextField xDataField;
-    private javax.swing.JTextField xhatField;
     // End of variables declaration//GEN-END:variables
 }

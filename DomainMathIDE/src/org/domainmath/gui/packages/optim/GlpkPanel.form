@@ -61,44 +61,47 @@
                               <Component id="jSeparator2" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ATextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lbTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ubTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ctypeTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="vartypeTextField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="senseComboBox" alignment="0" pref="120" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="AButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="bButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ubButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="helpButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="runButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="ATextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="bTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lbTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="ubTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="ctypeTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="vartypeTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="senseComboBox" alignment="0" pref="120" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="AButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="bButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ubButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="runButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="helpButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
