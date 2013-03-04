@@ -70,16 +70,16 @@ public class QpPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
 
-        jSplitPane1.setDividerLocation(250);
+        jSplitPane1.setDividerLocation(350);
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("Data");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("x0");
+        jLabel3.setText("Initial Guess");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("H");
+        jLabel4.setText("Quadratic Penalty");
 
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +131,7 @@ public class QpPanel extends javax.swing.JPanel {
                             .addComponent(jButton2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
                         .addComponent(runButton)))
                 .addContainerGap())
         );
@@ -164,33 +164,33 @@ public class QpPanel extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
         jLabel2.setText("Options");
 
-        jLabel5.setText("q");
+        jLabel5.setText("Linear Penalty");
 
-        jLabel6.setText("A");
+        jLabel6.setText("Constraints Coefficients");
 
         lambdaField.setText("[]");
 
-        jLabel7.setText("b");
+        jLabel7.setText("RHS value for Constraints");
 
         stdevField.setText("[]");
 
-        jLabel8.setText("lb");
+        jLabel8.setText("Lower Bound");
 
         gcvField.setText("[]");
 
-        jLabel9.setText("ub");
+        jLabel9.setText("Upper Bound");
 
         lgussField.setText("[]");
 
-        jLabel10.setText("A_lb");
+        jLabel10.setText("Lower Bound of Constraints Coefficients");
 
         xhatField.setText("[]");
 
-        jLabel11.setText("A_in");
+        jLabel11.setText("Inequality Constraint Coefficients ");
 
         weightsField.setText("[]");
 
-        jLabel12.setText("A_ub");
+        jLabel12.setText("Upper Bound of Constraints Coefficients");
 
         jTextField1.setText("[]");
 
@@ -204,7 +204,7 @@ public class QpPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
+                        .addComponent(jSeparator2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +219,7 @@ public class QpPanel extends javax.swing.JPanel {
                         .addGap(162, 162, 162)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dField)
-                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                            .addComponent(lambdaField, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                             .addComponent(stdevField)
                             .addComponent(gcvField)
                             .addComponent(lgussField)
@@ -280,7 +280,7 @@ public class QpPanel extends javax.swing.JPanel {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(jSplitPane1)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
                     .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(

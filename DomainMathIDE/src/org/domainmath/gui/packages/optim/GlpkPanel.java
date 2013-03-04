@@ -100,7 +100,7 @@ public class GlpkPanel extends javax.swing.JPanel {
         param_itlimTextField = new javax.swing.JTextField();
         param_presolTextField = new javax.swing.JTextField();
 
-        jSplitPane1.setDividerLocation(400);
+        jSplitPane1.setDividerLocation(450);
 
         AButton.setText("[mxn]");
         AButton.setToolTipText("Convert the text to Octave matrix style");
@@ -111,10 +111,10 @@ public class GlpkPanel extends javax.swing.JPanel {
         });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel13.setText("b");
+        jLabel13.setText("RHS value for Constraints");
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel14.setText("A");
+        jLabel14.setText("Constraints Coefficients");
 
         ATextField.setToolTipText("<html>A matrix containing the <b>constraints coefficients</b></html>");
 
@@ -181,7 +181,7 @@ public class GlpkPanel extends javax.swing.JPanel {
         jLabel20.setText("Data");
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel21.setText("c");
+        jLabel21.setText("Objective Function");
 
         cButton.setText("[mxn]");
         cButton.setToolTipText("Convert the text to Octave matrix style");
@@ -234,7 +234,7 @@ public class GlpkPanel extends javax.swing.JPanel {
                             .addComponent(ubTextField)
                             .addComponent(ctypeTextField)
                             .addComponent(vartypeTextField)
-                            .addComponent(senseComboBox, 0, 142, Short.MAX_VALUE))
+                            .addComponent(senseComboBox, 0, 120, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cButton)
