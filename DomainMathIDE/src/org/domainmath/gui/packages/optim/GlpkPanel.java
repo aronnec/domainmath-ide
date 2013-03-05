@@ -530,9 +530,9 @@ public class GlpkPanel extends javax.swing.JPanel {
             declare("ctype",ctype);
             declare("vartype",vartype);
             if(sense ==0) {
-                declare("s","1");
+                declare("sense","1");
             }else{
-                declare("s","-1");
+                declare("sense","-1");
             }
 
             declare("param.msglev",""+param_msglev);
