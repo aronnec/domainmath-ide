@@ -267,24 +267,28 @@ public class NewScriptDialog extends javax.swing.JDialog {
                     
                     if(jList1.getSelectedIndex() == 0) {
                            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                           frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
                           
                     }else if(jList1.getSelectedIndex() == 1) {
                             setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                         
+                            frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
                         
                        
                          
                     }else if(jList1.getSelectedIndex() == 2) {
                            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                           frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
                          
                          
                     }else if(jList1.getSelectedIndex() == 3) {
                              setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                             frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
                          
                          
                     }
                     else if(jList1.getSelectedIndex() == 4) {
                         setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                        frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
                          
                     }
                     

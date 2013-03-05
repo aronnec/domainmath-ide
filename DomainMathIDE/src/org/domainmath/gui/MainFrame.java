@@ -375,7 +375,7 @@ public final class MainFrame extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         
         if(fileTab.getTabCount() >0) {
-              File f = new File(currentDir1);
+              File f = new File(this.getCurrentDir());
                fc.setCurrentDirectory(f);  
           }
            
