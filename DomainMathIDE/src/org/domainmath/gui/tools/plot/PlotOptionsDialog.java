@@ -2,6 +2,7 @@ package org.domainmath.gui.tools.plot;
 
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.domainmath.gui.MainFrame;
 
@@ -19,7 +20,9 @@ public class PlotOptionsDialog extends javax.swing.JDialog {
         model.addColumn("Line Style");
         initComponents();
 
-        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        dataTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION );
+        dataTable.getTableHeader().setReorderingAllowed(false);
+        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         dataTable.setRowHeight(20);
         
     }
