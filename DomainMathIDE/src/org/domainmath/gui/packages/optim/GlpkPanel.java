@@ -578,7 +578,7 @@ public class GlpkPanel extends javax.swing.JPanel {
             }else{
                 declare("param.lpsolver","2");
             }
-            MainFrame.octavePanel.eval("[xmin, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, s, param)");
+            MainFrame.octavePanel.eval("[xopt, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, s, param)");
             
 
              MainFrame.octavePanel.evaluate(jar_path);

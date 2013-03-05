@@ -1,6 +1,6 @@
 function DomainMath_GlpkStatus(c, A, b,sense,xopt, fmin, status)
     ob= javaObject("ResultsFrame","");
-      if(s == 1)
+      if(sense == 1)
 				ob.appendText("Problem type:Minimization\n");
 			else
 				ob.appendText("Problem type:Maximization\n");
@@ -67,7 +67,7 @@ function DomainMath_GlpkStatus(c, A, b,sense,xopt, fmin, status)
       endif
         
       ob.appendText("\nValue of the decision variables at the optimum:\n");
-			ob.appendText(disp(xmin));
+			ob.appendText(disp(xopt));
 			ob.appendText("\nOptimum value of the objective function:\n");
 			ob.appendText(disp(fmin));
 endfunction
