@@ -292,19 +292,45 @@ public class SqpPanel extends javax.swing.JPanel {
             if(c.endsWith(",")) {
                String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+b.deleteCharAt(c.length()-1) +");";
                MainFrame.octavePanel.evalWithOutput(cmd2); 
-               
+                MainFrame.octavePanel.evaluate(jar_path);
+                declare("x0",x0);
+               displayResults();
                
             }else{
                 String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+c.substring(c.lastIndexOf(","))+");";
                 MainFrame.octavePanel.evalWithOutput(cmd2); 
-                
-                
+                 MainFrame.octavePanel.evaluate(jar_path);
+                 declare("x0",x0);
+                 displayResults();
             }
             
         }
 
     }//GEN-LAST:event_runButtonActionPerformed
-
+    private void declare(String name, String value) {
+        MainFrame.octavePanel.eval(name+"="+value+";");
+    }
+    private void displayResults() {
+        MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
+        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Initial Guess:\n"+Character.toString('"')+");");
+        MainFrame.octavePanel.evaluate("ob.appendText(disp(x0));");
+        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nRESULT:\n"+Character.toString('"')+");");
+        MainFrame.octavePanel.evaluate("ob.appendText('Solution Status:');");
+        MainFrame.octavePanel.evaluate("status=info;");
+        MainFrame.octavePanel.evaluate("if(status == 101)");
+        MainFrame.octavePanel.evaluate("ob.appendText('The algorithm terminated normally. Either all constraints meet the requested tolerance, or the stepsize, delta x, is less than tol * norm (x). ');");
+        MainFrame.octavePanel.evaluate("elseif(status == 102)");
+        MainFrame.octavePanel.evaluate("ob.appendText('The BFGS update failed.  ');");
+        MainFrame.octavePanel.evaluate("elseif(status == 103)");
+        MainFrame.octavePanel.evaluate("ob.appendText('The maximum number of iterations was reached. ');");
+        MainFrame.octavePanel.evaluate("else");
+        MainFrame.octavePanel.evaluate("ob.appendText('Internal error. ');");
+        MainFrame.octavePanel.evaluate("endif");	
+        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nValue of the decision variables at the optimum:\n"+Character.toString('"')+");");
+        MainFrame.octavePanel.evaluate("ob.appendText(disp(x));");
+        MainFrame.octavePanel.evaluate("ob.appendText("+"\nOptimum value of the objective function:\n"+Character.toString('"')+");");
+        MainFrame.octavePanel.evaluate("ob.appendText(disp(obj));");
+    }
      private String createOctMtx(String text) {
         String val = text.replaceAll("\t", ",");
        return val.replaceAll(" ", ";");
@@ -320,6 +346,7 @@ public class SqpPanel extends javax.swing.JPanel {
         MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('sqp'),"+jar_path2+","+"'QuickHelpFrame');");
    
     }//GEN-LAST:event_jButton3ActionPerformed
+public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField gField;

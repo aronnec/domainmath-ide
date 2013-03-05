@@ -314,11 +314,44 @@ public class QpPanel extends javax.swing.JPanel {
                         this.lbField.getText()+","+this.ubField.getText()+","+
                         this.a_lbField.getText()+","+this.a_inField.getText()+","+
                         this.a_ubField.getText();
+                declare("x0",x0);
+                 declare("H",h);
                 MainFrame.octavePanel.evalWithOutput(
                 "[x, obj, info, lambda] = qp ("+cmd+");");
+                 MainFrame.octavePanel.evaluate(jar_path);
+                 MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
+          	MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Initial Guess:\n"+Character.toString('"')+");");
+          	MainFrame.octavePanel.evaluate("ob.appendText(disp(x0));");
+          	MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Quadratic Penality:\n"+Character.toString('"')+");");
+          	MainFrame.octavePanel.evaluate("ob.appendText(disp(H));");
+                MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nRESULT:\n"+Character.toString('"')+");");
+                MainFrame.octavePanel.evaluate("ob.appendText('Solution Status:');");
+                MainFrame.octavePanel.evaluate("status=info.info;");
+                MainFrame.octavePanel.evaluate("if(status == 0)");
+                MainFrame.octavePanel.evaluate("	ob.appendText('The problem is feasible and convex. Global solution found. ');");
+                MainFrame.octavePanel.evaluate("elseif(status == 1)");
+                MainFrame.octavePanel.evaluate("	ob.appendText('The problem is not convex. Local solution found. ');");
+                MainFrame.octavePanel.evaluate("elseif(status == 2)");
+                MainFrame.octavePanel.evaluate("	ob.appendText('The problem is not convex and unbounded. ');");
+                MainFrame.octavePanel.evaluate("elseif(status == 3)");
+                MainFrame.octavePanel.evaluate("	ob.appendText('Maximum number of iterations reached. ');");
+                MainFrame.octavePanel.evaluate("elseif(status == 6)");
+                MainFrame.octavePanel.evaluate("	ob.appendText('The problem is infeasible. ');");
+                MainFrame.octavePanel.evaluate("else");
+                MainFrame.octavePanel.evaluate("	ob.appendText('Internal error. ');");
+                MainFrame.octavePanel.evaluate("endif");
+          	MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nValue of the decision variables at the optimum:\n"+Character.toString('"')+");");
+                MainFrame.octavePanel.evaluate("ob.appendText(disp(x));");
+                MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nOptimum value of the objective function:\n"+Character.toString('"')+");");
+                MainFrame.octavePanel.evaluate("ob.appendText(disp(obj));");
+	       
+                 
             }
     }//GEN-LAST:event_runButtonActionPerformed
 
+     private void declare(String name, String value) {
+        MainFrame.octavePanel.eval(name+"="+value+";");
+    }
      private String createOctMtx(String text) {
         String val = text.replaceAll("\t", ",");
        return val.replaceAll(" ", ";");
@@ -339,6 +372,7 @@ public class QpPanel extends javax.swing.JPanel {
         String text = this.hDataField.getText();
         this.hDataField.setText("["+createOctMtx(text)+"]");
     }//GEN-LAST:event_jButton2ActionPerformed
+public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AField;
