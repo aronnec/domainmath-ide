@@ -1,72 +1,73 @@
- 
- #
- # Copyright (C) 2013 Vinu K.N
- # This file is a part of DomainMath IDE
- #
- # This program is free software: you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
- # the Free Software Foundation, either version 3 of the License, or
- # (at your option) any later version.
- #
- # This program is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- # GNU General Public License for more details.
- #
- # You should have received a copy of the GNU General Public License
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- #
-
-function DomainMath_GlpkStatus(status)
-	
-	if(status == 180)
-		helpdlg('Solution is optimal.','Glpk status');
-	elseif(status == 181)
-		helpdlg('Solution is feasible.','Glpk status');
-	elseif(status == 182)
-		helpdlg('Solution is infeasible.','Glpk status');
-	elseif(status == 183)
-		helpdlg('Problem has no feasible solution. ','Glpk status');
-	elseif(status == 184)
-		helpdlg('Problem has no unbounded solution. ','Glpk status');
-	elseif(status == 185)
-		helpdlg('Solution status undefined. ','Glpk status');
-	elseif(status == 150)
-		helpdlg('The interior point method is undefined. ','Glpk status');
-	elseif(status == 151)
-		helpdlg('The interior point method is optimal. ','Glpk status');	
-	elseif(status == 170)
-		helpdlg('The status is undefined. ','Glpk status');	
-	elseif(status == 170)
-		helpdlg('The status is undefined. ','Glpk status');	
-	elseif(status == 171)
-		helpdlg('The solution is integer optimal. ','Glpk status');	
-	elseif(status == 172)
-		helpdlg('Solution integer feasible but its optimality has not been proven ','Glpk status');	
-	elseif(status == 173)
-		helpdlg('No integer feasible solution. ','Glpk status');	
-	elseif(status == 204)
-		errordlg('Unable to start the search. ','Glpk status');	
-	elseif(status == 205)
-		errordlg('Objective function lower limit reached. ','Glpk status');	
-	elseif(status == 206)
-		errordlg('Objective function upper limit reached. ','Glpk status');	
-	elseif(status == 207)
-		errordlg('Iterations limit exhausted. ','Glpk status');	
-	elseif(status == 208)
-		errordlg('Time limit exhausted. ','Glpk status');	
-	elseif(status == 209)
-		errordlg('No feasible solution. ','Glpk status');	
-	elseif(status == 210)
-		errordlg('Numerical instability. ','Glpk status');	
-	elseif(status == 211)
-		errordlg('Problems with basis matrix. ','Glpk status');	
-	elseif(status == 212)
-		errordlg('No convergence (interior). ','Glpk status');	
-	elseif(status == 213)
-		errordlg('No primal feasible solution (LP presolver). ','Glpk status');	
-	elseif(status == 214)
-		errordlg('No dual feasible solution (LP presolver).  ','Glpk status');	
-	else
-		errordlg('An internal error occured. ','Glpk status');	
-	endif
+function DomainMath_GlpkStatus(c, A, b,sense,xopt, fmin, status)
+    ob= javaObject("ResultsFrame","");
+      if(s == 1)
+				ob.appendText("Problem type:Minimization\n");
+			else
+				ob.appendText("Problem type:Maximization\n");
+      endif
+        
+      ob.appendText("Objective Function:\n");
+			ob.appendText(disp(c));
+			ob.appendText("Constraints Coefficients:\n");
+			ob.appendText(disp(A));
+			ob.appendText("RHS value for constraints coefficients:\n");
+			ob.appendText(disp(b));
+			ob.appendText("\nRESULT:\n");
+			ob.appendText("Solution Status:");
+			if(status == 180)
+				ob.appendText("Solution is optimal." );
+			elseif(status == 181)
+				ob.appendText("Solution is feasible." );
+			elseif(status == 182)
+				ob.appendText("Solution is infeasible." );
+			elseif(status == 183)
+				ob.appendText("Problem has no feasible solution. " );
+			elseif(status == 184)
+				ob.appendText("Problem has no unbounded solution. " );
+			elseif(status == 185)
+				ob.appendText("Solution status undefined. " );
+			elseif(status == 150)
+				ob.appendText("The interior point method is undefined. " );
+			elseif(status == 151)
+				ob.appendText("The interior point method is optimal. " );	
+			elseif(status == 170)
+				ob.appendText("The status is undefined. " );	
+			elseif(status == 170)
+				ob.appendText("The status is undefined. " );	
+			elseif(status == 171)
+				ob.appendText("The solution is integer optimal. " );	
+			elseif(status == 172)
+				ob.appendText("Solution integer feasible but its optimality has not been proven " );	
+			elseif(status == 173)
+				ob.appendText("No integer feasible solution. " );	
+			elseif(status == 204)
+				ob.appendText("Error-Unable to start the search. " );	
+			elseif(status == 205)
+				ob.appendText("Error-Objective function lower limit reached. " );	
+			elseif(status == 206)
+				ob.appendText("Error-Objective function upper limit reached. " );	
+			elseif(status == 207)
+				ob.appendText("Error-Iterations limit exhausted. " );	
+			elseif(status == 208)
+				ob.appendText("Error-Time limit exhausted. " );	
+			elseif(status == 209)
+				ob.appendText("Error-No feasible solution. " );	
+			elseif(status == 210)
+				ob.appendText("Error-Numerical instability. " );	
+			elseif(status == 211)
+				ob.appendText("Error-Problems with basis matrix. " );	
+			elseif(status == 212)
+				ob.appendText("Error-No convergence (interior). " );	
+			elseif(status == 213)
+				ob.appendText("Error-No primal feasible solution (LP presolver). " );	
+			elseif(status == 214)
+				ob.appendText("Error-No dual feasible solution (LP presolver).  " );	
+			else
+				ob.appendText("Error-An internal error occured. " );	
+      endif
+        
+      ob.appendText("\nValue of the decision variables at the optimum:\n");
+			ob.appendText(disp(xmin));
+			ob.appendText("\nOptimum value of the objective function:\n");
+			ob.appendText(disp(fmin));
+endfunction

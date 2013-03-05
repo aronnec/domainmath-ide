@@ -294,14 +294,14 @@ public class SqpPanel extends javax.swing.JPanel {
                MainFrame.octavePanel.evalWithOutput(cmd2); 
                 MainFrame.octavePanel.evaluate(jar_path);
                 declare("x0",x0);
-               displayResults();
+               MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
                
             }else{
                 String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+c.substring(c.lastIndexOf(","))+");";
                 MainFrame.octavePanel.evalWithOutput(cmd2); 
                  MainFrame.octavePanel.evaluate(jar_path);
                  declare("x0",x0);
-                 displayResults();
+                 MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
             }
             
         }
@@ -310,27 +310,7 @@ public class SqpPanel extends javax.swing.JPanel {
     private void declare(String name, String value) {
         MainFrame.octavePanel.eval(name+"="+value+";");
     }
-    private void displayResults() {
-        MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
-        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Initial Guess:\n"+Character.toString('"')+");");
-        MainFrame.octavePanel.evaluate("ob.appendText(disp(x0));");
-        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nRESULT:\n"+Character.toString('"')+");");
-        MainFrame.octavePanel.evaluate("ob.appendText('Solution Status:');");
-        MainFrame.octavePanel.evaluate("status=info;");
-        MainFrame.octavePanel.evaluate("if(status == 101)");
-        MainFrame.octavePanel.evaluate("ob.appendText('The algorithm terminated normally. Either all constraints meet the requested tolerance, or the stepsize, delta x, is less than tol * norm (x). ');");
-        MainFrame.octavePanel.evaluate("elseif(status == 102)");
-        MainFrame.octavePanel.evaluate("ob.appendText('The BFGS update failed.  ');");
-        MainFrame.octavePanel.evaluate("elseif(status == 103)");
-        MainFrame.octavePanel.evaluate("ob.appendText('The maximum number of iterations was reached. ');");
-        MainFrame.octavePanel.evaluate("else");
-        MainFrame.octavePanel.evaluate("ob.appendText('Internal error. ');");
-        MainFrame.octavePanel.evaluate("endif");	
-        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nValue of the decision variables at the optimum:\n"+Character.toString('"')+");");
-        MainFrame.octavePanel.evaluate("ob.appendText(disp(x));");
-        MainFrame.octavePanel.evaluate("ob.appendText("+"\nOptimum value of the objective function:\n"+Character.toString('"')+");");
-        MainFrame.octavePanel.evaluate("ob.appendText(disp(obj));");
-    }
+    
      private String createOctMtx(String text) {
         String val = text.replaceAll("\t", ",");
        return val.replaceAll(" ", ";");

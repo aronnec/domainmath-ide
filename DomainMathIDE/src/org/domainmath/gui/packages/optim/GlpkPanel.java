@@ -579,79 +579,11 @@ public class GlpkPanel extends javax.swing.JPanel {
                 declare("param.lpsolver","2");
             }
             MainFrame.octavePanel.eval("[xmin, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, s, param)");
-            //MainFrame.octavePanel.evaluate("DomainMath_GlpkStatus(status);");
+            
 
              MainFrame.octavePanel.evaluate(jar_path);
-             	MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
-    MainFrame.octavePanel.evaluate("  if(s == 1)");
-	MainFrame.octavePanel.evaluate("	ob.appendText("+Character.toString('"')+"Problem type:Minimization\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	else");
-	MainFrame.octavePanel.evaluate("	ob.appendText("+Character.toString('"')+"Problem type:Maximization\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	endif");
-        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Objective Function:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText(disp(c));");
-	MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"Constraints Coefficients:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText(disp(A));");
-	MainFrame.octavePanel.evaluate("	ob.appendText("+Character.toString('"')+"RHS value for constraints coefficients:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText(disp(b));");
-	MainFrame.octavePanel.evaluate("	ob.appendText("+Character.toString('"')+"\nRESULT:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution Status:');");
-	MainFrame.octavePanel.evaluate("	if(status == 180)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution is optimal.' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 181)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution is feasible.' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 182)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution is infeasible.' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 183)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Problem has no feasible solution. ' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 184)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Problem has no unbounded solution. ' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 185)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution status undefined. ' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 150)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('The interior point method is undefined. ' );");
-	MainFrame.octavePanel.evaluate("	elseif(status == 151)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('The interior point method is optimal. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 170)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('The status is undefined. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 170)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('The status is undefined. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 171)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('The solution is integer optimal. ' );");	
-	MainFrame.octavePanel.evaluate("	elseif(status == 172)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Solution integer feasible but its optimality has not been proven ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 173)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('No integer feasible solution. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 204)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Unable to start the search. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 205)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Objective function lower limit reached. ' );");	
-	MainFrame.octavePanel.evaluate("	elseif(status == 206)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Objective function upper limit reached. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 207)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Iterations limit exhausted. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 208)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Time limit exhausted. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 209)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-No feasible solution. ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 210)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Numerical instability. ' );");	
-	MainFrame.octavePanel.evaluate("	elseif(status == 211)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-Problems with basis matrix. ' );");	
-	MainFrame.octavePanel.evaluate("	elseif(status == 212)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-No convergence (interior). ' );");	
-	MainFrame.octavePanel.evaluate("	elseif(status == 213)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-No primal feasible solution (LP presolver). ' );	");
-	MainFrame.octavePanel.evaluate("	elseif(status == 214)");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-No dual feasible solution (LP presolver).  ' );	");
-	MainFrame.octavePanel.evaluate("	else");
-	MainFrame.octavePanel.evaluate("	ob.appendText('Error-An internal error occured. ' );");	
-	MainFrame.octavePanel.evaluate("	endif");
-        MainFrame.octavePanel.evaluate("ob.appendText("+Character.toString('"')+"\nValue of the decision variables at the optimum:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText(disp(xmin));");
-	MainFrame.octavePanel.evaluate("	ob.appendText("+Character.toString('"')+"\nOptimum value of the objective function:\n"+Character.toString('"')+");");
-	MainFrame.octavePanel.evaluate("	ob.appendText(disp(fmin));");
-
+             MainFrame.octavePanel.evaluate("DomainMath_GlpkStatus(c, A, b,sense,xopt, fmin, status);");
+             
         }
     }//GEN-LAST:event_runButtonActionPerformed
  public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
