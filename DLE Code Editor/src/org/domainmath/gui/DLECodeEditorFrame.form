@@ -87,6 +87,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/domainmath/gui/icons/document-save-all.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
                   <ResourceString bundle="org/domainmath/gui/code_editor/dle/resources/DLECodeEditor_en.properties" key="saveAllItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -149,7 +152,7 @@
                   <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/domainmath/gui/icons/document-print2.png"/>
+                  <Image iconType="3" name="/org/domainmath/gui/icons/document-print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Print"/>
               </Properties>
@@ -652,7 +655,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-new.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-new.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -665,7 +668,7 @@
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-open.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-open.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -678,7 +681,7 @@
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-save.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-save-all.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -693,7 +696,7 @@
         <Component class="javax.swing.JButton" name="jButton4">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-undo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-undo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -706,7 +709,7 @@
         <Component class="javax.swing.JButton" name="jButton5">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-redo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-redo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -721,7 +724,7 @@
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-cut.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-cut.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -734,7 +737,7 @@
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-copy.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-copy.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -747,7 +750,7 @@
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-paste.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-paste.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
