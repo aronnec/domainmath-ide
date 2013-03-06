@@ -37,6 +37,7 @@ public class NnetFrame extends javax.swing.JFrame {
         
         model.addColumn("Input Range");
         model.addColumn("No. of Neurons");
+        model.addColumn("Transfer Function");                
         model.addColumn("Network Training Function");
         model.addColumn("Weight/Bias Learning Function");
         model.addColumn("Performance Function");
