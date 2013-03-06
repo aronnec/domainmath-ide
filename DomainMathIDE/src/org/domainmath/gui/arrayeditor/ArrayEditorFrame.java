@@ -128,7 +128,7 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
         jToolBar1.setName("Standard"); // NOI18N
 
-        savVarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/disk.png"))); // NOI18N
+        savVarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
         savVarButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/arrayeditor/resources/ArrayEditor_en").getString("saveVarItem.mnemonic").charAt(0));
         savVarButton.setToolTipText(bundle.getString("saveVarItem.tooltip")); // NOI18N
         savVarButton.setFocusable(false);
@@ -141,7 +141,7 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(savVarButton);
 
-        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
+        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print2.png"))); // NOI18N
         printButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/arrayeditor/resources/ArrayEditor_en").getString("printItem.mnemonic").charAt(0));
         printButton.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N
         printButton.setFocusable(false);
@@ -209,7 +209,7 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
         jMenu1.setText(bundle.getString("fileMenu.name")); // NOI18N
 
         saveVarItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        saveVarItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/disk.png"))); // NOI18N
+        saveVarItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
         saveVarItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/arrayeditor/resources/ArrayEditor_en").getString("saveVarItem.mnemonic").charAt(0));
         saveVarItem.setText(bundle.getString("saveVarItem.name")); // NOI18N
         saveVarItem.setToolTipText(bundle.getString("saveVarItem.tooltip")); // NOI18N
@@ -221,7 +221,7 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
         jMenu1.add(saveVarItem);
 
         printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        printItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
+        printItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print2.png"))); // NOI18N
         printItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/arrayeditor/resources/ArrayEditor_en").getString("printItem.mnemonic").charAt(0));
         printItem.setText(bundle.getString("printItem.name")); // NOI18N
         printItem.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N

@@ -889,7 +889,7 @@ public final class MainFrame extends javax.swing.JFrame {
         newFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newFileItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-new.png"))); // NOI18N
         newFileItem.setText("New");
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en"); // NOI18N
         newFileItem.setToolTipText(bundle1.getString("newFileItem.tooltip")); // NOI18N
         newFileItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -931,6 +931,7 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu.add(savePlotItem);
 
         saveAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAllItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save-all.png"))); // NOI18N
         saveAllItem.setText(bundle1.getString("saveAllItem.name")); // NOI18N
         saveAllItem.setToolTipText(bundle1.getString("saveAllItem.tooltip")); // NOI18N
         saveAllItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1487,9 +1488,8 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(fileViewItem);
 
-        dleEditorItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("dleEditorItem.mnemonic").charAt(0));
-        dleEditorItem.setText(bundle1.getString("dleEditor.name")); // NOI18N
-        dleEditorItem.setToolTipText(bundle1.getString("dleEditorItem.tooltip")); // NOI18N
+        java.util.ResourceBundle bundle3 = java.util.ResourceBundle.getBundle("org/domainmath/gui/Bundle"); // NOI18N
+        dleEditorItem.setText(bundle3.getString("dleEditor.name")); // NOI18N
         dleEditorItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dleEditorItemActionPerformed(evt);

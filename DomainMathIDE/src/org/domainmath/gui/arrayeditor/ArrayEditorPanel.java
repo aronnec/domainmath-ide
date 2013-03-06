@@ -84,7 +84,7 @@ public class ArrayEditorPanel extends javax.swing.JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.setName("Standard"); // NOI18N
 
-        savVarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/disk.png"))); // NOI18N
+        savVarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/arrayeditor/resources/ArrayEditor_en"); // NOI18N
         savVarButton.setToolTipText(bundle.getString("saveVarItem.tooltip")); // NOI18N
         savVarButton.setFocusable(false);
@@ -97,7 +97,7 @@ public class ArrayEditorPanel extends javax.swing.JPanel {
         });
         jToolBar1.add(savVarButton);
 
-        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
+        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print2.png"))); // NOI18N
         printButton.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N
         printButton.setFocusable(false);
         printButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
