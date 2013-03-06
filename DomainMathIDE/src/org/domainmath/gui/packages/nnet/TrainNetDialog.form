@@ -28,11 +28,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="helpButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="147" max="32767" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="OkButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -75,9 +75,9 @@
               </Group>
               <EmptySpace pref="74" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OkButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="helpButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -95,23 +95,32 @@
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;mInputN&lt;/b&gt;: normalized input matrix&lt;/html&gt;&#xa;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="OkButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="OK"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OkButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="helpButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/org/domainmath/gui/icons/help-browser.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;b&gt;[&lt;/b&gt;&lt;var&gt;net&lt;/var&gt;]&lt;var&gt;&#xa;= train &lt;/var&gt;(&lt;var&gt;MLPnet,mInputN,mOutput,[],[],VV&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-g_t_005b-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;A neural feed-forward network will be trained with &lt;code&gt;train&lt;/code&gt;&#xa;  &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          [net,tr,out,E] = train(MLPnet,mInputN,mOutput,[],[],VV);&lt;br&gt;&lt;/pre&gt;&#xa;  &lt;p class=&quot;noindent&quot;&gt; &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          left side arguments:&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;net&lt;/span&gt;: the trained network of the net structure &lt;code&gt;MLPnet&lt;/code&gt;&#xa;  &lt;/pre&gt;&#xa;  &lt;p class=&quot;noindent&quot;&gt; &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          right side arguments:&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;MLPnet&lt;/span&gt; : the untrained network, created with &lt;code&gt;newff&lt;/code&gt;&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;mInputN&lt;/span&gt;: normalized input matrix&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;mOutput&lt;/span&gt;: output matrix (normalized or not)&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;[]&lt;/span&gt;     : unused parameter&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;[]&lt;/span&gt;     : unused parameter&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;VV&lt;/span&gt;     : validize structure&lt;br&gt;&lt;/pre&gt;&#xa;&lt;/blockquote&gt;&#xa;&lt;/div&gt;&#xa;&lt;/div&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>

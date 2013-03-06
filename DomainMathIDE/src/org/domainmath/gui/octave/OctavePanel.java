@@ -278,9 +278,11 @@ public class OctavePanel extends JPanel{
         }
             
      }
+    /**
+     * Evaluate commands for internal purpose.
+     * @param c 
+     */
     public void evaluate(String c) {
-        
-        
         System.out.println(c);
         oc.find(c);
         

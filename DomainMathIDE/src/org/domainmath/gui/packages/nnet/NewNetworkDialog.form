@@ -24,15 +24,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jTextField3" pref="218" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -40,14 +34,37 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField1" max="32767" attributes="0"/>
-                          <Component id="jTextField2" pref="229" max="32767" attributes="0"/>
+                          <Component id="ssTextField" linkSize="1" pref="227" max="32767" attributes="0"/>
+                          <Component id="prTextField" linkSize="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator1" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="trfTextField" linkSize="1" max="32767" attributes="0"/>
+                          <Component id="btfTextField" max="32767" attributes="0"/>
+                          <Component id="blfTextField" alignment="0" pref="227" max="32767" attributes="0"/>
+                          <Component id="pfTextField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="helpButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="OkButton" linkSize="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cancelButton" linkSize="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -60,12 +77,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="prTextField" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ssTextField" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -75,9 +92,30 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="trfTextField" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="151" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btfTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="blfTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="pfTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="71" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cancelButton" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OkButton" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="helpButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -88,7 +126,7 @@
         <Property name="text" type="java.lang.String" value="Input Range:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="prTextField">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Pr&lt;/b&gt; - R x 2 matrix of min and max values for R input elements&lt;/html&gt;"/>
       </Properties>
@@ -98,7 +136,7 @@
         <Property name="text" type="java.lang.String" value="No. of Neurons:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="ssTextField">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Ss&lt;/b&gt; - 1 x Ni row vector with size of ith layer, for N layers&lt;/html&gt;"/>
       </Properties>
@@ -118,7 +156,71 @@
         <Property name="text" type="java.lang.String" value="Transfer Function:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="trfTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&quot;tansig&quot;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;trf&lt;/b&gt; - 1 x Ni list with transfer function of ith layer,&lt;br&gt;default = &quot;tansig&quot;&lt;/html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Network Training Function:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="btfTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&quot;trainlm&quot;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;btf&lt;/b&gt; - Batch network training function,&lt;br&gt;default = &quot;trainlm&quot;&lt;/html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Weight/Bias Learning Function:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="blfTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&quot;learngdm&quot;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;blf&lt;/b&gt; - Batch weight/bias learning function,&lt;br&gt;default = &quot;learngdm&quot;&lt;/html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Performance Function:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="pfTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&quot;mse&quot;"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;pf&lt;/b&gt;  - Performance function,&lt;br&gt;default = &quot;mse&quot;&lt;/html&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="cancelButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="OkButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="OK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OkButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="helpButton">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/domainmath/gui/icons/help-browser.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;var&gt;net&lt;/var&gt;&#xa;&lt;b&gt;=&lt;/b&gt;&lt;var&gt; &lt;span style=&quot;font-weight: bold;&quot;&gt;newff&lt;/span&gt;&#xa;&lt;/var&gt;(&lt;var&gt;Pr,ss,trf,btf,blf,pf&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-g_t_003d-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;&lt;code&gt;newff&lt;/code&gt; create a feed-forward&#xa;backpropagation network &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;         &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt; Pr&lt;/span&gt; - R x 2 matrix of min and max values for R input elements&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;Ss&lt;/span&gt; - 1 x Ni row vector with size of ith layer, for N layers&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;trf&lt;/span&gt; - 1 x Ni list with transfer function of ith layer,&lt;br&gt;                default = &quot;tansig&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;btf&lt;/span&gt; - Batch network training function,&lt;br&gt;                default = &quot;trainlm&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;blf&lt;/span&gt; - Batch weight/bias learning function,&lt;br&gt;                default = &quot;learngdm&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;pf&lt;/span&gt;  - Performance function,&lt;br&gt;                default = &quot;mse&quot;.&lt;br&gt;&lt;/pre&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          EXAMPLE 1&lt;br&gt;          Pr = [0.1 0.8; 0.1 0.75; 0.01 0.8];&lt;br&gt;               it&apos;s a 3 x 2 matrix, this means 3 input neurons&lt;br&gt;          &lt;br&gt;          net = newff(Pr, [4 1], {&quot;tansig&quot;,&quot;purelin&quot;}, &quot;trainlm&quot;, &quot;learngdm&quot;, &quot;mse&quot;);&lt;br&gt;&lt;/pre&gt;&#xa;&lt;/blockquote&gt;&#xa;&lt;/div&gt;&lt;/html&gt;&#xa;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -33,11 +33,11 @@
                       <Component id="jTextField1" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="helpButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="147" max="32767" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="OkButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -54,9 +54,9 @@
               </Group>
               <EmptySpace pref="126" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OkButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="helpButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -74,23 +74,32 @@
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;var&gt;netoutput&lt;/var&gt;&#xa;= &lt;b&gt;sim&lt;/b&gt; (&lt;var&gt;net, mInput&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-sim-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;&lt;code&gt;sim&lt;/code&gt; is usuable to simulate a before&#xa;defined neural network. &lt;code&gt;net&lt;/code&gt; is created with&#xa;newff(&lt;small class=&quot;dots&quot;&gt;...&lt;/small&gt;) and &lt;var&gt;mInput&lt;/var&gt;&#xa;should be the&#xa;corresponding input data set! &lt;/p&gt;&#xa;&lt;/blockquote&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="OkButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="OK"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OkButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="helpButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/org/domainmath/gui/icons/help-browser.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;var&gt;netoutput&lt;/var&gt;&#xa;= &lt;b&gt;sim&lt;/b&gt; (&lt;var&gt;net, mInput&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-sim-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;&lt;code&gt;sim&lt;/code&gt; is usuable to simulate a before&#xa;defined neural network. &lt;code&gt;net&lt;/code&gt; is created with&#xa;newff(&lt;small class=&quot;dots&quot;&gt;...&lt;/small&gt;) and &lt;var&gt;mInput&lt;/var&gt;&#xa;should be the&#xa;corresponding input data set! &lt;/p&gt;&#xa;&lt;/blockquote&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

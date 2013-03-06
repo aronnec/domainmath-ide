@@ -67,6 +67,7 @@ import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
+import org.domainmath.gui.packages.nnet.NnetFrame;
 import org.domainmath.gui.packages.optim.OptimizationFrame;
 import org.domainmath.gui.pathsview.PathsViewMain;
 import org.domainmath.gui.pkg.PkgDlg;
@@ -658,6 +659,7 @@ public final class MainFrame extends javax.swing.JFrame {
         dSmoothItem = new javax.swing.JMenuItem();
         imageToolItem = new javax.swing.JMenuItem();
         multicoreItem = new javax.swing.JMenuItem();
+        nNetMenuItem = new javax.swing.JMenuItem();
         phyConstItem = new javax.swing.JMenuItem();
         docPkgItem = new javax.swing.JMenuItem();
         debugMenu = new javax.swing.JMenu();
@@ -1365,6 +1367,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         pkgMenuItem.add(multicoreItem);
+
+        nNetMenuItem.setText("Nnet");
+        nNetMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nNetMenuItemActionPerformed(evt);
+            }
+        });
+        pkgMenuItem.add(nNetMenuItem);
 
         phyConstItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("phyConstItem.mnemonic").charAt(0));
         phyConstItem.setText(bundle.getString("phyConstItem.name")); // NOI18N
@@ -2860,6 +2870,12 @@ public void saveplot() {
         MainFrame.octavePanel.evalWithOutput("dbdown");
     }//GEN-LAST:event_dbdownItemActionPerformed
 
+    private void nNetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nNetMenuItemActionPerformed
+        NnetFrame nnetFrame = new NnetFrame();
+        nnetFrame.setLocationRelativeTo(this);
+        nnetFrame.setVisible(true);
+    }//GEN-LAST:event_nNetMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2978,6 +2994,7 @@ public void saveplot() {
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem multicoreItem;
+    private javax.swing.JMenuItem nNetMenuItem;
     private javax.swing.JMenuItem newFileItem;
     private javax.swing.JMenuItem octaveCmdItem;
     private javax.swing.JMenuItem octaveInfoItem;

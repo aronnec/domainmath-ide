@@ -1,21 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.domainmath.gui.packages.nnet;
 
-/**
- *
- * @author Autotest
- */
+import java.io.File;
+import org.domainmath.gui.MainFrame;
+
 public class SimulateNetDialog extends javax.swing.JDialog {
+    private final String net;
 
     /**
      * Creates new form SimulateNetDialog
      */
-    public SimulateNetDialog(java.awt.Frame parent, boolean modal) {
+    public SimulateNetDialog(java.awt.Frame parent, boolean modal,String net) {
         super(parent, modal);
         initComponents();
+        this.net =net;
     }
 
     /**
@@ -29,9 +27,9 @@ public class SimulateNetDialog extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        OkButton = new javax.swing.JButton();
+        helpButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Simulate Network");
@@ -41,12 +39,27 @@ public class SimulateNetDialog extends javax.swing.JDialog {
 
         jTextField1.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>netoutput</var>\n= <b>sim</b> (<var>net, mInput</var>)<var><a\n name=\"index-sim-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>sim</code> is usuable to simulate a before\ndefined neural network. <code>net</code> is created with\nnewff(<small class=\"dots\">...</small>) and <var>mInput</var>\nshould be the\ncorresponding input data set! </p>\n</blockquote></html>\n");
 
-        jButton1.setText("Cancel");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("OK");
+        OkButton.setText("OK");
+        OkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OkButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/help-browser.png"))); // NOI18N
-        jButton3.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>netoutput</var>\n= <b>sim</b> (<var>net, mInput</var>)<var><a\n name=\"index-sim-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>sim</code> is usuable to simulate a before\ndefined neural network. <code>net</code> is created with\nnewff(<small class=\"dots\">...</small>) and <var>mInput</var>\nshould be the\ncorresponding input data set! </p>\n</blockquote></html>\n");
+        helpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/help-browser.png"))); // NOI18N
+        helpButton.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>netoutput</var>\n= <b>sim</b> (<var>net, mInput</var>)<var><a\n name=\"index-sim-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>sim</code> is usuable to simulate a before\ndefined neural network. <code>net</code> is created with\nnewff(<small class=\"dots\">...</small>) and <var>mInput</var>\nshould be the\ncorresponding input data set! </p>\n</blockquote></html>\n");
+        helpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,11 +73,11 @@ public class SimulateNetDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(helpButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(OkButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(cancelButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -76,14 +89,37 @@ public class SimulateNetDialog extends javax.swing.JDialog {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(cancelButton)
+                    .addComponent(OkButton)
+                    .addComponent(helpButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+       MainFrame.octavePanel.evaluate("pkg load nnet");
+        MainFrame.octavePanel.evaluate("helpdlg(help('sim'));");
+    }//GEN-LAST:event_helpButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
+        if(!this.jTextField1.getText().equals("")) {
+            NnetFrame.declare("mInput", this.jTextField1.getText());
+            MainFrame.octavePanel.evaluate("pkg load nnet");
+            MainFrame.octavePanel.evaluate("netoutput = sim ("+net+", mInput)");
+            MainFrame.octavePanel.evaluate(jar_path);
+            MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
+            MainFrame.octavePanel.evaluate("ob.appendText(disp(netoutput));");
+            MainFrame.octavePanel.evaluate("clear 'ob'");
+            dispose();
+        }
+        
+    }//GEN-LAST:event_OkButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,7 +151,7 @@ public class SimulateNetDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SimulateNetDialog dialog = new SimulateNetDialog(new javax.swing.JFrame(), true);
+                SimulateNetDialog dialog = new SimulateNetDialog(new javax.swing.JFrame(), true,"");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -126,10 +162,12 @@ public class SimulateNetDialog extends javax.swing.JDialog {
             }
         });
     }
+     public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton OkButton;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

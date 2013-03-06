@@ -1,18 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.domainmath.gui.packages.nnet;
 
-/**
- *
- * @author Autotest
- */
+import java.io.File;
+import org.domainmath.gui.MainFrame;
+
+
 public class NewNetworkDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form NewNetworkDialog
      */
+    public static int netIndex=1;
     public NewNetworkDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -28,13 +26,22 @@ public class NewNetworkDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        prTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        ssTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        trfTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btfTextField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        blfTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        pfTextField = new javax.swing.JTextField();
+        cancelButton = new javax.swing.JButton();
+        OkButton = new javax.swing.JButton();
+        helpButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Network");
@@ -42,16 +49,56 @@ public class NewNetworkDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Input Range:");
 
-        jTextField1.setToolTipText("<html><b>Pr</b> - R x 2 matrix of min and max values for R input elements</html>");
+        prTextField.setToolTipText("<html><b>Pr</b> - R x 2 matrix of min and max values for R input elements</html>");
 
         jLabel2.setText("No. of Neurons:");
 
-        jTextField2.setToolTipText("<html><b>Ss</b> - 1 x Ni row vector with size of ith layer, for N layers</html>");
+        ssTextField.setToolTipText("<html><b>Ss</b> - 1 x Ni row vector with size of ith layer, for N layers</html>");
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 255));
         jLabel3.setText("Function");
 
         jLabel4.setText("Transfer Function:");
+
+        trfTextField.setText("\"tansig\"");
+        trfTextField.setToolTipText("<html><b>trf</b> - 1 x Ni list with transfer function of ith layer,<br>default = \"tansig\"</html>");
+
+        jLabel5.setText("Network Training Function:");
+
+        btfTextField.setText("\"trainlm\"");
+        btfTextField.setToolTipText("<html><b>btf</b> - Batch network training function,<br>default = \"trainlm\"</html>");
+
+        jLabel6.setText("Weight/Bias Learning Function:");
+
+        blfTextField.setText("\"learngdm\"");
+        blfTextField.setToolTipText("<html><b>blf</b> - Batch weight/bias learning function,<br>default = \"learngdm\"</html>");
+
+        jLabel7.setText("Performance Function:");
+
+        pfTextField.setText("\"mse\"");
+        pfTextField.setToolTipText("<html><b>pf</b>  - Performance function,<br>default = \"mse\"</html>");
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        OkButton.setText("OK");
+        OkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OkButtonActionPerformed(evt);
+            }
+        });
+
+        helpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/help-browser.png"))); // NOI18N
+        helpButton.setToolTipText("<html><div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>net</var>\n<b>=</b><var> <span style=\"font-weight: bold;\">newff</span>\n</var>(<var>Pr,ss,trf,btf,blf,pf</var>)<var><a\n name=\"index-g_t_003d-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>newff</code> create a feed-forward\nbackpropagation network </p>\n  <pre class=\"example\">         <span\n style=\"font-weight: bold;\"> Pr</span> - R x 2 matrix of min and max values for R input elements<br>          <span\n style=\"font-weight: bold;\">Ss</span> - 1 x Ni row vector with size of ith layer, for N layers<br>          <span\n style=\"font-weight: bold;\">trf</span> - 1 x Ni list with transfer function of ith layer,<br>                default = \"tansig\"<br>          <span\n style=\"font-weight: bold;\">btf</span> - Batch network training function,<br>                default = \"trainlm\"<br>          <span\n style=\"font-weight: bold;\">blf</span> - Batch weight/bias learning function,<br>                default = \"learngdm\"<br>          <span\n style=\"font-weight: bold;\">pf</span>  - Performance function,<br>                default = \"mse\".<br></pre>\n  <pre class=\"example\">          EXAMPLE 1<br>          Pr = [0.1 0.8; 0.1 0.75; 0.01 0.8];<br>               it's a 3 x 2 matrix, this means 3 input neurons<br>          <br>          net = newff(Pr, [4 1], {\"tansig\",\"purelin\"}, \"trainlm\", \"learngdm\", \"mse\");<br></pre>\n</blockquote>\n</div></html>\n");
+        helpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,35 +108,54 @@ public class NewNetworkDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+                            .addComponent(ssTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                            .addComponent(prTextField)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1)))
+                        .addComponent(jSeparator1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(trfTextField)
+                            .addComponent(btfTextField)
+                            .addComponent(blfTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                            .addComponent(pfTextField)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(helpButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(OkButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {prTextField, ssTextField, trfTextField});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {OkButton, cancelButton});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(prTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ssTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
@@ -97,12 +163,75 @@ public class NewNetworkDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(151, Short.MAX_VALUE))
+                    .addComponent(trfTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btfTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(blfTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pfTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton)
+                    .addComponent(OkButton)
+                    .addComponent(helpButton))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {prTextField, ssTextField, trfTextField});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {OkButton, cancelButton});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
+        String pr = this.prTextField.getText();
+        String ss = this.ssTextField.getText();
+       
+        if(!pr.equals("") || !ss.equals("")) {
+            String rowData[] ={"net"+netIndex,pr,ss,trfTextField.getText(),this.btfTextField.getText(),this.blfTextField.getText(),this.pfTextField.getText()};
+            NnetFrame.model.addRow(rowData);
+            MainFrame.octavePanel.evaluate("pkg load nnet");
+            NnetFrame.declare("Pr", pr);
+            NnetFrame.declare("ss", ss);
+            NnetFrame.declare("trf", this.trfTextField.getText());
+            NnetFrame.declare("btf", this.btfTextField.getText());
+            NnetFrame.declare("blf", this.blfTextField.getText());
+            NnetFrame.declare("pf", this.pfTextField.getText());
+            MainFrame.octavePanel.evalWithOutput("net"+netIndex+" = newff (Pr,ss,trf,btf,blf,pf)");
+           
+             
+            
+            dispose();
+            MainFrame.octavePanel.evaluate(jar_path);
+            MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
+            MainFrame.octavePanel.evaluate("ob.appendText(disp(net"+netIndex+"));");
+            MainFrame.octavePanel.evaluate("clear 'ob'");
+             netIndex++;
+           
+        }
+            
+        
+    }//GEN-LAST:event_OkButtonActionPerformed
+
+    public static void minusIndex() {
+        netIndex--;
+    }
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+        MainFrame.octavePanel.evaluate("pkg load nnet");
+        MainFrame.octavePanel.evaluate("helpdlg(help('newff'));");
+    }//GEN-LAST:event_helpButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,14 +274,25 @@ public class NewNetworkDialog extends javax.swing.JDialog {
             }
         });
     }
+    public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton OkButton;
+    private javax.swing.JTextField blfTextField;
+    private javax.swing.JTextField btfTextField;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField pfTextField;
+    private javax.swing.JTextField prTextField;
+    private javax.swing.JTextField ssTextField;
+    private javax.swing.JTextField trfTextField;
     // End of variables declaration//GEN-END:variables
 }

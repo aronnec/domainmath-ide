@@ -100,22 +100,37 @@
     <Component class="javax.swing.JButton" name="newButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="New Network"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;var&gt;net&lt;/var&gt;&#xa;&lt;b&gt;=&lt;/b&gt;&lt;var&gt; &lt;span style=&quot;font-weight: bold;&quot;&gt;newff&lt;/span&gt;&#xa;&lt;/var&gt;(&lt;var&gt;Pr,ss,trf,btf,blf,pf&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-g_t_003d-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;&lt;code&gt;newff&lt;/code&gt; create a feed-forward&#xa;backpropagation network &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;         &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt; Pr&lt;/span&gt; - R x 2 matrix of min and max values for R input elements&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;Ss&lt;/span&gt; - 1 x Ni row vector with size of ith layer, for N layers&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;trf&lt;/span&gt; - 1 x Ni list with transfer function of ith layer,&lt;br&gt;                default = &quot;tansig&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;btf&lt;/span&gt; - Batch network training function,&lt;br&gt;                default = &quot;trainlm&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;blf&lt;/span&gt; - Batch weight/bias learning function,&lt;br&gt;                default = &quot;learngdm&quot;&lt;br&gt;          &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;pf&lt;/span&gt;  - Performance function,&lt;br&gt;                default = &quot;mse&quot;.&lt;br&gt;&lt;/pre&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          EXAMPLE 1&lt;br&gt;          Pr = [0.1 0.8; 0.1 0.75; 0.01 0.8];&lt;br&gt;               it&apos;s a 3 x 2 matrix, this means 3 input neurons&lt;br&gt;          &lt;br&gt;          net = newff(Pr, [4 1], {&quot;tansig&quot;,&quot;purelin&quot;}, &quot;trainlm&quot;, &quot;learngdm&quot;, &quot;mse&quot;);&lt;br&gt;&lt;/pre&gt;&#xa;&lt;/blockquote&gt;&#xa;&lt;/div&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="deleteButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete Network"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="simulateButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Simulate"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;var&gt;netoutput&lt;/var&gt;&#xa;= &lt;b&gt;sim&lt;/b&gt; (&lt;var&gt;net, mInput&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-sim-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;&lt;code&gt;sim&lt;/code&gt; is usuable to simulate a before&#xa;defined neural network. &lt;code&gt;net&lt;/code&gt; is created with&#xa;newff(&lt;small class=&quot;dots&quot;&gt;...&lt;/small&gt;) and &lt;var&gt;mInput&lt;/var&gt;&#xa;should be the&#xa;corresponding input data set! &lt;/p&gt;&#xa;&lt;/blockquote&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="simulateButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="trainButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Train"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;div class=&quot;defun&quot;&gt;&#xa;&lt;p class=&quot;functionfile&quot;&gt; Function File: &lt;b&gt;[&lt;/b&gt;&lt;var&gt;net&lt;/var&gt;]&lt;var&gt;&#xa;= train &lt;/var&gt;(&lt;var&gt;MLPnet,mInputN,mOutput,[],[],VV&lt;/var&gt;)&lt;var&gt;&lt;a&#xa; name=&quot;index-g_t_005b-1&quot;&gt;&lt;/a&gt;&lt;/var&gt;&lt;br&gt;&#xa;&lt;/p&gt;&#xa;&lt;blockquote&gt;&#xa;  &lt;p&gt;A neural feed-forward network will be trained with &lt;code&gt;train&lt;/code&gt;&#xa;  &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          [net,tr,out,E] = train(MLPnet,mInputN,mOutput,[],[],VV);&lt;br&gt;&lt;/pre&gt;&#xa;  &lt;p class=&quot;noindent&quot;&gt; &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          left side arguments:&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;net&lt;/span&gt;: the trained network of the net structure &lt;code&gt;MLPnet&lt;/code&gt;&#xa;  &lt;/pre&gt;&#xa;  &lt;p class=&quot;noindent&quot;&gt; &lt;/p&gt;&#xa;  &lt;pre class=&quot;example&quot;&gt;          right side arguments:&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;MLPnet&lt;/span&gt; : the untrained network, created with &lt;code&gt;newff&lt;/code&gt;&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;mInputN&lt;/span&gt;: normalized input matrix&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;mOutput&lt;/span&gt;: output matrix (normalized or not)&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;[]&lt;/span&gt;     : unused parameter&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;[]&lt;/span&gt;     : unused parameter&lt;br&gt;            &lt;span&#xa; style=&quot;font-weight: bold;&quot;&gt;VV&lt;/span&gt;     : validize structure&lt;br&gt;&lt;/pre&gt;&#xa;&lt;/blockquote&gt;&#xa;&lt;/div&gt;&#xa;&lt;/div&gt;&lt;/html&gt;&#xa;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trainButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
@@ -129,6 +144,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Finish"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finishButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

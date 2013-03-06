@@ -1,21 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.domainmath.gui.packages.nnet;
 
-/**
- *
- * @author Autotest
- */
+import java.io.File;
+import org.domainmath.gui.MainFrame;
+
+
 public class TrainNetDialog extends javax.swing.JDialog {
+    private final String net;
 
     /**
      * Creates new form SimulateNetDialog
      */
-    public TrainNetDialog(java.awt.Frame parent, boolean modal) {
+    public TrainNetDialog(java.awt.Frame parent, boolean modal,String net) {
         super(parent, modal);
         initComponents();
+        this.net=net;
     }
 
     /**
@@ -29,9 +28,9 @@ public class TrainNetDialog extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        OkButton = new javax.swing.JButton();
+        helpButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -45,12 +44,27 @@ public class TrainNetDialog extends javax.swing.JDialog {
 
         jTextField1.setToolTipText("<html><b>mInputN</b>: normalized input matrix</html>\n");
 
-        jButton1.setText("Cancel");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("OK");
+        OkButton.setText("OK");
+        OkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OkButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/help-browser.png"))); // NOI18N
-        jButton3.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <b>[</b><var>net</var>]<var>\n= train </var>(<var>MLPnet,mInputN,mOutput,[],[],VV</var>)<var><a\n name=\"index-g_t_005b-1\"></a></var><br>\n</p>\n<blockquote>\n  <p>A neural feed-forward network will be trained with <code>train</code>\n  </p>\n  <pre class=\"example\">          [net,tr,out,E] = train(MLPnet,mInputN,mOutput,[],[],VV);<br></pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          left side arguments:<br>            <span\n style=\"font-weight: bold;\">net</span>: the trained network of the net structure <code>MLPnet</code>\n  </pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          right side arguments:<br>            <span\n style=\"font-weight: bold;\">MLPnet</span> : the untrained network, created with <code>newff</code><br>            <span\n style=\"font-weight: bold;\">mInputN</span>: normalized input matrix<br>            <span\n style=\"font-weight: bold;\">mOutput</span>: output matrix (normalized or not)<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">VV</span>     : validize structure<br></pre>\n</blockquote>\n</div>\n</div></html>\n");
+        helpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/help-browser.png"))); // NOI18N
+        helpButton.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <b>[</b><var>net</var>]<var>\n= train </var>(<var>MLPnet,mInputN,mOutput,[],[],VV</var>)<var><a\n name=\"index-g_t_005b-1\"></a></var><br>\n</p>\n<blockquote>\n  <p>A neural feed-forward network will be trained with <code>train</code>\n  </p>\n  <pre class=\"example\">          [net,tr,out,E] = train(MLPnet,mInputN,mOutput,[],[],VV);<br></pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          left side arguments:<br>            <span\n style=\"font-weight: bold;\">net</span>: the trained network of the net structure <code>MLPnet</code>\n  </pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          right side arguments:<br>            <span\n style=\"font-weight: bold;\">MLPnet</span> : the untrained network, created with <code>newff</code><br>            <span\n style=\"font-weight: bold;\">mInputN</span>: normalized input matrix<br>            <span\n style=\"font-weight: bold;\">mOutput</span>: output matrix (normalized or not)<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">VV</span>     : validize structure<br></pre>\n</blockquote>\n</div>\n</div></html>\n");
+        helpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Output:");
 
@@ -68,11 +82,11 @@ public class TrainNetDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(helpButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(OkButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(cancelButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -104,14 +118,43 @@ public class TrainNetDialog extends javax.swing.JDialog {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(cancelButton)
+                    .addComponent(OkButton)
+                    .addComponent(helpButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+        MainFrame.octavePanel.evaluate("pkg load nnet");
+        MainFrame.octavePanel.evaluate("helpdlg(help('train'));");
+    }//GEN-LAST:event_helpButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void OkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkButtonActionPerformed
+        String mInputN= this.jTextField1.getText();
+        String mOutput=this.jTextField2.getText();
+        String VV =this.jTextField3.getText();
+        
+        if(!mInputN.equals("") || !mOutput.equals("") ||!VV.equals("")  ) {
+            NnetFrame.declare("mInputN", mInputN);
+            NnetFrame.declare("mOutput", mOutput);
+            NnetFrame.declare("VV", VV);
+            
+            MainFrame.octavePanel.evalWithOutput("[net] = train ("+net+",mInputN,mOutput,[],[],VV)");
+            MainFrame.octavePanel.evaluate(jar_path);
+            MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
+            MainFrame.octavePanel.evaluate("ob.appendText(disp([net]));");
+            MainFrame.octavePanel.evaluate("clear 'ob'");
+            dispose();
+        }
+                
+    }//GEN-LAST:event_OkButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,7 +186,7 @@ public class TrainNetDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TrainNetDialog dialog = new TrainNetDialog(new javax.swing.JFrame(), true);
+                TrainNetDialog dialog = new TrainNetDialog(new javax.swing.JFrame(), true,"");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -154,10 +197,12 @@ public class TrainNetDialog extends javax.swing.JDialog {
             }
         });
     }
+     public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton OkButton;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

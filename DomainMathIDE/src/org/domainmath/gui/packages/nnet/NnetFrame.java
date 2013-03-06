@@ -21,10 +21,12 @@ import java.awt.Toolkit;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import org.domainmath.gui.MainFrame;
 
 
 public class NnetFrame extends javax.swing.JFrame {
-    public DefaultTableModel model;
+    public static DefaultTableModel model;
+    private NewNetworkDialog newNetworkDialog;
 
     /**
      * Creates new form NnetFrame
@@ -34,7 +36,7 @@ public class NnetFrame extends javax.swing.JFrame {
         
         this.setIconImage(icon);
         initComponents();
-        
+        model.addColumn("Network");
         model.addColumn("Input Range");
         model.addColumn("No. of Neurons");
         model.addColumn("Transfer Function");                
@@ -43,6 +45,7 @@ public class NnetFrame extends javax.swing.JFrame {
         model.addColumn("Performance Function");
         
         netTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION );
+        netTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         netTable.getTableHeader().setReorderingAllowed(false);
         
         netTable.setRowHeight(20);
@@ -74,12 +77,35 @@ public class NnetFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(netTable);
 
         newButton.setText("New Network");
+        newButton.setToolTipText("<html><div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>net</var>\n<b>=</b><var> <span style=\"font-weight: bold;\">newff</span>\n</var>(<var>Pr,ss,trf,btf,blf,pf</var>)<var><a\n name=\"index-g_t_003d-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>newff</code> create a feed-forward\nbackpropagation network </p>\n  <pre class=\"example\">         <span\n style=\"font-weight: bold;\"> Pr</span> - R x 2 matrix of min and max values for R input elements<br>          <span\n style=\"font-weight: bold;\">Ss</span> - 1 x Ni row vector with size of ith layer, for N layers<br>          <span\n style=\"font-weight: bold;\">trf</span> - 1 x Ni list with transfer function of ith layer,<br>                default = \"tansig\"<br>          <span\n style=\"font-weight: bold;\">btf</span> - Batch network training function,<br>                default = \"trainlm\"<br>          <span\n style=\"font-weight: bold;\">blf</span> - Batch weight/bias learning function,<br>                default = \"learngdm\"<br>          <span\n style=\"font-weight: bold;\">pf</span>  - Performance function,<br>                default = \"mse\".<br></pre>\n  <pre class=\"example\">          EXAMPLE 1<br>          Pr = [0.1 0.8; 0.1 0.75; 0.01 0.8];<br>               it's a 3 x 2 matrix, this means 3 input neurons<br>          <br>          net = newff(Pr, [4 1], {\"tansig\",\"purelin\"}, \"trainlm\", \"learngdm\", \"mse\");<br></pre>\n</blockquote>\n</div></html>\n");
+        newButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Delete Network");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         simulateButton.setText("Simulate");
+        simulateButton.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <var>netoutput</var>\n= <b>sim</b> (<var>net, mInput</var>)<var><a\n name=\"index-sim-1\"></a></var><br>\n</p>\n<blockquote>\n  <p><code>sim</code> is usuable to simulate a before\ndefined neural network. <code>net</code> is created with\nnewff(<small class=\"dots\">...</small>) and <var>mInput</var>\nshould be the\ncorresponding input data set! </p>\n</blockquote></html>\n");
+        simulateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simulateButtonActionPerformed(evt);
+            }
+        });
 
         trainButton.setText("Train");
+        trainButton.setToolTipText("<html><div class=\"defun\">\n<div class=\"defun\">\n<p class=\"functionfile\"> Function File: <b>[</b><var>net</var>]<var>\n= train </var>(<var>MLPnet,mInputN,mOutput,[],[],VV</var>)<var><a\n name=\"index-g_t_005b-1\"></a></var><br>\n</p>\n<blockquote>\n  <p>A neural feed-forward network will be trained with <code>train</code>\n  </p>\n  <pre class=\"example\">          [net,tr,out,E] = train(MLPnet,mInputN,mOutput,[],[],VV);<br></pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          left side arguments:<br>            <span\n style=\"font-weight: bold;\">net</span>: the trained network of the net structure <code>MLPnet</code>\n  </pre>\n  <p class=\"noindent\"> </p>\n  <pre class=\"example\">          right side arguments:<br>            <span\n style=\"font-weight: bold;\">MLPnet</span> : the untrained network, created with <code>newff</code><br>            <span\n style=\"font-weight: bold;\">mInputN</span>: normalized input matrix<br>            <span\n style=\"font-weight: bold;\">mOutput</span>: output matrix (normalized or not)<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">[]</span>     : unused parameter<br>            <span\n style=\"font-weight: bold;\">VV</span>     : validize structure<br></pre>\n</blockquote>\n</div>\n</div></html>\n");
+        trainButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trainButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +115,11 @@ public class NnetFrame extends javax.swing.JFrame {
         });
 
         finishButton.setText("Finish");
+        finishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,6 +176,45 @@ public class NnetFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    public static void declare(String name, String value) {
+        MainFrame.octavePanel.eval(name+"="+value+";");
+    }
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        newNetworkDialog = new NewNetworkDialog(this,true);
+        newNetworkDialog.setLocationRelativeTo(this);
+        newNetworkDialog.setVisible(true);
+    }//GEN-LAST:event_newButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        model.removeRow(this.netTable.getSelectedRow());
+        if(netTable.getSelectedRow() >= 0) {
+            MainFrame.octavePanel.evalWithOutput("clear '"+netTable.getValueAt(netTable.getSelectedRow(), 0)+"'");
+            NewNetworkDialog.minusIndex();
+        }
+        
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_finishButtonActionPerformed
+
+    private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
+        if(netTable.getSelectedRow() >= 0) {
+            SimulateNetDialog simulateNetDialog = new SimulateNetDialog(this,true,netTable.getValueAt(netTable.getSelectedRow(), 0).toString());
+        simulateNetDialog.setLocationRelativeTo(this);
+        simulateNetDialog.setVisible(true);
+        } 
+        
+    }//GEN-LAST:event_simulateButtonActionPerformed
+
+    private void trainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainButtonActionPerformed
+        if(netTable.getSelectedRow() >= 0) {
+            TrainNetDialog trainNetDialog = new TrainNetDialog(this,true,netTable.getValueAt(netTable.getSelectedRow(), 0).toString());
+        trainNetDialog.setLocationRelativeTo(this);
+        trainNetDialog.setVisible(true);
+        } 
+    }//GEN-LAST:event_trainButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,4 +261,6 @@ public class NnetFrame extends javax.swing.JFrame {
     private javax.swing.JButton simulateButton;
     private javax.swing.JButton trainButton;
     // End of variables declaration//GEN-END:variables
+
+    
 }
