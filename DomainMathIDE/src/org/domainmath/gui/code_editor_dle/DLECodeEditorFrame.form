@@ -7,10 +7,10 @@
         <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
             <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-              <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="FileMenu.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="FileMenu.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="FileMenu.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="FileMenu.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -23,11 +23,11 @@
                   <Image iconType="3" name="/org/domainmath/gui/icons/document-new.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="newFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="newFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="New"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="newFileItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="newFileItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -43,7 +43,7 @@
                   <Image iconType="3" name="/org/domainmath/gui/icons/document-open.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="openFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="openFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Open..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Open File"/>
@@ -63,7 +63,7 @@
                   <Image iconType="3" name="/org/domainmath/gui/icons/document-save.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="saveFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="saveFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save "/>
               </Properties>
@@ -87,14 +87,17 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/domainmath/gui/icons/document-save-all.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="saveAllItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="saveAllItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="saveAllItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="saveAllItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="saveAllItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="saveAllItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -109,13 +112,13 @@
                   <KeyStroke key="Alt+W"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -128,13 +131,13 @@
                   <KeyStroke key="Shift+Alt+W"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeAllItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeAllItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeAllItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeAllItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="closeAllItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="closeAllItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -173,10 +176,10 @@
         <Menu class="javax.swing.JMenu" name="editMenu">
           <Properties>
             <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-              <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="EditMenu.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="EditMenu.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="EditMenu.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="EditMenu.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <SubComponents>
@@ -282,7 +285,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectAllItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator11">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator6">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="findAndReplaceItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+F"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Find and Replace..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findAndReplaceItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
@@ -333,14 +349,14 @@
                 <Property name="text" type="java.lang.String" value="Make Lowercase"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator12">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator11">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+            <MenuItem class="javax.swing.JMenuItem" name="clearAllMarksItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clear All Marks..."/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearAllMarksItemActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
@@ -359,7 +375,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
             <Property name="mnemonic" type="int" value="83"/>
             <Property name="text" type="java.lang.String" value="Search"/>
@@ -405,7 +421,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gotoItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator13">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator15">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="googleItem">
               <Properties>
@@ -427,6 +443,78 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wikiItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="buildMenu.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="buildMenu.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="buildMenu.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="octFileItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F6"/>
+                </Property>
+                <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="octFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="octFileItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="octFileItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="octFileItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mexFileItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+F6"/>
+                </Property>
+                <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="mexFileItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="mexFileItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="mexFileItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mexFileItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="exeItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F7"/>
+                </Property>
+                <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="exeItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="exeItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="exeItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exeItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -506,7 +594,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="feedBackItem1ActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator12">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="AboutItem">
               <Properties>
@@ -529,7 +617,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-      <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="CodeEditorFrame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+      <ResourceString bundle="org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en.properties" key="CodeEditorFrame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
     <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
@@ -570,7 +658,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-new.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-new.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -583,7 +671,7 @@
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-open.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-open.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -596,7 +684,7 @@
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-save.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-save-all.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -611,7 +699,7 @@
         <Component class="javax.swing.JButton" name="jButton4">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-undo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-undo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -624,7 +712,7 @@
         <Component class="javax.swing.JButton" name="jButton5">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-redo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-redo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -639,7 +727,7 @@
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-cut.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-cut.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -652,7 +740,7 @@
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-copy.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-copy.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -665,7 +753,7 @@
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-paste.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-paste.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -674,27 +762,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JToolBar$Separator" name="jSeparator6">
-        </Component>
-        <Component class="javax.swing.JButton" name="runButton">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/Run.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/domainmath/gui/code_editor/resources/CodeEditor_en.properties" key="runButton.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="horizontalTextPosition" type="int" value="4"/>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runButtonActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

@@ -64,25 +64,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveFileItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="saveAsItem">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/domainmath/gui/icons/document-save-as.png"/>
-                </Property>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-                  <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="saveAsItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="saveAsItem.name" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="saveAsItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAsItemActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="savePlotItem">
               <Properties>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
@@ -238,9 +219,6 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+P"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/domainmath/gui/icons/document-print.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
                   <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="printItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -932,14 +910,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileViewItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="codeEditorItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Code Editor"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="codeEditorItemActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="dleEditorItem">
               <Properties>
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
@@ -1253,7 +1223,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-new.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-new.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1266,7 +1236,7 @@
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-open.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-open.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1279,7 +1249,7 @@
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-save.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-save-all.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1291,50 +1261,10 @@
         </Component>
         <Component class="javax.swing.JToolBar$Separator" name="jSeparator4">
         </Component>
-        <Component class="javax.swing.JButton" name="saveAsButton">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-save-as.png"/>
-            </Property>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-              <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="saveAsItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="saveAsItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAsButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="printButton">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-print.png"/>
-            </Property>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
-              <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="printItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="printItem.tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
-            </Property>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JToolBar$Separator" name="jSeparator8">
-        </Component>
         <Component class="javax.swing.JButton" name="connectButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/connect.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/connect.png"/>
             </Property>
             <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
               <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="connectItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1353,7 +1283,7 @@
         <Component class="javax.swing.JButton" name="disconnectButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/disconnect.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/disconnect.png"/>
             </Property>
             <Property name="mnemonic" type="int" editor="org.netbeans.modules.i18n.form.FormI18nMnemonicEditor">
               <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="disconnectItem.mnemonic" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1374,7 +1304,7 @@
         <Component class="javax.swing.JButton" name="jButton4">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-undo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-undo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1387,7 +1317,7 @@
         <Component class="javax.swing.JButton" name="jButton5">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-redo.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-redo.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1402,7 +1332,7 @@
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-cut.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-cut.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1415,7 +1345,7 @@
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-copy.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-copy.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1428,7 +1358,7 @@
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/edit-paste.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-paste.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -1461,7 +1391,7 @@
         <Component class="javax.swing.JButton" name="folderUpButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/folder_up.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/go-up.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Up"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -1475,7 +1405,7 @@
         <Component class="javax.swing.JButton" name="browseButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/document-open.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/document-open.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="browseButton.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1491,7 +1421,7 @@
         <Component class="javax.swing.JButton" name="addButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/domainmath/gui/icons/list-add.png"/>
+              <Image iconType="3" name="/org/domainmath/gui/icons/size22x22/edit-add.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/domainmath/gui/resources/DomainMath_en.properties" key="addButton.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>

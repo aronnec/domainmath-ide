@@ -15,9 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-package org.domainmath.gui.code_editor;
+package org.domainmath.gui.code_editor_dle;
 
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -27,18 +25,18 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 
-public class CodeEditorNewFileDialog extends javax.swing.JDialog {
+public class DLENewFileDialog extends javax.swing.JDialog {
   
-    private  CodeEditorFrame frame;
+    private final DLECodeEditorFrame frame;
     private String fname;
     private String file_name;
 
-    public CodeEditorNewFileDialog(CodeEditorFrame frame, boolean modal,String dynareOptions, String dynarePath) {
+    public DLENewFileDialog(DLECodeEditorFrame frame, boolean modal,String dynareOptions, String dynarePath) {
         super(frame, modal);
         initComponents();
         this.frame =frame;
-       this.NewDocListener();
        
+       this.NewDocListener();
     }
 
     /**
@@ -65,7 +63,7 @@ public class CodeEditorNewFileDialog extends javax.swing.JDialog {
         jLabel1.setText("New File:");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "M Script", "Mod File", "Dyn File", "Perl File", "Text File" };
+            String[] strings = { "C File", "CPP File", "Fortran File", "Text File" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -153,7 +151,7 @@ public class CodeEditorNewFileDialog extends javax.swing.JDialog {
        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-  public void browse(String desc, String ext, String... exts) {
+     public void browse(String desc, String ext, String... exts) {
         JFileChooser fc = new JFileChooser();
 
         
@@ -181,57 +179,7 @@ public class CodeEditorNewFileDialog extends javax.swing.JDialog {
                  
         }
     }
-     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int opt = this.jList1.getSelectedIndex();
-        if(opt == 0) {
-            browse("M-Files  (*.m)", ".m","m");
-        }else if(opt == 1) {
-            browse("Dynare-Files  (*.mod)", ".mod","mod");
-        }else if(opt == 2) {
-            browse("Dynare-Files  (*.dyn)", ".dyn", "dyn");
-        }else if(opt == 3) {
-            browse("Perl Files    (*.pl)",".pl","pl");
-        }else if(opt == 4) {
-            browse("Text Files   (*txt)",".txt","txt");
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void setFile(File file, int index) {
-        frame.setUpArea();
-                fname= file.getName();
-                if(fname.endsWith(".m")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-                        
-                         frame.area1.setCodeFoldingEnabled(true);
-                    }else if(fname.endsWith(".dyn")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         frame.area1.setCodeFoldingEnabled(true);
-                        
-                    }else if(fname.endsWith(".mod")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         frame.area1.setCodeFoldingEnabled(true);
-                       
-                    }else if(fname.endsWith(".pl")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
-                         
-                        
-                    }
-                    else {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-                        //CodeEditorFrame.runMenu.setEnabled(false);
-                    }
-               
-                frame.fileTab.addTab(file.getName(), frame.scroll1);
-                frame.fileTab.setToolTipTextAt(CodeEditorFrame.file_index, file.getAbsolutePath());
-                frame.addFileNameToList(file.getAbsolutePath());
-                frame.fileTab.setSelectedIndex(CodeEditorFrame.file_index);
-                CodeEditorFrame.file_index++;
-                
-                frame.dirty();
-    }
-    
-    private void NewDocListener() {
+     private void NewDocListener() {
          if(this.jTextField1.getText().equals("")) {
             this.jButton3.setEnabled(false);
            
@@ -241,7 +189,9 @@ public class CodeEditorNewFileDialog extends javax.swing.JDialog {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
+                
                jButton3.setEnabled(true);
+             
             }
 
             @Override
@@ -249,31 +199,92 @@ public class CodeEditorNewFileDialog extends javax.swing.JDialog {
                 if(jTextField1.getText().equals("")) {
                     jButton3.setEnabled(false);
                 }
+                
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 jButton3.setEnabled(true);
-           }        
+           }
+                    
        });
     }
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        if(jList1.getSelectedIndex() == 0) {
-               setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-        }else if(jList1.getSelectedIndex() == 1) {
-                setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());   
-        }else if(jList1.getSelectedIndex() == 2) {
-               setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-        }else if(jList1.getSelectedIndex() == 3) {
-                 setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-        }else if(jList1.getSelectedIndex() == 4) {
-            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int opt = this.jList1.getSelectedIndex();
+        if(opt == 0) {
+            browse("C-Files  (*.c)", ".c","c");
+        }else if(opt == 1) {
+            browse( "CPP-Files  (*.cpp)", ".cpp","cpp");
+        }else if(opt == 2) {
+            browse("Fortran-Files  (*.f)", ".f", "f");
+        }else if(opt == 3) {
+            browse("Text Files   (*txt)",".txt","txt");
         }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-        dispose();
+    public void setFile(File file, int index) {
+        frame.setUpArea();
+                fname= file.getName();
+                if(fname.endsWith(".c")  ) {
+                         frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+                         frame.area.setCodeFoldingEnabled(true);
+                    }else if(fname.endsWith(".cpp")|| fname.endsWith(".cc") || fname.endsWith(".C")) {
+                         frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                        frame.area.setCodeFoldingEnabled(true);
+                        
+                    }else if(fname.endsWith(".f") || fname.endsWith(".F") || fname.endsWith(".f90") || fname.endsWith(".F90")) {
+                         frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_FORTRAN);
+                         
+                       
+                    }
+                    else {
+                         frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+                         
+                    }
+               
+                 frame.fileTab.addTab(file.getName(), frame.scroll);
+                frame.fileTab.setToolTipTextAt(DLECodeEditorFrame.file_index, file.getAbsolutePath());
+                frame.addFileNameToList(file.getAbsolutePath());
+                frame.fileTab.setSelectedIndex(DLECodeEditorFrame.file_index);
+                DLECodeEditorFrame.file_index++;
+                
+                
+                frame.dirty();
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+                    
+                    if(jList1.getSelectedIndex() == 0) {
+                           setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                          
+                    }else if(jList1.getSelectedIndex() == 1) {
+                            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                         
+                        
+                       
+                         
+                    }else if(jList1.getSelectedIndex() == 2) {
+                           setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                         
+                         
+                    }else if(jList1.getSelectedIndex() == 3) {
+                             setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                         
+                         
+                    }
+                    else if(jList1.getSelectedIndex() == 4) {
+                        setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                         
+                    }
+                    
+                   
+                    dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

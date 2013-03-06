@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Vinu K.N
  *
@@ -15,9 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-package org.domainmath.gui.code_editor;
+package org.domainmath.gui.code_editor_dle;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -30,8 +27,6 @@ import java.awt.print.PrinterException;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,68 +43,48 @@ import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.StatusPanel;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
-import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
-import org.domainmath.gui.editor.OctaveM;
-import org.fife.ui.autocomplete.AutoCompletion;
-import org.fife.ui.autocomplete.BasicCompletion;
-import org.fife.ui.autocomplete.CompletionProvider;
-import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-public class CodeEditorFrame extends javax.swing.JFrame {
-
-   
+public class DLECodeEditorFrame extends javax.swing.JFrame {
 
     
-    public  RSyntaxTextArea area1;
-    public  RTextScrollPane scroll1;
-    CompletionProvider provider1 = createCompletionProvider();
+    public    RSyntaxTextArea area;
+    public  RTextScrollPane scroll;
+    
   
     private String fname;
-    private String dynareOptions1;
-    private String dynarePath1;
-    public   JTabbedPane fileTab = new JTabbedPane();
-    private final StatusPanel status_panel;
-    private List data1 =Collections.synchronizedList(new ArrayList());
-    private String currentDir1;
-    private List fileNameList =Collections.synchronizedList(new ArrayList());
+    private String dynareOptions;
+    private String dynarePath;
+    public   JTabbedPane fileTab = new JTabbedPane();;
+    private String currentDir;
+   private  List fileNameList =Collections.synchronizedList(new ArrayList());
     public static int file_index;
-    public CodeEditorFrame(String dynareOptions,String dynarePath) {
+    public DLECodeEditorFrame() {
         this.setIconImage(icon);
         initComponents();
         this.setSize(600, 400);
         
-        
+        currentDir=null;
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         
-        this.dynareOptions1 =dynareOptions;
-        this.dynarePath1=dynarePath;
+       
         this.popupTab();
-        
        add(fileTab);
-       status_panel=new StatusPanel();
-        add(status_panel,BorderLayout.PAGE_END);
-       currentDir1 = null;
-       file_index =0;
+       add(new StatusPanel(),BorderLayout.PAGE_END);
+        file_index=0;
+       
+    
     }
 
-    
     public void addFileNameToList(String name) {
         this.fileNameList.add(name);
     }
-    public String getCurrentDir() {
-        return currentDir1;
-    }
-
-    public void setCurrentDir(String currentDir) {
-        this.currentDir1 = currentDir;
-    }
     public void dirty() {
-        area1.getDocument().addDocumentListener(
+        area.getDocument().addDocumentListener(
                 new DocumentListener(){
 
             @Override
@@ -139,22 +114,20 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 });
     }
     public void setUpArea() {
-        area1 =new  RSyntaxTextArea();
-      
-        area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-        scroll1 = new RTextScrollPane(area1);
-        scroll1.getGutter().setVisible(true);
-        scroll1.getGutter().setBookmarkingEnabled(true);
-        scroll1.setFoldIndicatorEnabled(true);
-        needOct(true);
+        area =new  RSyntaxTextArea();
+       // area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        scroll = new RTextScrollPane(area);
+        scroll.getGutter().setVisible(true);
+        scroll.getGutter().setBookmarkingEnabled(true);
+        scroll.setFoldIndicatorEnabled(true);
+
+        
        
-        scroll1.setWheelScrollingEnabled(true);
+        scroll.setWheelScrollingEnabled(true);
         
          
     }
     
-  
-     
     public void saveAs() {
     JFileChooser fc = new JFileChooser();
 
@@ -169,12 +142,9 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 String path = fc.getSelectedFile().getAbsolutePath();
                
                     save(fc.getSelectedFile(),fileTab.getSelectedIndex());
-                
-                 
-        }
-                 
 
-            
+        }
+          
 }
     public void open(File file ,int index) {
      try {
@@ -183,43 +153,38 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                
                 setUpArea();
                 fname= file.getName();
-                if(fname.endsWith(".m")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+                if(fname.endsWith(".c")  ) {
+                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+                         area.setCodeFoldingEnabled(true);
                         
-                        needOct(true);
-                    }else if(fname.endsWith(".dyn")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         area1.setCodeFoldingEnabled(true);
+                    }else if(fname.endsWith(".cpp")|| fname.endsWith(".cc") || fname.endsWith(".C")) {
+                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         area.setCodeFoldingEnabled(true);
                         
-                    }else if(fname.endsWith(".mod")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         area1.setCodeFoldingEnabled(true);
+                    }else if(fname.endsWith(".f") || fname.endsWith(".F") || fname.endsWith(".f90") || fname.endsWith(".F90")) {
+                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_FORTRAN);
+                         
                        
-                    }else if(fname.endsWith(".pl")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
-                        
-                        
                     }
                     else {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-                        
+                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+                       
                     }
-                area1.read(r, null);
+                area.read(r, null);
                 r.close();
-                
-                fileTab.addTab(file.getName(), scroll1);  
+                fileTab.addTab(file.getName(), scroll);
+                fileNameList.add(fileTab.getToolTipTextAt(file_index));
                 fileTab.setToolTipTextAt(file_index, file.getAbsolutePath());
-                addFileNameToList(fileTab.getToolTipTextAt(file_index));
                 fileTab.setSelectedIndex(file_index);
                 file_index++;
                 dirty();
                 
                  
             } catch (IOException ex) {
-                Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DLECodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DLECodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -245,8 +210,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jSeparator6 = new javax.swing.JToolBar.Separator();
-        runButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newFileItem = new javax.swing.JMenuItem();
@@ -271,22 +234,28 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         deleteItem = new javax.swing.JMenuItem();
         selectAllItem = new javax.swing.JMenuItem();
-        jSeparator11 = new javax.swing.JPopupMenu.Separator();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        findAndReplaceItem = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jSeparator12 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jSeparator11 = new javax.swing.JPopupMenu.Separator();
+        clearAllMarksItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
         findItem = new javax.swing.JMenuItem();
         replaceItem = new javax.swing.JMenuItem();
         gotoItem = new javax.swing.JMenuItem();
-        jSeparator13 = new javax.swing.JPopupMenu.Separator();
+        jSeparator15 = new javax.swing.JPopupMenu.Separator();
         googleItem = new javax.swing.JMenuItem();
         wikiItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        octFileItem = new javax.swing.JMenuItem();
+        mexFileItem = new javax.swing.JMenuItem();
+        exeItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
         onlineHelpItem = new javax.swing.JMenuItem();
@@ -296,11 +265,11 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         suggestionsItem = new javax.swing.JMenuItem();
         reportBugItem1 = new javax.swing.JMenuItem();
         feedBackItem1 = new javax.swing.JMenuItem();
-        jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        jSeparator12 = new javax.swing.JPopupMenu.Separator();
         AboutItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en"); // NOI18N
         setTitle(bundle.getString("CodeEditorFrame.title")); // NOI18N
         setLocationByPlatform(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -311,7 +280,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-new.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-new.png"))); // NOI18N
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -322,7 +291,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-open.png"))); // NOI18N
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -333,7 +302,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton2);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-save-all.png"))); // NOI18N
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -345,7 +314,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator4);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-undo.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-undo.png"))); // NOI18N
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -356,7 +325,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton4);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-redo.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-redo.png"))); // NOI18N
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -368,7 +337,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         jToolBar1.add(jButton5);
         jToolBar1.add(jSeparator5);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-cut.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-cut.png"))); // NOI18N
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -379,7 +348,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-copy.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-copy.png"))); // NOI18N
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -390,7 +359,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton7);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-paste.png"))); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-paste.png"))); // NOI18N
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -400,28 +369,15 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton8);
-        jToolBar1.add(jSeparator6);
-
-        runButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/Run.png"))); // NOI18N
-        runButton.setText(bundle.getString("runButton.name")); // NOI18N
-        runButton.setFocusable(false);
-        runButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        runButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        runButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(runButton);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
-        fileMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("FileMenu.mnemonic").charAt(0));
+        fileMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("FileMenu.mnemonic").charAt(0));
         fileMenu.setText(bundle.getString("FileMenu.name")); // NOI18N
 
         newFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newFileItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-new.png"))); // NOI18N
-        newFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("newFileItem.mnemonic").charAt(0));
+        newFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("newFileItem.mnemonic").charAt(0));
         newFileItem.setText("New");
         newFileItem.setToolTipText(bundle.getString("newFileItem.tooltip")); // NOI18N
         newFileItem.addActionListener(new java.awt.event.ActionListener() {
@@ -433,7 +389,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
         openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
-        openItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("openFileItem.mnemonic").charAt(0));
+        openItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("openFileItem.mnemonic").charAt(0));
         openItem.setText("Open...");
         openItem.setToolTipText("Open File");
         openItem.addActionListener(new java.awt.event.ActionListener() {
@@ -446,7 +402,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
         saveFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveFileItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
-        saveFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("saveFileItem.mnemonic").charAt(0));
+        saveFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("saveFileItem.mnemonic").charAt(0));
         saveFileItem.setText("Save ");
         saveFileItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,7 +421,8 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         fileMenu.add(saveAsFileItem);
 
         saveAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        saveAllItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("saveAllItem.mnemonic").charAt(0));
+        saveAllItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save-all.png"))); // NOI18N
+        saveAllItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("saveAllItem.mnemonic").charAt(0));
         saveAllItem.setText(bundle.getString("saveAllItem.name")); // NOI18N
         saveAllItem.setToolTipText(bundle.getString("saveAllItem.tooltip")); // NOI18N
         saveAllItem.addActionListener(new java.awt.event.ActionListener() {
@@ -477,7 +434,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         fileMenu.add(jSeparator1);
 
         closeItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
-        closeItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("closeItem.mnemonic").charAt(0));
+        closeItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("closeItem.mnemonic").charAt(0));
         closeItem.setText(bundle.getString("closeItem.name")); // NOI18N
         closeItem.setToolTipText(bundle.getString("closeItem.tooltip")); // NOI18N
         closeItem.addActionListener(new java.awt.event.ActionListener() {
@@ -488,7 +445,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         fileMenu.add(closeItem);
 
         closeAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        closeAllItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("closeAllItem.mnemonic").charAt(0));
+        closeAllItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("closeAllItem.mnemonic").charAt(0));
         closeAllItem.setText(bundle.getString("closeAllItem.name")); // NOI18N
         closeAllItem.setToolTipText(bundle.getString("closeAllItem.tooltip")); // NOI18N
         closeAllItem.addActionListener(new java.awt.event.ActionListener() {
@@ -520,7 +477,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(fileMenu);
 
-        editMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("EditMenu.mnemonic").charAt(0));
+        editMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("EditMenu.mnemonic").charAt(0));
         editMenu.setText(bundle.getString("EditMenu.name")); // NOI18N
 
         undoItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
@@ -594,7 +551,17 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             }
         });
         editMenu.add(selectAllItem);
-        editMenu.add(jSeparator11);
+        editMenu.add(jSeparator6);
+
+        findAndReplaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        findAndReplaceItem.setText("Find and Replace...");
+        findAndReplaceItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findAndReplaceItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(findAndReplaceItem);
+        editMenu.add(jSeparator9);
 
         jMenuItem2.setAction(new RSyntaxTextAreaEditorKit.InsertTabAction());
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_TAB, java.awt.event.InputEvent.CTRL_MASK));
@@ -621,15 +588,15 @@ public class CodeEditorFrame extends javax.swing.JFrame {
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Make Lowercase");
         editMenu.add(jMenuItem5);
-        editMenu.add(jSeparator12);
+        editMenu.add(jSeparator11);
 
-        jMenuItem6.setText("Clear All Marks...");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        clearAllMarksItem.setText("Clear All Marks...");
+        clearAllMarksItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                clearAllMarksItemActionPerformed(evt);
             }
         });
-        editMenu.add(jMenuItem6);
+        editMenu.add(clearAllMarksItem);
 
         jMenuItem1.setAction( new RSyntaxTextAreaEditorKit.ToggleCommentAction());
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SLASH, java.awt.event.InputEvent.CTRL_MASK));
@@ -643,8 +610,8 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(editMenu);
 
-        jMenu1.setMnemonic('S');
-        jMenu1.setText("Search");
+        jMenu2.setMnemonic('S');
+        jMenu2.setText("Search");
 
         findItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         findItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-find.png"))); // NOI18N
@@ -655,7 +622,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 findItemActionPerformed(evt);
             }
         });
-        jMenu1.add(findItem);
+        jMenu2.add(findItem);
 
         replaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         replaceItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-find-replace.png"))); // NOI18N
@@ -665,7 +632,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 replaceItemActionPerformed(evt);
             }
         });
-        jMenu1.add(replaceItem);
+        jMenu2.add(replaceItem);
 
         gotoItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         gotoItem.setText("Go To...");
@@ -674,8 +641,8 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 gotoItemActionPerformed(evt);
             }
         });
-        jMenu1.add(gotoItem);
-        jMenu1.add(jSeparator13);
+        jMenu2.add(gotoItem);
+        jMenu2.add(jSeparator15);
 
         googleItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         googleItem.setText("Google Search");
@@ -684,7 +651,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 googleItemActionPerformed(evt);
             }
         });
-        jMenu1.add(googleItem);
+        jMenu2.add(googleItem);
 
         wikiItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         wikiItem.setText("Wikipedia Search");
@@ -693,7 +660,46 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 wikiItemActionPerformed(evt);
             }
         });
-        jMenu1.add(wikiItem);
+        jMenu2.add(wikiItem);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu1.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("buildMenu.mnemonic").charAt(0));
+        jMenu1.setText(bundle.getString("buildMenu.name")); // NOI18N
+        jMenu1.setToolTipText(bundle.getString("buildMenu.tooltip")); // NOI18N
+
+        octFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        octFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("octFileItem.mnemonic").charAt(0));
+        octFileItem.setText(bundle.getString("octFileItem.name")); // NOI18N
+        octFileItem.setToolTipText(bundle.getString("octFileItem.tooltip")); // NOI18N
+        octFileItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                octFileItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(octFileItem);
+
+        mexFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.SHIFT_MASK));
+        mexFileItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("mexFileItem.mnemonic").charAt(0));
+        mexFileItem.setText(bundle.getString("mexFileItem.name")); // NOI18N
+        mexFileItem.setToolTipText(bundle.getString("mexFileItem.tooltip")); // NOI18N
+        mexFileItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mexFileItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mexFileItem);
+
+        exeItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        exeItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor_dle/resources/DLECodeEditor_en").getString("exeItem.mnemonic").charAt(0));
+        exeItem.setText(bundle.getString("exeItem.name")); // NOI18N
+        exeItem.setToolTipText(bundle.getString("exeItem.tooltip")); // NOI18N
+        exeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exeItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exeItem);
 
         jMenuBar1.add(jMenu1);
 
@@ -758,7 +764,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             }
         });
         helpMenu.add(feedBackItem1);
-        helpMenu.add(jSeparator9);
+        helpMenu.add(jSeparator12);
 
         AboutItem.setText(bundle1.getString("aboutItem.name")); // NOI18N
         AboutItem.setToolTipText(bundle1.getString("aboutItem.tooltip")); // NOI18N
@@ -777,34 +783,35 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void open(){
-     
         JFileChooser fc = new JFileChooser();
-
+   
           if(fileTab.getSelectedIndex() >= 0) { 
-              File f = new File(currentDir1);
+              File f = new File(currentDir);
                fc.setCurrentDirectory(f);  
-          }
-           
-       FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "M-Files  (*.m)", "m");
-        FileNameExtensionFilter filter_dyn = new FileNameExtensionFilter(
-        "Dynare-Files  (*.mod; *.dyn)", "mod","dyn");
-        fc.setAcceptAllFileFilterUsed(false);
+          }       
+        FileNameExtensionFilter filter_c = new FileNameExtensionFilter(
+        "C-Files  (*.c)", "c");
+        FileNameExtensionFilter filter_cpp = new FileNameExtensionFilter(
+        "CPP-Files  (*.cc; *.C; *.cpp)", "cc","C","cpp");
+        FileNameExtensionFilter filter_fortran = new FileNameExtensionFilter(
+        "Fortran-Files  (*.f; *.F; *.f90; *.F90)", "f","F","f90","F90");
         
-         fc.setFileFilter(filter_dyn);
-         fc.setFileFilter(filter);
+        fc.setFileFilter(filter_fortran);
+        fc.setFileFilter(filter_c);
+        fc.setFileFilter(filter_cpp);
         fc.setMultiSelectionEnabled(true);
-
+        fc.setAcceptAllFileFilterUsed(false);
         
         File file[];
         int returnVal = fc.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-                   
                 file = fc.getSelectedFiles();
+               this.setCurrentDir(fc.getCurrentDirectory().getAbsolutePath());
                 
-                this.setCurrentDir(fc.getCurrentDirectory().getAbsolutePath());
-                  for(int i=0;i<file.length;i++) {
+                    for(int i=0;i<file.length;i++) {
+                            
+                           
                             if(!fileNameList.contains(file[i].getAbsolutePath())) {
                                open(file[i],i);
                                 
@@ -812,8 +819,15 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                                 System.out.println(file[i].getAbsolutePath()+" already open!");
                             }
                     }  
-      
         }
+      
+    }
+     public String getCurrentDir() {
+        return currentDir;
+    }
+
+    public void setCurrentDir(String currentDir) {
+        this.currentDir = currentDir;
     }
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
         open();
@@ -834,8 +848,11 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             
         
     }
-    
-    
+    private void saveFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileItemActionPerformed
+       
+        save();
+    }//GEN-LAST:event_saveFileItemActionPerformed
+
     private void undo() {
         if(fileTab.getSelectedIndex()>= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -884,11 +901,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             
         }
     }
-    private void saveFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileItemActionPerformed
-       
-        save();
-    }//GEN-LAST:event_saveFileItemActionPerformed
-
     private void saveAsFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsFileItemActionPerformed
         saveAs();
     }//GEN-LAST:event_saveAsFileItemActionPerformed
@@ -898,19 +910,19 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_printFileItemActionPerformed
 
     private void undoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoItemActionPerformed
-      this.undo();
+        this.undo();
     }//GEN-LAST:event_undoItemActionPerformed
 
     private void redoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoItemActionPerformed
-      this.redo();
+       this.redo();
     }//GEN-LAST:event_redoItemActionPerformed
 
     private void cutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutItemActionPerformed
-     this.cut();
+       this.cut();
     }//GEN-LAST:event_cutItemActionPerformed
 
     private void copyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyItemActionPerformed
-      this.copy();
+        this.copy();
     }//GEN-LAST:event_copyItemActionPerformed
 
     private void pasteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteItemActionPerformed
@@ -918,11 +930,11 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_pasteItemActionPerformed
 
     private void selectAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllItemActionPerformed
-      this.selectAll();
+     this.selectAll();
     }//GEN-LAST:event_selectAllItemActionPerformed
 
     private void deleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteItemActionPerformed
-        this.deleteText();
+      deleteText();
     }//GEN-LAST:event_deleteItemActionPerformed
 
     private void newFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFileItemActionPerformed
@@ -934,11 +946,10 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 while(i != -1) {
                    
                     askSave(i);
-                    
                     i--;
                 }
-      this.dispose();
-       
+       this.dispose();
+      
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -950,7 +961,15 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        save();
+         for(int i=0;i<fileTab.getTabCount();i++) {
+            String file = fileTab.getToolTipTextAt(i);
+            String fl = fileTab.getTitleAt(i);
+
+            if(fl.endsWith("*")) {
+                File f =new File(file);
+                save(f,i);
+            }   
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -958,7 +977,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         this.redo();
+        this.redo();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -966,35 +985,16 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-         this.copy();
+       this.copy();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         this.paste();
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    public void setPath(String path) {
-    try {
-            URI uri = new URI(path);
-            Desktop desktop=Desktop.getDesktop();
-            desktop.browse(uri);
-        } catch (URISyntaxException | IOException ex) {
-        }
-}
-    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
-                File file = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
-                     save();
-                     this.runFile(Paths.get(file.getAbsolutePath()));
-           
-       }
-   
-    }//GEN-LAST:event_runButtonActionPerformed
-
     private void closeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeItemActionPerformed
          if(fileTab.getSelectedIndex()>= 0) { 
                     askSave(fileTab.getSelectedIndex());
-                    
                }
     }//GEN-LAST:event_closeItemActionPerformed
 
@@ -1003,137 +1003,206 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 while(i != -1) {
                    
                     askSave(i);
-                    
                     i--;
                 }
     }//GEN-LAST:event_closeAllItemActionPerformed
 
     private void saveAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAllItemActionPerformed
         for(int i=0;i<fileTab.getTabCount();i++) {
-            
             String file = fileTab.getToolTipTextAt(i);
             String fl = fileTab.getTitleAt(i);
-        
-         
+
             if(fl.endsWith("*")) {
                 File f =new File(file);
                 save(f,i);
-            } 
-            
+            }   
         }
     }//GEN-LAST:event_saveAllItemActionPerformed
 
+    
+    public void oct() {
+        String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
+           File f = new File(s);
+           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
+           MainFrame.octavePanel.eval("mkoctfile "+f.getName());
+           String n = f.getName();
+           
+           String c = n.substring(0, n.lastIndexOf("."))+"()";
+           MainFrame.octavePanel.evaluate(c);
+    }
+  
+    private void octFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_octFileItemActionPerformed
+       
+       if(fileTab.getSelectedIndex()>= 0) {         
+                     save();
+                     oct();
+       }
+    }//GEN-LAST:event_octFileItemActionPerformed
+
+     public void mex() {
+         String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
+           File f = new File(s);
+           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
+           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           MainFrame.octavePanel.eval("mex "+f.getName());
+           String n = f.getName();
+           String c = n.substring(0, n.lastIndexOf("."))+"()";
+
+           MainFrame.octavePanel.evaluate(c);
+     }
+    private void mexFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mexFileItemActionPerformed
+        if(fileTab.getSelectedIndex()>= 0) {
+                     save();
+                     mex();
+       }
+    }//GEN-LAST:event_mexFileItemActionPerformed
+
+    public void exe() {
+        String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
+           File f = new File(s);
+           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
+           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           String n = f.getName();
+           String p = f.getParentFile().getAbsolutePath()+File.separator;
+           String c = n.substring(0, n.lastIndexOf("."))+".exe";
+           MainFrame.octavePanel.eval("mkoctfile  --link-stand-alone "+f.getName()+" -o "+p+c);
+           
+           MainFrame.octavePanel.eval("system('"+c+"')");
+    }
+    private void exeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exeItemActionPerformed
+        if(fileTab.getSelectedIndex()>= 0) {
+                     save();
+                     exe();
+       }
+    }//GEN-LAST:event_exeItemActionPerformed
+
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-         int i=fileTab.getTabCount()-1;
+          int i=fileTab.getTabCount()-1;
                 while(i != -1) {
                    
                     askSave(i);
                     i--;
                 }
-             this.dispose();
-           
-       
+      
+      this.dispose();
     }//GEN-LAST:event_exitItemActionPerformed
 
+    private void findAndReplaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findAndReplaceItemActionPerformed
+         if(fileTab.getSelectedIndex()>= 0) {
+             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+            FindAndReplaceDialog find = new FindAndReplaceDialog(this,true,fileTab,selectedArea.getSelectedText());
+        find.setVisible(true); 
+        }
+    }//GEN-LAST:event_findAndReplaceItemActionPerformed
+
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-         
-        
+        if(fileTab.getSelectedIndex()>= 0) {
+             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+           
+               new RSyntaxTextAreaEditorKit.ToggleCommentAction();
+            
+            
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
+    private void clearAllMarksItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllMarksItemActionPerformed
+         if(fileTab.getSelectedIndex()>= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
             RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
              selectedArea.clearMarkAllHighlights();
         }
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void AboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutItemActionPerformed
-        AboutDlg aboutDlg = new AboutDlg(this, true);
-        aboutDlg.setLocationRelativeTo(this);
-        aboutDlg.setVisible(true);
-    }//GEN-LAST:event_AboutItemActionPerformed
+    }//GEN-LAST:event_clearAllMarksItemActionPerformed
 
     private void findItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findItemActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
-             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
-            FindAndReplaceDialog find = new FindAndReplaceDialog(this,false,fileTab,selectedArea.getSelectedText());
-            find.setVisible(true); 
-        
+        if (fileTab.getTabCount() > 0) {
+            RTextScrollPane t = (RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea) t.getTextArea();
+            FindAndReplaceDialog find = new FindAndReplaceDialog(this, true, fileTab, selectedArea.getSelectedText());
+            find.setVisible(true);
+
         }
     }//GEN-LAST:event_findItemActionPerformed
 
     private void replaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceItemActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
-             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
-            FindAndReplaceDialog find = new FindAndReplaceDialog(this,false,fileTab,selectedArea.getSelectedText());
-            find.setVisible(true); 
-        
+        if (fileTab.getTabCount() > 0) {
+            RTextScrollPane t = (RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea) t.getTextArea();
+            FindAndReplaceDialog find = new FindAndReplaceDialog(this, true, fileTab, selectedArea.getSelectedText());
+            find.setVisible(true);
+
         }
     }//GEN-LAST:event_replaceItemActionPerformed
+       private int getFirstCharacter(Element row) {
+		if (row == null)
+			return 0;
+		int lastColumnInRow = row.getEndOffset();
+		return lastColumnInRow;
+	}
+    private void gotoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gotoItemActionPerformed
+        if (fileTab.getTabCount() > 0) {
+            String s = JOptionPane.showInputDialog("Line Number:");
+            RTextScrollPane t = (RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea) t.getTextArea();
+            try {
+                Element element = selectedArea.getDocument().getDefaultRootElement();
+                int lineRequested = Integer.parseInt(s);
+                int rowCount = element.getElementCount();
+                if (lineRequested > rowCount || lineRequested < 0) {
+
+                    setVisible(false);
+                    return;
+                }
+                Element row = null;
+                int firstCharacter = 0;
+                int rowNumber = 0;
+                for (int i = 0; i < lineRequested; ++i) {
+                    firstCharacter = getFirstCharacter(row);
+                    rowNumber = element.getElementIndex(firstCharacter);
+                    row = element.getElement(rowNumber);
+                }
+                int lastColumnInRow = row.getEndOffset();
+                selectedArea.select(firstCharacter, lastColumnInRow - 1);
+
+            } catch (Exception e) {
+            }
+        } 
+   }//GEN-LAST:event_gotoItemActionPerformed
 
     private void googleItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_googleItemActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
-             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+        if (fileTab.getTabCount() > 0) {
+            RTextScrollPane t = (RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea) t.getTextArea();
             String s = selectedArea.getSelectedText();
-            if(!s.equals("")) {
-                String f="http://www.google.com/search?q="+s.replaceAll(" ", "+");
+            if (!s.equals("")) {
+                String f = "http://www.google.com/search?q=" + s.replaceAll(" ", "+");
                 setPath(f);
             }
-            
+
         }
     }//GEN-LAST:event_googleItemActionPerformed
 
     private void wikiItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wikiItemActionPerformed
-        if(fileTab.getSelectedIndex()>= 0) {
-             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+        if (fileTab.getTabCount() > 0) {
+            RTextScrollPane t = (RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
+            RSyntaxTextArea selectedArea = (RSyntaxTextArea) t.getTextArea();
             String s = selectedArea.getSelectedText();
-            if(!s.equals("")) {
-                String f="http://en.wikipedia.org/wiki/Special:Search?search="+s.replaceAll(" ", "+");
+            if (!s.equals("")) {
+                String f = "http://en.wikipedia.org/wiki/Special:Search?search=" + s.replaceAll(" ", "+");
                 setPath(f);
             }
-            
+
         }
     }//GEN-LAST:event_wikiItemActionPerformed
-
-    private void gotoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gotoItemActionPerformed
-       if(fileTab.getSelectedIndex()>= 0) {
-        String s = JOptionPane.showInputDialog("Line Number:");
-        RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-            RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
-        try {
-           	Element element = selectedArea.getDocument().getDefaultRootElement();
-			int lineRequested = Integer.parseInt(s);
-			int rowCount = element.getElementCount();
-			if (lineRequested > rowCount || lineRequested < 0) {
-				
-				setVisible(false);
-				return;
-			}
-			Element row = null;
-			int firstCharacter = 0;
-			int rowNumber = 0;
-			for (int i = 0; i < lineRequested; ++i) {
-				firstCharacter = getFirstCharacter(row);
-				rowNumber = element.getElementIndex(firstCharacter);
-				row = element.getElement(rowNumber);
-			}
-			int lastColumnInRow = row.getEndOffset();
-			selectedArea.select(firstCharacter, lastColumnInRow - 1);
-		
-        }catch(Exception e) {
-            
-        }
-       } 
-    }//GEN-LAST:event_gotoItemActionPerformed
 
     private void forumItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forumItemActionPerformed
         setPath("http://domainmathide.freeforums.org/");
@@ -1162,70 +1231,31 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     private void feedBackItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feedBackItem1ActionPerformed
         setPath("http://domainmathide.freeforums.org/feedback-f4.html");
     }//GEN-LAST:event_feedBackItem1ActionPerformed
-    private int getFirstCharacter(Element row) {
-		if (row == null)
-			return 0;
-		int lastColumnInRow = row.getEndOffset();
-		return lastColumnInRow;
-	}
-     private void setUpDynare(Path path) {
-              if(dynareOptions1!=null || dynarePath1 != null) {
-                    File f = new File(dynarePath1+File.separator+"dynare_m.exe");
-                    String c = "system('"+f.getAbsolutePath()+" "+path.toString()+" "+dynareOptions1+"');";
-                    System.out.println(c);
-                     MainFrame.octavePanel.evaluate(c);
-                     MainFrame.octavePanel.evaluate("disp('---------------------------------------------------')");
-                     String p = path.getFileName().toString();
-                     String file =p.substring(0, p.indexOf("."))+".m" ;
-                     MainFrame.octavePanel.evaluate("run("+"'"+path.getParent().resolve(Paths.get(file)).toString() +"'"+");");
-              
-                     MainFrame.octavePanel.evaluate("whos");
-                     MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                     MainFrame.varView.reload();
-                }else if( dynarePath1 != null){
-                     File f = new File(dynarePath1+File.separator+"dynare_m.exe");
-                    String c2="system('"+f.getAbsolutePath()+" "+path.toString()+" "+"noclearall"+"');";
-                    System.out.println(c2);
-                    MainFrame.octavePanel.evaluate(c2);
-                    MainFrame.octavePanel.evaluate("disp('---------------------------------------------------')");
-                    String p = path.getFileName().toString();
-                     String file =p.substring(0, p.indexOf("."))+".m" ;
-                     MainFrame.octavePanel.evaluate("run("+"'"+path.getParent().resolve(Paths.get(file)).toString() +"'"+");");
-                     MainFrame.octavePanel.evaluate("whos");
-                      MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                      MainFrame.varView.reload();
-                }
+
+    private void AboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutItemActionPerformed
+        AboutDlg aboutDlg = new AboutDlg(this, true);
+        aboutDlg.setLocationRelativeTo(this);
+        aboutDlg.setVisible(true);
+    }//GEN-LAST:event_AboutItemActionPerformed
+
+    public void setPath(String path) {
+    try {
+            URI uri = new URI(path);
+            Desktop desktop=Desktop.getDesktop();
+            desktop.browse(uri);
+        } catch (URISyntaxException | IOException ex) {
         }
-        private void runFile(Path path) {
-            
-            String name =path.getFileName().toString();
-            String ext =name.substring(name.lastIndexOf("."));
-             
-            if(ext.equalsIgnoreCase(".m")){
-                
-                 MainFrame.octavePanel.evaluate("run("+"'"+path.toString()+"'"+");");
-                 
-                  MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                  MainFrame.varView.reload();
-                  
-            }else if(ext.equalsIgnoreCase(".pl")) {
-                MainFrame.octavePanel.evaluate("perl("+"'"+path.toString()+"'"+");");
-                MainFrame.octavePanel.commandArea.append("perl("+"'"+path.toString()+"'"+");\n");
-            }else if(ext.equalsIgnoreCase(".mod")) {
-                setUpDynare(path);
-            }else if(ext.equalsIgnoreCase(".dyn")) {
-                setUpDynare(path);
-            }
-        }
+    } 
+    
     public void newFile() {
-        CodeEditorNewFileDialog newFileDlg =new CodeEditorNewFileDialog(this,true,this.dynareOptions1,this.dynarePath1);
+        DLENewFileDialog newFileDlg =new DLENewFileDialog(this,true,this.dynareOptions,this.dynarePath);
         newFileDlg.setLocationRelativeTo(this);
         newFileDlg.setVisible(true);
     }
     public void deleteText() {
        
 	 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
-	RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
+	
         RSyntaxTextArea textArea = (RSyntaxTextArea) t.getTextArea();
         boolean beep = true;
 			if ((textArea != null) && (textArea.isEditable())) {
@@ -1261,43 +1291,8 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 
 			textArea.requestFocusInWindow();
 }
-     public void needOct(boolean need) {
-          AutoCompletion ac = new AutoCompletion(provider1);
-
-        if(need) {
-             ac.install(this.area1);
-             
-        }
-         else   {
-              ac.uninstall();
-         }
-    }
-   public CompletionProvider createCompletionProvider() {
-
-
-      DefaultCompletionProvider provider = new DefaultCompletionProvider();
-
-      
-      JList l = new JList();
      
-        AutoCompleteListCellRenderer cellRender = new  AutoCompleteListCellRenderer(l.getFont(),
-                                               l.getBackground(),l.getForeground(),
-                                               l.getSelectionBackground(),l.getSelectionForeground());
-      provider.setListCellRenderer(cellRender);
-      
-      OctaveM _m = new OctaveM();
-      List a = _m.getKey("DomainMath_OctaveAutoComplete.ini");
-      
-     
-      for(int i=0;i<a.size();i++) {
-          provider.addCompletion(new BasicCompletion(provider, a.get(i).toString()));
-      }
-     
-
-      
-      return provider;
-
-   }
+   
     /**
      * @param args the command line arguments
      */
@@ -1319,13 +1314,13 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DLECodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DLECodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DLECodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DLECodeEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1334,9 +1329,8 @@ public class CodeEditorFrame extends javax.swing.JFrame {
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
-            @Override
             public void run() {
-                new CodeEditorFrame("","").setVisible(true);
+                new DLECodeEditorFrame().setVisible(true);
             }
         });
     }
@@ -1344,16 +1338,19 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenuItem clearAllMarksItem;
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
     private javax.swing.JMenuItem copyItem;
     private javax.swing.JMenuItem cutItem;
     private javax.swing.JMenuItem deleteItem;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem exeItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem1;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem findAndReplaceItem;
     private javax.swing.JMenuItem findItem;
     private javax.swing.JMenuItem forumItem;
     private javax.swing.JMenuItem googleItem;
@@ -1369,29 +1366,31 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
-    private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
-    private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem mexFileItem;
     private javax.swing.JMenuItem newFileItem;
+    private javax.swing.JMenuItem octFileItem;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenuItem openItem;
     private javax.swing.JMenuItem pasteItem;
@@ -1399,7 +1398,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem replaceItem;
     private javax.swing.JMenuItem reportBugItem1;
-    public static javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveAllItem;
     private javax.swing.JMenuItem saveAsFileItem;
     private javax.swing.JMenuItem saveFileItem;
@@ -1413,10 +1411,9 @@ public class CodeEditorFrame extends javax.swing.JFrame {
       
      try {
             try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
-                //setUpArea();
+                
                 this.fileTab.setTitleAt(index,file.getName());
-               // System.out.println(index+","+file.getAbsolutePath());
-                //this.area1.write(r);
+               
                 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(index);
                 RSyntaxTextArea a = (RSyntaxTextArea)t.getTextArea();
                 a.write(r);
@@ -1436,7 +1433,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
 	RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
             selectedArea.print();
         } catch (PrinterException ex) {
-            Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DLECodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1455,7 +1452,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(fileTab.getSelectedIndex()>= 0) { 
                     askSave(fileTab.getSelectedIndex());
-                   
                }
                
             }
@@ -1472,7 +1468,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                 while(i != -1) {
                    
                     askSave(i);
-                    
                     i--;
                 }
                     
@@ -1484,7 +1479,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
            
         });
     }
-    public void removeFileNameFromList(int index) {
+     public void removeFileNameFromList(int index) {
         fileNameList.remove(index);
     }
     public void askSave(int selectedIndex) {
@@ -1498,8 +1493,6 @@ public class CodeEditorFrame extends javax.swing.JFrame {
                  if(i == JOptionPane.YES_OPTION) {
                 File file = new File(fileTab.getToolTipTextAt(selectedIndex));
                      save(file,selectedIndex);
-                     
-                   
                  }else if (i == JOptionPane.NO_OPTION){
                       removeFileNameFromList(selectedIndex);
                      fileTab.remove(selectedIndex);
@@ -1509,8 +1502,7 @@ public class CodeEditorFrame extends javax.swing.JFrame {
             }else {
                 fileNameList.remove(selectedIndex);
                 fileTab.remove(selectedIndex);
-                file_index--; 
-               
+                file_index--;
             }
     }
 

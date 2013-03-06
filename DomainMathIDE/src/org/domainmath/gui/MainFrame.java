@@ -56,8 +56,8 @@ import javax.swing.text.Element;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.arrayeditor.ArrayEditorFrame;
-import org.domainmath.gui.code_editor.CodeEditorFrame;
-import org.domainmath.gui.code_editor.dle.DLECodeEditorFrame;
+
+import org.domainmath.gui.code_editor_dle.DLECodeEditorFrame;
 import org.domainmath.gui.current_dir.Main;
 import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
@@ -363,10 +363,10 @@ public final class MainFrame extends javax.swing.JFrame {
                 
                  
             } catch (IOException ex) {
-                Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+               
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+           
         }
         
         
@@ -577,9 +577,6 @@ public final class MainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        saveAsButton = new javax.swing.JButton();
-        printButton = new javax.swing.JButton();
-        jSeparator8 = new javax.swing.JToolBar.Separator();
         connectButton = new javax.swing.JButton();
         disconnectButton = new javax.swing.JButton();
         jSeparator9 = new javax.swing.JToolBar.Separator();
@@ -601,7 +598,6 @@ public final class MainFrame extends javax.swing.JFrame {
         openItem = new javax.swing.JMenuItem();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         saveFileItem = new javax.swing.JMenuItem();
-        saveAsItem = new javax.swing.JMenuItem();
         savePlotItem = new javax.swing.JMenuItem();
         saveAllItem = new javax.swing.JMenuItem();
         diaryMenu = new javax.swing.JMenu();
@@ -679,7 +675,6 @@ public final class MainFrame extends javax.swing.JFrame {
         finishDebugItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         fileViewItem = new javax.swing.JMenuItem();
-        codeEditorItem = new javax.swing.JMenuItem();
         dleEditorItem = new javax.swing.JMenuItem();
         arrayEditorItem = new javax.swing.JMenuItem();
         fltkplotItem = new javax.swing.JMenuItem();
@@ -721,7 +716,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
         jToolBar1.setName("Standard"); // NOI18N
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-new.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-new.png"))); // NOI18N
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -732,7 +727,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-open.png"))); // NOI18N
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -743,7 +738,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton2);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-save-all.png"))); // NOI18N
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -755,34 +750,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator4);
 
-        saveAsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save-as.png"))); // NOI18N
-        saveAsButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("saveAsItem.mnemonic").charAt(0));
-        saveAsButton.setToolTipText(bundle.getString("saveAsItem.tooltip")); // NOI18N
-        saveAsButton.setFocusable(false);
-        saveAsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        saveAsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        saveAsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveAsButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(saveAsButton);
-
-        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
-        printButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("printItem.mnemonic").charAt(0));
-        printButton.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N
-        printButton.setFocusable(false);
-        printButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        printButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        printButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(printButton);
-        jToolBar1.add(jSeparator8);
-
-        connectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/connect.png"))); // NOI18N
+        connectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/connect.png"))); // NOI18N
         connectButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("connectItem.mnemonic").charAt(0));
         connectButton.setToolTipText(bundle.getString("connectItem.tooltip")); // NOI18N
         connectButton.setFocusable(false);
@@ -795,7 +763,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(connectButton);
 
-        disconnectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/disconnect.png"))); // NOI18N
+        disconnectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/disconnect.png"))); // NOI18N
         disconnectButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("disconnectItem.mnemonic").charAt(0));
         disconnectButton.setToolTipText(bundle.getString("disconnectItem.tooltip")); // NOI18N
         disconnectButton.setFocusable(false);
@@ -809,7 +777,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(disconnectButton);
         jToolBar1.add(jSeparator9);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-undo.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-undo.png"))); // NOI18N
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -820,7 +788,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton4);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-redo.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-redo.png"))); // NOI18N
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -832,7 +800,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(jButton5);
         jToolBar1.add(jSeparator15);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-cut.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-cut.png"))); // NOI18N
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -843,7 +811,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-copy.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-copy.png"))); // NOI18N
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -854,7 +822,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton7);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-paste.png"))); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-paste.png"))); // NOI18N
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -877,7 +845,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(currentDirField);
 
-        folderUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/folder_up.png"))); // NOI18N
+        folderUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/go-up.png"))); // NOI18N
         folderUpButton.setToolTipText("Up");
         folderUpButton.setFocusable(false);
         folderUpButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -889,7 +857,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(folderUpButton);
 
-        browseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
+        browseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/document-open.png"))); // NOI18N
         browseButton.setToolTipText(bundle.getString("browseButton.title")); // NOI18N
         browseButton.setFocusable(false);
         browseButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -901,7 +869,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(browseButton);
 
-        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/list-add.png"))); // NOI18N
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/edit-add.png"))); // NOI18N
         addButton.setToolTipText(bundle.getString("addButton.title")); // NOI18N
         addButton.setFocusable(false);
         addButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -951,17 +919,6 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveFileItem);
-
-        saveAsItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save-as.png"))); // NOI18N
-        saveAsItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("saveAsItem.mnemonic").charAt(0));
-        saveAsItem.setText(bundle.getString("saveAsItem.name")); // NOI18N
-        saveAsItem.setToolTipText(bundle.getString("saveAsItem.tooltip")); // NOI18N
-        saveAsItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveAsItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(saveAsItem);
 
         savePlotItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("savePlotItem.mnemonic").charAt(0));
         savePlotItem.setText(bundle.getString("savePlotItem.name")); // NOI18N
@@ -1055,7 +1012,6 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu.add(printFileItem);
 
         printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        printItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
         printItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("printItem.mnemonic").charAt(0));
         printItem.setText(bundle.getString("printItem.name")); // NOI18N
         printItem.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N
@@ -1531,14 +1487,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(fileViewItem);
 
-        codeEditorItem.setText("Code Editor");
-        codeEditorItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                codeEditorItemActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(codeEditorItem);
-
         dleEditorItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/code_editor/resources/CodeEditor_en").getString("dleEditorItem.mnemonic").charAt(0));
         dleEditorItem.setText(bundle1.getString("dleEditor.name")); // NOI18N
         dleEditorItem.setToolTipText(bundle1.getString("dleEditorItem.tooltip")); // NOI18N
@@ -1919,12 +1867,7 @@ public void saveAs1() {
             
 }
 
-   
-private void saveAsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsItemActionPerformed
-    saveAs1();
-    
-}//GEN-LAST:event_saveAsItemActionPerformed
-public void connect() {
+   public void connect() {
     commandArea.setText("");
         octavePanel.outputArea.setText("");
         octavePanel.start();
@@ -1970,18 +1913,6 @@ private void disconnectItemActionPerformed(java.awt.event.ActionEvent evt) {//GE
 private void clearOutWindowItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearOutWindowItemActionPerformed
     octavePanel.clear();
 }//GEN-LAST:event_clearOutWindowItemActionPerformed
-
-private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
-    saveAs();
-}//GEN-LAST:event_saveAsButtonActionPerformed
-
-private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-    try {
-           octavePanel.outputArea.print();
-        } catch (PrinterException ex) {
-            
-        }
-}//GEN-LAST:event_printButtonActionPerformed
 
 private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
     connect();
@@ -2146,15 +2077,6 @@ private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         af.setVisible(true);
          
     }//GEN-LAST:event_arrayEditorItemActionPerformed
-
-    private void codeEditorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeEditorItemActionPerformed
-          Preferences pr = Preferences.userNodeForPackage(this.getClass());
-            String path =pr.get("DomainMath_DynarePath",null);
-        CodeEditorFrame f = new CodeEditorFrame(this.DynareOptions(),path);
-        f.setTitle("Code Editor");
-        f.setIconImage(icon);
-        f.setVisible(true);
-    }//GEN-LAST:event_codeEditorItemActionPerformed
 public void saveplot() {
         JFileChooser fc = new JFileChooser();
        
@@ -2184,7 +2106,8 @@ public void saveplot() {
 
     private void dleEditorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dleEditorItemActionPerformed
         DLECodeEditorFrame fr = new DLECodeEditorFrame();
-        fr.setLocationRelativeTo(null);
+       
+        fr.setLocationRelativeTo(this);
         fr.setVisible(true);
     }//GEN-LAST:event_dleEditorItemActionPerformed
 
@@ -2495,7 +2418,17 @@ public void saveplot() {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        save();
+        for(int i=0;i<fileTab.getTabCount();i++) {
+
+            String _file = fileTab.getToolTipTextAt(i);
+            String fl = fileTab.getTitleAt(i);
+
+            if(fl.endsWith("*")) {
+                File f =new File(_file);
+                save(f,i);
+            }
+
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -2623,7 +2556,7 @@ public void saveplot() {
 	RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
             selectedArea.print();
         } catch (PrinterException ex) {
-            Logger.getLogger(CodeEditorFrame.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     
@@ -2910,7 +2843,6 @@ public void saveplot() {
     private javax.swing.JMenuItem clearOutWindowItem;
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
-    private javax.swing.JMenuItem codeEditorItem;
     private javax.swing.JButton connectButton;
     private javax.swing.JMenuItem connectItem;
     private javax.swing.JMenuItem continueItem;
@@ -2989,7 +2921,6 @@ public void saveplot() {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem multicoreItem;
@@ -3006,7 +2937,6 @@ public void saveplot() {
     private javax.swing.JMenuItem pkgItem;
     private javax.swing.JMenu pkgMenuItem;
     private javax.swing.JMenuItem preferencesItem;
-    private javax.swing.JButton printButton;
     private javax.swing.JMenuItem printFileItem;
     private javax.swing.JMenuItem printItem;
     private javax.swing.JMenuItem quickHelpItem;
@@ -3018,8 +2948,6 @@ public void saveplot() {
     private javax.swing.JMenuItem reportBugItem;
     private javax.swing.JMenuItem runScriptItem;
     private javax.swing.JMenuItem saveAllItem;
-    private javax.swing.JButton saveAsButton;
-    private javax.swing.JMenuItem saveAsItem;
     private javax.swing.JMenuItem saveFileItem;
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;
