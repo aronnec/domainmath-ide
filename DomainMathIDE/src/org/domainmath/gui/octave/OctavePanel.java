@@ -146,12 +146,10 @@ public class OctavePanel extends JPanel{
        _p1 = new JPopupMenu();
 
        JMenuItem _copy = new JMenuItem("Copy");
-       JMenuItem _paste = new JMenuItem("Paste");
        JMenuItem _selectAll = new JMenuItem("Select All");
        
 
        _p1.add(_copy);
-       _p1.add(_paste);
        _p1.add(_selectAll);
        
        outputArea.add(_p1);
@@ -163,15 +161,6 @@ public class OctavePanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 outputArea.copy();
-            }
-           
-       }); 
-       
-       _paste.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                outputArea.paste();
             }
            
        }); 
