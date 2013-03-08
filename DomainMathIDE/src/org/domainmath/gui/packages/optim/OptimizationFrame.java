@@ -51,7 +51,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private int qpIndex=1;
     private int sqpIndex=1;
     private int tabIndex=1;
-    private final MainFrame frame;
+    
     private final DataBrowserPanel dataBrowser;
     private final JTabbedPane tabbedPane;
     private final JSplitPane splitPane;
@@ -59,8 +59,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
     /**
      * Creates new form GlpkFrame
      */
-    public OptimizationFrame(MainFrame frame) {
-        dataBrowser =new DataBrowserPanel(MainFrame.parent_root+"DomainMath_OctaveVariables.dat",frame);
+    public OptimizationFrame() {
+        dataBrowser =new DataBrowserPanel(MainFrame.parent_root+"DomainMath_OctaveVariables.dat",this);
          
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -68,7 +68,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
         splitPane.setDividerLocation(200);
        
         this.setIconImage(icon);
-        this.frame =frame;
+        
         
         initComponents();
         this.add(splitPane,BorderLayout.CENTER);
@@ -400,7 +400,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OptimizationFrame(null).setVisible(true);
+                new OptimizationFrame().setVisible(true);
             }
         });
     }

@@ -22,20 +22,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 
 
 public class PlotDialog extends javax.swing.JDialog {
-    private final MainFrame frame;
+    private final JFrame frame;
     private  String label;
     private final String var;
 
     /**
      * Creates new form FtnDialog
      */
-    public PlotDialog(MainFrame frame, boolean modal,String var) {
+    public PlotDialog(JFrame frame, boolean modal,String var) {
         super(frame, modal);
         this.frame =frame;
         

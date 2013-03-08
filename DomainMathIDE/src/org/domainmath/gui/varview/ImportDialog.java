@@ -18,19 +18,19 @@ package org.domainmath.gui.varview;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 
 
 public class ImportDialog extends javax.swing.JDialog {
-    private final MainFrame frame;
+    private final JFrame frame;
     private File file;
 
     /**
      * Creates new form ImportDialog
      */
-    public ImportDialog(MainFrame frame, boolean modal) {
+    public ImportDialog(JFrame frame, boolean modal) {
         super(frame, modal);
         this.frame =frame;
         initComponents();

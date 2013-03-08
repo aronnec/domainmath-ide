@@ -62,7 +62,7 @@ public class DataBrowserPanel extends JPanel {
     private JButton deleteButton;
     private JButton addButton;
     private final JMenuItem addItem;
-    private final MainFrame frame;
+    private final JFrame frame;
     private final JMenuItem exportItem;
     private final JMenuItem exportAllItem;
     private final JMenuItem importItem;
@@ -78,7 +78,7 @@ public class DataBrowserPanel extends JPanel {
     
     
   
-    public DataBrowserPanel(String directory,MainFrame frame) {
+    public DataBrowserPanel(String directory,JFrame frame) {
         super(new BorderLayout());
         table = new JTable();
         this.frame =frame;
