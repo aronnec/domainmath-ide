@@ -19,17 +19,20 @@ package org.domainmath.gui.packages.optim;
 
 import java.io.File;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.databrowser.DataBrowserPanel;
 
 
 
 
 public class SqpPanel extends javax.swing.JPanel {
+    private final DataBrowserPanel dataBrowser;
 
     /**
      * Creates new form QpPanel
      */
-    public SqpPanel() {
+    public SqpPanel(DataBrowserPanel dataBrowser) {
         initComponents();
+        this.dataBrowser=dataBrowser;
     }
 
     /**
@@ -312,13 +315,16 @@ public class SqpPanel extends javax.swing.JPanel {
                 MainFrame.octavePanel.evaluate(jar_path);
                 declare("x0",x0);
                MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
-               
+               MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                dataBrowser.reload();
             }else{
                 String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+c.substring(c.lastIndexOf(","))+");";
                 MainFrame.octavePanel.evalWithOutput(cmd2); 
                  MainFrame.octavePanel.evaluate(jar_path);
                  declare("x0",x0);
                  MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
+                 MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                dataBrowser.reload();
             }
             
         }

@@ -2208,7 +2208,7 @@ public void saveplot() {
     }//GEN-LAST:event_worksheetItemActionPerformed
 
     private void optimItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optimItemActionPerformed
-       OptimizationFrame optimFrame = new OptimizationFrame();
+       OptimizationFrame optimFrame = new OptimizationFrame(this);
         optimFrame.setLocationRelativeTo(this);
         optimFrame.setVisible(true);
     }//GEN-LAST:event_optimItemActionPerformed

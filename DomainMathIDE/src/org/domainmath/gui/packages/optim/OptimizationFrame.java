@@ -18,11 +18,11 @@
 package org.domainmath.gui.packages.optim;
 
 
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -33,13 +33,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.TitledPanelContainer;
 import org.domainmath.gui.about.AboutDlg;
-import org.domainmath.gui.packages.image.ImageLoadDialog;
-import org.domainmath.gui.packages.image.ImageToolFrame;
+import org.domainmath.gui.databrowser.DataBrowserPanel;
 
 
 public class OptimizationFrame extends javax.swing.JFrame {
@@ -51,14 +51,30 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private int qpIndex=1;
     private int sqpIndex=1;
     private int tabIndex=1;
+    private final MainFrame frame;
+    private final DataBrowserPanel dataBrowser;
+    private final JTabbedPane tabbedPane;
+    private final JSplitPane splitPane;
+    
     /**
      * Creates new form GlpkFrame
      */
-    public OptimizationFrame() {
-        this.setIconImage(icon);
+    public OptimizationFrame(MainFrame frame) {
+        dataBrowser =new DataBrowserPanel(MainFrame.parent_root+"DomainMath_OctaveVariables.dat",frame);
+         
+        tabbedPane = new JTabbedPane();
+        tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,dataBrowser,tabbedPane);
+        splitPane.setDividerLocation(200);
        
+        this.setIconImage(icon);
+        this.frame =frame;
+        
         initComponents();
+        this.add(splitPane,BorderLayout.CENTER);
+        
         this.popupTab(); 
+        this.pack();
     }
 
     private void popupTab(){
@@ -124,7 +140,6 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
-        tabbedPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -149,8 +164,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Optimization Tool");
-
-        tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        getContentPane().add(statusPanel2, java.awt.BorderLayout.PAGE_END);
 
         jMenu1.setText("File");
 
@@ -290,21 +304,6 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-            .addComponent(tabbedPane)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                .addGap(1, 1, 1)
-                .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -347,7 +346,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel());
+        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel(this.dataBrowser));
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("glpk #"+this.glpkIndex);
@@ -379,7 +378,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_closeItemActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        tabbedPane.add("qp #"+this.qpIndex, new QpPanel());
+        tabbedPane.add("qp #"+this.qpIndex, new QpPanel(this.dataBrowser));
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("qp #"+this.qpIndex);
@@ -387,7 +386,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel());
+        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel(this.dataBrowser));
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("sqp #"+this.sqpIndex);
@@ -401,7 +400,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OptimizationFrame().setVisible(true);
+                new OptimizationFrame(null).setVisible(true);
             }
         });
     }
@@ -443,7 +442,6 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem reportBugItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
-    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
      class PopupListener extends MouseAdapter {
