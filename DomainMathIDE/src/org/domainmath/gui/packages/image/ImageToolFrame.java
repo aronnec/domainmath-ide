@@ -117,7 +117,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
                     removeFileNameFromList(fileTab.getSelectedIndex());
                    
                    fileTab.remove(fileTab.getSelectedIndex());
-                  
+                  index--;
                }
                
             }
@@ -133,6 +133,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
 
                     removeFileNameFromList(i);
                     fileTab.remove(i);
+                    index--;
                     i--;
                 }
  
@@ -440,7 +441,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
                     removeFileNameFromList(fileTab.getSelectedIndex());
                    
                    fileTab.remove(fileTab.getSelectedIndex());
-                  
+                   index--;
                }
     }//GEN-LAST:event_closeItemActionPerformed
 
@@ -450,6 +451,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
 
             removeFileNameFromList(i);
             fileTab.remove(i);
+            index--;
             i--;
         }
     }//GEN-LAST:event_closeAllItemActionPerformed
@@ -545,7 +547,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
  
     public void open(File file) {
                 LoadImagePanel loadImagePanel = new LoadImagePanel(file);
-                fileTab.addTab(file.getAbsolutePath(), loadImagePanel);    
+                fileTab.addTab(file.getName(), loadImagePanel);    
                 fileTab.setToolTipTextAt(index, file.getAbsolutePath());
                 fileTab.setSelectedIndex(index);
                 this.addFileNameToList(file.getAbsolutePath());
