@@ -63,6 +63,8 @@ function DomainMath_OctaveDataView(sFileName,variables)
 				else
 					fprintf(pFile,"%s|'false'|",s{_i});
 				endif
+		   elseif(is_function_handle(k))
+		   		fprintf(pFile,"%s|%s|",s{_i},func2str(k));
 		   elseif(isscalar(k))
 		   		if(iscomplex(k))
 		   			_r1=real(k);
@@ -93,7 +95,8 @@ function DomainMath_OctaveDataView(sFileName,variables)
 				[r5,c5]=size(k);
 		   		fprintf(pFile,"%s|vector<%dx%d>|",s{_i},r5,c5);
 		   elseif(isobject(k))
-		   		fprintf(pFile,"object|");
+		   		fprintf(pFile,"%s|object|",s{_i});
+		    
 		   else
 		   	fprintf(pFile,"%s|-|",s{_i});
 		   endif
@@ -196,4 +199,3 @@ clear('iCol');
 clear('ii');
 clear('jj');
 clear('s');
-clear('_i');
