@@ -505,7 +505,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveAs();
+                saveHistoryAs();
             }
             
         });
@@ -518,7 +518,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 String os =System.getProperty("os.name").toLowerCase();
                 boolean isWindows= (os.indexOf("win") >=0);
 
-                save(new File(path+"dmns.m"));
+                saveHistory(new File(path+"dmns.m"));
                 if(isWindows) {
                     createFile(path,".bat");
                     openscript(new File(path+"octave.bat"));
@@ -598,6 +598,7 @@ public final class MainFrame extends javax.swing.JFrame {
         openItem = new javax.swing.JMenuItem();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         saveFileItem = new javax.swing.JMenuItem();
+        saveAsItem = new javax.swing.JMenuItem();
         savePlotItem = new javax.swing.JMenuItem();
         saveAllItem = new javax.swing.JMenuItem();
         diaryMenu = new javax.swing.JMenu();
@@ -919,6 +920,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveFileItem);
+
+        saveAsItem.setText("Save As...");
+        saveAsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveAsItem);
 
         savePlotItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("savePlotItem.mnemonic").charAt(0));
         savePlotItem.setText(bundle.getString("savePlotItem.name")); // NOI18N
@@ -1821,7 +1830,7 @@ private void preferencesItemActionPerformed(java.awt.event.ActionEvent evt) {//G
         preferencesDlg.setVisible(true);
 }//GEN-LAST:event_preferencesItemActionPerformed
 
-public void save(File file) {
+public void saveHistory(File file) {
      try {
             try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
                     DateFormat formatter = 
@@ -1839,6 +1848,31 @@ public void save(File file) {
                 
 		}
 }
+
+public void saveHistoryAs() {
+    JFileChooser fc = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "M-Files  (*.m)", "m");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(false);
+
+        fc.setDialogTitle("Save As");
+        File file_save;
+        int returnVal = fc.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String path = fc.getSelectedFile().getAbsolutePath();
+                if(!path.endsWith(".m")) {
+                    file_save = new File(fc.getSelectedFile().getAbsolutePath()+".m");
+                    saveHistory(file_save);
+                }else {
+                     file_save = new File(fc.getSelectedFile().getAbsolutePath()+".m");
+                     saveHistory(file_save);
+                }
+                 
+        }
+}
 public void saveAs1() {
     JFileChooser fc = new JFileChooser();
 
@@ -1855,10 +1889,10 @@ public void saveAs1() {
                 String path = fc.getSelectedFile().getAbsolutePath();
                 if(!path.endsWith(".m")) {
                     file_save = new File(fc.getSelectedFile().getAbsolutePath()+".m");
-                    save(file_save);
+                    save(file_save,fileTab.getSelectedIndex());
                 }else {
                      file_save = new File(fc.getSelectedFile().getAbsolutePath()+".m");
-                     save(file_save);
+                     save(file_save,fileTab.getSelectedIndex());
                 }
                  
         }
@@ -1991,7 +2025,7 @@ private void fltkplotItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     String os =System.getProperty("os.name").toLowerCase();
     boolean isWindows= (os.indexOf("win") >=0);
     
-    save(new File(path+"dmns.m"));
+    saveHistory(new File(path+"dmns.m"));
     if(isWindows) {
         createFile(path,".bat");
         openscript(new File(path+"octave.bat"));
@@ -2808,6 +2842,10 @@ public void saveplot() {
         nnetFrame.setVisible(true);
     }//GEN-LAST:event_nNetMenuItemActionPerformed
 
+    private void saveAsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsItemActionPerformed
+        saveAs();
+    }//GEN-LAST:event_saveAsItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2948,6 +2986,7 @@ public void saveplot() {
     private javax.swing.JMenuItem reportBugItem;
     private javax.swing.JMenuItem runScriptItem;
     private javax.swing.JMenuItem saveAllItem;
+    private javax.swing.JMenuItem saveAsItem;
     private javax.swing.JMenuItem saveFileItem;
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;
