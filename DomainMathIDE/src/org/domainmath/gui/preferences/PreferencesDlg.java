@@ -24,6 +24,7 @@ import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.Util.DomainMathFileFilter;
 
 /**
  *
@@ -113,6 +114,8 @@ public class PreferencesDlg extends javax.swing.JDialog {
 
         jLabel1.setText(bundle.getString("label.title")); // NOI18N
 
+        pathField.setToolTipText("If you are using Octave 3.7.2+, choose octave-cli.exe or octave-cli-3.7.2+.exe. Do not choose octave.exe or octave3.7.2+");
+
         cancelButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/preferences/resources/preferences_en").getString("cancelButton.mnemonic").charAt(0));
         cancelButton.setText(bundle.getString("cancelButton.title")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +134,7 @@ public class PreferencesDlg extends javax.swing.JDialog {
 
         browseButton.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/preferences/resources/preferences_en").getString("browseButton.mnemonic").charAt(0));
         browseButton.setText(bundle.getString("browseButton.title")); // NOI18N
+        browseButton.setToolTipText("If you are using Octave 3.7.2+, choose octave-cli.exe or octave-cli-3.7.2+.exe. Do not choose octave.exe or octave3.7.2+");
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseButtonActionPerformed(evt);
@@ -150,20 +154,20 @@ public class PreferencesDlg extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdLinField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-                    .addComponent(pathField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(cmdLinField)
+                    .addComponent(pathField)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(okButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(cancelButton))
                     .addComponent(browseButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(startupCmdField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(startupCmdField)
                     .addComponent(jLabel2))
                 .addContainerGap())
         );
@@ -199,7 +203,8 @@ public class PreferencesDlg extends javax.swing.JDialog {
 
 private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
          JFileChooser fc = new JFileChooser();
-        
+         fc.setFileFilter(DomainMathFileFilter.EXE_FILE_FILTER);
+         fc.setAcceptAllFileFilterUsed(false);
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
         File file = null;

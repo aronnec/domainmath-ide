@@ -38,5 +38,6 @@ public final class DomainMathFileFilter {
    public static FileNameExtensionFilter      AUDIO_FILE_FILTER              = new FileNameExtensionFilter("Audio Data  (*.lin; *.raw; *.au; *.mu; *.snd; *.wav; *.riff)","lin", "raw", "au", "mu", "snd", "wav","riff");
     public static FileNameExtensionFilter      SAVE_PLOT_FILE_FILTER              = new FileNameExtensionFilter("Octave Plot Format (*.ps; *.eps; *.jpg; *.png; *.emf; *.pdf)","ps", "eps", "jpg", "png", "emf", "pdf");
    public static FileNameExtensionFilter      DCM_FILE_FILTER              = new FileNameExtensionFilter("DICOM (*.dcm)","dcm");
+   public static FileNameExtensionFilter      EXE_FILE_FILTER              = new FileNameExtensionFilter("Application (*.exe)","exe");
    
 }
