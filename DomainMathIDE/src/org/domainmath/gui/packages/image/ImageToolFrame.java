@@ -172,6 +172,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
         exitItem = new javax.swing.JMenuItem();
         imageMenu = new javax.swing.JMenu();
         loadImageItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         propertiesItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
@@ -267,6 +268,14 @@ public class ImageToolFrame extends javax.swing.JFrame {
             }
         });
         imageMenu.add(loadImageItem);
+
+        jMenuItem1.setText("Image Filter");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        imageMenu.add(jMenuItem1);
 
         propertiesItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         propertiesItem.setText(bundle.getString("propertiesItem")); // NOI18N
@@ -456,6 +465,12 @@ public class ImageToolFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_closeAllItemActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ImageFilterDialog im= new ImageFilterDialog(this,true);
+        im.setLocationRelativeTo(this);
+        im.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -491,6 +506,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
     private javax.swing.JMenu imageMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JToolBar jToolBar1;
