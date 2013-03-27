@@ -283,7 +283,17 @@ public class VarViewPanel extends JPanel {
 
             } 
        }
-    
+    /**
+     * Returns a List contains names of variables in the workspace
+     * @return names of variables in workspace.
+     */
+    public List getVarNames() {
+        List data =Collections.synchronizedList(new ArrayList());
+        for(int i=0; i<table.getRowCount();i++) {
+            data.add(table.getValueAt(i, 0));
+        }
+        return data;
+    }
     private void loadDCM(String path) {
         MainFrame.octavePanel.evaluate("pkg load dicom");
         MainFrame.octavePanel.evalWithOutput("im=dicomread('"+path+"');");
