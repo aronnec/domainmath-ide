@@ -37,8 +37,10 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         varNames = MainFrame.varView.getVarNames();
         for(int i=0;i<varNames.size();i++) {
             model.addElement(varNames.get(i));
+            this.spFilterComboBox.addItem(varNames.get(i));
         }
         this.imageVarList.setModel(model);
+        this.imageVarList.setSelectedIndex(0);
         
     }
 
@@ -64,7 +66,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         createImageVarButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         spFilterComboBox = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        createSpatialFilterButton = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         optionsComboBox = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
@@ -109,7 +111,14 @@ public class ImageFilterDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Spatial Filter:");
 
-        jButton1.setText("Create");
+        spFilterComboBox.setEditable(true);
+
+        createSpatialFilterButton.setText("Create");
+        createSpatialFilterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createSpatialFilterButtonActionPerformed(evt);
+            }
+        });
 
         jRadioButton1.setText("Options:");
         jRadioButton1.addItemListener(new java.awt.event.ItemListener() {
@@ -142,30 +151,12 @@ public class ImageFilterDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
-                                .addGap(22, 22, 22))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(imagePathTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                                    .addComponent(imageVarTextField))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(browseImageButton)
-                                    .addComponent(createImageVarButton, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(85, 85, 85)
                         .addComponent(spFilterComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(createSpatialFilterButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(imageRadioButton)
@@ -189,7 +180,23 @@ public class ImageFilterDialog extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(OKButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)))
+                        .addComponent(cancelButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(imagePathTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                    .addComponent(imageVarTextField))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(browseImageButton)
+                                    .addComponent(createImageVarButton, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap())
         );
 
@@ -220,7 +227,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(spFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(createSpatialFilterButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton1)
@@ -252,6 +259,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
              this.browseImageButton.setEnabled(true);
              this.createImageVarButton.setEnabled(true);
             this.imagePathTextField.setEnabled(true);
+            this.imageVarTextField.setEnabled(true);
             this.imageVarList.setEnabled(false);
         }
     }//GEN-LAST:event_imageRadioButtonItemStateChanged
@@ -261,6 +269,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
             this.imageVarList.setEnabled(true);
             this.browseImageButton.setEnabled(false);
             this.imagePathTextField.setEnabled(false);
+            this.imageVarTextField.setEnabled(false);
             this.createImageVarButton.setEnabled(false);
             
         }
@@ -269,8 +278,16 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     private void jRadioButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton1ItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED) {
             this.optionsComboBox.setEnabled(true);
+        }else{
+            this.optionsComboBox.setEnabled(false);
         }
     }//GEN-LAST:event_jRadioButton1ItemStateChanged
+
+    private void createSpatialFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSpatialFilterButtonActionPerformed
+        NewSpatialFilterDialog newSpatialFilterDialog = new NewSpatialFilterDialog(null,true);
+        newSpatialFilterDialog.setLocationRelativeTo(this);
+        newSpatialFilterDialog.setVisible(true);
+    }//GEN-LAST:event_createSpatialFilterButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,12 +336,12 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createImageVarButton;
+    private javax.swing.JButton createSpatialFilterButton;
     private javax.swing.JCheckBox imShowCheckBox;
     private javax.swing.JTextField imagePathTextField;
     private javax.swing.JRadioButton imageRadioButton;
     private javax.swing.JList imageVarList;
     private javax.swing.JTextField imageVarTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
