@@ -41,6 +41,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.StatusPanel;
+import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 
 
@@ -466,9 +467,15 @@ public class ImageToolFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_closeAllItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ImageFilterDialog im= new ImageFilterDialog(this,true);
-        im.setLocationRelativeTo(this);
-        im.setVisible(true);
+        if(fileTab.getSelectedIndex() >= 0) { 
+            ImageFilterDialog im= new ImageFilterDialog(this,fileTab.getToolTipTextAt(fileTab.getSelectedIndex()),true);
+            im.setLocationRelativeTo(this);
+            im.setVisible(true);
+         }else{
+            ImageFilterDialog im= new ImageFilterDialog(this,"",true);
+            im.setLocationRelativeTo(this);
+            im.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -529,9 +536,10 @@ public class ImageToolFrame extends javax.swing.JFrame {
     }
    public void open(){
 
-              
-                
         JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);     
 
           if(fileTab.getSelectedIndex() >= 0) { 
               File f = new File(currentDir1);

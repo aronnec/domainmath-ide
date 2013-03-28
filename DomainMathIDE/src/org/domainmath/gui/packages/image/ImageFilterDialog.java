@@ -34,7 +34,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     /**
      * Creates new form ImageFilterDialog
      */
-    public ImageFilterDialog(java.awt.Frame parent, boolean modal) {
+    public ImageFilterDialog(java.awt.Frame parent,String selected_file, boolean modal) {
         super(parent, modal);
         initComponents();
         model = new DefaultListModel();
@@ -45,7 +45,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         }
         this.imageVarList.setModel(model);
         this.imageVarList.setSelectedIndex(0);
-        
+        this.imagePathTextField.setText(selected_file);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         spFilterComboBox = new javax.swing.JComboBox();
         createSpatialFilterButton = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        optionsRadioButton = new javax.swing.JRadioButton();
         optionsComboBox = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -136,10 +136,10 @@ public class ImageFilterDialog extends javax.swing.JDialog {
             }
         });
 
-        jRadioButton1.setText("Options:");
-        jRadioButton1.addItemListener(new java.awt.event.ItemListener() {
+        optionsRadioButton.setText("Options:");
+        optionsRadioButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jRadioButton1ItemStateChanged(evt);
+                optionsRadioButtonItemStateChanged(evt);
             }
         });
 
@@ -157,8 +157,18 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         imShowCheckBox.setText("Display output as image");
 
         cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,7 +191,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
+                            .addComponent(optionsRadioButton)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel5)))
@@ -246,7 +256,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
                     .addComponent(createSpatialFilterButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
+                    .addComponent(optionsRadioButton)
                     .addComponent(optionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
@@ -291,13 +301,13 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_octaveImageVarRadioButtonItemStateChanged
 
-    private void jRadioButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton1ItemStateChanged
+    private void optionsRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_optionsRadioButtonItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED) {
             this.optionsComboBox.setEnabled(true);
         }else{
             this.optionsComboBox.setEnabled(false);
         }
-    }//GEN-LAST:event_jRadioButton1ItemStateChanged
+    }//GEN-LAST:event_optionsRadioButtonItemStateChanged
 
     private void createSpatialFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSpatialFilterButtonActionPerformed
         NewSpatialFilterDialog newSpatialFilterDialog = new NewSpatialFilterDialog(null,this,true);
@@ -325,6 +335,97 @@ public class ImageFilterDialog extends javax.swing.JDialog {
             MainFrame.octavePanel.evalWithOutput(image_data_name+"=imread('"+this.imagePathTextField.getText()+"');");
         }
     }//GEN-LAST:event_createImageVarButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+     private String createOctString(String st) {
+        String out =Character.toString('"')+st+Character.toString('"');
+        return out;
+    }
+     
+    private void plotData(String image_var,String outputVar) {
+         MainFrame.octavePanel.evalWithOutput("figure(1)");
+         MainFrame.octavePanel.evalWithOutput("imshow("+image_var+");");
+         MainFrame.octavePanel.evalWithOutput("title('Image Data')");
+         MainFrame.octavePanel.evalWithOutput("figure(2)");
+         MainFrame.octavePanel.evalWithOutput("imshow("+outputVar+");");
+         MainFrame.octavePanel.evalWithOutput("title('Output Image')");
+    }
+    private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
+       if(this.optionsRadioButton.isSelected()) {
+           String options[] ={ createOctString("symmetric"),
+                                createOctString("replicate"),
+                                createOctString("circular"),
+                                createOctString("same"),
+                                createOctString("full"),
+                                createOctString("corr"),
+                                createOctString("conv"),
+                                }; 
+         if(this.imageRadioButton.isSelected()) {
+             String image_var = this.imageVarTextField.getText();
+             String spFilter = ImageFilterDialog.spFilterComboBox.getSelectedItem().toString();
+             String outputVar = this.outputVarTextField.getText();
+             if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
+                 MainFrame.octavePanel.evaluate("pkg load image");
+                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
+                 
+                 if(this.imShowCheckBox.isSelected()) {
+                     plotData(image_var, outputVar);
+                     dispose();
+                 }
+                 dispose();
+             }
+             
+         }else if(this.octaveImageVarRadioButton.isSelected()){
+             String image_var = this.imageVarList.getSelectedValue().toString();
+             String spFilter = ImageFilterDialog.spFilterComboBox.getSelectedItem().toString();
+             String outputVar = this.outputVarTextField.getText();
+             if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
+                 MainFrame.octavePanel.evaluate("pkg load image");
+                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
+                 
+                 if(this.imShowCheckBox.isSelected()) {
+                     plotData(image_var, outputVar);
+                     dispose();
+                 }
+                 dispose();
+             }
+         }
+       }else{
+           if(this.imageRadioButton.isSelected()) {
+             String image_var = this.imageVarTextField.getText();
+             String spFilter = ImageFilterDialog.spFilterComboBox.getSelectedItem().toString();
+             String outputVar = this.outputVarTextField.getText();
+             if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
+                 MainFrame.octavePanel.evaluate("pkg load image");
+                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+");");
+                 
+                 if(this.imShowCheckBox.isSelected()) {
+                     plotData(image_var, outputVar);
+                     dispose();
+                 }
+                 dispose();
+             }
+             
+         }else if(this.octaveImageVarRadioButton.isSelected()){
+             String image_var = this.imageVarList.getSelectedValue().toString();
+             String spFilter = ImageFilterDialog.spFilterComboBox.getSelectedItem().toString();
+             String outputVar = this.outputVarTextField.getText();
+             if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
+                 MainFrame.octavePanel.evaluate("pkg load image");
+                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+");");
+                 
+                 if(this.imShowCheckBox.isSelected()) {
+                     plotData(image_var, outputVar);
+                     dispose();
+                 }
+                 dispose();
+             }
+       }
+       }
+    }//GEN-LAST:event_OKButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,7 +457,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ImageFilterDialog dialog = new ImageFilterDialog(new javax.swing.JFrame(), true);
+                ImageFilterDialog dialog = new ImageFilterDialog(new javax.swing.JFrame(),"", true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -384,10 +485,10 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton octaveImageVarRadioButton;
     private javax.swing.JComboBox optionsComboBox;
+    private javax.swing.JRadioButton optionsRadioButton;
     private javax.swing.JTextField outputVarTextField;
     public static javax.swing.JComboBox spFilterComboBox;
     // End of variables declaration//GEN-END:variables
