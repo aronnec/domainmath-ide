@@ -16,14 +16,18 @@
  */
 package org.domainmath.gui.packages.image;
 
+import org.domainmath.gui.MainFrame;
+
 
 public class NewSpatialFilterDialog extends javax.swing.JDialog {
+    private final ImageFilterDialog imDlg;
 
     /**
      * Creates new form NewSpatialFilterDialog
      */
-    public NewSpatialFilterDialog(java.awt.Frame parent, boolean modal) {
+    public NewSpatialFilterDialog(java.awt.Frame parent, ImageFilterDialog imDlg, boolean modal) {
         super(parent, modal);
+        this.imDlg=imDlg;
         initComponents();
     }
 
@@ -37,13 +41,13 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        shapeFilterComboBox = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        argTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        filterNameTextField = new javax.swing.JTextField();
+        cancelButton = new javax.swing.JButton();
+        OKButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create Spatial Filter");
@@ -51,19 +55,29 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Shape of filter:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rectangular averaging filter", "Circular averaging filter", "Gaussian filter", "Laplacian of Gaussian", "3x3 approximation of the laplacian", "Sharpening filter", "Moion blur filter of width 1 pixel", "Horizontal Sobel edge filter", "Horizontal Prewitt edge filter", "Horizontal Kirsch edge filter" }));
+        shapeFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rectangular averaging filter", "Circular averaging filter", "Gaussian filter", "Laplacian of Gaussian", "3x3 approximation of the laplacian", "Sharpening filter", "Moion blur filter of width 1 pixel", "Horizontal Sobel edge filter", "Horizontal Prewitt edge filter", "Horizontal Kirsch edge filter" }));
 
         jLabel2.setText("Arguments:");
 
-        jTextField1.setToolTipText("If you have more than one arguments seperate them with a ','.Ex: arg1,arg2");
+        argTextField.setToolTipText("If you have more than one arguments seperate them with a ','.Ex: arg1,arg2");
 
         jLabel3.setText("Filter Name:");
 
-        jTextField2.setText("f");
+        filterNameTextField.setText("f");
 
-        jButton1.setText("Cancel");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("OK");
+        OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,18 +93,18 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, 197, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)))
+                            .addComponent(shapeFilterComboBox, 0, 197, Short.MAX_VALUE)
+                            .addComponent(argTextField)
+                            .addComponent(filterNameTextField)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(OKButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(cancelButton)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {OKButton, cancelButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,26 +112,57 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(shapeFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(argTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filterNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(cancelButton)
+                    .addComponent(OKButton))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {OKButton, cancelButton});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private String createOctString(String st) {
+        String out =Character.toString('"')+st+Character.toString('"');
+        return out;
+    }
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
+        String shapeFilter[] ={ createOctString("average"),
+                                createOctString("disk"),
+                                createOctString("gaussian"),
+                                createOctString("log"),
+                                createOctString("laplacian"),
+                                createOctString("unsharp"),
+                                createOctString("motion"),
+                                createOctString("sobel"),
+                                createOctString("prewitt"),
+                                createOctString("kirsch")
+                                };
+        String arg = this.argTextField.getText();
+        String filterName = this.filterNameTextField.getText();
+        
+        if(!arg.equals("") || !filterName.equals("")) {
+            MainFrame.octavePanel.evaluate("pkg load image");
+            MainFrame.octavePanel.evalWithOutput(filterName+"=fspecial("+shapeFilter[this.shapeFilterComboBox.getSelectedIndex()]+","+arg+");");
+            ImageFilterDialog.spFilterComboBox.addItem(filterName);
+            dispose();
+        }
+    }//GEN-LAST:event_OKButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,7 +194,7 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewSpatialFilterDialog dialog = new NewSpatialFilterDialog(new javax.swing.JFrame(), true);
+                NewSpatialFilterDialog dialog = new NewSpatialFilterDialog(new javax.swing.JFrame(),null, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -161,13 +206,13 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton OKButton;
+    private javax.swing.JTextField argTextField;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JTextField filterNameTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox shapeFilterComboBox;
     // End of variables declaration//GEN-END:variables
 }
