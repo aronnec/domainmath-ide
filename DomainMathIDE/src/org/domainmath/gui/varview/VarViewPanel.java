@@ -430,7 +430,7 @@ public class VarViewPanel extends JPanel {
                      save(file,"-zip",var);
                  }else if(name.endsWith(".fis")) {
                      MainFrame.octavePanel.eval("pkg load fuzzy-logic-toolkit");
-                   MainFrame.octavePanel.eval("writefis('"+var+"','"+file.getAbsolutePath()+"');");
+                   MainFrame.octavePanel.eval("writefis("+var+",'"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                     System.out.println(file.getAbsolutePath());
