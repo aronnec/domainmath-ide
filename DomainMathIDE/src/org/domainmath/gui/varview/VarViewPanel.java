@@ -777,7 +777,11 @@ public class VarViewPanel extends JPanel {
    
      private void viewIn() {
         if(table.getSelectedRow() >= 0)  {
-                     try {
+            String size = table.getValueAt(table.getSelectedRow(), 1).toString();
+            StringTokenizer t = new StringTokenizer(size,"x");
+            System.out.println("tokens:"+t.countTokens());
+            if(t.countTokens() <=2) {
+                try {
                             String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
                            // MainFrame.octavePanel.evaluate(variable);
 //                            MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
@@ -795,9 +799,14 @@ public class VarViewPanel extends JPanel {
                             
                         } catch (Exception ex) {
                         }
+            }else{
+                 String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
+                MainFrame.octavePanel.evalWithOutput("imshow("+variable+");");
+            }
+                     
                
                    
-                 }
+         }
     }
 
     
@@ -1034,6 +1043,7 @@ public class VarViewPanel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if(e.getClickCount() == 2) {
+                
                 viewIn();
             }
         }
