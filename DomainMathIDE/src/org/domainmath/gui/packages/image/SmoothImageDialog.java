@@ -64,7 +64,7 @@ public class SmoothImageDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Algorithm:");
 
-        algorithmsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Gaussian", "Average", "Disk", "Median", "Bilateral", "Perona & Malik", "Perona and Malik", "P&M", "Custom Gaussian" }));
+        algorithmsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Gaussian", "Average", "Disk", "Median", "Bilateral", "Perona & Malik", "Perona and Malik", "P&M", " " }));
 
         jLabel3.setText("Output:");
 

@@ -115,7 +115,7 @@
             <StringItem index="5" value="Perona &amp; Malik"/>
             <StringItem index="6" value="Perona and Malik"/>
             <StringItem index="7" value="P&amp;M"/>
-            <StringItem index="8" value="Custom Gaussian"/>
+            <StringItem index="8" value=" "/>
           </StringArray>
         </Property>
       </Properties>

@@ -176,6 +176,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
         imageMenu = new javax.swing.JMenu();
         loadImageItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         propertiesItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
@@ -289,6 +290,14 @@ public class ImageToolFrame extends javax.swing.JFrame {
             }
         });
         imageMenu.add(jMenuItem1);
+
+        jMenuItem2.setText("Smooth Image");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        imageMenu.add(jMenuItem2);
 
         propertiesItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         propertiesItem.setText(bundle.getString("propertiesItem")); // NOI18N
@@ -496,6 +505,12 @@ public class ImageToolFrame extends javax.swing.JFrame {
         exportImageDialog.setVisible(true);
     }//GEN-LAST:event_exportMenuItemActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        SmoothImageDialog smoothImageDialog = new SmoothImageDialog(this,true);
+        smoothImageDialog.setLocationRelativeTo(this);
+        smoothImageDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -533,6 +548,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator16;
