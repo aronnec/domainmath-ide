@@ -18,14 +18,18 @@
 package org.domainmath.gui.packages.image;
 
 import java.awt.event.ItemEvent;
+import java.io.File;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.Util.DomainMathFileFilter;
 
 
 public class ImageFilterDialog extends javax.swing.JDialog {
     private final DefaultListModel model;
     private final List varNames;
+    private File selected_image;
 
     /**
      * Creates new form ImageFilterDialog
@@ -37,7 +41,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         varNames = MainFrame.varView.getVarNames();
         for(int i=0;i<varNames.size();i++) {
             model.addElement(varNames.get(i));
-            this.spFilterComboBox.addItem(varNames.get(i));
+            ImageFilterDialog.spFilterComboBox.addItem(varNames.get(i));
         }
         this.imageVarList.setModel(model);
         this.imageVarList.setSelectedIndex(0);
@@ -91,7 +95,14 @@ public class ImageFilterDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Image Path:");
 
+        imagePathTextField.setEditable(false);
+
         browseImageButton.setText("Browse");
+        browseImageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseImageButtonActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(octaveImageVarRadioButton);
         octaveImageVarRadioButton.setText("Octave Workspace Variable:");
@@ -108,6 +119,11 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         jLabel2.setText("Octave Variable Name:");
 
         createImageVarButton.setText("Create");
+        createImageVarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createImageVarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Spatial Filter:");
 
@@ -284,10 +300,31 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jRadioButton1ItemStateChanged
 
     private void createSpatialFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSpatialFilterButtonActionPerformed
-        NewSpatialFilterDialog newSpatialFilterDialog = new NewSpatialFilterDialog(null,true);
+        NewSpatialFilterDialog newSpatialFilterDialog = new NewSpatialFilterDialog(null,this,true);
         newSpatialFilterDialog.setLocationRelativeTo(this);
         newSpatialFilterDialog.setVisible(true);
     }//GEN-LAST:event_createSpatialFilterButtonActionPerformed
+
+    private void browseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseImageButtonActionPerformed
+         JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+         int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            selected_image = fc.getSelectedFile();
+            this.imagePathTextField.setText(selected_image.getAbsolutePath());
+        }
+    }//GEN-LAST:event_browseImageButtonActionPerformed
+
+    private void createImageVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createImageVarButtonActionPerformed
+        String image_data_name = this.imageVarTextField.getText();
+        
+        if(!image_data_name.equals("")) {
+            MainFrame.octavePanel.evalWithOutput(image_data_name+"=imread('"+this.imagePathTextField.getText()+"');");
+        }
+    }//GEN-LAST:event_createImageVarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,6 +389,6 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     private javax.swing.JRadioButton octaveImageVarRadioButton;
     private javax.swing.JComboBox optionsComboBox;
     private javax.swing.JTextField outputVarTextField;
-    private javax.swing.JComboBox spFilterComboBox;
+    public static javax.swing.JComboBox spFilterComboBox;
     // End of variables declaration//GEN-END:variables
 }
