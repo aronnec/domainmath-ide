@@ -779,7 +779,7 @@ public class VarViewPanel extends JPanel {
         if(table.getSelectedRow() >= 0)  {
             String size = table.getValueAt(table.getSelectedRow(), 1).toString();
             StringTokenizer t = new StringTokenizer(size,"x");
-            int i=1;
+            
             if(t.countTokens() <=2) {
                 try {
                             String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
@@ -801,9 +801,9 @@ public class VarViewPanel extends JPanel {
                         }
             }else{
                  String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
-                MainFrame.octavePanel.evalWithOutput("figure("+i+")");
+                
                 MainFrame.octavePanel.evalWithOutput("imshow("+variable+");");
-                i++;
+                
             }
                      
                

@@ -17,21 +17,17 @@
 
 package org.domainmath.gui.packages.image;
 
-import java.io.File;
 import java.util.List;
-import javax.swing.JFileChooser;
 import org.domainmath.gui.MainFrame;
-import org.domainmath.gui.Util.DomainMathFileFilter;
 
 
-public class ExportImageDialog extends javax.swing.JDialog {
-    private File selected_image;
+public class SmoothImageDialog extends javax.swing.JDialog {
     private final List varNames;
 
     /**
-     * Creates new form ExportImageDialog
+     * Creates new form SmoothImageDialog
      */
-    public ExportImageDialog(java.awt.Frame parent, boolean modal) {
+    public SmoothImageDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         varNames = MainFrame.varView.getVarNames();
@@ -50,30 +46,32 @@ public class ExportImageDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        imagePathTextField = new javax.swing.JTextField();
-        browseImageButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         imageDataComboBox = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        algorithmsComboBox = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        outputTextField = new javax.swing.JTextField();
+        imShowCheckBox = new javax.swing.JCheckBox();
         cancelButton = new javax.swing.JButton();
         OKButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Export");
+        setTitle("Smooth Image");
         setResizable(false);
 
-        jLabel1.setText("Image Path:");
-
-        imagePathTextField.setEditable(false);
-
-        browseImageButton.setText("Browse");
-        browseImageButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browseImageButtonActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Image Data:");
+
+        jLabel1.setText("Algorithm:");
+
+        algorithmsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Gaussian", "Average", "Disk", "Median", "Bilateral", "Perona & Malik", "Perona and Malik", "P&M", "Custom Gaussian" }));
+
+        jLabel3.setText("Output:");
+
+        outputTextField.setText("J");
+
+        imShowCheckBox.setSelected(true);
+        imShowCheckBox.setText("Display output as image");
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -98,16 +96,17 @@ public class ExportImageDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(algorithmsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(imageDataComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(imageDataComboBox, 0, 237, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(imagePathTextField)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(browseImageButton))
+                                .addComponent(imShowCheckBox)
+                                .addGap(0, 173, Short.MAX_VALUE))
+                            .addComponent(outputTextField)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(OKButton)
@@ -125,16 +124,21 @@ public class ExportImageDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imageDataComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(imagePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseImageButton))
-                .addGap(53, 53, 53)
+                    .addComponent(algorithmsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(outputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imShowCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(OKButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {OKButton, cancelButton});
@@ -142,29 +146,38 @@ public class ExportImageDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void browseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseImageButtonActionPerformed
-        JFileChooser fc = new JFileChooser();
-        fc.setAcceptAllFileFilterUsed(false);
-        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.setMultiSelectionEnabled(false);
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            selected_image = fc.getSelectedFile();
-            this.imagePathTextField.setText(selected_image.getAbsolutePath());
-        }
-    }//GEN-LAST:event_browseImageButtonActionPerformed
-
+    private void plotData(String image_var,String outputVar) {
+         MainFrame.octavePanel.evalWithOutput("figure(1)");
+         MainFrame.octavePanel.evalWithOutput("imshow("+image_var+");");
+         MainFrame.octavePanel.evalWithOutput("title('Image Data')");
+         MainFrame.octavePanel.evalWithOutput("figure(2)");
+         MainFrame.octavePanel.evalWithOutput("imshow("+outputVar+");");
+         MainFrame.octavePanel.evalWithOutput("title('Output Image')");
+    }
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+     private String createOctString(String st) {
+        String out =Character.toString('"')+st+Character.toString('"');
+        return out;
+    }
     private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
-        String var = this.imageDataComboBox.getSelectedItem().toString();
-        String file_name = this.imagePathTextField.getText();
-        String txt ="imwrite("+var+",'"+file_name+"');";
-       MainFrame.octavePanel.eval(txt);
-       dispose();
+        String image_var = this.imageDataComboBox.getSelectedItem().toString();
+        String algorithm = createOctString(this.algorithmsComboBox.getSelectedItem().toString());
+        String output = this.outputTextField.getText();
+        
+        if(!output.equals("")) {
+            MainFrame.octavePanel.evaluate("pkg load image");
+            MainFrame.octavePanel.evalWithOutput(output+"=imsmooth("+image_var+","+algorithm+");");
+            
+             if(this.imShowCheckBox.isSelected()) {
+                     plotData(image_var, output);
+                     dispose();
+             }
+          dispose();
+        }
+        
     }//GEN-LAST:event_OKButtonActionPerformed
 
     /**
@@ -184,20 +197,20 @@ public class ExportImageDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExportImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SmoothImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExportImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SmoothImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExportImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SmoothImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExportImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SmoothImageDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ExportImageDialog dialog = new ExportImageDialog(new javax.swing.JFrame(), true);
+                SmoothImageDialog dialog = new SmoothImageDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -210,11 +223,13 @@ public class ExportImageDialog extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OKButton;
-    private javax.swing.JButton browseImageButton;
+    private javax.swing.JComboBox algorithmsComboBox;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JCheckBox imShowCheckBox;
     private javax.swing.JComboBox imageDataComboBox;
-    private javax.swing.JTextField imagePathTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField outputTextField;
     // End of variables declaration//GEN-END:variables
 }
