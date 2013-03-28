@@ -170,6 +170,8 @@ public class ImageToolFrame extends javax.swing.JFrame {
         openItem = new javax.swing.JMenuItem();
         closeItem = new javax.swing.JMenuItem();
         closeAllItem = new javax.swing.JMenuItem();
+        exportMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitItem = new javax.swing.JMenuItem();
         imageMenu = new javax.swing.JMenu();
         loadImageItem = new javax.swing.JMenuItem();
@@ -248,6 +250,16 @@ public class ImageToolFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(closeAllItem);
+
+        exportMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        exportMenuItem.setText("Export");
+        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exportMenuItem);
+        jMenu1.add(jSeparator1);
 
         exitItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
         exitItem.setText(bundle.getString("exitItem.name")); // NOI18N
@@ -478,6 +490,12 @@ public class ImageToolFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
+        ExportImageDialog exportImageDialog = new ExportImageDialog(this,true);
+        exportImageDialog.setLocationRelativeTo(this);
+        exportImageDialog.setVisible(true);
+    }//GEN-LAST:event_exportMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -505,6 +523,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
     private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem1;
     private javax.swing.JMenuItem forumItem;
@@ -514,6 +533,7 @@ public class ImageToolFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JToolBar jToolBar1;
