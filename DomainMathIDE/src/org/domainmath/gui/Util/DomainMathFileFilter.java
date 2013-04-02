@@ -20,7 +20,6 @@ package org.domainmath.gui.Util;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
 public final class DomainMathFileFilter {
    public static FileNameExtensionFilter      MATLAB_FILE_FILTER            = new FileNameExtensionFilter("Matlab File (*.mat)","mat");
    public static FileNameExtensionFilter      HDF5_FILE_FILTER               = new FileNameExtensionFilter("Hdf5 Format   (*.hdf5)", "hdf5");

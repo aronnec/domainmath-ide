@@ -27,10 +27,6 @@ import javax.swing.JPanel;
 
 public class TitledPanelContainer{
 
-    
-    
-    
-   
     private JComponent com;
     JPanel panel = new JPanel();
 

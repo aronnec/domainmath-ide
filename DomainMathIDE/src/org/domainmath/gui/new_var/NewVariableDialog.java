@@ -29,8 +29,7 @@ public class NewVariableDialog extends javax.swing.JDialog {
     public NewVariableDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-       
+
          this.nameField.getDocument().addDocumentListener(
                 new DocumentListener(){
 

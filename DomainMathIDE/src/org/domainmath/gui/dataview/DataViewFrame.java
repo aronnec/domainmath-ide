@@ -32,7 +32,6 @@ import javax.swing.JMenuItem;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 
-
 public class DataViewFrame extends javax.swing.JFrame {
 
     private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");

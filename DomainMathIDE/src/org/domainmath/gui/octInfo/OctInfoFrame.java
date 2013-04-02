@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 public class OctInfoFrame extends javax.swing.JFrame {
 
-   
     public OctInfoFrame(Reader reader,Image image) {
         initComponents();
         this.setIconImage(image);

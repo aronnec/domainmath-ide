@@ -18,7 +18,6 @@
  */
 package org.domainmath.gui.dataview;
 
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;

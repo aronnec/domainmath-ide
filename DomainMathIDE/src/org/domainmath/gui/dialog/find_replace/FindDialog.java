@@ -65,7 +65,7 @@ public class FindDialog extends javax.swing.JDialog {
                 findPrevButton.setEnabled(true);
            }
                     
-                });
+        });
     }
 
     /**

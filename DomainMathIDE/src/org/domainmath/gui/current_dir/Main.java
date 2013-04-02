@@ -24,8 +24,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-
- 
 public class Main {
     private final String path;
     private final Image image;

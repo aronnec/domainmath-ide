@@ -18,7 +18,6 @@
 package org.domainmath.gui.common;
 
 
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;

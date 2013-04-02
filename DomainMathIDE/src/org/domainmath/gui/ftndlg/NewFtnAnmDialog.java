@@ -143,7 +143,6 @@ public class NewFtnAnmDialog extends javax.swing.JDialog {
         String code = this.ftnField.getText();
         String wrt  = "@("+this.wrtField.getText()+") ";
         String out = this.outField.getText()+"=";
-       
         MainFrame.octavePanel.eval(out+wrt+code);
     }//GEN-LAST:event_okButtonActionPerformed
 

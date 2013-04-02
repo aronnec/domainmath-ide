@@ -68,8 +68,6 @@ public class FileViewPanel extends JPanel {
                 table.getSelectionBackground(),table.getSelectionForeground(),directory);
         
         table.setModel(model);
-       // table.setAutoCreateColumnsFromModel(true);
-       // table.setAutoCreateRowSorter(true);
         table.setDefaultRenderer(DirTableCellRender.class, cellRender);
         table.getColumnModel().getColumn(0).setCellRenderer(cellRender);
         

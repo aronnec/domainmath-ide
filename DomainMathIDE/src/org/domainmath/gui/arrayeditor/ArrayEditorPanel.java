@@ -36,9 +36,6 @@ public class ArrayEditorPanel extends javax.swing.JPanel {
     private final JTable table;
     private final DefaultTableModel model;
    
-    /**
-     * Creates new form ArrayEditorPanel
-     */
     public ArrayEditorPanel() {
         super(new BorderLayout());
         initComponents();

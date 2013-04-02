@@ -24,11 +24,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-
-/**
- * Abstract Action.
- * @author Vinu K.N
- */
 public  class BaseAction extends AbstractAction{
 
     public BaseAction(String name) {

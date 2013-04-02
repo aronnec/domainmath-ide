@@ -24,9 +24,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-
-
 public class StatusPanel extends JPanel{
     private final JLabel status_label;
     public static StatusPanel STATUS_PANEL;

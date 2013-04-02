@@ -29,7 +29,6 @@ import org.domainmath.gui.MainFrame;
 
 public class FtnDialog extends javax.swing.JDialog {
 
-    
     private  JButton okButton;
     private  JButton cancelButton;
     private  JLabel l;

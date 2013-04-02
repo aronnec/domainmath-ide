@@ -51,14 +51,12 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
     
     public ArrayEditorFrame() {
         this.setIconImage(icon);
-       // this.setLocationRelativeTo(frame);
         
         initComponents();
         
         model = new DefaultTableModel(0,1);
         
         table = new JTable(model);
-        //table.setAutoCreateColumnsFromModel(true);
          table.setRowHeight(20);
          table.getTableHeader().setReorderingAllowed(false);
        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

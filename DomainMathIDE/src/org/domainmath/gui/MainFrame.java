@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2011 Vinu K.N
+ * Copyright (C) 2013 Vinu K.N
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
@@ -410,7 +411,9 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
      
-     
+     public static void  requestToChangeDir(String dir) {
+         octavePanel.evalWithOutput("chdir "+"'"+dirComboBox.getSelectedItem().toString()+"'"); 
+     }
       private void save() {
         if(fileTab.getSelectedIndex() >= 0) {
            String _file = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
@@ -476,16 +479,7 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
     private JPanel histPanel(){
         JPanel p = new JPanel(new BorderLayout());
         JToolBar b = new JToolBar("");
@@ -839,6 +833,11 @@ public final class MainFrame extends javax.swing.JFrame {
         jLabel1.setText("Current Directory:");
 
         dirComboBox.setEditable(true);
+        dirComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                dirComboBoxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1514,8 +1513,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(fileViewItem);
 
-        java.util.ResourceBundle bundle3 = java.util.ResourceBundle.getBundle("org/domainmath/gui/Bundle"); // NOI18N
-        dleEditorItem.setText(bundle3.getString("dleEditor.name")); // NOI18N
+        dleEditorItem.setText("DLE Code Editor");
         dleEditorItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dleEditorItemActionPerformed(evt);
@@ -2066,7 +2064,7 @@ private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         if (returnVal == JFileChooser.APPROVE_OPTION) {
                  browse_file = fc.getSelectedFile().toPath();
                  setDir(browse_file.toString());
-               octavePanel.evaluate("chdir "+"'"+browse_file.toString()+"'"); 
+               requestToChangeDir(browse_file.toString()); 
   
 
             } 
@@ -2268,7 +2266,7 @@ public void saveplot() {
             File f = new File(MainFrame.dirComboBox.getSelectedItem().toString());
         
         setDir(f.getParent().toString());
-        octavePanel.evaluate("chdir "+"'"+f.getParent().toString()+"'"); 
+        requestToChangeDir(f.getParent().toString()); 
         
         }catch(Exception e) {
             System.out.println("No Parent");
@@ -2705,7 +2703,7 @@ public void saveplot() {
         if(fileTab.getSelectedIndex() >= 0) {
             save();
             File file_selected = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
-            octavePanel.evalWithOutput("chdir "+"'"+file_selected.getParent()+"'"); 
+            requestToChangeDir(file_selected.getParent()); 
             setDir(file_selected.getParent());
             this.runFile(Paths.get(file_selected.getAbsolutePath()));
 
@@ -2863,19 +2861,18 @@ public void saveplot() {
         saveAs();
     }//GEN-LAST:event_saveAsItemActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void dirComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dirComboBoxItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED) {
+            octavePanel.evaluate("chdir "+"'"+dirComboBox.getSelectedItem().toString()+"'"); 
+             
+        }
+    }//GEN-LAST:event_dirComboBoxItemStateChanged
+
     public static void main(String args[])   {
-        
-        
                  try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
        } catch(ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
        }
-         
-       
-     
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override

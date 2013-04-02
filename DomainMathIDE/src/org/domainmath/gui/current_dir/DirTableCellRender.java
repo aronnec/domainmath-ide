@@ -36,7 +36,6 @@ public class DirTableCellRender extends JLabel
     private final Color bgColorSelection;
     private final Color fgColorSelection;
    
-
     public DirTableCellRender(Font font,Color bgColor,Color fgColor,Color bgColorSelection,Color fgColorSelection, String p) {
         this.p = p;
         this.bgColor=bgColor;

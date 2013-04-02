@@ -154,7 +154,6 @@ public class DLENewFileDialog extends javax.swing.JDialog {
      public void browse(String desc, String ext, String... exts) {
         JFileChooser fc = new JFileChooser();
 
-        
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
         desc, exts);
         fc.setFileFilter(filter);

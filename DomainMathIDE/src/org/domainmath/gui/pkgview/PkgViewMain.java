@@ -24,8 +24,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
 
-
-
 public class PkgViewMain {
     private final String path;
     private final Image image;

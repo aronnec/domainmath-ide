@@ -22,7 +22,6 @@ import java.util.prefs.Preferences;
 import javax.swing.DefaultListModel;
 import org.domainmath.gui.references.RefDlg;
 
-
 public class DocDialog extends javax.swing.JDialog {
     private  DefaultListModel _model;
     private final MainFrame frame;

@@ -24,16 +24,6 @@ import java.io.File;
 import javax.swing.JOptionPane;
 
 
-
-
-
-
-
-
-/**
- *
- * @author Vinu K.N
- */
 public class DocumentAction extends BaseAction{
         String title;
         String fileName;

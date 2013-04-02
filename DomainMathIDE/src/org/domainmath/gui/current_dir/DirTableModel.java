@@ -39,7 +39,6 @@ public class DirTableModel extends AbstractTableModel {
         data = Collections.synchronizedList(new ArrayList());
         col = Collections.synchronizedList(new ArrayList());
         setCol();
-       
     }
 
     private void setCol() {

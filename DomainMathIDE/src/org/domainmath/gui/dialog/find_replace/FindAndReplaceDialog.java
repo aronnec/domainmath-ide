@@ -27,8 +27,6 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 
-
-
 public class FindAndReplaceDialog extends javax.swing.JDialog {
     private int position;
     private  RSyntaxTextArea selectedArea;

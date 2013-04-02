@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2011 Vinu K.N
+ * Copyright (C) 2013 Vinu K.N
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.domainmath.gui.about;
 
 
@@ -26,11 +25,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-
-/**
- *
- * @author Vinu K.N
- */
 public class AboutDlg extends javax.swing.JDialog {
 
     /** Creates new form AboutDlg */

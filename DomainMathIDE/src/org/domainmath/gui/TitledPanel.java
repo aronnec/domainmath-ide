@@ -25,8 +25,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-
 public class TitledPanel extends JPanel{
     private final JLabel label;
     private final Font fontLabel;
@@ -37,7 +35,6 @@ public class TitledPanel extends JPanel{
           
         label =new JLabel(name);
         
-       //label.setForeground(Color.WHITE);
         fontLabel =label.getFont();
         label.setFont(new Font(fontLabel.getFontName(),Font.BOLD,fontLabel.getSize()));
         label.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -45,10 +42,6 @@ public class TitledPanel extends JPanel{
        this.setBorder(BorderFactory.createRaisedBevelBorder());
        
         add(label,BorderLayout.WEST);
-       
-        //this.setBackground(SystemColor.activeCaption);
-
-
     }
 
     public void setClose() {

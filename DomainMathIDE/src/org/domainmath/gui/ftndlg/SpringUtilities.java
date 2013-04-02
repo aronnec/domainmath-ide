@@ -215,7 +215,6 @@ public class SpringUtilities {
             }
             y = Spring.sum(y, Spring.sum(height, Spring.constant(yPad)));
         }
-
         //Set the parent's size.
         SpringLayout.Constraints pCons = layout.getConstraints(parent);
         pCons.setConstraint(SpringLayout.SOUTH, y);

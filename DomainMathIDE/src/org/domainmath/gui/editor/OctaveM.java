@@ -43,12 +43,12 @@ public class OctaveM {
                 }
                 br.close();
             } catch (IOException ex) {
-             //   ex.printStackTrace();
+             
             }
             
             
         } catch (FileNotFoundException ex) {
-            //ex.printStackTrace();
+            
         }
          return data;
        }

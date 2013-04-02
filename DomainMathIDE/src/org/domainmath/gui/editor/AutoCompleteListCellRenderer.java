@@ -43,7 +43,6 @@ public class AutoCompleteListCellRenderer extends JLabel implements ListCellRend
         setOpaque(true);
     }
 
-    
     public Object getCellEditorValue() {
         return value;
     }

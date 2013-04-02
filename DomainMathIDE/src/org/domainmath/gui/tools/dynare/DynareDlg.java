@@ -27,7 +27,6 @@ import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import org.domainmath.gui.MainFrame;
 
-
 public class DynareDlg extends javax.swing.JDialog {
     private String cmdAddPath;
     private String savePath;

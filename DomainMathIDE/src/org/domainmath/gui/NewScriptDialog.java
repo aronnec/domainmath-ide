@@ -169,18 +169,16 @@ public class NewScriptDialog extends javax.swing.JDialog {
         int returnVal = fc.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-                String path = fc.getSelectedFile().getAbsolutePath();
-                
-                    file = fc.getSelectedFile();
-                    file_name = file.getName();
-                    
-                    if(!file_name.endsWith(ext)) {
-                        this.jTextField1.setText(path+ext);
-                    }else {
-                        this.jTextField1.setText(path);
-                    }
-                    
-                 
+            String path = fc.getSelectedFile().getAbsolutePath();
+
+            file = fc.getSelectedFile();
+            file_name = file.getName();
+
+            if(!file_name.endsWith(ext)) {
+                this.jTextField1.setText(path+ext);
+            }else {
+                this.jTextField1.setText(path);
+            }   
         }
     }
      
