@@ -54,7 +54,6 @@ public class FileViewPanel extends JPanel {
     private final String dynarePath;
     
     private final JMenuItem profilerItem;
-   // private final JMenuItem openInsideItem;
     public FileViewPanel(String directory,String dynareOptions,String dynarePath) {
         super(new GridLayout(1, 0));
         table = new JTable();

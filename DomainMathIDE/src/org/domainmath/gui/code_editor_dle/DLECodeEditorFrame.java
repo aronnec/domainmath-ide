@@ -1024,7 +1024,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
         String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
            File f = new File(s);
            MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
-           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           MainFrame.setDir(f.getParentFile().getAbsolutePath());
            MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
            MainFrame.octavePanel.eval("mkoctfile "+f.getName());
            String n = f.getName();
@@ -1046,7 +1046,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
            File f = new File(s);
            MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
            MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
-           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           MainFrame.setDir(f.getParentFile().getAbsolutePath());
            MainFrame.octavePanel.eval("mex "+f.getName());
            String n = f.getName();
            String c = n.substring(0, n.lastIndexOf("."))+"()";
@@ -1065,7 +1065,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
            File f = new File(s);
            MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
            MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
-           MainFrame.currentDirField.setText(f.getParentFile().getAbsolutePath());
+           MainFrame.setDir(f.getParentFile().getAbsolutePath());
            String n = f.getName();
            String p = f.getParentFile().getAbsolutePath()+File.separator;
            String c = n.substring(0, n.lastIndexOf("."))+".exe";

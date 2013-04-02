@@ -67,7 +67,6 @@ public class Main {
                     frame.setIconImage(image);
                     frame.setVisible(true);
                     newContentPane.getModel().init();
-               
             }
 
         });

@@ -558,7 +558,7 @@ public final class MainFrame extends javax.swing.JFrame {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
                  _file = fc.getSelectedFile();
-                 MainFrame.currentDirField.setText(_file.getAbsolutePath());
+                 setDir(_file.getAbsolutePath());
 
             } 
     }
@@ -587,8 +587,9 @@ public final class MainFrame extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jSeparator13 = new javax.swing.JToolBar.Separator();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        currentDirField = new javax.swing.JTextField();
+        dirComboBox = new javax.swing.JComboBox();
         folderUpButton = new javax.swing.JButton();
         browseButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
@@ -836,15 +837,31 @@ public final class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(jSeparator13);
 
         jLabel1.setText("Current Directory:");
-        jToolBar1.add(jLabel1);
 
-        currentDirField.setText(System.getProperty("user.dir"));
-        currentDirField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                currentDirFieldActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(currentDirField);
+        dirComboBox.setEditable(true);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dirComboBox, 0, 112, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(dirComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        jToolBar1.add(jPanel1);
 
         folderUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/go-up.png"))); // NOI18N
         folderUpButton.setToolTipText("Up");
@@ -1689,23 +1706,27 @@ public final class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
   
+    /**
+     * Set Current directory of Octave.
+     * @param dir 
+     */
+    public static void setDir(String dir) {
+        MainFrame.dirComboBox.insertItemAt(dir,dirComboBox.getItemCount());
+        MainFrame.dirComboBox.setSelectedItem(dir);
+    }
   
+    /**
+     * Creates Reference menus
+     */
   public void makeMenu() {
-      
-            
-            try {
+        try {
             Preferences pr = Preferences.userNodeForPackage(this.getClass());
+            StringTokenizer  t = new StringTokenizer(pr.get("Ref_list", null),"=;");
             
-                StringTokenizer  t = new StringTokenizer(pr.get("Ref_list", null),"=;");
-                    while(t.hasMoreTokens()) {
-                        referenceMenu.add(new DocumentAction(t.nextToken(),t.nextToken()));
-                    }
-                
-       
-           
+            while(t.hasMoreTokens()) {
+                referenceMenu.add(new DocumentAction(t.nextToken(),t.nextToken()));
+            }
         } catch (Exception ex) {
-            
-         //   ex.printStackTrace();
         }
   }
 private void AboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutItemActionPerformed
@@ -1737,7 +1758,6 @@ private void referenceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         MainFrame.octavePanel.start();
-       // this.pathDlg.startup();
         
            DateFormat formatter = 
     DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
@@ -1767,7 +1787,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
         
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"symja.jar')");
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"DefaultApp.jar')");
-     
+       setDir(System.getProperty("user.dir"));
        octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
         
 }//GEN-LAST:event_formWindowOpened
@@ -2045,7 +2065,7 @@ private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
                  browse_file = fc.getSelectedFile().toPath();
-                 currentDirField.setText(browse_file.toString());
+                 setDir(browse_file.toString());
                octavePanel.evaluate("chdir "+"'"+browse_file.toString()+"'"); 
   
 
@@ -2053,12 +2073,8 @@ private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
   
 }//GEN-LAST:event_browseButtonActionPerformed
 
-private void currentDirFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentDirFieldActionPerformed
-    octavePanel.evaluate("cd "+currentDirField.getText());
-}//GEN-LAST:event_currentDirFieldActionPerformed
-
 private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-    String dir=currentDirField.getText();
+    String dir=MainFrame.dirComboBox.getSelectedItem().toString();
     int i = 
                         JOptionPane.showConfirmDialog(this, 
 "Add this folder to Path List?-\n"+dir, "DomainMath IDE", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
@@ -2071,7 +2087,7 @@ private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_addButtonActionPerformed
 
     private void fileViewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileViewItemActionPerformed
-        String dir = this.currentDirField.getText();
+        String dir = MainFrame.dirComboBox.getSelectedItem().toString();
         if(!dir.equals("")){
              Preferences pr = Preferences.userNodeForPackage(this.getClass());
             String path =pr.get("DomainMath_DynarePath",null);
@@ -2248,9 +2264,10 @@ public void saveplot() {
     }//GEN-LAST:event_optimItemActionPerformed
 
     private void folderUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folderUpButtonActionPerformed
-        File f = new File(currentDirField.getText());
         try{
-        currentDirField.setText(f.getParent().toString());
+            File f = new File(MainFrame.dirComboBox.getSelectedItem().toString());
+        
+        setDir(f.getParent().toString());
         octavePanel.evaluate("chdir "+"'"+f.getParent().toString()+"'"); 
         
         }catch(Exception e) {
@@ -2689,7 +2706,7 @@ public void saveplot() {
             save();
             File file_selected = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
             octavePanel.evalWithOutput("chdir "+"'"+file_selected.getParent()+"'"); 
-            currentDirField.setText(file_selected.getParent());
+            setDir(file_selected.getParent());
             this.runFile(Paths.get(file_selected.getAbsolutePath()));
 
        }
@@ -2885,7 +2902,6 @@ public void saveplot() {
     private javax.swing.JMenuItem connectItem;
     private javax.swing.JMenuItem continueItem;
     private javax.swing.JMenuItem copyItem;
-    public static javax.swing.JTextField currentDirField;
     private javax.swing.JMenuItem cutItem;
     private javax.swing.JMenuItem dSmoothItem;
     private javax.swing.JMenuItem dataBaseMenuItem;
@@ -2897,6 +2913,7 @@ public void saveplot() {
     private javax.swing.JRadioButtonMenuItem diaryOffItem;
     private javax.swing.JRadioButtonMenuItem diaryOnItem;
     private javax.swing.JMenuItem diarySaveItem;
+    public static javax.swing.JComboBox dirComboBox;
     private javax.swing.JButton disconnectButton;
     private javax.swing.JMenuItem disconnectItem;
     private javax.swing.JMenuItem dleEditorItem;
@@ -2935,6 +2952,7 @@ public void saveplot() {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
