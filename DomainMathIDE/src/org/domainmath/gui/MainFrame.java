@@ -109,7 +109,7 @@ public final class MainFrame extends javax.swing.JFrame {
     public static VarViewPanel varView;
     private final TitledPanelContainer histTPanel;
     private final TitledPanelContainer workTPanel;
-    private final JSplitPane splitPane2;
+   
     public static String log_root;
 
     public  RSyntaxTextArea area1;
@@ -131,6 +131,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private Gutter gutter;
     private boolean isSetBreakpoint;
     private URL url;
+    private final JAccordion outlookBar;
     /** Creates new form MainFrame */
     public MainFrame()  {
        
@@ -172,16 +173,17 @@ public final class MainFrame extends javax.swing.JFrame {
         
         
        
-        
-       splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,workTPanel.add(varView),histTPanel.add(histPanel()));
-       splitPane2.setDividerLocation(350);
-       splitPane2.setOneTouchExpandable(true);
+        outlookBar = new JAccordion();
+       
+        outlookBar.addBar("Workspace", null, varView);
+        histPanel();
+
         sp2= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
         sp2.setDividerLocation(300);
        sp2.setOneTouchExpandable(true);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,splitPane2,
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,outlookBar,
                 sp2);
-       splitPane.setOneTouchExpandable(true);
+       //splitPane.setOneTouchExpandable(true);
        splitPane.setDividerLocation(250);
        add(splitPane,BorderLayout.CENTER);
        
@@ -480,7 +482,7 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private JPanel histPanel(){
+    private void histPanel(){
         JPanel p = new JPanel(new BorderLayout());
         JToolBar b = new JToolBar("");
         b.setFloatable(false);
@@ -523,8 +525,8 @@ public final class MainFrame extends javax.swing.JFrame {
             }
             
         });
+        outlookBar.addBar("History", null, p);
         
-        return p;
     }
     public  String DynareOptions() {
         Preferences pr = Preferences.userNodeForPackage(this.getClass());
