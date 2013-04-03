@@ -37,7 +37,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import org.domainmath.gui.MainFrame;
-import org.domainmath.gui.TitledPanelContainer;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.databrowser.DataBrowserPanel;
 

@@ -57,9 +57,7 @@ import javax.swing.text.Element;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.arrayeditor.ArrayEditorFrame;
-
 import org.domainmath.gui.code_editor_dle.DLECodeEditorFrame;
-import org.domainmath.gui.current_dir.Main;
 import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
@@ -71,7 +69,6 @@ import org.domainmath.gui.packages.image.ImageToolFrame;
 import org.domainmath.gui.packages.nnet.NnetFrame;
 import org.domainmath.gui.packages.optim.OptimizationFrame;
 import org.domainmath.gui.pathsview.PathsViewMain;
-import org.domainmath.gui.pkg.PkgDlg;
 import org.domainmath.gui.pkgview.PkgViewMain;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
@@ -96,7 +93,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private final RSyntaxTextArea commandArea;
     private  PreferencesDlg preferencesDlg;
     public  static String octavePath;
-    private final PkgDlg pkgDlg;
+    
     private final String startupCmd;
     private final String cmdLineOptions;
    
@@ -104,11 +101,10 @@ public final class MainFrame extends javax.swing.JFrame {
     public static String parent_root;
     public static RSyntaxTextArea histArea;
     private final RTextScrollPane histScrollPane;
-    private final JTabbedPane workSpaceTab;
+    
     private final JSplitPane splitPane;
     public static VarViewPanel varView;
-    private final TitledPanelContainer histTPanel;
-    private final TitledPanelContainer workTPanel;
+    
    
     public static String log_root;
 
@@ -123,7 +119,7 @@ public final class MainFrame extends javax.swing.JFrame {
     
     private List data1 =Collections.synchronizedList(new ArrayList());
     private String currentDir1;
-    private  List fileNameList =Collections.synchronizedList(new ArrayList());
+    public static  List fileNameList =Collections.synchronizedList(new ArrayList());
 
     private final JSplitPane sp2;
     private final File logDir;
@@ -166,16 +162,11 @@ public final class MainFrame extends javax.swing.JFrame {
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
         varView =new VarViewPanel(parent_root+"DomainMath_OctaveVariables.dat",this);
-        workSpaceTab = new JTabbedPane();
-        histTPanel= new TitledPanelContainer("History");
-      
-        workTPanel= new TitledPanelContainer("Workspace");
-        
-        
-       
+
         outlookBar = new JAccordion();
        
         outlookBar.addBar("Workspace", null, varView);
+        outlookBar.addBar("Files", null, new FilesBreadCrumb(this));
         histPanel();
 
         sp2= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
@@ -190,7 +181,7 @@ public final class MainFrame extends javax.swing.JFrame {
        
        // add(octavePanel,BorderLayout.CENTER);
         add(new StatusPanel(),BorderLayout.PAGE_END);
-        pkgDlg = new PkgDlg(this,true);
+        
         
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         
@@ -326,6 +317,13 @@ public final class MainFrame extends javax.swing.JFrame {
         fileNameList.remove(index);
     }
     public void open(File file ,int file_index) {
+     fname= file.getName();
+     if(fname.endsWith(".m") ||
+             fname.endsWith(".dyn") ||
+             fname.endsWith(".mod") ||
+             fname.endsWith(".pl")) {
+         
+     
      try {
             BufferedReader r = new BufferedReader(new FileReader(file));
             try {
@@ -349,7 +347,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         
                         
                     }
-                    else {
+                    else{
                          area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
                         
                     }
@@ -371,7 +369,7 @@ public final class MainFrame extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
            
         }
-        
+     }
         
     }
      public void open(){
@@ -672,7 +670,6 @@ public final class MainFrame extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         finishDebugItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
-        fileViewItem = new javax.swing.JMenuItem();
         dleEditorItem = new javax.swing.JMenuItem();
         arrayEditorItem = new javax.swing.JMenuItem();
         fltkplotItem = new javax.swing.JMenuItem();
@@ -1504,17 +1501,6 @@ public final class MainFrame extends javax.swing.JFrame {
         toolsMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("ToolsMenu.mnemonic").charAt(0));
         toolsMenu.setText(bundle.getString("ToolsMenu.name")); // NOI18N
 
-        fileViewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
-        fileViewItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("fileViewItem.mnemonic").charAt(0));
-        fileViewItem.setText(bundle.getString("fileViewItem.name")); // NOI18N
-        fileViewItem.setToolTipText(bundle.getString("fileViewItem.tooltip")); // NOI18N
-        fileViewItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileViewItemActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(fileViewItem);
-
         dleEditorItem.setText("DLE Code Editor");
         dleEditorItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2085,17 +2071,6 @@ private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         MainFrame.octavePanel.evaluate("savepath();");
                     }
 }//GEN-LAST:event_addButtonActionPerformed
-
-    private void fileViewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileViewItemActionPerformed
-        String dir = MainFrame.dirComboBox.getSelectedItem().toString();
-        if(!dir.equals("")){
-             Preferences pr = Preferences.userNodeForPackage(this.getClass());
-            String path =pr.get("DomainMath_DynarePath",null);
-            Main main =new Main(dir,this.getIconImage(),this.DynareOptions(),path);
-            main.show();
-        }
-        
-    }//GEN-LAST:event_fileViewItemActionPerformed
 
     private void phyConstItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phyConstItemActionPerformed
         MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"Grid.jar')");
@@ -2923,7 +2898,6 @@ public void saveplot() {
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem fileViewItem;
     private javax.swing.JMenuItem findItem;
     private javax.swing.JMenuItem finishDebugItem;
     private javax.swing.JMenuItem fltkplotItem;
