@@ -20,8 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import org.pushingpixels.flamingo.api.common.JCommandButton;
-import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
+
 
 /**
  * A JOutlookBar provides a component that is similar to a JTabbedPane, but
@@ -93,7 +92,7 @@ public class JAccordion extends JPanel implements ActionListener {
    * @param componenet
    *            The component to add to the bar
    */
-  public void addBar(String name, ResizableIcon icon, JComponent component) {
+  public void addBar(String name, Icon icon, JComponent component) {
     BarInfo barInfo = new BarInfo(name, icon, component);
     barInfo.getButton().addActionListener(this);
     this.bars.put(name, barInfo);
@@ -260,7 +259,7 @@ public class JAccordion extends JPanel implements ActionListener {
     /**
      * The JButton that implements the Outlook bar itself
      */
-    private JCommandButton button;
+    private JButton button;
 
     /**
      * The component that is the body of the Outlook bar
@@ -278,7 +277,7 @@ public class JAccordion extends JPanel implements ActionListener {
     public BarInfo(String name, JComponent component) {
       this.name = name;
       this.component = component;
-      this.button = new JCommandButton(name);
+      this.button = new JButton(name);
     }
 
     /**
@@ -291,12 +290,12 @@ public class JAccordion extends JPanel implements ActionListener {
      * @param component
      *            The component that is the body of the Outlook Bar
      */
-    public BarInfo(String name, ResizableIcon icon, JComponent component) {
+    public BarInfo(String name, Icon icon, JComponent component) {
       this.name = name;
       this.component = component;
-      this.button = new JCommandButton(name, icon);
+      this.button = new JButton(name, icon);
       button.setHorizontalAlignment(SwingConstants.LEFT);
-      button.setFlat(true);
+
     }
 
     /**
@@ -323,7 +322,7 @@ public class JAccordion extends JPanel implements ActionListener {
      * 
      * @return The Outlook Bar JButton implementation
      */
-    public JCommandButton getButton() {
+    public JButton getButton() {
       return this.button;
     }
 

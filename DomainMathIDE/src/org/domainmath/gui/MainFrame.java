@@ -165,8 +165,8 @@ public final class MainFrame extends javax.swing.JFrame {
 
         outlookBar = new JAccordion();
        
-        outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/workspace.png")), varView);
-        outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/folder.png")), new FilesBreadCrumb(this));
+        outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), varView);
+        outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
         histPanel();
 
         sp2= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
@@ -523,7 +523,7 @@ public final class MainFrame extends javax.swing.JFrame {
             }
             
         });
-        outlookBar.addBar("History", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size22x22/history.png")), p);
+        outlookBar.addBar("History", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/history.png")), p);
         
     }
     public  String DynareOptions() {
