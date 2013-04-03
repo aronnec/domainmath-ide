@@ -669,6 +669,20 @@ public final class MainFrame extends javax.swing.JFrame {
         dbdownItem = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         finishDebugItem = new javax.swing.JMenuItem();
+        WorkspaceMenu = new javax.swing.JMenu();
+        newVariableItem = new javax.swing.JMenuItem();
+        deleteVariableItem = new javax.swing.JMenuItem();
+        clearAllItem = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        loadMenuItem = new javax.swing.JMenuItem();
+        saveDataItem = new javax.swing.JMenuItem();
+        saveAllDataItem = new javax.swing.JMenuItem();
+        jSeparator28 = new javax.swing.JPopupMenu.Separator();
+        importSpreadSheetDataItem = new javax.swing.JMenuItem();
+        exportItem = new javax.swing.JMenuItem();
+        exportAllItem = new javax.swing.JMenuItem();
+        jSeparator27 = new javax.swing.JPopupMenu.Separator();
+        refreshItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         dleEditorItem = new javax.swing.JMenuItem();
         arrayEditorItem = new javax.swing.JMenuItem();
@@ -1171,7 +1185,6 @@ public final class MainFrame extends javax.swing.JFrame {
         editMenu.add(pasteItem);
         editMenu.add(jSeparator21);
 
-        deleteItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         deleteItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/edit-delete.png"))); // NOI18N
         deleteItem.setText("Delete");
         deleteItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1497,6 +1510,97 @@ public final class MainFrame extends javax.swing.JFrame {
         debugMenu.add(finishDebugItem);
 
         jMenuBar1.add(debugMenu);
+
+        WorkspaceMenu.setText(bundle.getString("workspaceMenu.text")); // NOI18N
+
+        newVariableItem.setText(bundle.getString("newVariableItem.text")); // NOI18N
+        newVariableItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newVariableItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(newVariableItem);
+
+        deleteVariableItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        deleteVariableItem.setText("Delete Variable");
+        deleteVariableItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteVariableItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(deleteVariableItem);
+
+        clearAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        clearAllItem.setText("Clear All...");
+        clearAllItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAllItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(clearAllItem);
+        WorkspaceMenu.add(jSeparator8);
+
+        loadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        loadMenuItem.setText("Load");
+        loadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadMenuItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(loadMenuItem);
+
+        saveDataItem.setText("Save");
+        saveDataItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveDataItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(saveDataItem);
+
+        saveAllDataItem.setText("Save All...");
+        saveAllDataItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAllDataItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(saveAllDataItem);
+        WorkspaceMenu.add(jSeparator28);
+
+        importSpreadSheetDataItem.setText("Import Spreadsheet Data");
+        importSpreadSheetDataItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importSpreadSheetDataItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(importSpreadSheetDataItem);
+
+        exportItem.setText("Export");
+        exportItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(exportItem);
+
+        exportAllItem.setText("Export All...");
+        exportAllItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportAllItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(exportAllItem);
+        WorkspaceMenu.add(jSeparator27);
+
+        refreshItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        refreshItem.setText("Refresh");
+        refreshItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshItemActionPerformed(evt);
+            }
+        });
+        WorkspaceMenu.add(refreshItem);
+
+        jMenuBar1.add(WorkspaceMenu);
 
         toolsMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("ToolsMenu.mnemonic").charAt(0));
         toolsMenu.setText(bundle.getString("ToolsMenu.name")); // NOI18N
@@ -2845,6 +2949,46 @@ public void saveplot() {
         }
     }//GEN-LAST:event_dirComboBoxItemStateChanged
 
+    private void deleteVariableItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVariableItemActionPerformed
+        varView.delete();
+    }//GEN-LAST:event_deleteVariableItemActionPerformed
+
+    private void newVariableItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVariableItemActionPerformed
+        varView.addVariable();
+    }//GEN-LAST:event_newVariableItemActionPerformed
+
+    private void clearAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllItemActionPerformed
+        varView.clearAll();
+    }//GEN-LAST:event_clearAllItemActionPerformed
+
+    private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
+        varView.open();
+    }//GEN-LAST:event_loadMenuItemActionPerformed
+
+    private void saveDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDataItemActionPerformed
+        varView.saveData();
+    }//GEN-LAST:event_saveDataItemActionPerformed
+
+    private void saveAllDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAllDataItemActionPerformed
+        varView.saveAll();
+    }//GEN-LAST:event_saveAllDataItemActionPerformed
+
+    private void importSpreadSheetDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSpreadSheetDataItemActionPerformed
+       varView.importSpreadSheetData();
+    }//GEN-LAST:event_importSpreadSheetDataItemActionPerformed
+
+    private void exportItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportItemActionPerformed
+        varView.exportData();
+    }//GEN-LAST:event_exportItemActionPerformed
+
+    private void exportAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportAllItemActionPerformed
+        varView.exportAll();
+    }//GEN-LAST:event_exportAllItemActionPerformed
+
+    private void refreshItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshItemActionPerformed
+        varView.refreshData();
+    }//GEN-LAST:event_refreshItemActionPerformed
+
     public static void main(String args[])   {
                  try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -2863,12 +3007,14 @@ public void saveplot() {
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenu WorkspaceMenu;
     private javax.swing.JButton addButton;
     private javax.swing.JMenuItem arrayEditorItem;
     private javax.swing.JMenuItem bioInfoItem;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenuItem clearAllBreakpointsItem;
+    private javax.swing.JMenuItem clearAllItem;
     private javax.swing.JMenuItem clearOutWindowItem;
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
@@ -2883,6 +3029,7 @@ public void saveplot() {
     private javax.swing.JMenuItem dbupItem;
     private javax.swing.JMenu debugMenu;
     private javax.swing.JMenuItem deleteItem;
+    private javax.swing.JMenuItem deleteVariableItem;
     private javax.swing.JMenu diaryMenu;
     private javax.swing.JRadioButtonMenuItem diaryOffItem;
     private javax.swing.JRadioButtonMenuItem diaryOnItem;
@@ -2895,6 +3042,8 @@ public void saveplot() {
     private javax.swing.JMenuItem dynareItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenuItem exportAllItem;
+    private javax.swing.JMenuItem exportItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JMenu fileMenu;
@@ -2908,6 +3057,7 @@ public void saveplot() {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem howToItem;
     private javax.swing.JMenuItem imageToolItem;
+    private javax.swing.JMenuItem importSpreadSheetDataItem;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -2945,16 +3095,21 @@ public void saveplot() {
     private javax.swing.JPopupMenu.Separator jSeparator24;
     private javax.swing.JPopupMenu.Separator jSeparator25;
     private javax.swing.JPopupMenu.Separator jSeparator26;
+    private javax.swing.JPopupMenu.Separator jSeparator27;
+    private javax.swing.JPopupMenu.Separator jSeparator28;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JMenuItem multicoreItem;
     private javax.swing.JMenuItem nNetMenuItem;
     private javax.swing.JMenuItem newFileItem;
+    private javax.swing.JMenuItem newVariableItem;
     private javax.swing.JMenuItem octaveCmdItem;
     private javax.swing.JMenuItem octaveInfoItem;
     private javax.swing.JMenuItem octaveItem;
@@ -2972,12 +3127,15 @@ public void saveplot() {
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem referenceItem;
     private javax.swing.JMenu referenceMenu;
+    private javax.swing.JMenuItem refreshItem;
     private javax.swing.JMenuItem removeToggleBreakpointItem;
     private javax.swing.JMenuItem replaceItem;
     private javax.swing.JMenuItem reportBugItem;
     private javax.swing.JMenuItem runScriptItem;
+    private javax.swing.JMenuItem saveAllDataItem;
     private javax.swing.JMenuItem saveAllItem;
     private javax.swing.JMenuItem saveAsItem;
+    private javax.swing.JMenuItem saveDataItem;
     private javax.swing.JMenuItem saveFileItem;
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;

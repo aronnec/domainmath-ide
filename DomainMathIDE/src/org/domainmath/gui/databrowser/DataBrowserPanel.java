@@ -927,7 +927,7 @@ public class DataBrowserPanel extends JPanel {
                 MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                 reload();
              }else if(source.equals(importItem)) {
-                ImportDialog importDlg = new ImportDialog(frame,true);
+                ImportSpreadSheetDataDialog importDlg = new ImportSpreadSheetDataDialog(frame,true);
                 importDlg.setLocationRelativeTo(frame);
                 importDlg.setVisible(true);
                 MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");

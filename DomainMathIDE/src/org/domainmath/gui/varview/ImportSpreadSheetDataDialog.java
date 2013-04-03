@@ -23,14 +23,14 @@ import javax.swing.JOptionPane;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 
 
-public class ImportDialog extends javax.swing.JDialog {
+public class ImportSpreadSheetDataDialog extends javax.swing.JDialog {
     private final JFrame frame;
     private File file;
 
     /**
-     * Creates new form ImportDialog
+     * Creates new form ImportSpreadSheetDataDialog
      */
-    public ImportDialog(JFrame frame, boolean modal) {
+    public ImportSpreadSheetDataDialog(JFrame frame, boolean modal) {
         super(frame, modal);
         this.frame =frame;
         initComponents();

@@ -669,13 +669,19 @@ public class VarViewPanel extends JPanel {
             } 
        }
     
+    /**
+     * Reload entire workspace.
+     */
     public void reload() {
         
         (varTask = new VarTask()).execute();
       
        }
     
-    private void delete() {
+    /**
+     * Delete selected variable from Workspace.
+     */
+    public void delete() {
                if(table.getSelectedRow() >= 0)  {
                      try {
                          String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
@@ -696,10 +702,18 @@ public class VarViewPanel extends JPanel {
             }
        }
     
+    /**
+     * Returns Table model
+     * @return model
+     */
     public DataFileTableModel getModel() {
         return model;
     }
 
+    /**
+     * Show pop up menu
+     * @param e 
+     */
     private void showPopup(MouseEvent e){
       ///  && table.getSelectedRow() > -1
         if( e.isPopupTrigger() ) {
@@ -863,36 +877,35 @@ public class VarViewPanel extends JPanel {
     }
     }
   
-    private class PopupActionListener implements ActionListener {
-       
-        @Override
-        public void actionPerformed(ActionEvent e) {
-             JMenuItem source = (JMenuItem)(e.getSource());
-             
-              if(source.equals(loadItem)) {
-                 open();
-             }
-             else if(source.equals(exportItem)) {
-                if(table.getSelectedRow() >= 0)  {
-                     try {
-                            String var =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            export(var);
-                            reload();
-                        } catch (Exception ex) {
-                        }
-               
-                   
-                 }
-             }
-             else if(source.equals(remoteItem)) {
-                 String s = JOptionPane.showInputDialog("Enter website address:");
-                 if(s != null) {
-                          MainFrame.octavePanel.eval("url = urlread("+Character.toString('"')+s+Character.toString('"')+");");
-            
-                 }
-             }
-             else if(source.equals(exportItem)) {
-                if(table.getSelectedRow() >= 0)  {
+    /**
+     * Import spread sheet data to Workpsace.
+     * @see ImportSpreadSheetDataDialog
+     */
+    public void importSpreadSheetData() {
+        ImportSpreadSheetDataDialog importSpreadSheetDataDlg = new ImportSpreadSheetDataDialog(frame,true);
+        importSpreadSheetDataDlg.setLocationRelativeTo(frame);
+        importSpreadSheetDataDlg.setVisible(true);
+        MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+
+        reload();
+    }
+    /**
+     * Add a variable to Workspace
+     * @see NewVarDialog
+     */
+    public void addVariable() {
+        NewVarDialog newVarDlg = new NewVarDialog(frame,true);
+        newVarDlg.setLocationRelativeTo(frame);
+        newVarDlg.setVisible(true);
+        MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+        reload();
+    }
+    
+    /**
+     * Export workspace variable to various data files.
+     */
+    public void exportData() {
+        if(table.getSelectedRow() >= 0)  {
                      try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                             export(var);
@@ -903,63 +916,62 @@ public class VarViewPanel extends JPanel {
                
                    
                  }
-             }
-             else if(source.equals(ftnItem)) {
-                if(table.getSelectedRow() >= 0)  {
+    }
+    
+    /**
+     * Clear all variables in the workspace.
+     */
+    public void clearAll() {
+         int opt =JOptionPane.showConfirmDialog(table, "Do you want to delete all variables ?", "Information",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+         if(opt == JOptionPane.YES_OPTION)  {
+            try {
+                 for(int i=0;i<table.getRowCount();i++) {
+                     String variable =table.getValueAt(i, 0).toString();
+                    MainFrame.octavePanel.evaluate("clear('"+variable+"');");
+                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);"); 
+                   //reload();
+
+                 }
+                JOptionPane.showMessageDialog(table,"All variables have been removed.","DomainMath IDE",JOptionPane.INFORMATION_MESSAGE);
+                MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);"); 
+                reload(); 
+
+            }catch(Exception ex) {
+                System.err.print(ex);
+            }
+        }
+    }
+    
+    /**
+     * Save a workspace variable.
+     */
+    public void saveData() {
+        if(table.getSelectedRow() >= 0)  {
                      try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            FtnDialog ftn = new FtnDialog(frame,true,var);
-                            ftn.setLocationRelativeTo(frame);
-                            ftn.setVisible(true);
+                            save(var);
+                            reload();
                         } catch (Exception ex) {
                         }
-               
-                   
-                 }
-             }
-             else if(source.equals(exportAllItem)) {
-                 exportAll();
-             }
-             else if(source.equals(openSelectionItem)) {
-                 viewIn();
-             }
-             else if(source.equals(clearAllVarItem)) {
-                
-                   int opt =JOptionPane.showConfirmDialog(table, "Do you want to delete all variables ?", "Information",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
-                                        if(opt == JOptionPane.YES_OPTION)  {
-                            try {
-                                 for(int i=0;i<table.getRowCount();i++) {
-                                     String variable =table.getValueAt(i, 0).toString();
-                                     
-                                    
-                                        MainFrame.octavePanel.evaluate("clear('"+variable+"');");
-                                        MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);"); 
-                                       //reload();
-                                   
-                                 }
-                                JOptionPane.showMessageDialog(table,"All variables have been removed.","DomainMath IDE",JOptionPane.INFORMATION_MESSAGE);
-                                MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);"); 
-                                reload(); 
-                                
-                            }catch(Exception ex) {
-                                System.err.print(ex);
-                            }
-                           
-                }      
-                           
-                    
-                 
-                 
-             }
-             else if(source.equals(saveAllItem)) {
-                
-                     saveAll();
-                
-                 
-             }else if(source.equals(viewItem)) {
-               view();
-             }else if(source.equals(plotItem)) {
-                 if(table.getSelectedRow() >= 0)  {
+        }
+    }
+    
+    /**
+     * Refresh workspace table.
+     */
+    public void refreshData() {
+        model.refresh();
+        model.fireTableStructureChanged();
+        model.fireTableDataChanged();
+        table.repaint(); 
+    }
+    
+    /**
+     * Plot selected data in the workspace.
+     * @see PlotDialog
+     */
+    public void plotData() {
+        if(table.getSelectedRow() >= 0)  {
                      try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                           //  MainFrame.octavePanel.evaluate("figure; plot("+var+"); hold off;");
@@ -973,10 +985,13 @@ public class VarViewPanel extends JPanel {
                
                    
                  } 
-             }else if(source.equals(deleteItem)) { 
-                 delete();
-              }else if(source.equals(renameItem)) {
-                 if(table.getSelectedRow() >= 0)  {
+    }
+    
+    /**
+     * Rename selected variable.
+     */
+    public void renameData() {
+        if(table.getSelectedRow() >= 0)  {
                     try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                             String name =JOptionPane.showInputDialog("Enter new name:");
@@ -987,9 +1002,14 @@ public class VarViewPanel extends JPanel {
                             reload();
                         } catch (Exception ex) {
                         }
-                 }
-             }else if(source.equals(duplicateItem)) {
-                 if(table.getSelectedRow() >= 0)  {
+        }
+    }
+    
+    /**
+     * Duplicate selected variable.
+     */
+    public void duplicateData() {
+        if(table.getSelectedRow() >= 0)  {
                     try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                             String name =JOptionPane.showInputDialog("Enter suffix:");
@@ -1002,44 +1022,88 @@ public class VarViewPanel extends JPanel {
                         } catch (Exception ex) {
                         }
                  }
-             }
-              else if(source.equals(addItem)) {
-                NewVarDialog newVarDlg = new NewVarDialog(frame,true);
-                newVarDlg.setLocationRelativeTo(frame);
-                newVarDlg.setVisible(true);
-                MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
-                reload();
-             }else if(source.equals(importItem)) {
-                ImportDialog importDlg = new ImportDialog(frame,true);
-                importDlg.setLocationRelativeTo(frame);
-                importDlg.setVisible(true);
-                MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
-               
-                reload();
-             }
-                else if(source.equals(refreshItem)) {
-                    model.refresh();
-                    model.fireTableStructureChanged();
-                    model.fireTableDataChanged();
-                    table.repaint(); 
-             }
-              else if(source.equals(saveItem)) {
-                 if(table.getSelectedRow() >= 0)  {
+    }
+    
+    /**
+     * find values using selected variable with Octave functions
+     * @see FtnDialog
+     */
+    public void chooseFtn() {
+        if(table.getSelectedRow() >= 0)  {
                      try {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            save(var);
-                            reload();
+                            FtnDialog ftn = new FtnDialog(frame,true,var);
+                            ftn.setLocationRelativeTo(frame);
+                            ftn.setVisible(true);
                         } catch (Exception ex) {
                         }
                
                    
                  }
-                
+    }
+    
+    /**
+     * Get data from remote or url.
+     */
+    public void getDataFromRemote() {
+        String s = JOptionPane.showInputDialog("Enter website address:");
+                 if(s != null) {
+                          MainFrame.octavePanel.eval("url = urlread("+Character.toString('"')+s+Character.toString('"')+");");
+            
+                 }
+    }
+    
+    /**
+     * The Listener interface to listen actions from pop up menu.
+     */
+    private class PopupActionListener implements ActionListener {
+       
+        @Override
+        public void actionPerformed(ActionEvent e) {
+             JMenuItem source = (JMenuItem)(e.getSource());
+             
+             if(source.equals(loadItem)) {
+                 open();
+             }else if(source.equals(exportItem)) {
+                exportData();
+             }else if(source.equals(remoteItem)) {
+                 getDataFromRemote();
+             }else if(source.equals(ftnItem)) {
+                chooseFtn();
+             }else if(source.equals(exportAllItem)) {
+                exportAll();
+             }else if(source.equals(openSelectionItem)) {
+                viewIn();
+             }else if(source.equals(clearAllVarItem)) {
+                clearAll();  
+             }else if(source.equals(saveAllItem)) {
+                saveAll();
+             }else if(source.equals(viewItem)) {
+                view();
+             }else if(source.equals(plotItem)) {
+                plotData();
+             }else if(source.equals(deleteItem)) { 
+                delete();
+             }else if(source.equals(renameItem)) {
+                renameData();
+             }else if(source.equals(duplicateItem)) {
+                duplicateData();
+             }else if(source.equals(addItem)) {
+                addVariable();
+             }else if(source.equals(importItem)) {
+                importSpreadSheetData();
+             }else if(source.equals(refreshItem)) {
+                refreshData();
+             }else if(source.equals(saveItem)) {
+                saveData();
              }
         }
  
     }
   
+    /**
+     * This Listener handles double click in table.
+     */
     private class TableMouseListener implements MouseListener{
 
         @Override
@@ -1072,6 +1136,9 @@ public class VarViewPanel extends JPanel {
         
     }
     
+    /**
+     * It reload workspace automatically.
+     */
     private class VarTask extends SwingWorker<Void, Void> {
         @Override
         protected Void doInBackground() {
