@@ -828,7 +828,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="continueItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F5"/>
+                  <KeyStroke key="F8"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Continue"/>
               </Properties>
@@ -876,7 +876,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="finishDebugItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+F5"/>
+                  <KeyStroke key="Shift+F8"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/org/domainmath/gui/icons/finish.png"/>
@@ -933,7 +933,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="loadMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F7"/>
+                  <KeyStroke key="Shift+Ctrl+L"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Load"/>
               </Properties>

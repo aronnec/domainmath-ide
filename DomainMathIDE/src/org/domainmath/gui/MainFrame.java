@@ -1461,7 +1461,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         debugMenu.add(stepOutItem);
 
-        continueItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        continueItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
         continueItem.setText("Continue");
         continueItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1499,7 +1499,7 @@ public final class MainFrame extends javax.swing.JFrame {
         debugMenu.add(dbdownItem);
         debugMenu.add(jSeparator5);
 
-        finishDebugItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.SHIFT_MASK));
+        finishDebugItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.SHIFT_MASK));
         finishDebugItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/finish.png"))); // NOI18N
         finishDebugItem.setText("Finish Debugger Session");
         finishDebugItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1540,7 +1540,7 @@ public final class MainFrame extends javax.swing.JFrame {
         WorkspaceMenu.add(clearAllItem);
         WorkspaceMenu.add(jSeparator8);
 
-        loadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        loadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         loadMenuItem.setText("Load");
         loadMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
