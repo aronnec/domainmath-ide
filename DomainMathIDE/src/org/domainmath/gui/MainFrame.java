@@ -683,6 +683,7 @@ public final class MainFrame extends javax.swing.JFrame {
         exportAllItem = new javax.swing.JMenuItem();
         jSeparator27 = new javax.swing.JPopupMenu.Separator();
         refreshItem = new javax.swing.JMenuItem();
+        automaticRefreshCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         toolsMenu = new javax.swing.JMenu();
         dleEditorItem = new javax.swing.JMenuItem();
         arrayEditorItem = new javax.swing.JMenuItem();
@@ -1599,6 +1600,10 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         WorkspaceMenu.add(refreshItem);
+
+        automaticRefreshCheckBoxMenuItem.setSelected(true);
+        automaticRefreshCheckBoxMenuItem.setText("Automatic Refresh");
+        WorkspaceMenu.add(automaticRefreshCheckBoxMenuItem);
 
         jMenuBar1.add(WorkspaceMenu);
 
@@ -3010,6 +3015,7 @@ public void saveplot() {
     private javax.swing.JMenu WorkspaceMenu;
     private javax.swing.JButton addButton;
     private javax.swing.JMenuItem arrayEditorItem;
+    public static javax.swing.JCheckBoxMenuItem automaticRefreshCheckBoxMenuItem;
     private javax.swing.JMenuItem bioInfoItem;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;

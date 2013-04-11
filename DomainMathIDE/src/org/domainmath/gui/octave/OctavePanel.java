@@ -272,9 +272,10 @@ public class OctavePanel extends JPanel{
      * @param c 
      */
     public void evaluate(String c) {
-        System.out.println(c);
-        oc.find(c);
-        
+        if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+             System.out.println(c);
+             oc.find(c);
+        }
     }
 
      private	void showHistoryLine() {
@@ -292,9 +293,13 @@ public class OctavePanel extends JPanel{
         id++;
          outputArea.append(c+"\n");
          oc.find(c);
-         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-         MainFrame.varView.reload();
-         MainFrame.varView.reload();
+         
+         if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+            MainFrame.varView.reload();
+            MainFrame.varView.reload();
+         }
+         
          MainFrame.histArea.append(c+"\n");
          history.add(c);
     }
@@ -309,9 +314,11 @@ public class OctavePanel extends JPanel{
         id++;
          outputArea.append(c+"\n");
          oc.find(c);
-         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-         MainFrame.varView.reload();
-         MainFrame.varView.reload();
+         if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+            MainFrame.varView.reload();
+            MainFrame.varView.reload();
+         }
          MainFrame.histArea.append(c+"\n");
     }
 
@@ -356,9 +363,11 @@ public class OctavePanel extends JPanel{
          id++;
         input.write(c+"\n");
         input.flush();
-         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-         MainFrame.varView.reload();
-         MainFrame.varView.reload();
+         if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+            MainFrame.varView.reload();
+            MainFrame.varView.reload();
+         }
     }
      public void eval(String c,String tag) {
 
@@ -367,7 +376,7 @@ public class OctavePanel extends JPanel{
          id++;
         input.write(c+"\n");
         input.flush();
-        if(!c.contains("input")) {
+        if(!c.contains("input") ||MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload();
