@@ -53,7 +53,8 @@ public class BioInfoFrame extends javax.swing.JFrame {
     private CategoryDataset dataset;
     private JFreeChart chart;
     private ChartPanel chartPanel;
-   
+    public static String AMINO_ACID[] ={"A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V",  "B",  "Z",  "X",  "*",  "-",  "?"};
+
     public BioInfoFrame() {
         setIconImage(icon);
         
@@ -458,11 +459,18 @@ public class BioInfoFrame extends javax.swing.JFrame {
     private void plotData(String text) {
         //char base[] ={ 'A', 'C', 'G', 'T', 'U', 'R', 'Y', 'K', 'M', 'S',  'W',  'B',  'D',  'H','V',  'N'};
         char amino_acid[] ={'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',  'L',  'K',  'M',  'F',  'P',  'S',  'T',  'W',  'Y',  'V',  'B',  'Z',  'X',  '*',  '-',  '?'};
+          String st[] ={"A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V",  "B",  "Z",  "X"};
+
         List data =Collections.synchronizedList(new ArrayList());
         
         for(int i=0; i<amino_acid.length; i++) {
             data.add(getCount(text.toUpperCase(),amino_acid[i]));
         }
+        
+        for(int i=0; i<st.length; i++) {
+            MainFrame.octavePanel.evaluate("aa_count."+st[i]+"="+data.get(i).toString()+";");
+        }
+        
         if(chartPanel == null) {
             dataset = createDataset(data);
             chart = createChart(dataset);
@@ -501,11 +509,10 @@ public class BioInfoFrame extends javax.swing.JFrame {
     private static CategoryDataset createDataset(List data) {
 
         String series1 = "Amino Acids";
-        String amino_acid[] ={"A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V",  "B",  "Z",  "X",  "*",  "-",  "?"};
-
+        
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for(int i=0; i<amino_acid.length; i++) {
-            dataset.addValue(Integer.parseInt(data.get(i).toString()), series1, amino_acid[i]);
+        for(int i=0; i<AMINO_ACID.length; i++) {
+            dataset.addValue(Integer.parseInt(data.get(i).toString()), series1, AMINO_ACID[i]);
         }
         return dataset;
 
