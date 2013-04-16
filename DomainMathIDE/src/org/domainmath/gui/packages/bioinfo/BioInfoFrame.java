@@ -461,7 +461,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
         List data =Collections.synchronizedList(new ArrayList());
         
         for(int i=0; i<amino_acid.length; i++) {
-            data.add(getCount(text,amino_acid[i]));
+            data.add(getCount(text.toUpperCase(),amino_acid[i]));
         }
         if(chartPanel == null) {
             dataset = createDataset(data);
