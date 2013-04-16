@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Vinu K.N
+ * Copyright (C) 2013 Vinu K.N
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 
 package org.domainmath.gui.packages.bioinfo;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -24,6 +26,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -31,6 +36,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.ftndlg.FtnDialog;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 
@@ -39,6 +50,9 @@ import org.domainmath.gui.ftndlg.FtnDialog;
 public class BioInfoFrame extends javax.swing.JFrame {
     public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    private CategoryDataset dataset;
+    private JFreeChart chart;
+    private ChartPanel chartPanel;
    
     public BioInfoFrame() {
         setIconImage(icon);
@@ -46,6 +60,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
         setSize(800,600);
         setLocationRelativeTo(null);
         initComponents();
+
     }
 
     
@@ -57,6 +72,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
         statusPanel2 = new org.domainmath.gui.StatusPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         SeqArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         importItem = new javax.swing.JMenuItem();
@@ -89,6 +105,9 @@ public class BioInfoFrame extends javax.swing.JFrame {
         SeqArea.setColumns(20);
         SeqArea.setRows(5);
         jScrollPane1.setViewportView(SeqArea);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         jMenu1.setText("File");
 
@@ -237,11 +256,12 @@ public class BioInfoFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(statusPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -249,10 +269,12 @@ public class BioInfoFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -278,10 +300,12 @@ public class BioInfoFrame extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 this.SeqArea.read(new FileReader(fc.getSelectedFile()), null);
+                plotData(this.SeqArea.getText());
             } catch (IOException ex) {
                 
             }
             MainFrame.octavePanel.eval("Sequencechar=fileread('"+fc.getSelectedFile().getAbsolutePath()+"');");
+            
          } 
     }//GEN-LAST:event_importItemActionPerformed
 
@@ -419,6 +443,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator7;
@@ -429,4 +454,82 @@ public class BioInfoFrame extends javax.swing.JFrame {
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
     // End of variables declaration//GEN-END:variables
+
+    private void plotData(String text) {
+        //char base[] ={ 'A', 'C', 'G', 'T', 'U', 'R', 'Y', 'K', 'M', 'S',  'W',  'B',  'D',  'H','V',  'N'};
+        char amino_acid[] ={'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',  'L',  'K',  'M',  'F',  'P',  'S',  'T',  'W',  'Y',  'V',  'B',  'Z',  'X',  '*',  '-',  '?'};
+        List data =Collections.synchronizedList(new ArrayList());
+        
+        for(int i=0; i<amino_acid.length; i++) {
+            data.add(getCount(text,amino_acid[i]));
+        }
+        if(chartPanel == null) {
+            dataset = createDataset(data);
+            chart = createChart(dataset);
+            chartPanel = new ChartPanel(chart);
+            chartPanel.setFillZoomRectangle(true);
+            chartPanel.setMouseWheelEnabled(true);
+            this.jPanel1.add(chartPanel,BorderLayout.CENTER);
+        
+            jPanel1.revalidate();
+        }else {
+            jPanel1.removeAll();
+            dataset = createDataset(data);
+            chart = createChart(dataset);
+            chartPanel = new ChartPanel(chart);
+            chartPanel.setFillZoomRectangle(true);
+            chartPanel.setMouseWheelEnabled(true);
+            this.jPanel1.add(chartPanel,BorderLayout.CENTER);
+        
+            jPanel1.revalidate();
+        }
+        
+    }
+
+    private int getCount(String text, char string) {
+        int k=0;
+        
+        for(int i=0; i<text.length(); i++) {
+            if(text.charAt(i) == string) {
+                k++;
+            }
+        }
+        return k;
+    }
+    
+  
+    private static CategoryDataset createDataset(List data) {
+
+        String series1 = "Amino Acids";
+        String amino_acid[] ={"A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V",  "B",  "Z",  "X",  "*",  "-",  "?"};
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for(int i=0; i<amino_acid.length; i++) {
+            dataset.addValue(Integer.parseInt(data.get(i).toString()), series1, amino_acid[i]);
+        }
+        return dataset;
+
+    }
+
+    private static JFreeChart createChart(CategoryDataset dataset) {
+
+        JFreeChart chart = ChartFactory.createBarChart(
+            "",       
+            "Amino Acids",              
+            "Count",                  
+            dataset,                  
+            PlotOrientation.VERTICAL, 
+            true,                     
+            true,                     
+            false                     
+        );
+
+        chart.setBackgroundPaint(Color.white);
+        return chart;
+
+    }
+
+   
+
+
 }
