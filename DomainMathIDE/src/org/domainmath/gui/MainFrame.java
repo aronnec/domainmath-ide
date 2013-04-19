@@ -1829,7 +1829,7 @@ private void AboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         aboutDlg.setLocationRelativeTo(this);
         aboutDlg.setVisible(true);
 }//GEN-LAST:event_AboutItemActionPerformed
-public void setPath(String path) {
+public static void setPath(String path) {
     try {
             URI uri = new URI(path);
             Desktop desktop=Desktop.getDesktop();
