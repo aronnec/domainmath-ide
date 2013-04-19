@@ -202,6 +202,7 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.ASCII_FILE_FILTER);
+       fc.setFileFilter(DomainMathFileFilter.CSV_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.AUDIO_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.MATLAB_FILE_FILTER);
@@ -237,6 +238,8 @@ public class VarViewPanel extends JPanel {
                    MainFrame.octavePanel.eval("readfis('"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
+                 }else if(name.endsWith(".csv")) {
+                     loadCSV(file);
                  }
                 
                  else if(name.endsWith(".bmp") ||
@@ -397,6 +400,7 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.FLOAT_BINARY_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.IMAGES_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.BINARY_FILE_FILTER);
+       fc.setFileFilter(DomainMathFileFilter.CSV_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.ASCII_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.DCM_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.FIS_FILE_FILTER);
@@ -434,6 +438,8 @@ public class VarViewPanel extends JPanel {
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                     System.out.println(file.getAbsolutePath());
+                 }else if(name.endsWith(".csv")) {
+                     saveCSV(file,var);
                  }
                  
                  else if(name.endsWith(".bmp") ||
@@ -567,7 +573,7 @@ public class VarViewPanel extends JPanel {
        fc.setFileFilter(DomainMathFileFilter.XML_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.ODS_FILE_FILTER);
        fc.setFileFilter(DomainMathFileFilter.EXCEL_WORKBOOK_FILE_FILTER);
-       fc.setFileFilter(DomainMathFileFilter.CSV_FILE_FILTER);
+       
        
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
@@ -586,8 +592,6 @@ public class VarViewPanel extends JPanel {
                      exportODS(file,var);
                  }else if(name.endsWith(".xlsx")) {
                      exportXLSX(file,var);
-                 }else if(name.endsWith(".csv")) {
-                     exportCSV(file,var);
                  }
 
             } 
@@ -622,14 +626,21 @@ public class VarViewPanel extends JPanel {
                           Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
                           ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
     }
-    private void exportCSV(File file,String opt) {
-          MainFrame.octavePanel.eval("csvwrite('"+file.getAbsolutePath()+"',"+opt+"');");
+    private void saveCSV(File file,String opt) {
+          MainFrame.octavePanel.eval("csvwrite('"+file.getAbsolutePath()+"',"+opt+");");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
                   MainFrame.octavePanel.evaluate("obOctDefaultApp=javaObject("+
                           Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
                           ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
+    }
+     private void loadCSV(File file) {
+          MainFrame.octavePanel.eval("csvread('"+file.getAbsolutePath()+"');");
+                   MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+                   reload();
+                 System.out.println(file.getAbsolutePath());
+                 
     }
     public  void exportAll(){
         JFileChooser fc = new JFileChooser();
