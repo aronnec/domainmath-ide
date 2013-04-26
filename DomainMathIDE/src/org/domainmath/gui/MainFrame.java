@@ -87,96 +87,218 @@ import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-
+/**
+ * It creates DomainMath IDE 
+ * @author Vinu K.N
+ */
 public final class MainFrame extends javax.swing.JFrame {
+
+    /**
+     * Core of DomainMath IDE.
+     * @see OctavePanel
+     */
     public static OctavePanel octavePanel;
+    
+    /**
+     * Object of commandArea for special purpose
+     * @see OctavePanel
+     * @see RSyntaxTextArea
+     */
     private final RSyntaxTextArea commandArea;
+    
+    /**
+     * Object of PreferencesDlg.
+     */
     private  PreferencesDlg preferencesDlg;
+    
+    /**
+     * Octave Installation path.
+     * @see PreferencesDlg
+     */
     public  static String octavePath;
     
+    /**
+     * Startup commands like graphics_toolkit gnuplot,pkg load java,....
+     * Each commands are separated  by ;
+     * @see PreferencesDlg
+     */
     private final String startupCmd;
+    
+    /**
+     * Startup commands like --interactive --no-history,....
+     * see octave --help for more info about command line options
+     * @see PreferencesDlg
+     */
     private final String cmdLineOptions;
    
-    private final File file;
+    /**
+     * Creates a folder called cache to store details of path,packages etc.
+     */
+    private final File cache;
+    
+    /**
+     * Parent root.
+     */
     public static String parent_root;
+    
+    /**
+     * History of commands.
+     * @see RSyntaxTextArea
+     */
     public static RSyntaxTextArea histArea;
+    
+    /**
+     * ScrollPane of histArea.
+     * @see histArea
+     * @see RTextScrollPane
+     */
     private final RTextScrollPane histScrollPane;
     
-    private final JSplitPane splitPane;
+    /**
+     * SplitPane between Outlook bar and another split pane contains
+     * FileTab and OctavePanel.
+     */
+    private final JSplitPane splitPaneOutLookBar;
+    
+    /**
+     * Workspace Panel.
+     */
     public static VarViewPanel varView;
     
-   
+    /**
+     * Log Root.
+     */
     public static String log_root;
 
-    public  RSyntaxTextArea area1;
+    /**
+     * Text Area in a FileTab.
+     */
+    public  RSyntaxTextArea areaFileTab;
+    
+    /**
+     * ScrollPane of areaFileTab.
+     */
     public  RTextScrollPane scroll1;
+    
     CompletionProvider provider1 = createCompletionProvider();
   
-    private String fname;
-    private String dynareOptions1;
-    private String dynarePath1;
-    public   JTabbedPane fileTab = new JTabbedPane();
+    /**
+     * Selected file to Open in a file tab.
+     */
+    private String selectedFileToOpen;
     
-    private List data1 =Collections.synchronizedList(new ArrayList());
-    private String currentDir1;
+    /**
+     * Dynare Options.
+     */
+    private String dynareOptions;
+    
+    /**
+     * Dynare installation path.
+     */
+    private String dynarePath;
+    
+    /**
+     * Script Editor.
+     */
+    public   JTabbedPane fileTab = new JTabbedPane();
+
+    /**
+     * Folder or Parent of last selected file in file tab.
+     */
+    private String currentDirFileTab;
+    
+    /**
+     * Names of selected files including full path.
+     */
     public static  List fileNameList =Collections.synchronizedList(new ArrayList());
 
-    private final JSplitPane sp2;
+    /**
+     * SplitPane between file tab and Octave panel.
+     */
+    private final JSplitPane splitPaneFileTab;
+    
+    /**
+     * Create a folder called log.
+     */
     private final File logDir;
-    public static  int index;
-    private Gutter gutter;
-    private boolean isSetBreakpoint;
-    private URL url;
+    
+    /**
+     * Index of files in the file tabbed pane.
+     */
+    public static  int FILE_TAB_INDEX;
+    
+    /**
+     * Gutter of FileTab.
+     */
+    private Gutter gutterFileTab;
+    
+    /**
+     * URL of image.
+     */
+    private URL urlDebugImageStop;
+    
+    /**
+     * Outlook Bar.
+     */
     private final JAccordion outlookBar;
-    /** Creates new form MainFrame */
+    
+    /**
+     * Start up or default directory.
+     */
+    private final String startupDir;
+    
+    /** 
+     * Creates new form MainFrame.
+     */
     public MainFrame()  {
-       
-          
-      
+
         initComponents();
         makeMenu();
-        setIconImage(icon);
         
+        setIconImage(icon);
         setSize(800,600);
         setLocationRelativeTo(null);
-       index =0;
-       file = new File(System.getProperty("user.dir")+File.separator+"cache");
-       logDir = new File(System.getProperty("user.dir")+File.separator+"log");
-        file.mkdir();
+        
+        FILE_TAB_INDEX =0;
+        
+        // create folders called cache and log.
+        cache = new File(System.getProperty("user.dir")+File.separator+"cache");
+        logDir = new File(System.getProperty("user.dir")+File.separator+"log");
+        cache.mkdir();
         logDir.mkdir();
-         parent_root=file.getAbsolutePath()+File.separator;
-         log_root=logDir.getAbsolutePath()+File.separator;
+        
+        parent_root=cache.getAbsolutePath()+File.separator;
+        log_root=logDir.getAbsolutePath()+File.separator;
+        
         octavePanel = new OctavePanel(this,parent_root);
         commandArea = octavePanel.commandArea;
+        
         preferencesDlg = new PreferencesDlg(this,true);
         octavePath =preferencesDlg.getPath();
         startupCmd =preferencesDlg.getStartupCmd();
         cmdLineOptions = preferencesDlg.getCmdLineOptions();
-        String c =File.separator;
-        //String dir =octavePath.substring(0,octavePath.lastIndexOf(c+"bin"));
-        //String dir =Paths.get(octavePath).get;
         
-        
+        // set up histroy widget.
         histArea = new RSyntaxTextArea();
         histArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
+        
         varView =new VarViewPanel(parent_root+"DomainMath_OctaveVariables.dat",this);
 
         outlookBar = new JAccordion();
-       
         outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), varView);
         outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
         histPanel();
 
-        sp2= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
-        sp2.setDividerLocation(300);
-       sp2.setOneTouchExpandable(true);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,outlookBar,
-                sp2);
+        splitPaneFileTab= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
+        splitPaneFileTab.setDividerLocation(300);
+       splitPaneFileTab.setOneTouchExpandable(true);
+        splitPaneOutLookBar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,outlookBar,
+                splitPaneFileTab);
        //splitPane.setOneTouchExpandable(true);
-       splitPane.setDividerLocation(250);
-       add(splitPane,BorderLayout.CENTER);
+       splitPaneOutLookBar.setDividerLocation(250);
+       add(splitPaneOutLookBar,BorderLayout.CENTER);
        
        
        // add(octavePanel,BorderLayout.CENTER);
@@ -187,32 +309,40 @@ public final class MainFrame extends javax.swing.JFrame {
         
        
         this.popupTab();
-         Preferences pr2 = Preferences.userNodeForPackage(this.getClass());
-            String path2 =pr2.get("DomainMath_DynarePath",null);
-            this.dynarePath1=path2;
-            this.dynareOptions1=this.DynareOptions();
+        Preferences pr2 = Preferences.userNodeForPackage(this.getClass());
+        String path2 =pr2.get("DomainMath_DynarePath",null);
+        this.dynarePath=path2;
+        this.dynareOptions=this.DynareOptions();
             
         
-       currentDir1 = null;
-       
-        
-        
+       startupDir=pr2.get("DomainMath_StartUpDir", null);
+       currentDirFileTab = null;
+ 
     }
 
-    public String getCurrentDir() {
-        return currentDir1;
+    /**
+     * Returns folder or Parent of last selected file in file tab.
+     * @return currentDirFileTab
+     */
+    public String getCurrentDirFileTab() {
+        return currentDirFileTab;
     }
 
-    public void setCurrentDir(String currentDir) {
-        this.currentDir1 = currentDir;
+    /**
+     * Set folder or Parent of last selected file in file tab.
+     * @param currentDirFileTab
+     */
+    public void setCurrentDirFileTab(String currentDir) {
+        this.currentDirFileTab = currentDir;
     }
     
     public static void reloadWorkspace() {
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
         varView.reload();
     }
+    
     public void dirty() {
-        area1.getDocument().addDocumentListener(
+        areaFileTab.getDocument().addDocumentListener(
                 new DocumentListener(){
 
             @Override
@@ -242,16 +372,16 @@ public final class MainFrame extends javax.swing.JFrame {
                 });
     }
     public void setUpArea() {
-        area1 =new  RSyntaxTextArea();
+        areaFileTab =new  RSyntaxTextArea();
       
-        area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-        scroll1 = new RTextScrollPane(area1);
-         gutter = scroll1.getGutter();
-        gutter.setVisible(true);
-        gutter.setBookmarkingEnabled(true);
-        url = getClass().getResource("resources/stop.png");
+        areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        scroll1 = new RTextScrollPane(areaFileTab);
+         gutterFileTab = scroll1.getGutter();
+        gutterFileTab.setVisible(true);
+        gutterFileTab.setBookmarkingEnabled(true);
+        urlDebugImageStop = getClass().getResource("resources/stop.png");
 
-        gutter.setFoldIndicatorEnabled(true);
+        gutterFileTab.setFoldIndicatorEnabled(true);
         needOct(true);
       
         scroll1.setWheelScrollingEnabled(true);
@@ -259,34 +389,7 @@ public final class MainFrame extends javax.swing.JFrame {
          
     }
     
-     private void init(String datafile) {
-        String line;
-        
-        try {
-            FileInputStream fin = new FileInputStream(datafile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fin));
-            try {
-              
-                    while((line=br.readLine()) != null) {
-                        StringTokenizer s2 = new StringTokenizer(line,";");
-                        while(s2.hasMoreTokens()) {
-                            data1.add(s2.nextToken());
-                            
-                        }
-                  
-                }
-                br.close();
-            } catch (IOException ex) {
-             //   ex.printStackTrace();
-            }
-            
-            
-        } catch (FileNotFoundException ex) {
-            //ex.printStackTrace();
-        }
-        
-        
-    }
+    
      
     public void saveAs() {
     JFileChooser fc = new JFileChooser();
@@ -317,11 +420,11 @@ public final class MainFrame extends javax.swing.JFrame {
         fileNameList.remove(index);
     }
     public void open(File file ,int file_index) {
-     fname= file.getName();
-     if(fname.endsWith(".m") ||
-             fname.endsWith(".dyn") ||
-             fname.endsWith(".mod") ||
-             fname.endsWith(".pl")) {
+     selectedFileToOpen= file.getName();
+     if(selectedFileToOpen.endsWith(".m") ||
+             selectedFileToOpen.endsWith(".dyn") ||
+             selectedFileToOpen.endsWith(".mod") ||
+             selectedFileToOpen.endsWith(".pl")) {
          
      
      try {
@@ -329,37 +432,37 @@ public final class MainFrame extends javax.swing.JFrame {
             try {
                
                 setUpArea();
-                fname= file.getName();
-                if(fname.endsWith(".m")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+                selectedFileToOpen= file.getName();
+                if(selectedFileToOpen.endsWith(".m")) {
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
                         
                         needOct(true);
-                    }else if(fname.endsWith(".dyn")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         area1.setCodeFoldingEnabled(true);
+                    }else if(selectedFileToOpen.endsWith(".dyn")) {
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         areaFileTab.setCodeFoldingEnabled(true);
                         
-                    }else if(fname.endsWith(".mod")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         area1.setCodeFoldingEnabled(true);
+                    }else if(selectedFileToOpen.endsWith(".mod")) {
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         areaFileTab.setCodeFoldingEnabled(true);
                        
-                    }else if(fname.endsWith(".pl")) {
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
+                    }else if(selectedFileToOpen.endsWith(".pl")) {
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
                         
                         
                     }
                     else{
-                         area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
                         
                     }
-                area1.read(r, null);
+                areaFileTab.read(r, null);
                 r.close();
                 
                 fileTab.addTab(file.getName(), scroll1);
                
-                fileTab.setToolTipTextAt(index, file.getAbsolutePath());
-                fileTab.setSelectedIndex(index);
+                fileTab.setToolTipTextAt(FILE_TAB_INDEX, file.getAbsolutePath());
+                fileTab.setSelectedIndex(FILE_TAB_INDEX);
                 this.addFileNameToList(file.getAbsolutePath());
-                 index++;
+                 FILE_TAB_INDEX++;
                 dirty();
                 
                  
@@ -376,7 +479,7 @@ public final class MainFrame extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         
         if(fileTab.getTabCount() >0) {
-              File f = new File(this.getCurrentDir());
+              File f = new File(this.getCurrentDirFileTab());
                fc.setCurrentDirectory(f);  
           }
            
@@ -398,7 +501,7 @@ public final class MainFrame extends javax.swing.JFrame {
                    
                 file1 = fc.getSelectedFiles();
                 
-                this.setCurrentDir(fc.getCurrentDirectory().getAbsolutePath());
+                this.setCurrentDirFileTab(fc.getCurrentDirectory().getAbsolutePath());
                   for(int i=0;i<file1.length;i++) {
                             if(!fileNameList.contains(file1[i].getAbsolutePath())) {
                                open(file1[i],i);
@@ -1882,8 +1985,14 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
         
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"symja.jar')");
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"DefaultApp.jar')");
-       setDir(System.getProperty("user.dir"));
-       octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
+       if(startupDir == null) {
+           setDir(System.getProperty("user.dir"));
+           octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
+       }else{
+           setDir(startupDir);
+        octavePanel.evaluate("chdir "+"'"+startupDir +"'"); 
+       }
+       
         
 }//GEN-LAST:event_formWindowOpened
 
@@ -2051,7 +2160,13 @@ private void connectItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
          MainFrame.varView.reload(); 
-         octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
+         if(this.startupDir.equals("")) {
+           setDir(System.getProperty("user.dir"));
+           octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
+       }else{
+           setDir(startupDir);
+        octavePanel.evaluate("chdir "+"'"+startupDir +"'"); 
+       }
   
 }//GEN-LAST:event_connectItemActionPerformed
 
@@ -2575,9 +2690,9 @@ public void saveplot() {
     }//GEN-LAST:event_jButton1ActionPerformed
 
      private void setUpDynare(Path path) {
-              if(dynareOptions1!=null || dynarePath1 != null) {
-                    File f = new File(dynarePath1+File.separator+"dynare_m.exe");
-                    String c = "system('"+f.getAbsolutePath()+" "+path.toString()+" "+dynareOptions1+"');";
+              if(dynareOptions!=null || dynarePath != null) {
+                    File f = new File(dynarePath+File.separator+"dynare_m.exe");
+                    String c = "system('"+f.getAbsolutePath()+" "+path.toString()+" "+dynareOptions+"');";
                     System.out.println(c);
                      MainFrame.octavePanel.evaluate(c);
                      MainFrame.octavePanel.evaluate("disp('---------------------------------------------------')");
@@ -2588,8 +2703,8 @@ public void saveplot() {
                      MainFrame.octavePanel.evaluate("whos");
                      reloadWorkspace();
          
-                }else if( dynarePath1 != null){
-                     File f = new File(dynarePath1+File.separator+"dynare_m.exe");
+                }else if( dynarePath != null){
+                     File f = new File(dynarePath+File.separator+"dynare_m.exe");
                     String c2="system('"+f.getAbsolutePath()+" "+path.toString()+" "+"noclearall"+"');";
                     System.out.println(c2);
                     MainFrame.octavePanel.evaluate(c2);
@@ -2622,7 +2737,7 @@ public void saveplot() {
             }
         }
     public void newFile() {
-        NewScriptDialog newFileDlg =new NewScriptDialog(this,true,this.dynareOptions1,this.dynarePath1);
+        NewScriptDialog newFileDlg =new NewScriptDialog(this,true,this.dynareOptions,this.dynarePath);
         newFileDlg.setLocationRelativeTo(this);
         newFileDlg.setVisible(true);
     }
@@ -2631,7 +2746,7 @@ public void saveplot() {
           AutoCompletion ac = new AutoCompletion(provider1);
 
         if(need) {
-             ac.install(this.area1);
+             ac.install(this.areaFileTab);
              
         }
          else   {
@@ -2670,13 +2785,13 @@ public void saveplot() {
             try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
                 //setUpArea();
                 this.fileTab.setTitleAt(index,file.getName());
-               // System.out.println(index+","+file.getAbsolutePath());
-                //this.area1.write(r);
+               // System.out.println(FILE_TAB_INDEX+","+file.getAbsolutePath());
+                //this.areaFileTab.write(r);
                 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(index);
                 RSyntaxTextArea a = (RSyntaxTextArea)t.getTextArea();
                 a.write(r);
                 r.close();
-                this.setCurrentDir(file.getParent());
+                this.setCurrentDirFileTab(file.getParent());
             }
                        
 		} catch (Exception re) {
@@ -2750,13 +2865,13 @@ public void saveplot() {
                  }else if (i == JOptionPane.NO_OPTION){
                       this.removeFileNameFromList(selectedIndex);
                      fileTab.remove(selectedIndex);
-                     index--;
+                     FILE_TAB_INDEX--;
                     
                  }
             }else {
                 removeFileNameFromList(selectedIndex);
                 fileTab.remove(selectedIndex);
-                index--;
+                FILE_TAB_INDEX--;
             }
     }
 
@@ -2874,7 +2989,7 @@ public void saveplot() {
             try {
                    
                     setToggleBreakpoint();
-                    t.getGutter().addLineTrackingIcon(selectedArea.getCaretLineNumber(), new ImageIcon(url));
+                    t.getGutter().addLineTrackingIcon(selectedArea.getCaretLineNumber(), new ImageIcon(urlDebugImageStop));
   
             } catch (BadLocationException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -2884,7 +2999,7 @@ public void saveplot() {
     }//GEN-LAST:event_toggleBreakpointItemActionPerformed
 
     private void clearAllBreakpointsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllBreakpointsItemActionPerformed
-         
+
         if(fileTab.getSelectedIndex() >= 0) {
             
             save();
@@ -2901,9 +3016,7 @@ public void saveplot() {
             }else{
                 System.out.println("");
             }
-             
-            
-        
+
        }
     }//GEN-LAST:event_clearAllBreakpointsItemActionPerformed
 
@@ -2912,7 +3025,7 @@ public void saveplot() {
          RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
                     RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
         try {
-            GutterIconInfo[] trackingIcons = gutter.getTrackingIcons(selectedArea.getCaret().getMagicCaretPosition());
+            GutterIconInfo[] trackingIcons = gutterFileTab.getTrackingIcons(selectedArea.getCaret().getMagicCaretPosition());
             removeToggleBreakpoint();
                     t.getGutter().removeTrackingIcon(trackingIcons[0]);
         } catch (Exception ex) {

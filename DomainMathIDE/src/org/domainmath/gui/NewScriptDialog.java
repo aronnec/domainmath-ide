@@ -202,32 +202,32 @@ public class NewScriptDialog extends javax.swing.JDialog {
         frame.setUpArea();
                 fname= file.getName();
                 if(fname.endsWith(".m")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
                         
-                         frame.area1.setCodeFoldingEnabled(true);
+                         frame.areaFileTab.setCodeFoldingEnabled(true);
                     }else if(fname.endsWith(".dyn")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         frame.area1.setCodeFoldingEnabled(true);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         frame.areaFileTab.setCodeFoldingEnabled(true);
                         
                     }else if(fname.endsWith(".mod")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-                         frame.area1.setCodeFoldingEnabled(true);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         frame.areaFileTab.setCodeFoldingEnabled(true);
                        
                     }else if(fname.endsWith(".pl")) {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
                          
                         
                     }
                     else {
-                         frame.area1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
                         //CodeEditorFrame.runMenu.setEnabled(false);
                     }
                
                 frame.fileTab.addTab(file.getName(), frame.scroll1);
-                frame.fileTab.setToolTipTextAt(MainFrame.index, file.getAbsolutePath());
+                frame.fileTab.setToolTipTextAt(MainFrame.FILE_TAB_INDEX, file.getAbsolutePath());
                 frame.addFileNameToList(file.getAbsolutePath());
-                frame.fileTab.setSelectedIndex(MainFrame.index);
-                MainFrame.index++;
+                frame.fileTab.setSelectedIndex(MainFrame.FILE_TAB_INDEX);
+                MainFrame.FILE_TAB_INDEX++;
                 frame.dirty();
     }
     
@@ -265,28 +265,28 @@ public class NewScriptDialog extends javax.swing.JDialog {
                     
                     if(jList1.getSelectedIndex() == 0) {
                            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                           frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
+                           frame.setCurrentDirFileTab(new File(this.jTextField1.getText()).getParent());
                           
                     }else if(jList1.getSelectedIndex() == 1) {
                             setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                            frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
+                            frame.setCurrentDirFileTab(new File(this.jTextField1.getText()).getParent());
                         
                        
                          
                     }else if(jList1.getSelectedIndex() == 2) {
                            setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                           frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
+                           frame.setCurrentDirFileTab(new File(this.jTextField1.getText()).getParent());
                          
                          
                     }else if(jList1.getSelectedIndex() == 3) {
                              setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                             frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
+                             frame.setCurrentDirFileTab(new File(this.jTextField1.getText()).getParent());
                          
                          
                     }
                     else if(jList1.getSelectedIndex() == 4) {
                         setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
-                        frame.setCurrentDir(new File(this.jTextField1.getText()).getParent());
+                        frame.setCurrentDirFileTab(new File(this.jTextField1.getText()).getParent());
                          
                     }
                     

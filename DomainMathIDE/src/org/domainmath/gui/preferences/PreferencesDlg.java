@@ -20,6 +20,7 @@
 package org.domainmath.gui.preferences;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ public class PreferencesDlg extends javax.swing.JDialog {
         cmdLinField.setText("--interactive --no-history --traditional");
         startupCmdField.setText("graphics_toolkit gnuplot;");
         setPath();
+        setStartupDir();
         setCmdLineOptions();
         setStartupCmd();
     }
@@ -88,7 +90,20 @@ public class PreferencesDlg extends javax.swing.JDialog {
             this.startupCmdField.setText("graphics_toolkit gnuplot;");
         }
     }
-    
+    private void setStartupDir() {
+        Preferences pr = Preferences.userNodeForPackage(frame.getClass());
+        String path =pr.get("DomainMath_StartUpDir", null);
+        try {
+            if(path != null ) {
+                this.defaultDirTextField.setText(path);
+            }
+            else {
+                this.defaultDirTextField.setText(System.getProperty("user.dir"));
+            } 
+        }catch(Exception e) {
+            this.defaultDirTextField.setText(System.getProperty("user.dir"));
+        }
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -107,6 +122,9 @@ public class PreferencesDlg extends javax.swing.JDialog {
         startupCmdField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cmdLinField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        defaultDirTextField = new javax.swing.JTextField();
+        browseDefaultButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/preferences/resources/preferences_en"); // NOI18N
@@ -147,6 +165,15 @@ public class PreferencesDlg extends javax.swing.JDialog {
 
         cmdLinField.setText("--interactive");
 
+        jLabel4.setText("Default Startup Directory:");
+
+        browseDefaultButton.setText("Browse");
+        browseDefaultButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseDefaultButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,10 +192,19 @@ public class PreferencesDlg extends javax.swing.JDialog {
                                 .addComponent(okButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(cancelButton))
-                    .addComponent(browseButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
                     .addComponent(startupCmdField)
-                    .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(defaultDirTextField)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(browseButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(browseDefaultButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -187,7 +223,13 @@ public class PreferencesDlg extends javax.swing.JDialog {
                         .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdLinField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(defaultDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(browseDefaultButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startupCmdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,6 +280,7 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         String path = pathField.getText();
         String startup= this.startupCmdField.getText();
         String cmdline = this.cmdLinField.getText();
+        String defaultDir = this.defaultDirTextField.getText();
         if(!startup.equals("")) {
             pr.put("DomainMath_StartUpCommand", startup);
          }
@@ -252,10 +295,32 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             pr.put("DomainMath_CmdLine", "--interactive --traditional");
             this.cmdLinField.setText("--interactive --traditional");
         }
+        if(!defaultDir.equals("")) {
+            pr.put("DomainMath_StartUpDir", this.defaultDirTextField.getText());
+        }else{
+            pr.put("DomainMath_StartUpDir", System.getProperty("user.dir"));
+        }
+                
        JOptionPane.showMessageDialog(frame, "Please restart DomainMath to take the changes effect.","Information",JOptionPane.INFORMATION_MESSAGE);    
        
      dispose();
 }//GEN-LAST:event_okButtonActionPerformed
+
+    private void browseDefaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseDefaultButtonActionPerformed
+        JFileChooser fc = new JFileChooser();
+        
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        
+        Path browse_file;
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                 browse_file = fc.getSelectedFile().toPath();
+                 MainFrame.setDir(browse_file.toString());
+                MainFrame.requestToChangeDir(browse_file.toString()); 
+                
+            } 
+    }//GEN-LAST:event_browseDefaultButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,11 +328,14 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
+    private javax.swing.JButton browseDefaultButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField cmdLinField;
+    private javax.swing.JTextField defaultDirTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JButton okButton;
     private javax.swing.JTextField pathField;
     private javax.swing.JTextField startupCmdField;
