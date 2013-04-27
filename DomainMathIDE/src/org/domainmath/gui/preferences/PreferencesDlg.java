@@ -312,12 +312,13 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.setMultiSelectionEnabled(false);
         
-        Path browse_file;
+        File browse_file;
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-                 browse_file = fc.getSelectedFile().toPath();
-                 MainFrame.setDir(browse_file.toString());
-                MainFrame.requestToChangeDir(browse_file.toString()); 
+                 browse_file = fc.getSelectedFile();
+                 MainFrame.setDir(browse_file.getAbsolutePath());
+                MainFrame.requestToChangeDir(browse_file.getAbsolutePath()); 
+                this.defaultDirTextField.setText(browse_file.getAbsolutePath());
                 
             } 
     }//GEN-LAST:event_browseDefaultButtonActionPerformed

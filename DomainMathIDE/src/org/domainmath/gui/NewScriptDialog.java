@@ -199,7 +199,7 @@ public class NewScriptDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void setFile(File file, int index) {
-        frame.setUpArea();
+        frame.setUpFileTabArea();
                 fname= file.getName();
                 if(fname.endsWith(".m")) {
                          frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
@@ -223,7 +223,7 @@ public class NewScriptDialog extends javax.swing.JDialog {
                         //CodeEditorFrame.runMenu.setEnabled(false);
                     }
                
-                frame.fileTab.addTab(file.getName(), frame.scroll1);
+                frame.fileTab.addTab(file.getName(), frame.scrollAreaFileTab);
                 frame.fileTab.setToolTipTextAt(MainFrame.FILE_TAB_INDEX, file.getAbsolutePath());
                 frame.addFileNameToList(file.getAbsolutePath());
                 frame.fileTab.setSelectedIndex(MainFrame.FILE_TAB_INDEX);

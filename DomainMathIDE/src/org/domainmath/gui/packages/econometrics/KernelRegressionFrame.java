@@ -1,6 +1,6 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * and requestToOpenScript the template in the editor.
  */
 package org.domainmath.gui.packages.econometrics;
 
