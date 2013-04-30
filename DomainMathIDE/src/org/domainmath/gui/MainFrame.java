@@ -178,7 +178,7 @@ public final class MainFrame extends javax.swing.JFrame {
     /**
      * ScrollPane of areaFileTab.
      */
-    public  RTextScrollPane scrollAreaFileTab;
+    public  RTextScrollPane scroll1;
     
     CompletionProvider provider1 = createCompletionProvider();
   
@@ -341,27 +341,21 @@ public final class MainFrame extends javax.swing.JFrame {
         varView.reload();
     }
     
-    /**
-     * Check and change title of file tab according to the 
-     * text area has been modified.
-     */
     public void dirty() {
         areaFileTab.getDocument().addDocumentListener(
                 new DocumentListener(){
 
             @Override
             public void insertUpdate(DocumentEvent e) {
+             
+             
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
+               
             }
 
-            /**
-             * Append a '*' if area edited on the title of file
-             * tab.
-             * @param e
-             */
             @Override
             public void changedUpdate(DocumentEvent e) {
                     if(fileTab.getTabRunCount() > 0) {
@@ -370,21 +364,19 @@ public final class MainFrame extends javax.swing.JFrame {
                             fileTab.setTitleAt(fileTab.getSelectedIndex(), n+"*");
                        }    
                     }
+                    
+            
+            
             }
                     
-               });
+                });
     }
-    
-    /**
-     * Creates a text area.
-     */
-    public void setUpFileTabArea() {
+    public void setUpArea() {
         areaFileTab =new  RSyntaxTextArea();
-
+      
         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-        scrollAreaFileTab = new RTextScrollPane(areaFileTab);
-        
-        gutterFileTab = scrollAreaFileTab.getGutter();
+        scroll1 = new RTextScrollPane(areaFileTab);
+         gutterFileTab = scroll1.getGutter();
         gutterFileTab.setVisible(true);
         gutterFileTab.setBookmarkingEnabled(true);
         urlDebugImageStop = getClass().getResource("resources/stop.png");
@@ -392,60 +384,54 @@ public final class MainFrame extends javax.swing.JFrame {
         gutterFileTab.setFoldIndicatorEnabled(true);
         needOct(true);
       
-        scrollAreaFileTab.setWheelScrollingEnabled(true);
+        scroll1.setWheelScrollingEnabled(true);
         
+         
     }
- 
-    /**
-     * Save script as.
-     */
-    public void saveAsScript() {
-        JFileChooser fc = new JFileChooser();
-        fc.setMultiSelectionEnabled(false);
-        fc.setDialogTitle("Save As");
+    
+    
+     
+    public void saveAs() {
+    JFileChooser fc = new JFileChooser();
 
+       
+        fc.setMultiSelectionEnabled(false);
+
+        fc.setDialogTitle("Save As");
+        File file1;
         int returnVal = fc.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
                 String path = fc.getSelectedFile().getAbsolutePath();
-                save(fc.getSelectedFile(),fileTab.getSelectedIndex());
+               
+                    save(fc.getSelectedFile(),fileTab.getSelectedIndex());
+                
+                 
         }
-          
-    }
-    
-    /**
-     * Add a file to List.
-     * @param name 
-     */
+                 
+
+            
+}
     public void addFileNameToList(String name) {
         fileNameList.add(name);
     }
     
-    /**
-     * Remove a file from the List.
-     * @param index 
-     */
     public void removeFileNameFromList(int index) {
         fileNameList.remove(index);
     }
-    
-    /**
-     * Open a script in the file tab area.
-     * @param file
-     * @param file_index 
-     */
-    public void requestToOpenScript(File file ,int file_index) {
+    public void open(File file ,int file_index) {
      selectedFileToOpen= file.getName();
      if(selectedFileToOpen.endsWith(".m") ||
              selectedFileToOpen.endsWith(".dyn") ||
              selectedFileToOpen.endsWith(".mod") ||
              selectedFileToOpen.endsWith(".pl")) {
-
+         
+     
      try {
             BufferedReader r = new BufferedReader(new FileReader(file));
             try {
                
-                setUpFileTabArea();
+                setUpArea();
                 selectedFileToOpen= file.getName();
                 if(selectedFileToOpen.endsWith(".m")) {
                          areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
@@ -461,6 +447,8 @@ public final class MainFrame extends javax.swing.JFrame {
                        
                     }else if(selectedFileToOpen.endsWith(".pl")) {
                          areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PERL);
+                        
+                        
                     }
                     else{
                          areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
@@ -469,7 +457,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 areaFileTab.read(r, null);
                 r.close();
                 
-                fileTab.addTab(file.getName(), scrollAreaFileTab);
+                fileTab.addTab(file.getName(), scroll1);
                
                 fileTab.setToolTipTextAt(FILE_TAB_INDEX, file.getAbsolutePath());
                 fileTab.setSelectedIndex(FILE_TAB_INDEX);
@@ -484,13 +472,10 @@ public final class MainFrame extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
            
         }
-     }   
+     }
+        
     }
-    
-    /**
-     * Open Scripts using a file chooser dialog box.
-     */
-     public void openScript(){
+     public void open(){
         JFileChooser fc = new JFileChooser();
         
         if(fileTab.getTabCount() >0) {
@@ -519,7 +504,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 this.setCurrentDirFileTab(fc.getCurrentDirectory().getAbsolutePath());
                   for(int i=0;i<file1.length;i++) {
                             if(!fileNameList.contains(file1[i].getAbsolutePath())) {
-                               requestToOpenScript(file1[i],i);
+                               open(file1[i],i);
                                                 
                             }else {
                                 System.out.println(file1[i].getAbsolutePath()+" already open!");
@@ -529,18 +514,10 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
      
-     /**
-      * Change current directory of Octave.
-      * @param dir 
-      */
      public static void  requestToChangeDir(String dir) {
          octavePanel.evalWithOutput("chdir "+"'"+dirComboBox.getSelectedItem().toString()+"'"); 
      }
-     
-     /**
-      * Save changes of a selected file tab.
-      */
-     private void saveSacript() {
+      private void save() {
         if(fileTab.getSelectedIndex() >= 0) {
            String _file = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
            String fl =fileTab.getTitleAt(fileTab.getSelectedIndex());
@@ -556,9 +533,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
     }
     
-    /**
-     * Do undo operation of selected file tab.
-     */
+    
     private void undo() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -567,10 +542,6 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-    
-    /**
-     * Do redo operation of selected file tab.
-     */
     private void redo() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -579,10 +550,6 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-    
-    /**
-     * Do cut operation of selected file tab.
-     */
     private void cut() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -591,10 +558,6 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-    
-    /**
-     * Do copy operation of selected file tab.
-     */
     private void copy() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -603,10 +566,6 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-    
-    /**
-     * Do paste operation of selected file tab.
-     */
     private void paste() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -615,10 +574,6 @@ public final class MainFrame extends javax.swing.JFrame {
             
         }
     }
-    
-    /**
-     * Do selectAll operation of selected file tab.
-     */
     private void selectAll() {
         if(fileTab.getSelectedIndex() >= 0) {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -628,14 +583,11 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Create history widget.
-     */
     private void histPanel(){
         JPanel p = new JPanel(new BorderLayout());
         JToolBar b = new JToolBar("");
         b.setFloatable(false);
-        b.setRollover(true);
+       b.setRollover(true);
         JButton saveButton = new JButton();
         JButton runButton = new JButton();
         
@@ -677,19 +629,12 @@ public final class MainFrame extends javax.swing.JFrame {
         outlookBar.addBar("History", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/history.png")), p);
         
     }
-    
-    /**
-     * Returns avaliable Dynare options.
-     * @return options
-     */
     public  String DynareOptions() {
         Preferences pr = Preferences.userNodeForPackage(this.getClass());
-        String options =pr.get("DomainMath_DynareOptions",null);
+        String path =pr.get("DomainMath_DynareOptions",null);
         
-        return options;
+        return path;
     }
-    
-    
     public String getStartupCmd() {
         return startupCmd;
     }
@@ -2540,12 +2485,12 @@ public void saveplot() {
     }//GEN-LAST:event_newFileItemActionPerformed
 
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
-        openScript();
+        open();
     }//GEN-LAST:event_openItemActionPerformed
 
     private void saveFileItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileItemActionPerformed
 
-        saveSacript();
+        save();
     }//GEN-LAST:event_saveFileItemActionPerformed
 
     private void saveAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAllItemActionPerformed
@@ -2737,7 +2682,7 @@ public void saveplot() {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        openScript();
+        open();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -2957,7 +2902,7 @@ public void saveplot() {
     }
     private void runScriptItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runScriptItemActionPerformed
         if(fileTab.getSelectedIndex() >= 0) {
-            saveSacript();
+            save();
             File file_selected = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
             requestToChangeDir(file_selected.getParent()); 
             setDir(file_selected.getParent());
@@ -2998,7 +2943,7 @@ public void saveplot() {
     private void setToggleBreakpoint() {
         if(fileTab.getSelectedIndex() >= 0) {
             
-            saveSacript();
+            save();
             
             String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
             if(file_selected.endsWith(".m")) {
@@ -3020,7 +2965,7 @@ public void saveplot() {
     private void removeToggleBreakpoint() {
         if(fileTab.getSelectedIndex() >= 0) {
             
-            saveSacript();
+            save();
             
             String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
             if(file_selected.endsWith(".m")) {
@@ -3057,7 +3002,7 @@ public void saveplot() {
 
         if(fileTab.getSelectedIndex() >= 0) {
             
-            saveSacript();
+            save();
             
             String file_selected = fileTab.getTitleAt(fileTab.getSelectedIndex());
             if(file_selected.endsWith(".m")) {
@@ -3112,7 +3057,7 @@ public void saveplot() {
     }//GEN-LAST:event_nNetMenuItemActionPerformed
 
     private void saveAsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsItemActionPerformed
-        saveAsScript();
+        saveAs();
     }//GEN-LAST:event_saveAsItemActionPerformed
 
     private void dirComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dirComboBoxItemStateChanged

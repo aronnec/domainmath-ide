@@ -376,7 +376,7 @@ public class FilesBreadCrumb extends JPanel {
                             File file1=new File(f.toString());
                            if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
                                
-                               frame.requestToOpenScript(file1, MainFrame.FILE_TAB_INDEX);
+                               frame.open(file1, MainFrame.FILE_TAB_INDEX);
                                frame.setCurrentDirFileTab(new File(f.toString()).getParent());                
                             }else {
                                 System.out.println(file1.getAbsolutePath()+" already open!");
