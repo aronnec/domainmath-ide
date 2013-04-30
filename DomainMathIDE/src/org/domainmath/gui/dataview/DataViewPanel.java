@@ -56,7 +56,9 @@ public class DataViewPanel extends JPanel {
         table = new JTable();
         table.setModel(model);
      
-        
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         table.setColumnSelectionAllowed(true);
+         table.setRowSelectionAllowed(true);
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
