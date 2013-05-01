@@ -233,6 +233,15 @@ public class DataViewPanel extends JPanel {
                                           processStructArray(parent_var_name, child,table.getSelectedRow(),table.getSelectedColumn());
                                          break;
                                      }
+                                     
+                                 // selected variable is a member of a structure array.
+                                 case "cell":
+                                     {
+                                          System.out.println(title);
+                                          String child = table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                                          processCell(parent_var_name, child,table.getSelectedRow(),table.getSelectedColumn());
+                                         break;
+                                     }
                              }
                         }
                     } 
@@ -293,6 +302,16 @@ public class DataViewPanel extends JPanel {
                 String s2 = child.substring( child.indexOf("<"), child.length());
                 String s3 = s2.substring(0, s2.indexOf(">"))+" "+s+">";
              return s3;
+        }
+
+        private void processCell(String parent, String child,int r,int c) {
+            MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+parent+"{"+(r+1)+","+(c+1)+"}.dat',"+parent+"{"+(r+1)+","+(c+1)+"});");
+             
+
+                
+            String t = parent+"{"+(r+1)+","+(c+1)+"}"; 
+            String _title =parent+"{"+(r+1)+","+(c+1)+"}"+getDataLabel(child); 
+                DataViewFrame main =new DataViewFrame(_title,MainFrame.log_root+t+".dat");
         }
     }
    
