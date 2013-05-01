@@ -67,6 +67,14 @@ function DomainMath_OctaveDataViewCell(sFileName,variables)
 			   
 			   elseif(isobject(s{i,j}))
 			   		fprintf(pFile,"object|");
+			   elseif(ischar(s{i,j}))
+			   		[row_char,col_char] = size(s{i,j});
+
+			   		if(row_char >= 2)
+			   			fprintf(pFile,"char<%dx%d>|",r2,c2);
+			   		else
+			   			fprintf(pFile,"'%s'|",s{i,j});
+			   		endif
 			   else
 			   		fprintf(pFile,"'%s'|",s{i,j});
 			   	endif

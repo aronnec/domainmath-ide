@@ -26,8 +26,14 @@ function DomainMath_OctaveDataViewStruct(sFileName,variables)
 		   k = getfield(variables,s{_i});
 		   
 		   if(ischar(k))
-		   		fprintf(pFile,"%s|'%s'|",s{_i},k);
-
+		   		[row_char,col_char] = size(k);
+					
+		   		if(row_char >=2)
+		   			fprintf(pFile,"%s|char<%dx%d>|",s{_i},row_char,col_char);
+		   		else
+		   			fprintf(pFile,"%s|'%s'|",s{_i},k);
+				endif
+				
 		   elseif(isstruct(k))
 				[r2,c2]=size(k);
 				if(r2>=2 || c2>=2)
