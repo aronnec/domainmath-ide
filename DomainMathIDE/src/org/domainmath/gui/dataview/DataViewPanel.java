@@ -234,7 +234,7 @@ public class DataViewPanel extends JPanel {
                                          break;
                                      }
                                      
-                                 // selected variable is a member of a structure array.
+                                 // selected variable is a member of a cell.
                                  case "cell":
                                      {
                                           System.out.println(title);
