@@ -34,7 +34,7 @@ import org.domainmath.gui.dataview.DataViewFrame;
 public class VarViewPanel extends JPanel {
     JTable table;
     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/varview/resources/varview_en"); 
-        
+    public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";     
     private final JPopupMenu popup = new JPopupMenu();
     PopupActionListener popupActionListener;
     TableMouseListener tableMouseListener;
@@ -836,7 +836,18 @@ public class VarViewPanel extends JPanel {
                                      DataViewFrame n = new DataViewFrame(variable+"<"+size+" "+type+">",MainFrame.log_root+variable+".dat");
                                  }
                                  
-                             }else{
+                             }else if(type.equals("char")) {
+                                 if(a.get(0) >=2 || a.get(1) >=20) {
+                                     MainFrame.octavePanel.evaluate(jar_path);
+                                     MainFrame.octavePanel.evaluate("ob= javaObject("+Character.toString('"')+"ResultsFrame"+Character.toString('"')+","+
+                                             Character.toString('"')+Character.toString('"')+");");
+                                     MainFrame.octavePanel.evaluate("ob.appendText(disp("+variable+"));");
+                                 }else{
+                                     MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                                    DataViewFrame n = new DataViewFrame("Variable View",MainFrame.log_root+variable+".dat");
+                                 }
+                             }
+                             else{
                                  MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
                                  DataViewFrame n = new DataViewFrame("Variable View",MainFrame.log_root+variable+".dat");
                              }

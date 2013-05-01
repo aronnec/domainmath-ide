@@ -35,7 +35,7 @@ public class DataViewPanel extends JPanel {
     JTable table;
     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/dataview/resources/dataview_en"); 
     private final String directory;
-   
+    public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";   
  
     public List data =Collections.synchronizedList(new ArrayList());
     private JToolBar datViewToolBar;
@@ -206,6 +206,8 @@ public class DataViewPanel extends JPanel {
                  String f_name = f.getName();
                  String name = f_name.substring(0, f_name.indexOf(".dat"));
                  
+                
+                 
                   if(!variable.contains("'") ){
                      if(r>=0 && c>=0) {
                                  if(title.contains("<") && title.contains(">")) {
@@ -242,12 +244,20 @@ public class DataViewPanel extends JPanel {
                                           processCell(parent_var_name, child,table.getSelectedRow(),table.getSelectedColumn());
                                          break;
                                      }
+                                 
+                                     
                              }
                         }
                     } 
                   }
-                    
-                 
+                   if(variable.startsWith("'")) {
+                      String parent_var_name = title;
+                     MainFrame.octavePanel.evaluate(jar_path);
+                    MainFrame.octavePanel.evaluate("ob= javaObject("+Character.toString('"')+"ResultsFrame"+Character.toString('"')+","+
+                         Character.toString('"')+Character.toString('"')+");");
+                    MainFrame.octavePanel.evaluate("ob.appendText(disp("+parent_var_name+"));");
+                 }  
+
             }
         }
 

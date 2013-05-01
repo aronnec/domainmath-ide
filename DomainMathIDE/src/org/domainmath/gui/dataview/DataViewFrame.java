@@ -334,8 +334,9 @@ public class DataViewFrame extends javax.swing.JFrame {
         statusPanel1 = new org.domainmath.gui.StatusPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        refreshItem = new javax.swing.JMenuItem();
+        newVarMenuItem = new javax.swing.JMenuItem();
         printItem = new javax.swing.JMenuItem();
+        refreshItem = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         formulasMenu = new javax.swing.JMenu();
         rearrageMtxMenu = new javax.swing.JMenu();
@@ -370,15 +371,15 @@ public class DataViewFrame extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/dataview/resources/dataview_en"); // NOI18N
         fileMenu.setText(bundle.getString("fileMenu.title")); // NOI18N
 
-        refreshItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        refreshItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/view-refresh.png"))); // NOI18N
-        refreshItem.setText(bundle.getString("refreshItem.title")); // NOI18N
-        refreshItem.addActionListener(new java.awt.event.ActionListener() {
+        newVarMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newVarMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/Datbase-Add.png"))); // NOI18N
+        newVarMenuItem.setText("New Variable");
+        newVarMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshItemActionPerformed(evt);
+                newVarMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(refreshItem);
+        fileMenu.add(newVarMenuItem);
 
         printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         printItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print.png"))); // NOI18N
@@ -389,6 +390,16 @@ public class DataViewFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(printItem);
+
+        refreshItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        refreshItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/view-refresh.png"))); // NOI18N
+        refreshItem.setText(bundle.getString("refreshItem.title")); // NOI18N
+        refreshItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(refreshItem);
 
         exitItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
         exitItem.setText(bundle.getString("exitItem.title")); // NOI18N
@@ -577,6 +588,12 @@ public class DataViewFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_exitItemActionPerformed
 
+    private void newVarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVarMenuItemActionPerformed
+        NewVariableDialog newVariableDialog = new NewVariableDialog(this,true,_title);
+        newVariableDialog.setLocationRelativeTo(this);
+        newVariableDialog.setVisible(true);
+    }//GEN-LAST:event_newVarMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -626,6 +643,7 @@ public class DataViewFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JMenuItem newVarMenuItem;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenu plotMenu;
     private javax.swing.JMenuItem printItem;
