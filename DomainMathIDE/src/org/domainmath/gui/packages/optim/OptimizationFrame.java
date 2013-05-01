@@ -52,7 +52,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private int tabIndex=1;
     
     
-    private final JTabbedPane tabbedPane;
+    
     
     
     /**
@@ -60,15 +60,12 @@ public class OptimizationFrame extends javax.swing.JFrame {
      */
     public OptimizationFrame() {
            
-        tabbedPane = new JTabbedPane();
-        tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        
-       
+
         this.setIconImage(icon);
         
         
         initComponents();
-        this.add(tabbedPane,BorderLayout.CENTER);
+       
         
         this.popupTab(); 
         this.pack();
@@ -84,18 +81,18 @@ public class OptimizationFrame extends javax.swing.JFrame {
         popup.add(pcloseItem);
         popup.add(pcloseAllItem);
         
-        tabbedPane.addMouseListener(new PopupListener(popup));
+        jTabbedPane1.addMouseListener(new PopupListener(popup));
         
         
         pcloseItem.addActionListener(new java.awt.event.ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                 if(tabbedPane.getSelectedIndex() >= 0) { 
+                 if(jTabbedPane1.getSelectedIndex() >= 0) { 
                    
-                    removeFileNameFromList(tabbedPane.getSelectedIndex());
+                    removeFileNameFromList(jTabbedPane1.getSelectedIndex());
                    
-                   tabbedPane.remove(tabbedPane.getSelectedIndex());
+                   jTabbedPane1.remove(jTabbedPane1.getSelectedIndex());
                    tabIndex--;
                }
                
@@ -107,11 +104,11 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int i=tabbedPane.getTabCount()-1;
+                int i=jTabbedPane1.getTabCount()-1;
                 while(i != -1) {
 
                     removeFileNameFromList(i);
-                    tabbedPane.remove(i);
+                    jTabbedPane1.remove(i);
                     tabIndex--;
                     i--;
                 }
@@ -137,6 +134,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -161,7 +159,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Optimization Tool");
-        getContentPane().add(statusPanel2, java.awt.BorderLayout.PAGE_END);
+
+        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jMenu1.setText("File");
 
@@ -301,6 +300,21 @@ public class OptimizationFrame extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1)
+            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -343,8 +357,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel());
-        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        jTabbedPane1.add("glpk #"+this.glpkIndex, new GlpkPanel());
+        jTabbedPane1.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("glpk #"+this.glpkIndex);
         this.glpkIndex++;
@@ -353,38 +367,38 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void closeAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeAllItemActionPerformed
-        int i=tabbedPane.getTabCount()-1;
+        int i=jTabbedPane1.getTabCount()-1;
         while(i != -1) {
 
             removeFileNameFromList(i);
-            tabbedPane.remove(i);
+            jTabbedPane1.remove(i);
             this.tabIndex--;
             i--;
         }
     }//GEN-LAST:event_closeAllItemActionPerformed
 
     private void closeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeItemActionPerformed
-        if(tabbedPane.getSelectedIndex() >= 0) {
+        if(jTabbedPane1.getSelectedIndex() >= 0) {
 
-            removeFileNameFromList(tabbedPane.getSelectedIndex());
+            removeFileNameFromList(jTabbedPane1.getSelectedIndex());
 
-            tabbedPane.remove(tabbedPane.getSelectedIndex());
+            jTabbedPane1.remove(jTabbedPane1.getSelectedIndex());
             this.tabIndex--;
 
         }
     }//GEN-LAST:event_closeItemActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        tabbedPane.add("qp #"+this.qpIndex, new QpPanel());
-        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        jTabbedPane1.add("qp #"+this.qpIndex, new QpPanel());
+        jTabbedPane1.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("qp #"+this.qpIndex);
         this.qpIndex++;
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel());
-        tabbedPane.setSelectedIndex(this.tabIndex-1);
+        jTabbedPane1.add("sqp #"+this.sqpIndex, new SqpPanel());
+        jTabbedPane1.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("sqp #"+this.sqpIndex);
         this.sqpIndex++;
@@ -435,6 +449,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenuItem reportBugItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
@@ -459,7 +474,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
         }
 
         private void maybeShowPopup(MouseEvent e) {
-            if (e.isPopupTrigger() && tabbedPane.getTabCount() > 0) {
+            if (e.isPopupTrigger() && jTabbedPane1.getTabCount() > 0) {
                 popup.show(e.getComponent(),
                            e.getX(), e.getY());
             }
