@@ -192,12 +192,12 @@ public class DataViewFrame extends javax.swing.JFrame {
     private final JMenu trigonometryInverseMenu;
     private final String _title;
     private String var_name;
-    public DataViewFrame(String path) {
+    public DataViewFrame(String title,String path) {
          
          File f = new File(path);
                 _title= f.getName().substring(0, f.getName().indexOf(".dat"));
-        setTitle("Variable View-"+_title);            
-        newContentPane = new DataViewPanel(path);
+        setTitle(title+"-"+_title);            
+        newContentPane = new DataViewPanel(title,path);
                     newContentPane.setOpaque(true);
                     setContentPane(newContentPane);
                     pack();
@@ -601,7 +601,7 @@ public class DataViewFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DataViewFrame("").setVisible(true);
+                new DataViewFrame("","").setVisible(true);
             }
         });
     }

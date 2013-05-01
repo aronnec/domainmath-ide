@@ -54,7 +54,7 @@ function DomainMath_OctaveDataView(sFileName,variables)
 	elseif(is_function_handle(variables))
 		DomainMath_OctaveDataViewFtnHandle(sFileName,variables) 
 	else
-		 
+            DomainMath_OctaveDataViewUnknown(sFileName,variables) 
 	endif
     
 

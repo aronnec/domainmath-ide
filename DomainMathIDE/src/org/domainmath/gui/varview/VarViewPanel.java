@@ -806,24 +806,47 @@ public class VarViewPanel extends JPanel {
             StringTokenizer t = new StringTokenizer(size,"x");
             
             if(t.countTokens() <=2) {
-                try {
+               
                             String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
                            // MainFrame.octavePanel.evaluate(variable);
 //                            MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
 //                            MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.parent_root+"DomainMath_OctaveDataView.dat',"+variable+");");
 
                          
-                             MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                             
                 //DataViewMain dataViewMain = new DataViewMain(MainFrame.log_root+variable+".dat");
                 //dataViewMain.show();
-                DataViewFrame n = new DataViewFrame(MainFrame.log_root+variable+".dat");
+                             String type = table.getValueAt(table.getSelectedRow(), 3).toString();
+                             String _size = table.getValueAt(table.getSelectedRow(), 1).toString();
+                             
+                             StringTokenizer tk = new StringTokenizer(_size,"x");
+                             
+                            List<Integer> a =Collections.synchronizedList(new ArrayList());
+                             for(int i=0; i <=tk.countTokens(); i++){
+                                a.add(Integer.parseInt(tk.nextToken()));
+                                 
+                             }
+                             
+                             if(type.equals("struct") || type.equals("cell")) {
+                                 if(type.equals("struct") && (a.get(0) >=2 || a.get(1) >=2))  {
+                                     MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                                    DataViewFrame n = new DataViewFrame(variable+"<"+size+" "+"struct-array"+">",MainFrame.log_root+variable+".dat"); 
+                                 }else{
+                                     MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                                     DataViewFrame n = new DataViewFrame(variable+"<"+size+" "+type+">",MainFrame.log_root+variable+".dat");
+                                 }
+                                 
+                             }else{
+                                 MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
+                                 DataViewFrame n = new DataViewFrame("Variable View",MainFrame.log_root+variable+".dat");
+                             }
+                            
                 //                            MainFrame.octavePanel.dataView.reload();
                 //                            MainFrame.octavePanel.tab.setSelectedIndex(2);
                 // reload();
                            
                             
-                        } catch (Exception ex) {
-                        }
+                     
             }else{
                  String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
                 

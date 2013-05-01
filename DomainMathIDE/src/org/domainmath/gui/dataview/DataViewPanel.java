@@ -44,12 +44,14 @@ public class DataViewPanel extends JPanel {
     private final ToolBarActionListener toolBarActionListener;
     private final DataViewFileTableModel model;
     private final TableMouseListener tableMouseListener;
+    private final String title;
 
     
-    public DataViewPanel(String directory) {
+    public DataViewPanel(String title,String directory) {
         super(new BorderLayout());
         tableMouseListener = new TableMouseListener();
         this.directory = directory;
+        this.title=title;
         toolBarActionListener = new ToolBarActionListener();
         
         model = new DataViewFileTableModel(directory);
@@ -191,6 +193,7 @@ public class DataViewPanel extends JPanel {
       
     }
     
+    
      private class TableMouseListener implements MouseListener{
 
         @Override
@@ -198,34 +201,48 @@ public class DataViewPanel extends JPanel {
             if(e.getClickCount() == 2) {
                 int r=table.getSelectedRow();
                 int c=table.getSelectedColumn();
-                  String variable = table.getValueAt(table.getSelectedRow(), 0).toString();
-                  if(variable.startsWith("struct<")){
-                      if(r>=0 && c>=0) {
-                        File f = new File(directory);
-                        String f_name = f.getName();
-                        String name = f_name.substring(0, f_name.indexOf(".dat"));
-
-                      MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+name+"{"+(table.getSelectedRow()+1)+"}.dat',"+name+"{"+(table.getSelectedRow()+1)+"});");
-                                DataViewFrame main =new DataViewFrame(MainFrame.log_root+name+"{"+(table.getSelectedRow()+1)+"}.dat");
-                                
-                    }
-                  }else{
-                  if(!variable.contains("'")){
+                 String variable = table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                 File f = new File(directory);
+                 String f_name = f.getName();
+                 String name = f_name.substring(0, f_name.indexOf(".dat"));
+                 
+                  if(!variable.contains("'") ){
                      if(r>=0 && c>=0) {
-                        File f = new File(directory);
-                        String f_name = f.getName();
-                        String name = f_name.substring(0, f_name.indexOf(".dat"));
-
-                      MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+name+"."+variable+".dat',"+name+"."+variable+");");
-                                DataViewFrame main =new DataViewFrame(MainFrame.log_root+name+"."+variable+".dat");
-                                
+                                 if(title.contains("<") && title.contains(">")) {
+                                    String parent_var_class = title.substring(title.indexOf(" "), title.indexOf(">"));
+                                    String parent_var_name = title.substring(0, title.indexOf("<"));
+                                    
+                             
+                             switch (parent_var_class.trim()) {
+                                 
+                                 // selected variable is a member of a structure.
+                                 case "struct":
+                                     {
+                                         System.out.println(title);
+                                         String child = table.getValueAt(table.getSelectedRow(), 0).toString();
+                                         String childType = table.getValueAt(table.getSelectedRow(), 1).toString();
+                                         processStruct(parent_var_name,child,childType);
+                                         break;
+                                     }
+                                 
+                                 // selected variable is a member of a structure array.
+                                 case "struct-array":
+                                     {
+                                          System.out.println(title);
+                                          String child = table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                                          processStructArray(parent_var_name, child,table.getSelectedRow(),table.getSelectedColumn());
+                                         break;
+                                     }
+                             }
+                        }
                     } 
                   }
                     
-                  }
+                 
             }
         }
 
+        
         @Override
         public void mousePressed(MouseEvent e) {
             
@@ -245,7 +262,41 @@ public class DataViewPanel extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
         }
-        
+
+        private void processStruct(String parent,String child,String childType) {
+             MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+parent+"."+child+".dat',"+parent+"."+child+");");
+             
+             if(childType.contains("struct<") ||childType.contains("cell<") || childType.contains("struct-array<")) {
+                
+
+                String t = parent+"."+child+getDataLabel(childType); 
+                DataViewFrame main =new DataViewFrame(t,MainFrame.log_root+parent+"."+child+".dat");
+             }else{
+                 String t = parent+"."+child; 
+                DataViewFrame main =new DataViewFrame(t,MainFrame.log_root+parent+"."+child+".dat");
+             }
+             
+        }
+
+        private void processStructArray(String parent, String child,int r,int c) {
+            MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+parent+"("+(r+1)+","+(c+1)+").dat',"+parent+"("+(r+1)+","+(c+1)+"));");
+             
+
+                
+            String t = parent+"("+(r+1)+","+(c+1)+")"; 
+            String _title =parent+"("+(r+1)+","+(c+1)+")"+getDataLabel(child); 
+                DataViewFrame main =new DataViewFrame(_title,MainFrame.log_root+t+".dat");
+        }
+ 
+        private String getDataLabel(String child) {
+            String s = child.substring(0, child.indexOf("<"));
+                String s2 = child.substring( child.indexOf("<"), child.length());
+                String s3 = s2.substring(0, s2.indexOf(">"))+" "+s+">";
+             return s3;
+        }
     }
-     
+   
+     public void d(String text,String value) {
+         System.out.println(text+":"+value);
+     }
 }

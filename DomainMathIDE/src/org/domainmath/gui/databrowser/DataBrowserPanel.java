@@ -727,7 +727,7 @@ public class DataBrowserPanel extends JPanel {
                              MainFrame.octavePanel.evaluate("DomainMath_OctaveDataView('"+MainFrame.log_root+variable+".dat',"+variable+");");
                 //DataViewMain dataViewMain = new DataViewMain(MainFrame.log_root+variable+".dat");
                 //dataViewMain.show();
-                DataViewFrame n = new DataViewFrame(MainFrame.log_root+variable+".dat");
+                DataViewFrame n = new DataViewFrame("",MainFrame.log_root+variable+".dat");
                 //                            MainFrame.octavePanel.dataView.reload();
                 //                            MainFrame.octavePanel.tab.setSelectedIndex(2);
                 // reload();
