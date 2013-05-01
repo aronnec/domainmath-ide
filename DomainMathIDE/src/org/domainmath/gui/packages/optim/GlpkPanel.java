@@ -20,18 +20,18 @@ package org.domainmath.gui.packages.optim;
 import java.io.File;
 import javax.swing.JOptionPane;
 import org.domainmath.gui.MainFrame;
-import org.domainmath.gui.databrowser.DataBrowserPanel;
+
 
 
 public class GlpkPanel extends javax.swing.JPanel {
-    private final DataBrowserPanel dataBrowser;
+    
 
     /**
      * Creates new form GlpkPanel
      */
-    public GlpkPanel(DataBrowserPanel dataBrowser) {
+    public GlpkPanel() {
         initComponents();
-        this.dataBrowser=dataBrowser;
+        
     }
 
        private String createOctMtx(String text) {
@@ -614,8 +614,7 @@ public class GlpkPanel extends javax.swing.JPanel {
 
              MainFrame.octavePanel.evaluate(jar_path);
              MainFrame.octavePanel.evaluate("DomainMath_GlpkStatus(c, A, b,sense,xopt, fmin, status);");
-              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                dataBrowser.reload();
+             
         }
     }//GEN-LAST:event_runButtonActionPerformed
  public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";

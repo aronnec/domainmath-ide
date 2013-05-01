@@ -38,7 +38,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
-import org.domainmath.gui.databrowser.DataBrowserPanel;
+
 
 
 public class OptimizationFrame extends javax.swing.JFrame {
@@ -51,26 +51,24 @@ public class OptimizationFrame extends javax.swing.JFrame {
     private int sqpIndex=1;
     private int tabIndex=1;
     
-    private final DataBrowserPanel dataBrowser;
+    
     private final JTabbedPane tabbedPane;
-    private final JSplitPane splitPane;
+    
     
     /**
      * Creates new form GlpkFrame
      */
     public OptimizationFrame() {
-        dataBrowser =new DataBrowserPanel(MainFrame.parent_root+"DomainMath_OctaveVariables.dat",this);
-         
+           
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,dataBrowser,tabbedPane);
-        splitPane.setDividerLocation(200);
+        
        
         this.setIconImage(icon);
         
         
         initComponents();
-        this.add(splitPane,BorderLayout.CENTER);
+        this.add(tabbedPane,BorderLayout.CENTER);
         
         this.popupTab(); 
         this.pack();
@@ -345,7 +343,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutItemActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel(this.dataBrowser));
+        tabbedPane.add("glpk #"+this.glpkIndex, new GlpkPanel());
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("glpk #"+this.glpkIndex);
@@ -377,7 +375,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_closeItemActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        tabbedPane.add("qp #"+this.qpIndex, new QpPanel(this.dataBrowser));
+        tabbedPane.add("qp #"+this.qpIndex, new QpPanel());
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("qp #"+this.qpIndex);
@@ -385,7 +383,7 @@ public class OptimizationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel(this.dataBrowser));
+        tabbedPane.add("sqp #"+this.sqpIndex, new SqpPanel());
         tabbedPane.setSelectedIndex(this.tabIndex-1);
         this.tabIndex++;
          this.addFileNameToList("sqp #"+this.sqpIndex);

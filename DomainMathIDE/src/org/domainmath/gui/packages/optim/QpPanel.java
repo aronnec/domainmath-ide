@@ -19,20 +19,20 @@ package org.domainmath.gui.packages.optim;
 
 import java.io.File;
 import org.domainmath.gui.MainFrame;
-import org.domainmath.gui.databrowser.DataBrowserPanel;
+
 
 
 
 
 public class QpPanel extends javax.swing.JPanel {
-    private final DataBrowserPanel dataBrowser;
+    
 
     /**
      * Creates new form QpPanel
      */
-    public QpPanel(DataBrowserPanel dataBrowser) {
+    public QpPanel() {
         initComponents();
-        this.dataBrowser=dataBrowser;
+        
     }
 
     /**
@@ -340,8 +340,7 @@ public class QpPanel extends javax.swing.JPanel {
                 "[x, obj, info, lambda] = qp ("+cmd+");");
                  MainFrame.octavePanel.evaluate(jar_path); 
                  MainFrame.octavePanel.evaluate("DomainMath_QpStatus(x0,H,info,x,obj);");
-                 MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                dataBrowser.reload();
+                 
             }
     }//GEN-LAST:event_runButtonActionPerformed
 
