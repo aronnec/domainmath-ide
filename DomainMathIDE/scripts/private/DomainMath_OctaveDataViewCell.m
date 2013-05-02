@@ -25,14 +25,9 @@ function DomainMath_OctaveDataViewCell(sFileName,variables)
 			for j=1:c
 			
 				if(ischar(s{i,j}))
-			   		fprintf(pFile,"'%s'|",s{i,j});
+					processCharDataFromCell(pFile,s,i,j)
 			   elseif(isstruct(s{i,j}))
-					[r1,c1]=size(s{i,j});
-					if(r1>=2 || c1>=2)
-						fprintf(pFile,"struct-array<%dx%d>|",r1,c1);	
-					else
-						fprintf(pFile,"struct<%dx%d>|",r1,c1);	
-					endif
+					processStructDataFromCell(pFile,s,i,j)
 			   elseif(isscalar(s{i,j}))
 			   		if(iscomplex(s{i,j}))
 			   			_r2=real(s{i,j});
@@ -46,8 +41,7 @@ function DomainMath_OctaveDataViewCell(sFileName,variables)
 			   			fprintf(pFile,"%f|",s{i,j});
 			   		endif
 			   elseif(iscell(s{i,j}))
-					[r3,c3]=size(s{i,j});
-			   		fprintf(pFile,"cell<%dx%d>|",r3,c3);
+					processCellDataFromAnotherCell(pFile,s,i,j)
 			    
 			    elseif(isbool(s{i,j}))
 					if(s{i,j})
@@ -58,12 +52,7 @@ function DomainMath_OctaveDataViewCell(sFileName,variables)
 			    elseif(isnull(s{i,j}))
 			    		fprintf(pFile,"'null'|");
 			    elseif(ismatrix(s{i,j}))
-					[r2,c2]=size(s{i,j});
-					if(r2==0 && c2==0)
-						fprintf(pFile,"[]|");
-					else
-			   			fprintf(pFile,"matrix<%dx%d>|",r2,c2);
-			   		endif
+					processMatrixDataFromCell(pFile,s,i,j)
 			   
 			   elseif(isobject(s{i,j}))
 			   		fprintf(pFile,"object|");
@@ -83,4 +72,46 @@ function DomainMath_OctaveDataViewCell(sFileName,variables)
 
 		fprintf(pFile,'\n');  
 		fclose(pFile);	
+endfunction
+
+function processCharDataFromCell(pFile,s,i,j)
+	char_size = size(s{i,j});
+	if(length(char_size) <=2)
+		fprintf(pFile,"'%s'|",s{i,j});
+	else
+		disp_multidim_cell(pFile,s,i,j,char_size,"char")
+	endif
+endfunction
+
+function processStructDataFromCell(pFile,s,i,j)
+	[r1,c1]=size(s{i,j});
+	if(r1>=2 || c1>=2)
+		fprintf(pFile,"struct-array<%dx%d>|",r1,c1);	
+	else
+		fprintf(pFile,"struct<%dx%d>|",r1,c1);	
+	endif
+endfunction
+
+function processCellDataFromAnotherCell(pFile,s,i,j)
+	[r3,c3]=size(s{i,j});
+	cell_size = size(s{i,j});
+	if(length(cell_size) <= 2)
+		fprintf(pFile,"cell<%dx%d>|",r3,c3);
+	else
+		disp_multidim_cell(pFile,s,i,j,cell_size,"cell")
+	endif
+endfunction
+
+function processMatrixDataFromCell(pFile,s,i,j)
+	[r2,c2]=size(s{i,j});
+	matrix_size =size(s{i,j});
+	if(length(matrix_size <= 2)
+		if(r2==0 && c2==0)
+			fprintf(pFile,"[]|");
+		else
+			fprintf(pFile,"matrix<%dx%d>|",r2,c2);
+		endif
+	else
+		disp_multidim_cell(pFile,s,i,j,matrix_size,"matrix")
+	endif
 endfunction
