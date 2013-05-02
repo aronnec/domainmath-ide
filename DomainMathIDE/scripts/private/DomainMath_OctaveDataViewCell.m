@@ -105,7 +105,7 @@ endfunction
 function processMatrixDataFromCell(pFile,s,i,j)
 	[r2,c2]=size(s{i,j});
 	matrix_size =size(s{i,j});
-	if(length(matrix_size <= 2)
+	if(length(matrix_size <= 2))
 		if(r2==0 && c2==0)
 			fprintf(pFile,"[]|");
 		else
