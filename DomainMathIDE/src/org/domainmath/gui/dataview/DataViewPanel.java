@@ -249,22 +249,9 @@ public class DataViewPanel extends JPanel {
                     } 
                   }
                    if(variable.startsWith("'")) {
-                      String parent_var_name = title;
-                     MainFrame.octavePanel.evaluate(jar_path);
-                    
-                    if(parent_var_name.equals("Variable View")) {
-                        File f = new File(directory);
-                        String f_name = f.getName();
-                        String name = f_name.substring(0, f_name.indexOf(".dat"));
                         MainFrame.octavePanel.evaluate("ob= javaObject("+Character.toString('"')+"ResultsFrame"+Character.toString('"')+","+
-                         Character.toString('"')+Character.toString('"')+");");
-                        MainFrame.octavePanel.evaluate("ob.appendText(disp("+name+"));");
-                    }else{
-                        MainFrame.octavePanel.evaluate("ob= javaObject("+Character.toString('"')+"ResultsFrame"+Character.toString('"')+","+
-                         Character.toString('"')+Character.toString('"')+");");
-                        MainFrame.octavePanel.evaluate("ob.appendText(disp("+parent_var_name+"));");
-                    }
-                    
+                                Character.toString('"')+Character.toString('"')+");");
+                        MainFrame.octavePanel.evaluate("ob.appendText(disp("+variable+"));");
                  }  
 
             }

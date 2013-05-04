@@ -20,8 +20,6 @@ package org.domainmath.gui.packages.bioinfo;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +28,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +36,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.AbstractTableModel;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
 import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
@@ -62,15 +56,15 @@ public class SeqFrame extends javax.swing.JFrame {
     public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     private List data =Collections.synchronizedList(new ArrayList());
-    private List<String> seq =Collections.synchronizedList(new ArrayList());
     private  List col =Collections.synchronizedList(new ArrayList());
-    private  GridModel gridModel;
+
     private  DefaultListModel listModel;
-    private  JTable table;
+
     private JList list;
     private JSplitPane splitPane;
     private final DefaultListModel listModel2;
     private final JList list2;
+   
   
     public SeqFrame() {
         setIconImage(icon);
@@ -84,64 +78,12 @@ public class SeqFrame extends javax.swing.JFrame {
         list.setModel(listModel);
         
         listModel2 = new DefaultListModel();
-        list2 = new JList() {
-            //Subclass JList to workaround bug 4832765, which can cause the
-            //scroll pane to not let the user easily scroll up to the beginning
-            //of the list.  An alternative would be to set the unitIncrement
-            //of the JScrollBar to a fixed value. You wouldn't get the nice
-            //aligned scrolling, but it should work.
-            public int getScrollableUnitIncrement(Rectangle visibleRect,
-                                                  int orientation,
-                                                  int direction) {
-                int row;
-                if (orientation == SwingConstants.VERTICAL &&
-                      direction < 0 && (row = getFirstVisibleIndex()) != -1) {
-                    Rectangle r = getCellBounds(row, row);
-                    if ((r.y == visibleRect.y) && (row != 0))  {
-                        Point loc = r.getLocation();
-                        loc.y--;
-                        int prevIndex = locationToIndex(loc);
-                        Rectangle prevR = getCellBounds(prevIndex, prevIndex);
+        list2 = new JList();
 
-                        if (prevR == null || prevR.y >= r.y) {
-                            return 0;
-                        }
-                        return prevR.height;
-                    }
-                }
-                return super.getScrollableUnitIncrement(
-                                visibleRect, orientation, direction);
-            }
-        };
         list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         list2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         list2.setModel(listModel2);
-        
-        list2.setVisibleRowCount(-1);
-        
-        
-//         gridModel = new GridModel();
-//      
-//        
-//        table = new JTable();
-//        gridModel.setCellEditable(false);
-//        table.setModel(gridModel);
-//
-//        
-//      
-//     
-//        table.getTableHeader().setReorderingAllowed(false);
-//       
-//        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//      
-//        
-//       
-//        table.setRowHeight(20);
-//        JScrollPane scrollPane = new JScrollPane(table);
-        //table.setFillsViewportHeight(true);
-        
-        
-           
+       
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
         splitPane.setDividerLocation(250);
         this.jPanel1.add(splitPane,BorderLayout.CENTER);
@@ -149,14 +91,8 @@ public class SeqFrame extends javax.swing.JFrame {
         
     }
 
-     public void showTable() {
-          gridModel.fireTableStructureChanged();
-                gridModel.fireTableDataChanged();
-       
-                table.revalidate();
-                table.repaint();
-        
-     }
+ 
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -404,104 +340,29 @@ public class SeqFrame extends javax.swing.JFrame {
 		LinkedHashMap<String, ProteinSequence> b = fastaReader.process();
                
 		for (  Map.Entry<String, ProteinSequence> entry : b.entrySet() ) {
-                     listModel.addElement(entry.getValue().getOriginalHeader());
-                     
-                     
-                 s=entry.getValue().getSequenceAsString();
-                 //listModel2.addElement(s.replaceAll("", "     "));
-                 
-                    
-//                    for(int j=0; j<=s.length(); j++) {
-//                         addCol(""+j);
-//                     }
+                    listModel.addElement(entry.getValue().getOriginalHeader());
+                    s=entry.getValue().getSequenceAsString();
                     t =s.split("");
-                     for(int j=0; j<t.length; j++) {
 
-                          
-                         //addRow(t[j]);
-                         listModel2.addElement(t[j]);
-                         
-                      }
-                    // showTable();
-			//System.out.println( entry.getValue().getOriginalHeader() + "=" + entry.getValue().getSequenceAsString() );
+                    for(int j=0; j<t.length; j++) {
+                       listModel2.addElement(t[j]);
+                    }
+
 		}
                 
-                 
-               // dispSeq(seq);
+                int k=0;
+                for(int i=0; i<listModel2.getSize(); i++) {
+                    if(listModel2.get(i).equals("")) {
+                      k++;
+                      listModel2.remove(i);
+                    }
+                }
+                list2.setVisibleRowCount(k);
         }catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void dispSeq(List<String> seq) {
-
-        String s;
-        String[] t ;
-       for(int i=0; i<seq.size(); i++) {
-             s=seq.get(i);    
-             for(int j=0; j<=s.length(); j++) {
-                 addCol(""+j);
-             }
-             for(int j=0; j<=s.length(); j++) {
-                
-                 t =s.split(""); 
-                 addRow(t[j]);
-             }
-        }
-       
-        
-        
-        System.out.println("Out");
-       showTable();
-    }
-    class GridModel extends AbstractTableModel{
-        int i;
-        private boolean editable;
-  
-
-        @Override
-        public int getRowCount() {
-          try{
-                i = data.size() / getColumnCount();
-            }catch(Exception e) {
-
-            }
-
-
-           return i;
-        }
-
-        @Override
-        public int getColumnCount() {
-           return col.size();
-        }
-
-        @Override
-        public String getColumnName(int i) {
-            String c = "";
-            if(i <=getColumnCount()) {
-                c = (String)col.get(i);
-            }
-            return c;
-        }
-
-        public Class getColClass(int i) {
-            return String.class;
-        }
-
-        @Override
-        public boolean isCellEditable(int r,int c) {
-            return editable;
-        }
-        
-        public void setCellEditable(boolean editable) {
-            this.editable=editable;
-        }
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-           return  data.get((rowIndex*getColumnCount())+columnIndex);
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
     private javax.swing.JMenuItem exitItem;
