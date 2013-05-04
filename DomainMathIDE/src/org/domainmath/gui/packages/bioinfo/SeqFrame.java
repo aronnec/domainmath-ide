@@ -20,6 +20,8 @@ package org.domainmath.gui.packages.bioinfo;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +40,8 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.AbstractTableModel;
@@ -80,8 +84,40 @@ public class SeqFrame extends javax.swing.JFrame {
         list.setModel(listModel);
         
         listModel2 = new DefaultListModel();
-        list2 = new JList();
+        list2 = new JList() {
+            //Subclass JList to workaround bug 4832765, which can cause the
+            //scroll pane to not let the user easily scroll up to the beginning
+            //of the list.  An alternative would be to set the unitIncrement
+            //of the JScrollBar to a fixed value. You wouldn't get the nice
+            //aligned scrolling, but it should work.
+            public int getScrollableUnitIncrement(Rectangle visibleRect,
+                                                  int orientation,
+                                                  int direction) {
+                int row;
+                if (orientation == SwingConstants.VERTICAL &&
+                      direction < 0 && (row = getFirstVisibleIndex()) != -1) {
+                    Rectangle r = getCellBounds(row, row);
+                    if ((r.y == visibleRect.y) && (row != 0))  {
+                        Point loc = r.getLocation();
+                        loc.y--;
+                        int prevIndex = locationToIndex(loc);
+                        Rectangle prevR = getCellBounds(prevIndex, prevIndex);
+
+                        if (prevR == null || prevR.y >= r.y) {
+                            return 0;
+                        }
+                        return prevR.height;
+                    }
+                }
+                return super.getScrollableUnitIncrement(
+                                visibleRect, orientation, direction);
+            }
+        };
+        list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        list2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         list2.setModel(listModel2);
+        
+        list2.setVisibleRowCount(-1);
         
         
 //         gridModel = new GridModel();
@@ -372,20 +408,20 @@ public class SeqFrame extends javax.swing.JFrame {
                      
                      
                  s=entry.getValue().getSequenceAsString();
-                 listModel2.addElement(s.replaceAll("", "     "));
+                 //listModel2.addElement(s.replaceAll("", "     "));
                  
                     
 //                    for(int j=0; j<=s.length(); j++) {
 //                         addCol(""+j);
 //                     }
-//                    t =s.split("");
-//                     for(int j=0; j<t.length; j++) {
-//
-//                          
-//                         //addRow(t[j]);
-//                         listModel2.addElement(t[j]);
-//                         
-//                      }
+                    t =s.split("");
+                     for(int j=0; j<t.length; j++) {
+
+                          
+                         //addRow(t[j]);
+                         listModel2.addElement(t[j]);
+                         
+                      }
                     // showTable();
 			//System.out.println( entry.getValue().getOriginalHeader() + "=" + entry.getValue().getSequenceAsString() );
 		}
