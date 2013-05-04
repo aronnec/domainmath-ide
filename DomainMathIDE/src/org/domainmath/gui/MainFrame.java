@@ -63,6 +63,7 @@ import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
+import org.domainmath.gui.packages.bioinfo.SeqFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
@@ -748,7 +749,8 @@ public final class MainFrame extends javax.swing.JFrame {
         googleItem = new javax.swing.JMenuItem();
         wikiItem = new javax.swing.JMenuItem();
         pkgMenuItem = new javax.swing.JMenu();
-        bioInfoItem = new javax.swing.JMenuItem();
+        BioInfoMenu = new javax.swing.JMenu();
+        sequenceViewerMenuItem = new javax.swing.JMenuItem();
         dataBaseMenuItem = new javax.swing.JMenuItem();
         dSmoothItem = new javax.swing.JMenuItem();
         imageToolItem = new javax.swing.JMenuItem();
@@ -1424,13 +1426,17 @@ public final class MainFrame extends javax.swing.JFrame {
 
         pkgMenuItem.setText(bundle.getString("pkgMenu.name")); // NOI18N
 
-        bioInfoItem.setText(bundle.getString("bioInfoItem.name")); // NOI18N
-        bioInfoItem.addActionListener(new java.awt.event.ActionListener() {
+        BioInfoMenu.setText("Bioinformatics");
+
+        sequenceViewerMenuItem.setText("Sequence Viewer");
+        sequenceViewerMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bioInfoItemActionPerformed(evt);
+                sequenceViewerMenuItemActionPerformed(evt);
             }
         });
-        pkgMenuItem.add(bioInfoItem);
+        BioInfoMenu.add(sequenceViewerMenuItem);
+
+        pkgMenuItem.add(BioInfoMenu);
 
         dataBaseMenuItem.setText("Database");
         dataBaseMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2436,13 +2442,6 @@ public void saveplot() {
         
     }//GEN-LAST:event_quickHelpItemActionPerformed
 
-    private void bioInfoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bioInfoItemActionPerformed
-        MainFrame.octavePanel.eval("pkg load bioinfo;");
-        BioInfoFrame bioInfoFrame = new BioInfoFrame();
-        bioInfoFrame.setLocationRelativeTo(this);
-        bioInfoFrame.setVisible(true);
-    }//GEN-LAST:event_bioInfoItemActionPerformed
-
     private void dSmoothItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dSmoothItemActionPerformed
          MainFrame.octavePanel.eval("pkg load data-smoothing;");
         DataSmoothFrame dataSmoothFrame = new DataSmoothFrame();
@@ -3107,6 +3106,12 @@ public void saveplot() {
         varView.refreshData();
     }//GEN-LAST:event_refreshItemActionPerformed
 
+    private void sequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceViewerMenuItemActionPerformed
+        SeqFrame seqFrame = new SeqFrame();
+        seqFrame.setLocationRelativeTo(this);
+        seqFrame.setVisible(true);
+    }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
+
     public static void main(String args[])   {
                  try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -3125,11 +3130,11 @@ public void saveplot() {
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenu BioInfoMenu;
     private javax.swing.JMenu WorkspaceMenu;
     private javax.swing.JButton addButton;
     private javax.swing.JMenuItem arrayEditorItem;
     public static javax.swing.JCheckBoxMenuItem automaticRefreshCheckBoxMenuItem;
-    private javax.swing.JMenuItem bioInfoItem;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenuItem clearAllBreakpointsItem;
@@ -3258,6 +3263,7 @@ public void saveplot() {
     private javax.swing.JMenuItem saveFileItem;
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;
+    private javax.swing.JMenuItem sequenceViewerMenuItem;
     private javax.swing.JMenuItem setPathsItem;
     private javax.swing.JMenuItem stackItem;
     private javax.swing.JMenuItem stepInItem;

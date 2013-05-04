@@ -46,6 +46,7 @@ import org.biojava3.core.sequence.io.FastaReader;
 import org.biojava3.core.sequence.io.FastaReaderHelper;
 import org.biojava3.core.sequence.io.GenericFastaHeaderParser;
 import org.biojava3.core.sequence.io.ProteinSequenceCreator;
+import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 
 
@@ -58,12 +59,15 @@ public class SeqFrame extends javax.swing.JFrame {
     private List data =Collections.synchronizedList(new ArrayList());
     private  List col =Collections.synchronizedList(new ArrayList());
 
+    private List header =Collections.synchronizedList(new ArrayList());
+    private  List Sequence =Collections.synchronizedList(new ArrayList());
     private  DefaultListModel listModel;
 
     private JList list;
     private JSplitPane splitPane;
     private final DefaultListModel listModel2;
     private final JList list2;
+    private String var_name;
    
   
     public SeqFrame() {
@@ -81,7 +85,7 @@ public class SeqFrame extends javax.swing.JFrame {
         list2 = new JList();
 
         list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        list2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         list2.setModel(listModel2);
        
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
@@ -91,7 +95,9 @@ public class SeqFrame extends javax.swing.JFrame {
         
     }
 
- 
+    public String getExportVarName() {
+        return this.var_name;
+    }
     
     
     @SuppressWarnings("unchecked")
@@ -103,6 +109,7 @@ public class SeqFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         importItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
@@ -131,6 +138,14 @@ public class SeqFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(importItem);
+
+        jMenuItem1.setText("Export");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         exitItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
         exitItem.setText("Exit");
@@ -305,6 +320,25 @@ public class SeqFrame extends javax.swing.JFrame {
         aboutDlg.setVisible(true);
     }//GEN-LAST:event_AboutItemActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ExportDialog exportDialog = new ExportDialog(this,true);
+        exportDialog.setTitle("Export Sequence");
+        exportDialog.setLocationRelativeTo(this);
+        exportDialog.setVisible(true);
+        exportVarTo(exportDialog.getVar_name());
+        
+        String v=this.getExportVarName();
+         if(!v.equals("")){
+                        
+                        for(int i=0; i<this.Sequence.size();i++) {
+                            
+                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Header='"+this.header.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Sequence='"+this.Sequence.get(i)+"';");
+                        }
+         }
+         MainFrame.reloadWorkspace();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,6 +381,9 @@ public class SeqFrame extends javax.swing.JFrame {
                     for(int j=0; j<t.length; j++) {
                        listModel2.addElement(t[j]);
                     }
+                    this.header.add(entry.getValue().getOriginalHeader());
+                    this.Sequence.add(entry.getValue().getSequenceAsString());
+                   
 
 		}
                 
@@ -374,6 +411,7 @@ public class SeqFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem importItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator7;
@@ -382,5 +420,9 @@ public class SeqFrame extends javax.swing.JFrame {
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
     // End of variables declaration//GEN-END:variables
+
+    private void exportVarTo(String var_name) {
+        this.var_name=var_name;
+    }
 
 }
