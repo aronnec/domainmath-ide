@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2013 Vinu K.N
  *
@@ -15,12 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 package org.domainmath.gui.packages.bioinfo;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Path2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,14 +48,22 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
 import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
@@ -68,8 +93,11 @@ public class SeqFrame extends javax.swing.JFrame {
     private final DefaultListModel listModel2;
     private final JList list2;
     private String var_name;
-   
-  
+    public Path2D polygon = null;
+    private final Point srcPoint = new Point();
+    
+   private Color PCOLOR;
+
     public SeqFrame() {
         setIconImage(icon);
         
@@ -82,7 +110,46 @@ public class SeqFrame extends javax.swing.JFrame {
         list.setModel(listModel);
         
         listModel2 = new DefaultListModel();
-        list2 = new JList();
+        list2 = new JList() {
+            
+            private SeqListCellRenderer renderer;
+            private AlphaComposite alcomp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f);
+            private Color PCOLOR;
+            @Override public void updateUI() {
+                setSelectionForeground(null);
+                setSelectionBackground(null);
+                setCellRenderer(null);
+                if(renderer!=null) {
+                    removeMouseMotionListener(renderer);
+                    removeMouseListener(renderer);
+                }else{
+                    renderer = new SeqListCellRenderer();
+                }
+                super.updateUI();
+                EventQueue.invokeLater(new Runnable() {
+                    @Override public void run() {
+                        setCellRenderer(renderer);
+                        addMouseMotionListener(renderer);
+                        addMouseListener(renderer);
+                    }
+                });
+                Color c = getSelectionBackground();
+                int r = c.getRed(), g = c.getGreen(), b = c.getBlue();
+                PCOLOR = r>g ? r>b ? new Color(r,0,0) : new Color(0,0,b)
+                             : g>b ? new Color(0,g,0) : new Color(0,0,b);
+            }
+            @Override public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if(renderer.polygon!=null) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setPaint(getSelectionBackground());
+                    g2d.draw(renderer.polygon);
+                    g2d.setComposite(alcomp);
+                    g2d.setPaint(PCOLOR);
+                    g2d.fill(renderer.polygon);
+                }
+            }
+        };
 
         list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         list2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -93,13 +160,14 @@ public class SeqFrame extends javax.swing.JFrame {
         this.jPanel1.add(splitPane,BorderLayout.CENTER);
         jPanel1.repaint();
         
+       
     }
 
     public String getExportVarName() {
         return this.var_name;
     }
     
-    
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -321,7 +389,7 @@ public class SeqFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ExportDialog exportDialog = new ExportDialog(this,true);
+        ExportDialog exportDialog = new ExportDialog(this,true,"Name:");
         exportDialog.setTitle("Export Sequence");
         exportDialog.setLocationRelativeTo(this);
         exportDialog.setVisible(true);
@@ -425,4 +493,127 @@ public class SeqFrame extends javax.swing.JFrame {
         this.var_name=var_name;
     }
 
+    class DotBorder extends EmptyBorder {
+        public DotBorder(Insets borderInsets) {
+            super(borderInsets);
+        }
+        public DotBorder(int top, int left, int bottom, int right) {
+            super(top, left, bottom, right);
+        }
+        @Override public boolean isBorderOpaque() {return true;}
+        @Override public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
+            Graphics2D g2 = (Graphics2D)g;
+            g2.translate(x,y);
+            g2.setPaint(new Color(~SystemColor.activeCaption.getRGB()));
+
+            BasicGraphicsUtils.drawDashedRect(g2, 0, 0, w, h);
+            g2.translate(-x,-y);
+        }
+
+}
+
+  class SeqListCellRenderer extends JPanel implements ListCellRenderer, MouseListener, MouseMotionListener {
+      
+    
+    private final JLabel label = new JLabel("", JLabel.CENTER);
+    private final Border dotBorder = new DotBorder(2,2,2,2);
+    private final Border empBorder = BorderFactory.createEmptyBorder(2,2,2,2);
+    private final Point srcPoint = new Point();
+    public Path2D polygon = null;
+    public SeqListCellRenderer() {
+        super(new BorderLayout());
+        
+        label.setOpaque(true);
+        label.setForeground(getForeground());
+        label.setBackground(getBackground());
+        label.setBorder(empBorder);
+        this.setOpaque(false);
+        this.setBorder(empBorder);
+        
+        this.add(label, BorderLayout.CENTER);
+    }
+    @Override 
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+       
+            String item = value.toString();
+            
+            label.setText(item);
+            label.setBorder(cellHasFocus?dotBorder:empBorder);
+            
+            if(isSelected) {
+                label.setForeground(list.getSelectionForeground());
+                label.setBackground(list.getSelectionBackground());
+            }else{
+
+                    if(item.equals("A")) {
+                        label.setForeground(list.getForeground());
+                        label.setBackground(Color.pink);
+                    }else{
+                          label.setForeground(list.getForeground());
+                        label.setBackground(list.getBackground());
+                    }
+               
+                
+            }
+
+        return this;
+    }
+    @Override public void mouseMoved(MouseEvent e) {}
+    @Override public void mouseDragged(MouseEvent e) {
+        JList list = (JList)e.getSource();
+        list.setFocusable(true);
+        if(polygon==null){
+            srcPoint.setLocation(e.getPoint());
+        }
+        Point destPoint = e.getPoint();
+        polygon = new Path2D.Double();
+        polygon.moveTo(srcPoint.x,  srcPoint.y);
+        polygon.lineTo(destPoint.x, srcPoint.y);
+        polygon.lineTo(destPoint.x, destPoint.y);
+        polygon.lineTo(srcPoint.x,  destPoint.y);
+        polygon.closePath();
+        list.setSelectedIndices(getIntersectsIcons(list, polygon));
+        list.repaint();
+    }
+    @Override public void mouseClicked(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {
+        JList list = (JList)e.getSource();
+        list.setFocusable(true);
+        polygon = null;
+        list.repaint();
+    }
+    @Override public void mousePressed(MouseEvent e) {
+        JList list = (JList)e.getSource();
+        int index = list.locationToIndex(e.getPoint());
+        Rectangle rect = list.getCellBounds(index,index);
+        if(!rect.contains(e.getPoint())) {
+            list.clearSelection();
+            list.getSelectionModel().setAnchorSelectionIndex(-1);
+            list.getSelectionModel().setLeadSelectionIndex(-1);
+            //list.getSelectionModel().setLeadSelectionIndex(list.getModel().getSize());
+            list.setFocusable(false);
+        }else{
+            list.setFocusable(true);
+        }
+    }
+    private int[] getIntersectsIcons(JList l, Shape p) {
+        ListModel model = l.getModel();
+        ArrayList<Integer> list = new ArrayList<>(model.getSize());
+        for(int i=0;i<model.getSize();i++) {
+            Rectangle r = l.getCellBounds(i,i);
+            if(p.intersects(r)) {
+                list.add(i);
+            }
+        }
+        int[] il = new int[list.size()];
+        for(int i=0;i<list.size();i++) {
+            il[i] = list.get(i);
+        }
+        return il;
+    }
+    }
+
+    
 }
