@@ -249,6 +249,7 @@ public class DataViewPanel extends JPanel {
                     } 
                   }
                    if(variable.startsWith("'")) {
+                       MainFrame.octavePanel.evaluate(jar_path);
                         MainFrame.octavePanel.evaluate("ob= javaObject("+Character.toString('"')+"ResultsFrame"+Character.toString('"')+","+
                                 Character.toString('"')+Character.toString('"')+");");
                         MainFrame.octavePanel.evaluate("ob.appendText(disp("+variable+"));");
