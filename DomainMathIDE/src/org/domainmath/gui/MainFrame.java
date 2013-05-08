@@ -63,6 +63,7 @@ import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
+import org.domainmath.gui.packages.bioinfo.HmmerFrame;
 import org.domainmath.gui.packages.bioinfo.SeqFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
@@ -751,6 +752,7 @@ public final class MainFrame extends javax.swing.JFrame {
         pkgMenuItem = new javax.swing.JMenu();
         BioInfoMenu = new javax.swing.JMenu();
         sequenceViewerMenuItem = new javax.swing.JMenuItem();
+        hmmerItem = new javax.swing.JMenuItem();
         dataBaseMenuItem = new javax.swing.JMenuItem();
         dSmoothItem = new javax.swing.JMenuItem();
         imageToolItem = new javax.swing.JMenuItem();
@@ -1435,6 +1437,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         BioInfoMenu.add(sequenceViewerMenuItem);
+
+        hmmerItem.setText("Hmmer Service");
+        hmmerItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hmmerItemActionPerformed(evt);
+            }
+        });
+        BioInfoMenu.add(hmmerItem);
 
         pkgMenuItem.add(BioInfoMenu);
 
@@ -3112,6 +3122,12 @@ public void saveplot() {
         seqFrame.setVisible(true);
     }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
 
+    private void hmmerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmmerItemActionPerformed
+        HmmerFrame hmmerFrame = new HmmerFrame();
+        hmmerFrame.setLocationRelativeTo(this);
+        hmmerFrame.setVisible(true);
+    }//GEN-LAST:event_hmmerItemActionPerformed
+
     public static void main(String args[])   {
                  try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -3179,6 +3195,7 @@ public void saveplot() {
     private javax.swing.JMenuItem googleItem;
     private javax.swing.JMenuItem gotoItem;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem hmmerItem;
     private javax.swing.JMenuItem howToItem;
     private javax.swing.JMenuItem imageToolItem;
     private javax.swing.JMenuItem importSpreadSheetDataItem;
