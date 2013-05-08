@@ -1,27 +1,36 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2013 Vinu K.N
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.domainmath.gui.packages.bioinfo;
+package org.domainmath.gui.common;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.domainmath.gui.MainFrame;
 
-/**
- *
- * @author Autotest
- */
-public class ExportDialog extends javax.swing.JDialog {
+
+public class DomainMathDialog extends javax.swing.JDialog {
     private  String var_name;
 
     /**
-     * Creates new form ExportDialog
+     * Creates new form DomainMathDialog
      */
-    public ExportDialog(java.awt.Frame parent, boolean modal) {
+    public DomainMathDialog(java.awt.Frame parent, boolean modal,String _name) {
         super(parent, modal);
         initComponents();
         var_name ="";
+        this.jLabel1.setText(_name);
         if(this.jTextField1.getText().equals(""))  {
             this.jButton2.setEnabled(false);
         }
@@ -78,8 +87,6 @@ public class ExportDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-
-        jLabel1.setText("Name:");
 
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -162,20 +169,20 @@ public class ExportDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DomainMathDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DomainMathDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DomainMathDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DomainMathDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ExportDialog dialog = new ExportDialog(new javax.swing.JFrame(), true);
+                DomainMathDialog dialog = new DomainMathDialog(new javax.swing.JFrame(), true,"");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -20,58 +20,32 @@
 package org.domainmath.gui.packages.bioinfo;
 
 import org.domainmath.gui.common.DomainMathDialog;
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Path2D;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import javax.swing.BorderFactory;
+import java.util.SortedSet;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
+import javax.swing.table.AbstractTableModel;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
 import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
-import org.biojava3.core.sequence.io.FastaReader;
-import org.biojava3.core.sequence.io.FastaReaderHelper;
-import org.biojava3.core.sequence.io.GenericFastaHeaderParser;
-import org.biojava3.core.sequence.io.ProteinSequenceCreator;
+import org.biojava3.core.sequence.loader.UniprotProxySequenceReader;
+import org.biojava3.ws.hmmer.HmmerDomain;
+import org.biojava3.ws.hmmer.HmmerResult;
+import org.biojava3.ws.hmmer.HmmerScan;
+import org.biojava3.ws.hmmer.RemoteHmmerScan;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 
@@ -79,88 +53,63 @@ import org.domainmath.gui.about.AboutDlg;
 
 
 
-public class SeqFrame extends javax.swing.JFrame {
+public class HmmerFrame extends javax.swing.JFrame {
     public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
     public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     private List data =Collections.synchronizedList(new ArrayList());
     private  List col =Collections.synchronizedList(new ArrayList());
 
-    private List header =Collections.synchronizedList(new ArrayList());
-    private  List Sequence =Collections.synchronizedList(new ArrayList());
-    private  DefaultListModel listModel;
+  
+   
 
-    private JList list;
-    private JSplitPane splitPane;
-    private final DefaultListModel listModel2;
-    private final JList list2;
+   
     private String var_name;
-    public Path2D polygon = null;
-    private final Point srcPoint = new Point();
+    private final GridModel gridModel;
+    private final JTable table;
+    private String id;
+   
     
-   private Color PCOLOR;
 
-    public SeqFrame() {
+    public HmmerFrame() {
         setIconImage(icon);
         
         setSize(800,600);
         setLocationRelativeTo(null);
         initComponents();
         
-        listModel = new DefaultListModel();
-        list = new JList();
-        list.setModel(listModel);
         
-        listModel2 = new DefaultListModel();
-        list2 = new JList() {
-            
-            private SeqListCellRenderer renderer;
-            private AlphaComposite alcomp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f);
-            private Color PCOLOR;
-            @Override public void updateUI() {
-                setSelectionForeground(null);
-                setSelectionBackground(null);
-                setCellRenderer(null);
-                if(renderer!=null) {
-                    removeMouseMotionListener(renderer);
-                    removeMouseListener(renderer);
-                }else{
-                    renderer = new SeqListCellRenderer();
-                }
-                super.updateUI();
-                EventQueue.invokeLater(new Runnable() {
-                    @Override public void run() {
-                        setCellRenderer(renderer);
-                        addMouseMotionListener(renderer);
-                        addMouseListener(renderer);
-                    }
-                });
-                Color c = getSelectionBackground();
-                int r = c.getRed(), g = c.getGreen(), b = c.getBlue();
-                PCOLOR = r>g ? r>b ? new Color(r,0,0) : new Color(0,0,b)
-                             : g>b ? new Color(0,g,0) : new Color(0,0,b);
-            }
-            @Override public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if(renderer.polygon!=null) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    g2d.setPaint(getSelectionBackground());
-                    g2d.draw(renderer.polygon);
-                    g2d.setComposite(alcomp);
-                    g2d.setPaint(PCOLOR);
-                    g2d.fill(renderer.polygon);
-                }
-            }
-        };
+        
+        gridModel = new GridModel();
+      
+        
+        table = new JTable();
+        gridModel.setCellEditable(false);
+        table.setModel(gridModel);
 
-        list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list2.setModel(listModel2);
-       
-        splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
-        splitPane.setDividerLocation(250);
-        this.jPanel1.add(splitPane,BorderLayout.CENTER);
+        
+      
+     
+        table.getTableHeader().setReorderingAllowed(false);
+
+        table.setRowHeight(20);
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        
+        
+           
+        
+        this.jPanel1.add(scrollPane,BorderLayout.CENTER);
         jPanel1.repaint();
         
+    }
+
+ 
+     public void showTable() {
+          gridModel.fireTableStructureChanged();
+                gridModel.fireTableDataChanged();
+       
+                table.revalidate();
+                table.repaint();
        
     }
 
@@ -177,7 +126,7 @@ public class SeqFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        importItem = new javax.swing.JMenuItem();
+        uniProtSeqItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -193,20 +142,19 @@ public class SeqFrame extends javax.swing.JFrame {
         AboutItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sequence Viewer");
+        setTitle("Hmmer Service");
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jMenu1.setText("File");
 
-        importItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        importItem.setText("Import Sequence");
-        importItem.addActionListener(new java.awt.event.ActionListener() {
+        uniProtSeqItem.setText("UniProt Sequence");
+        uniProtSeqItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importItemActionPerformed(evt);
+                uniProtSeqItemActionPerformed(evt);
             }
         });
-        jMenu1.add(importItem);
+        jMenu1.add(uniProtSeqItem);
 
         jMenuItem1.setText("Export");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -339,17 +287,19 @@ public class SeqFrame extends javax.swing.JFrame {
       public void addCol(String c) {
         col.add(c);
         }
-    private void importItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importItemActionPerformed
-       JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.setMultiSelectionEnabled(false);
+    private void uniProtSeqItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uniProtSeqItemActionPerformed
+      DomainMathDialog dmnDialog = new DomainMathDialog(this,true,"UniProt Sequence ID:");
+        dmnDialog.setTitle("Get UniProt Sequence");
+        dmnDialog.setLocationRelativeTo(this);
+        dmnDialog.setVisible(true);
         
-       
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            getFasta(fc.getSelectedFile());
-         } 
-    }//GEN-LAST:event_importItemActionPerformed
+        setID(dmnDialog.getVar_name());
+        
+        String v=getID();
+      
+         getSeq(v);
+         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_uniProtSeqItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
         dispose();
@@ -399,10 +349,10 @@ public class SeqFrame extends javax.swing.JFrame {
         String v=this.getExportVarName();
          if(!v.equals("")){
                         
-                        for(int i=0; i<this.Sequence.size();i++) {
+                        for(int i=0; i<this.col.size();i++) {
                             
-                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Header='"+this.header.get(i)+"';");
-                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Sequence='"+this.Sequence.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Annotation='"+this.col.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+i+1+").HmmerResult='"+this.data.get(i)+"';");
                         }
          }
          MainFrame.reloadWorkspace();
@@ -420,50 +370,12 @@ public class SeqFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SeqFrame().setVisible(true);
+                new HmmerFrame().setVisible(true);
             }
         });
     }
 
-    private void getFasta(File selectedFile) {
-        try{
-            String[] t ;
-            String s;
-
-		FileInputStream inStream = new FileInputStream( selectedFile );
-		FastaReader<ProteinSequence,AminoAcidCompound> fastaReader = 
-			new FastaReader<>(
-					inStream, 
-					new GenericFastaHeaderParser<ProteinSequence,AminoAcidCompound>(), 
-					new ProteinSequenceCreator(AminoAcidCompoundSet.getAminoAcidCompoundSet()));
-		LinkedHashMap<String, ProteinSequence> b = fastaReader.process();
-               
-		for (  Map.Entry<String, ProteinSequence> entry : b.entrySet() ) {
-                    listModel.addElement(entry.getValue().getOriginalHeader());
-                    s=entry.getValue().getSequenceAsString();
-                    t =s.split("");
-
-                    for(int j=0; j<t.length; j++) {
-                       listModel2.addElement(t[j]);
-                    }
-                    this.header.add(entry.getValue().getOriginalHeader());
-                    this.Sequence.add(entry.getValue().getSequenceAsString());
-                   
-
-		}
-                
-                int k=0;
-                for(int i=0; i<listModel2.getSize(); i++) {
-                    if(listModel2.get(i).equals("")) {
-                      k++;
-                      listModel2.remove(i);
-                    }
-                }
-                list2.setVisibleRowCount(k);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
@@ -473,7 +385,6 @@ public class SeqFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem forumItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem howToItem;
-    private javax.swing.JMenuItem importItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -484,133 +395,129 @@ public class SeqFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem reportBugItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
+    private javax.swing.JMenuItem uniProtSeqItem;
     // End of variables declaration//GEN-END:variables
 
     private void exportVarTo(String var_name) {
         this.var_name=var_name;
     }
 
-    class DotBorder extends EmptyBorder {
-        public DotBorder(Insets borderInsets) {
-            super(borderInsets);
-        }
-        public DotBorder(int top, int left, int bottom, int right) {
-            super(top, left, bottom, right);
-        }
-        @Override public boolean isBorderOpaque() {return true;}
-        @Override public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            Graphics2D g2 = (Graphics2D)g;
-            g2.translate(x,y);
-            g2.setPaint(new Color(~SystemColor.activeCaption.getRGB()));
+    private void getSeq(String v) {
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(!v.equals("")) {
+             try {
+                 
+            String uniProtID = v;
+            System.out.println("uniProtID:"+uniProtID);
+            ProteinSequence seq = getUniprot(uniProtID);
 
-            BasicGraphicsUtils.drawDashedRect(g2, 0, 0, w, h);
-            g2.translate(-x,-y);
-        }
+            HmmerScan hmmer = new RemoteHmmerScan();
 
-}
+            SortedSet<HmmerResult> results = hmmer.scan(seq);
 
-  class SeqListCellRenderer extends JPanel implements ListCellRenderer, MouseListener, MouseMotionListener {
-      
-    
-    private final JLabel label = new JLabel("", JLabel.CENTER);
-    private final Border dotBorder = new DotBorder(2,2,2,2);
-    private final Border empBorder = BorderFactory.createEmptyBorder(2,2,2,2);
-    private final Point srcPoint = new Point();
-    public Path2D polygon = null;
-    public SeqListCellRenderer() {
-        super(new BorderLayout());
-        
-        label.setOpaque(true);
-        label.setForeground(getForeground());
-        label.setBackground(getBackground());
-        label.setBorder(empBorder);
-        this.setOpaque(false);
-        this.setBorder(empBorder);
-        
-        this.add(label, BorderLayout.CENTER);
-    }
-    @Override 
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-       
-            String item = value.toString();
+            System.out.println(String.format("#\t%15s\t%10s\t%s\t%s\t%8s\t%s",
+                            "Domain","ACC", "Start","End","eValue","Description"));
+            addCol("#");
+            addCol("Domain");
+            addCol("ACC");
+            addCol("Start");
+            addCol("End");
+            addCol("eValue");
+            addCol("Description");
+            int counter = 0;
             
-            label.setText(item);
-            label.setBorder(cellHasFocus?dotBorder:empBorder);
-            
-            if(isSelected) {
-                label.setForeground(list.getSelectionForeground());
-                label.setBackground(list.getSelectionBackground());
-            }else{
+            for (HmmerResult hmmerResult : results) {
+                    //System.out.println(hmmerResult);
 
-                    if(item.equals("A")) {
-                        label.setForeground(list.getForeground());
-                        label.setBackground(Color.pink);
-                    }else{
-                          label.setForeground(list.getForeground());
-                        label.setBackground(list.getBackground());
+                    for ( HmmerDomain domain : hmmerResult.getDomains()) {
+                            counter++;
+                            System.out.println(String.format("%d\t%15s\t%10s\t%5d\t%5d\t%.2e\t%s",
+							counter,
+							hmmerResult.getName(), domain.getHmmAcc(), 
+							domain.getSqFrom(),domain.getSqTo(),
+							hmmerResult.getEvalue(), hmmerResult.getDesc()
+							));
+                            addRow(Integer.toString(counter));
+                            addRow(hmmerResult.getName());
+                            addRow(domain.getHmmAcc());
+                            addRow(Integer.toString(domain.getSqFrom()));
+                            addRow(Integer.toString(domain.getSqTo()));
+                            addRow(Float.toString(hmmerResult.getEvalue()));
+                            addRow(hmmerResult.getDesc());
+
                     }
-               
-                
-            }
 
-        return this;
-    }
-    @Override public void mouseMoved(MouseEvent e) {}
-    @Override public void mouseDragged(MouseEvent e) {
-        JList list = (JList)e.getSource();
-        list.setFocusable(true);
-        if(polygon==null){
-            srcPoint.setLocation(e.getPoint());
-        }
-        Point destPoint = e.getPoint();
-        polygon = new Path2D.Double();
-        polygon.moveTo(srcPoint.x,  srcPoint.y);
-        polygon.lineTo(destPoint.x, srcPoint.y);
-        polygon.lineTo(destPoint.x, destPoint.y);
-        polygon.lineTo(srcPoint.x,  destPoint.y);
-        polygon.closePath();
-        list.setSelectedIndices(getIntersectsIcons(list, polygon));
-        list.repaint();
-    }
-    @Override public void mouseClicked(MouseEvent e) {}
-    @Override public void mouseEntered(MouseEvent e) {}
-    @Override public void mouseExited(MouseEvent e) {}
-    @Override public void mouseReleased(MouseEvent e) {
-        JList list = (JList)e.getSource();
-        list.setFocusable(true);
-        polygon = null;
-        list.repaint();
-    }
-    @Override public void mousePressed(MouseEvent e) {
-        JList list = (JList)e.getSource();
-        int index = list.locationToIndex(e.getPoint());
-        Rectangle rect = list.getCellBounds(index,index);
-        if(!rect.contains(e.getPoint())) {
-            list.clearSelection();
-            list.getSelectionModel().setAnchorSelectionIndex(-1);
-            list.getSelectionModel().setLeadSelectionIndex(-1);
-            //list.getSelectionModel().setLeadSelectionIndex(list.getModel().getSize());
-            list.setFocusable(false);
-        }else{
-            list.setFocusable(true);
-        }
-    }
-    private int[] getIntersectsIcons(JList l, Shape p) {
-        ListModel model = l.getModel();
-        ArrayList<Integer> list = new ArrayList<>(model.getSize());
-        for(int i=0;i<model.getSize();i++) {
-            Rectangle r = l.getCellBounds(i,i);
-            if(p.intersects(r)) {
-                list.add(i);
             }
+            showTable();
+            
+        } catch (Exception e) {
         }
-        int[] il = new int[list.size()];
-        for(int i=0;i<list.size();i++) {
-            il[i] = list.get(i);
         }
-        return il;
+       
     }
+    private static ProteinSequence getUniprot(String uniProtID) throws Exception {
+		
+		AminoAcidCompoundSet set = AminoAcidCompoundSet.getAminoAcidCompoundSet();
+		UniprotProxySequenceReader<AminoAcidCompound> uniprotSequence = new UniprotProxySequenceReader<AminoAcidCompound>(uniProtID,set);
+		
+		ProteinSequence seq = new ProteinSequence(uniprotSequence);
+		
+		return seq;
     }
 
-    
+    private void setID(String id) {
+        this.id=id;
+    }
+
+    private String getID() {
+        return this.id;
+    }
+    class GridModel extends AbstractTableModel{
+        int i;
+        private boolean editable;
+  
+
+        @Override
+        public int getRowCount() {
+          try{
+                i = data.size() / getColumnCount();
+            }catch(Exception e) {
+
+            }
+
+
+           return i;
+        }
+
+        @Override
+        public int getColumnCount() {
+           return col.size();
+        }
+
+        @Override
+        public String getColumnName(int i) {
+            String c = "";
+            if(i <=getColumnCount()) {
+                c = (String)col.get(i);
+            }
+            return c;
+        }
+
+        public Class getColClass(int i) {
+            return String.class;
+        }
+
+        @Override
+        public boolean isCellEditable(int r,int c) {
+            return editable;
+        }
+        
+        public void setCellEditable(boolean editable) {
+            this.editable=editable;
+        }
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+           return  data.get((rowIndex*getColumnCount())+columnIndex);
+        }
+    }
 }
