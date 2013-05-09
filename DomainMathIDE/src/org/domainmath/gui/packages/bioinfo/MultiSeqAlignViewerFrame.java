@@ -19,7 +19,6 @@
 
 package org.domainmath.gui.packages.bioinfo;
 
-import org.domainmath.gui.common.DomainMathDialog;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -69,11 +68,11 @@ import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
 import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
 import org.biojava3.core.sequence.io.FastaReader;
-import org.biojava3.core.sequence.io.FastaReaderHelper;
 import org.biojava3.core.sequence.io.GenericFastaHeaderParser;
 import org.biojava3.core.sequence.io.ProteinSequenceCreator;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
+import org.domainmath.gui.common.DomainMathDialog;
 
 
 
@@ -95,9 +94,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private final JList list2;
     private String var_name;
     public Path2D polygon = null;
-    private final Point srcPoint = new Point();
-    
-   private Color PCOLOR;
+
 
     public MultiSeqAlignViewerFrame() {
         setIconImage(icon);
@@ -177,6 +174,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        NewMenuItem = new javax.swing.JMenuItem();
         importItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
@@ -199,7 +197,16 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        importItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        NewMenuItem.setText("New");
+        NewMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(NewMenuItem);
+
+        importItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         importItem.setText("Import Sequence");
         importItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,6 +355,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             getFasta(fc.getSelectedFile());
+            this.importItem.setEnabled(false);
          } 
     }//GEN-LAST:event_importItemActionPerformed
 
@@ -408,6 +416,12 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
          MainFrame.reloadWorkspace();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void NewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewMenuItemActionPerformed
+        SeqFrame seqFrame = new SeqFrame();
+        seqFrame.setLocationRelativeTo(this);
+        seqFrame.setVisible(true);
+    }//GEN-LAST:event_NewMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -466,6 +480,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
