@@ -19,7 +19,6 @@
 
 package org.domainmath.gui.packages.bioinfo;
 
-import org.domainmath.gui.common.DomainMathDialog;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
-import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -48,6 +46,7 @@ import org.biojava3.ws.hmmer.HmmerScan;
 import org.biojava3.ws.hmmer.RemoteHmmerScan;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
+import org.domainmath.gui.common.DomainMathDialog;
 
 
 
@@ -126,6 +125,7 @@ public class HmmerFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        NewMenuItem = new javax.swing.JMenuItem();
         uniProtSeqItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
@@ -148,6 +148,16 @@ public class HmmerFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        NewMenuItem.setText("New");
+        NewMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(NewMenuItem);
+
+        uniProtSeqItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         uniProtSeqItem.setText("UniProt Sequence");
         uniProtSeqItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,7 +308,9 @@ public class HmmerFrame extends javax.swing.JFrame {
         String v=getID();
       
          getSeq(v);
+         this.uniProtSeqItem.setEnabled(false);
          this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+         
     }//GEN-LAST:event_uniProtSeqItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
@@ -358,6 +370,12 @@ public class HmmerFrame extends javax.swing.JFrame {
          MainFrame.reloadWorkspace();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void NewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewMenuItemActionPerformed
+        HmmerFrame hmmerFrame = new HmmerFrame();
+        hmmerFrame.setLocationRelativeTo(this);
+        hmmerFrame.setVisible(true);
+    }//GEN-LAST:event_NewMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -379,6 +397,7 @@ public class HmmerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
