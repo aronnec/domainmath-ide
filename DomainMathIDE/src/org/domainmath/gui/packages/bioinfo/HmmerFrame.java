@@ -363,8 +363,8 @@ public class HmmerFrame extends javax.swing.JFrame {
                         
                         for(int i=0; i<this.col.size();i++) {
                             
-                            MainFrame.octavePanel.evaluate(v+"("+i+1+").Annotation='"+this.col.get(i)+"';");
-                            MainFrame.octavePanel.evaluate(v+"("+i+1+").HmmerResult='"+this.data.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Annotation='"+this.col.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").HmmerResult='"+this.data.get(i)+"';");
                         }
          }
          MainFrame.reloadWorkspace();
