@@ -64,6 +64,7 @@ import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
 import org.domainmath.gui.packages.bioinfo.HmmerFrame;
+import org.domainmath.gui.packages.bioinfo.MultiSeqAlignViewerFrame;
 import org.domainmath.gui.packages.bioinfo.SeqFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
@@ -3117,9 +3118,12 @@ public void saveplot() {
     }//GEN-LAST:event_refreshItemActionPerformed
 
     private void sequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceViewerMenuItemActionPerformed
-        SeqFrame seqFrame = new SeqFrame();
-        seqFrame.setLocationRelativeTo(this);
-        seqFrame.setVisible(true);
+        //        SeqFrame seqFrame = new SeqFrame();
+        //        seqFrame.setLocationRelativeTo(this);
+        //        seqFrame.setVisible(true);
+        MultiSeqAlignViewerFrame multiSeqAlignViewerFrame = new MultiSeqAlignViewerFrame();
+        multiSeqAlignViewerFrame.setLocationRelativeTo(this);
+        multiSeqAlignViewerFrame.setVisible(true);
     }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
 
     private void hmmerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmmerItemActionPerformed

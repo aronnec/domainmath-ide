@@ -56,6 +56,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -90,11 +91,12 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
     private JList list;
     private JSplitPane splitPane;
-    private final DefaultListModel listModel2;
-    private final JList list2;
+    private  DefaultListModel listModel2;
+    private  JList list2;
     private String var_name;
     public Path2D polygon = null;
-
+    private JPanel panel;
+    private int tab_index=0;
 
     public MultiSeqAlignViewerFrame() {
         setIconImage(icon);
@@ -102,8 +104,10 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         setSize(800,600);
         setLocationRelativeTo(null);
         initComponents();
-        
-        listModel = new DefaultListModel();
+    }
+
+    private JPanel createPanel(File f){
+          listModel = new DefaultListModel();
         list = new JList();
         list.setModel(listModel);
         
@@ -152,15 +156,18 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         list2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         list2.setModel(listModel2);
-       
+         getFasta(f);
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
         splitPane.setDividerLocation(250);
-        this.jPanel1.add(splitPane,BorderLayout.CENTER);
-        jPanel1.repaint();
         
-       
+        
+        
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(splitPane,BorderLayout.CENTER);
+        panel.repaint();
+        return panel;
     }
-
     public String getExportVarName() {
         return this.var_name;
     }
@@ -171,10 +178,9 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        NewMenuItem = new javax.swing.JMenuItem();
         importItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
@@ -193,18 +199,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sequence Viewer");
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
         jMenu1.setText("File");
-
-        NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        NewMenuItem.setText("New");
-        NewMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NewMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu1.add(NewMenuItem);
 
         importItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         importItem.setText("Import Sequence");
@@ -314,17 +309,13 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -354,8 +345,9 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
        
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            getFasta(fc.getSelectedFile());
-            this.importItem.setEnabled(false);
+            this.jTabbedPane1.add(fc.getSelectedFile().getName(),createPanel(fc.getSelectedFile()));
+            this.jTabbedPane1.setSelectedIndex(tab_index);
+            tab_index++;
          } 
     }//GEN-LAST:event_importItemActionPerformed
 
@@ -416,12 +408,6 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
          MainFrame.reloadWorkspace();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void NewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewMenuItemActionPerformed
-        SeqFrame seqFrame = new SeqFrame();
-        seqFrame.setLocationRelativeTo(this);
-        seqFrame.setVisible(true);
-    }//GEN-LAST:event_NewMenuItemActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -480,7 +466,6 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
-    private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
@@ -491,9 +476,9 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem onlineHelpItem;
     private javax.swing.JMenuItem reportBugItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
