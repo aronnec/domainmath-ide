@@ -22,10 +22,17 @@ package org.domainmath.gui.packages.bioinfo;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
@@ -64,7 +71,8 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        importItem = new javax.swing.JMenuItem();
+        openItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -84,14 +92,23 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        importItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        importItem.setText("Import Sequence");
-        importItem.addActionListener(new java.awt.event.ActionListener() {
+        openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openItem.setText("Open");
+        openItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importItemActionPerformed(evt);
+                openItemActionPerformed(evt);
             }
         });
-        jMenu1.add(importItem);
+        jMenu1.add(openItem);
+
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsMenuItem.setText("Save As...");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveAsMenuItem);
 
         jMenuItem1.setText("Export");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -215,7 +232,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         }
 }
    
-    private void importItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importItemActionPerformed
+    private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
        JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
@@ -227,7 +244,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
             this.jTabbedPane1.setSelectedIndex(tab_index);
             tab_index++;
          } 
-    }//GEN-LAST:event_importItemActionPerformed
+    }//GEN-LAST:event_openItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
         dispose();
@@ -290,6 +307,31 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+      if(this.jTabbedPane1.getSelectedIndex() >= 0) {
+           
+            try {
+                SeqViewerPanel p = (SeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
+                JList list = p.list2;
+           
+                List<String> s = list.getSelectedValuesList();
+                BufferedWriter w = new BufferedWriter(new FileWriter(new File("E:/Test.txt")));
+                w.write(">Test");
+                w.newLine();
+                
+                 for(int i=0; i<s.size(); i++) {
+                    w.append(s.get(i));
+                }
+                 w.newLine();
+                 w.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MultiSeqAlignViewerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          
+           System.out.println("Written");
+       }
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -317,7 +359,6 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem forumItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem howToItem;
-    private javax.swing.JMenuItem importItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -325,7 +366,9 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem onlineHelpItem;
+    private javax.swing.JMenuItem openItem;
     private javax.swing.JMenuItem reportBugItem;
+    private javax.swing.JMenuItem saveAsMenuItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
     // End of variables declaration//GEN-END:variables

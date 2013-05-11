@@ -71,10 +71,10 @@ public class SeqViewerPanel extends javax.swing.JPanel {
     public List Sequence =Collections.synchronizedList(new ArrayList());
     private  DefaultListModel listModel;
 
-    private JList list;
+    public JList list;
     private JSplitPane splitPane;
     private  DefaultListModel listModel2;
-    private  JList list2;
+    public  JList list2;
 
     public Path2D polygon = null;
 
@@ -133,9 +133,7 @@ public class SeqViewerPanel extends javax.swing.JPanel {
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
         splitPane.setDividerLocation(250);
         
-        
-        
-        
+
         setLayout(new BorderLayout());
         add(splitPane,BorderLayout.CENTER);
         repaint();
