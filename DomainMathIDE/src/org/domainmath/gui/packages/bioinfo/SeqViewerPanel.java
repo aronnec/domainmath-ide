@@ -52,6 +52,8 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
@@ -83,7 +85,8 @@ public class SeqViewerPanel extends javax.swing.JPanel {
           listModel = new DefaultListModel();
         list = new JList();
         list.setModel(listModel);
-        
+        list.setSelectedIndex(0);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listModel2 = new DefaultListModel();
         list2 = new JList() {
             
@@ -133,7 +136,34 @@ public class SeqViewerPanel extends javax.swing.JPanel {
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
         splitPane.setDividerLocation(250);
         
+        list.addMouseListener(new MouseListener() {
 
+             @Override
+             public void mouseClicked(MouseEvent e) {
+                 list2.setSelectedIndex(list.getSelectedIndex());
+             }
+
+             @Override
+             public void mousePressed(MouseEvent e) {
+                 
+             }
+
+             @Override
+             public void mouseReleased(MouseEvent e) {
+                
+             }
+
+             @Override
+             public void mouseEntered(MouseEvent e) {
+                
+             }
+
+             @Override
+             public void mouseExited(MouseEvent e) {
+                 
+             }
+            
+        });
         setLayout(new BorderLayout());
         add(splitPane,BorderLayout.CENTER);
         repaint();
