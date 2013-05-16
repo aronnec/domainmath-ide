@@ -19,6 +19,8 @@
 package org.domainmath.gui.octave;
 
 
+import dev.exec.util.ExecHelper;
+import dev.exec.util.ExecProcessor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -51,7 +53,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 
 
-public class OctavePanel extends JPanel{
+public class OctavePanel extends JPanel implements ExecProcessor{
 
     private  JScrollPane scrollOutputArea;
     public RSyntaxTextArea commandArea;
@@ -69,7 +71,7 @@ public class OctavePanel extends JPanel{
     private int histLine;
     private int id=1;
     private JPopupMenu _p1;
-    
+    private ExecHelper exh;
     public OctavePanel(MainFrame frame,String path) {
       
         this.frame = frame;
@@ -80,13 +82,19 @@ public class OctavePanel extends JPanel{
     
     public void start() {
          try {
-                    outputArea.append("Connecting..."+"\n");
-                    String path =frame.getOctavePath();
-                    String addpath = " --path "+Character.toString('"') +System.getProperty("user.dir")+File.separator+"scripts"+Character.toString('"');
-                    oc.run(path+addpath);
-                    oc.find(frame.getStartupCmd());
-                    oc.find("warning off");
                     
+                    
+                    
+                    if (exh == null) {
+                                 outputArea.append("Connecting..."+"\n");
+                                String path =frame.getOctavePath();
+                                String addpath = " --path "+Character.toString('"') +System.getProperty("user.dir")+File.separator+"scripts"+Character.toString('"');
+                   
+				exh = ExecHelper.exec(this, path+addpath);
+				oc.find(frame.getStartupCmd());
+                                oc.find("warning off");
+			
+                    }
 
                    
                    
@@ -322,38 +330,39 @@ public class OctavePanel extends JPanel{
          MainFrame.histArea.append(c+"\n");
     }
 
-    class OctaveEngine {
-    private PrintWriter input;
-    public void run(String command)throws Exception {
-        Process p = null;
-        Runtime r = Runtime.getRuntime();
-        p = r.exec(command+" "+frame.getCmdLineOptions());
-        System.out.println(command+" "+frame.getCmdLineOptions());
-        InputStream errStream = p.getErrorStream();
-        new Output(errStream,true);
+     private void updateTextArea(JTextArea textArea, String line) {
+		outputArea.append(line);
+		outputArea.setSelectionStart(textArea.getText().length());
+		outputArea.setSelectionEnd(textArea.getText().length());
+	}
 
-        InputStream inStream = p.getInputStream();
-        new Output(inStream,false);
-
-        input = new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(p.getOutputStream())));
+    @Override
+    public void processNewInput(String input) {
+       updateTextArea(outputArea, input);
     }
-   
-    public void exit() {
-		if(input!=null) {
-			input.write("exit\n");
-                        System.out.println("Octave disconnected.");
-			input.flush();
+
+    @Override
+    public void processNewError(String error) {
+        updateTextArea(outputArea, error);
+    }
+
+    @Override
+    public void processEnded(int exitValue) {
+       exh = null;
+       
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException ex) {
 		}
+    }
+
+    class OctaveEngine {
+    public void exit() {
+                _eval("exit");
     }
     
     public void find(String c) {
-        try {
-           input.write(c+"\n");
-        input.flush(); 
-        }catch(Exception e) {
-        }
-
+       _eval(c);
     }
      public void eval(String c) {
          
@@ -361,8 +370,7 @@ public class OctavePanel extends JPanel{
         outputArea.append(">> ");
          outputArea.append(c+"\n");
          id++;
-        input.write(c+"\n");
-        input.flush();
+        _eval(c);
          if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
             MainFrame.varView.reload();
@@ -374,8 +382,7 @@ public class OctavePanel extends JPanel{
          outputArea.append(tag);
          outputArea.append(c+"\n");
          id++;
-        input.write(c+"\n");
-        input.flush();
+        _eval(c);
         if(!c.contains("input") ||MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
          MainFrame.varView.reload();
@@ -384,41 +391,13 @@ public class OctavePanel extends JPanel{
      }
 }
 
-        
-   public void displayText(String output) {
-       
-        if (output.indexOf('\n') >= 0) {
-            outputArea.append(output+"\n");
-            
-            output = output.substring(output.indexOf('\n') +1);
-				displayText(output);
-        }else {
-				if(!"".equals(output)) {
-                                    outputArea.append(output+"\n");
-                               
-				}
-
-                                
-                                
-    }
-     outputArea.setCaretPosition(outputArea.getDocument().getLength());
-   }
-   
-   public void setText(Color c, String output)  {
-           if (output.indexOf('\n') >= 0) {      
-            outputArea.append(output+"\n");
-            output = output.substring(output.indexOf('\n') +1);
-				displayText(output);
-        }else {
-				if(!"".equals(output)) {
-                                    
-                                    outputArea.append(output+"\n");
-                                      
-				}        
-    }
-        
-   }
-           
+  public void _eval(String text) {
+      if (exh != null) {
+			exh.println(text);
+			
+		}
+  }
+      
    public void needOct(boolean need) {
           AutoCompletion ac = new AutoCompletion(provider);
 
@@ -454,39 +433,7 @@ public class OctavePanel extends JPanel{
 
    }
    
-   class Output extends Thread{
-    private final InputStream is;
-        private final boolean isErr;
-
-    public Output(InputStream is,boolean isErr) {
-        this.is = is;
-        this.isErr=isErr;
-        start();
-    }
-
-        @Override
-        public void run() {
-            try {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line = null;
-                String c;
-                while ((line = br.readLine()) != null) {
-                       
-                        line = line.replaceAll(">> ", "");
-                        c=line.replaceAll("debug>", "");
-                        if(isErr) {
-                           displayText(c); 
-                        }else{
-                             displayText(c); 
-                        }
-                }
-            }catch (Exception ioe) {
-                    ioe.printStackTrace();
-            }
-        }
-    }
-
+   
     public void clear() {
         
         outputArea.setText("");

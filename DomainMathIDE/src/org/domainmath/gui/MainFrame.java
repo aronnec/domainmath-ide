@@ -340,8 +340,10 @@ public final class MainFrame extends javax.swing.JFrame {
     }
     
     public static void reloadWorkspace() {
+        if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
         varView.reload();
+        }
     }
     
     public void dirty() {
