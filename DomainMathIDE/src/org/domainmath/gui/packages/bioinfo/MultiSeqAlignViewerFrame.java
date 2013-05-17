@@ -312,7 +312,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
            
             try {
                 SeqViewerPanel p = (SeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
-                JList list = p.list2;
+                JList list = p.listSequence;
            
                 List<String> s = list.getSelectedValuesList();
                 BufferedWriter w = new BufferedWriter(new FileWriter(new File("E:/Test.txt")));

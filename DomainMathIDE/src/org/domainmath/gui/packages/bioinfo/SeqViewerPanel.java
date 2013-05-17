@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -52,8 +53,6 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
@@ -71,24 +70,29 @@ public class SeqViewerPanel extends javax.swing.JPanel {
 
     public List header =Collections.synchronizedList(new ArrayList());
     public List Sequence =Collections.synchronizedList(new ArrayList());
-    private  DefaultListModel listModel;
+    private  DefaultListModel listConsensusModel;
 
-    public JList list;
+    public JList listConsensus;
     private JSplitPane splitPane;
-    private  DefaultListModel listModel2;
-    public  JList list2;
+    private  DefaultListModel listSequenceModel;
+    public  JList listSequence;
 
     public Path2D polygon = null;
+    private final Font fontListConsensus;
+    private int listRowCount;
 
     
      public SeqViewerPanel(File f){
-          listModel = new DefaultListModel();
-        list = new JList();
-        list.setModel(listModel);
-        list.setSelectedIndex(0);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        listModel2 = new DefaultListModel();
-        list2 = new JList() {
+        fontListConsensus = new Font("Monospaced",Font.BOLD,11);
+        listConsensusModel = new DefaultListModel();
+        listConsensus = new JList();
+       listConsensus.setFont(fontListConsensus);
+        
+        listConsensus.setModel(listConsensusModel);
+        listConsensus.setSelectedIndex(0);
+        listConsensus.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listSequenceModel = new DefaultListModel();
+        listSequence = new JList() {
             
             private SeqListCellRenderer renderer;
             private AlphaComposite alcomp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f);
@@ -129,18 +133,32 @@ public class SeqViewerPanel extends javax.swing.JPanel {
             }
         };
 
-        list2.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list2.setModel(listModel2);
+        listSequence.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        listSequence.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listSequence.setModel(listSequenceModel);
          getFasta(f);
-        splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(list),new JScrollPane(list2));
+        splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(listConsensus),new JScrollPane(listSequence));
         splitPane.setDividerLocation(250);
         
-        list.addMouseListener(new MouseListener() {
+        listConsensus.addMouseListener(new MouseListener() {
 
              @Override
              public void mouseClicked(MouseEvent e) {
-                 list2.setSelectedIndex(list.getSelectedIndex());
+                 
+                 int r = getRowCount()/listConsensusModel.getSize();
+                 int c =r*listConsensus.getSelectedIndex();
+                 int c_end =c+(r);
+                 
+                 ListSelectionModel sm = listSequence.getSelectionModel();
+                    sm.clearSelection();
+                    int size = listSequence.getModel().getSize();
+                    for (int i=c; i<c_end;i++ ) {
+                        if (i < size) {
+                            sm.addSelectionInterval(i, i);
+                        }
+                    }
+                    
+
              }
 
              @Override
@@ -174,7 +192,7 @@ public class SeqViewerPanel extends javax.swing.JPanel {
       }
       public void addCol(String c) {
         col.add(c);
-        }
+      }
         private void getFasta(File selectedFile) {
         try{
             String[] t ;
@@ -189,12 +207,12 @@ public class SeqViewerPanel extends javax.swing.JPanel {
 		LinkedHashMap<String, ProteinSequence> b = fastaReader.process();
                
 		for (  Map.Entry<String, ProteinSequence> entry : b.entrySet() ) {
-                    listModel.addElement(entry.getValue().getOriginalHeader());
+                    listConsensusModel.addElement(entry.getValue().getOriginalHeader());
                     s=entry.getValue().getSequenceAsString();
                     t =s.split("");
 
                     for(int j=0; j<t.length; j++) {
-                       listModel2.addElement(t[j]);
+                       listSequenceModel.addElement(t[j]);
                     }
                     this.header.add(entry.getValue().getOriginalHeader());
                     this.Sequence.add(entry.getValue().getSequenceAsString());
@@ -203,13 +221,14 @@ public class SeqViewerPanel extends javax.swing.JPanel {
 		}
                 
                 int k=0;
-                for(int i=0; i<listModel2.getSize(); i++) {
-                    if(listModel2.get(i).equals("")) {
+                for(int i=0; i<listSequenceModel.getSize(); i++) {
+                    if(listSequenceModel.get(i).equals("")) {
                       k++;
-                      listModel2.remove(i);
+                      listSequenceModel.remove(i);
                     }
                 }
-                list2.setVisibleRowCount(k);
+                listSequence.setVisibleRowCount(k);
+                this.setRowCount(listSequenceModel.getSize());
         }catch(Exception e) {
         }
     }
@@ -233,6 +252,13 @@ public class SeqViewerPanel extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void setRowCount(int k) {
+        this.listRowCount = k;
+    }
+    public int getRowCount() {
+        return this.listRowCount;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
  class DotBorder extends EmptyBorder {
@@ -268,10 +294,9 @@ public class SeqViewerPanel extends javax.swing.JPanel {
         label.setOpaque(true);
         label.setForeground(getForeground());
         label.setBackground(getBackground());
-        label.setBorder(empBorder);
-        this.setOpaque(false);
-        this.setBorder(empBorder);
         
+        this.setOpaque(false);
+
         this.add(label, BorderLayout.CENTER);
     }
     @Override 
@@ -344,71 +369,73 @@ public class SeqViewerPanel extends javax.swing.JPanel {
 
         private void setRasmolColorSheme(JLabel label,String item,boolean isSelected) {
              if(isSelected) {
-                label.setForeground(list.getSelectionForeground());
-                label.setBackground(list.getSelectionBackground());
+                label.setForeground(listConsensus.getSelectionForeground());
+                label.setBackground(listConsensus.getSelectionBackground());
             }else{
                     
                     if(item.equalsIgnoreCase("A")) {
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(200,200,200));
                     }else if(item.equalsIgnoreCase("C") ||
                             item.equalsIgnoreCase("M")) {
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(230,230,0));
                     }else if(item.equalsIgnoreCase("N") ||
                             item.equalsIgnoreCase("Q")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color( 0,220,220));
                     }else if(item.equalsIgnoreCase("I") ||
                             item.equalsIgnoreCase("L") ||
                             item.equalsIgnoreCase("V")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(15,130,15));
                     }else if(item.equalsIgnoreCase("F")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(20,90,255));
                     }else if(item.equalsIgnoreCase("H")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(130,130,210));
                     }else if(item.equalsIgnoreCase("K") ||
                             item.equalsIgnoreCase("R")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(20,90,255));
                     }else if(item.equalsIgnoreCase("G")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(235,235,235));
                     }else if(item.equalsIgnoreCase("S") ||
                             item.equalsIgnoreCase("T")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(250,150,0));
                     }else if(item.equalsIgnoreCase("D") ||
                             item.equalsIgnoreCase("E")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(230,10,10));
                     }else if(item.equalsIgnoreCase("Y")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(50,50,170));
                     }else if(item.equalsIgnoreCase("B") ||
                             item.equalsIgnoreCase("Z") ||
                             item.equalsIgnoreCase("X")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(190,160,110));
                     }else if(item.equalsIgnoreCase("P")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(220,150,130));
                     }else if(item.equalsIgnoreCase("W")) { 
-                        label.setForeground(list.getForeground());
+                        label.setForeground(listConsensus.getForeground());
                         label.setBackground(new Color(180,90,180));
                     }
                     
                     else{
-                          label.setForeground(list.getForeground());
-                        label.setBackground(list.getBackground());
+                          label.setForeground(listConsensus.getForeground());
+                        label.setBackground(listConsensus.getBackground());
                     }
                
                 
             }
         }
     }
+
+  
 
 }
