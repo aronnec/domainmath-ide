@@ -168,9 +168,9 @@ public class MySqlLoginDialog extends javax.swing.JDialog {
                     Character.toString('"')+this.databaseField.getText()+Character.toString('"');
                 
         
-        MainFrame.octavePanel.eval("pkg load database");
-        MainFrame.octavePanel.eval("mysql");
-        MainFrame.octavePanel.eval("default_db(mysql_db("+cmd+"));");
+        MainFrame.octavePanel.evaluate("pkg load database");
+        MainFrame.octavePanel.evaluate("mysql");
+        MainFrame.octavePanel.evaluate("default_db(mysql_db("+cmd+"));");
         dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 

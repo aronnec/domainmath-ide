@@ -299,13 +299,13 @@ public class PlotOptionsDialog extends javax.swing.JDialog {
             StringBuilder b= new StringBuilder(plot_string);
             if(plot_string.endsWith(",")) {
                String cmd="plot("+b.deleteCharAt(plot_string.length()-1) +");";
-               MainFrame.octavePanel.evalWithOutput(cmd); 
-               MainFrame.octavePanel.evalWithOutput(this.getMore_cmd()); 
+               MainFrame.octavePanel.evaluate(cmd); 
+               MainFrame.octavePanel.evaluate(this.getMore_cmd()); 
                dispose();
             }else{
                 String cmd="plot("+plot_string.substring(plot_string.lastIndexOf(","))+");";
-                MainFrame.octavePanel.evalWithOutput(cmd); 
-                MainFrame.octavePanel.evalWithOutput(this.getMore_cmd()); 
+                MainFrame.octavePanel.evaluate(cmd); 
+                MainFrame.octavePanel.evaluate(this.getMore_cmd()); 
                 dispose();
             }
             

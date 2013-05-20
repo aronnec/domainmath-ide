@@ -175,7 +175,7 @@ public class ImportVarDialog extends javax.swing.JDialog {
         ra = this.jTextField3.getText();
         limits= this.jTextField4.getText();
         String lhs ="["+an+","+tn+","+ra+","+limits+"]=";
-        MainFrame.octavePanel.eval(lhs+txt);
+        MainFrame.octavePanel.evaluate(lhs+txt);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

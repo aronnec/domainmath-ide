@@ -267,7 +267,7 @@ public class PkgViewPanel extends JPanel {
                  if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg load "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg load "+pkg_name+";");
                              MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                              
                              reload();
@@ -280,7 +280,7 @@ public class PkgViewPanel extends JPanel {
                  if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg unload "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg unload "+pkg_name+";");
                             MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                             reload();
                         } catch (Exception ex) {
@@ -289,12 +289,12 @@ public class PkgViewPanel extends JPanel {
                    
                  }
              }else if(source.equals(loadAllItem)) {              
-                MainFrame.octavePanel.eval("pkg load all;");
+                MainFrame.octavePanel.evaluate("pkg load all;");
                
                 MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");   
                 reload();
              }else if(source.equals(unLoadAllItem)) {
-                 MainFrame.octavePanel.eval("pkg unload all;");
+                 MainFrame.octavePanel.evaluate("pkg unload all;");
                  MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");  
                  reload();
              }else if(source.equals(buildItem)) {
@@ -317,14 +317,14 @@ public class PkgViewPanel extends JPanel {
                    
                 } 
              }else if(source.equals(reBuildAllItem)) {
-                MainFrame.octavePanel.eval("pkg rebuild all;");
+                MainFrame.octavePanel.evaluate("pkg rebuild all;");
                 MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');"); 
                 reload();
              }else if(source.equals(generateDocItem)) {
                   if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg load generate_html");
+                            MainFrame.octavePanel.evaluate("pkg load generate_html");
                            GenerateDocDialog generateDocDialog = new GenerateDocDialog(frame,true,pkg_name);
                             generateDocDialog .setLocationRelativeTo(frame);
                             generateDocDialog .setVisible(true);
@@ -349,7 +349,7 @@ public class PkgViewPanel extends JPanel {
                 if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg uninstall "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg uninstall "+pkg_name+";");
                             MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                             reload();
                         } catch (Exception ex) {
@@ -358,11 +358,11 @@ public class PkgViewPanel extends JPanel {
                    
                  }
              }else if(source.equals(unInstallAllItem)) {
-                 MainFrame.octavePanel.eval("pkg uninstall all;");
+                 MainFrame.octavePanel.evaluate("pkg uninstall all;");
                 MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');"); 
                 reload();
              }else if(source.equals(updateItem)) {
-                MainFrame.octavePanel.eval("pkg update");
+                MainFrame.octavePanel.evaluate("pkg update");
                 MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');"); 
                 reload();
              }
@@ -402,7 +402,7 @@ public class PkgViewPanel extends JPanel {
                  if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg load "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg load "+pkg_name+";");
                              MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                              reload();
                         } catch (Exception ex) {
@@ -415,7 +415,7 @@ public class PkgViewPanel extends JPanel {
                  if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg unload "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg unload "+pkg_name+";");
                             MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                             reload();
                         } catch (Exception ex) {
@@ -432,7 +432,7 @@ public class PkgViewPanel extends JPanel {
                if(table.getSelectedRow() >= 0)  {
                      try {
                             String pkg_name =table.getValueAt(table.getSelectedRow(), 0).toString();
-                            MainFrame.octavePanel.eval("pkg uninstall "+pkg_name+";");
+                            MainFrame.octavePanel.evaluate("pkg uninstall "+pkg_name+";");
                             MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+directory+"');");
                             reload();
                         } catch (Exception ex) {

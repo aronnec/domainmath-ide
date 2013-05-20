@@ -441,7 +441,7 @@ public class DataSmoothFrame extends javax.swing.JFrame {
         }
         if(optCmd.endsWith(",") && (xData.equals("") || yData.equals(""))){
             copy = optCmd.substring(1, (optCmd.length()-1));
-            MainFrame.octavePanel.eval( "[yh, lambda] = regdatasmooth ("+xData+","+yData+","+copy+");");
+            MainFrame.octavePanel.evaluate( "[yh, lambda] = regdatasmooth ("+xData+","+yData+","+copy+");");
             if(!xhat.equals("")) {
                 pltCmd(xData,yData,xhat);
             }else{
@@ -451,7 +451,7 @@ public class DataSmoothFrame extends javax.swing.JFrame {
         }else{
             if( !(xData.equals("") || yData.equals(""))) {
                 if(!optCmd.equals("")) {
-                  MainFrame.octavePanel.eval( "[yh, lambda] = regdatasmooth ("+xData+","+yData+","+optCmd+");");
+                  MainFrame.octavePanel.evaluate( "[yh, lambda] = regdatasmooth ("+xData+","+yData+","+optCmd+");");
                   if(!xhat.equals("")) {
                     pltCmd(xData,yData,xhat);
                     }else{
@@ -459,7 +459,7 @@ public class DataSmoothFrame extends javax.swing.JFrame {
                     }
                    
                 }else {
-                MainFrame.octavePanel.eval( "[yh, lambda] = regdatasmooth ("+xData+","+yData+");");
+                MainFrame.octavePanel.evaluate( "[yh, lambda] = regdatasmooth ("+xData+","+yData+");");
                  if(!xhat.equals("")) {
                     pltCmd(xData,yData,xhat);
                     }else{

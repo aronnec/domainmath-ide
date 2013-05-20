@@ -225,7 +225,7 @@ public class NewNetworkDialog extends javax.swing.JDialog {
             NnetFrame.declare("btf", this.btfTextField.getText());
             NnetFrame.declare("blf", this.blfTextField.getText());
             NnetFrame.declare("pf", this.pfTextField.getText());
-            MainFrame.octavePanel.evalWithOutput("net"+netIndex+" = newff (Pr,ss,trf,btf,blf,pf)");
+            MainFrame.octavePanel.evaluate("net"+netIndex+" = newff (Pr,ss,trf,btf,blf,pf)");
            
              
             

@@ -158,7 +158,7 @@ public class NewSpatialFilterDialog extends javax.swing.JDialog {
         
         if(!arg.equals("") || !filterName.equals("")) {
             MainFrame.octavePanel.evaluate("pkg load image");
-            MainFrame.octavePanel.evalWithOutput(filterName+"=fspecial("+shapeFilter[this.shapeFilterComboBox.getSelectedIndex()]+","+arg+");");
+            MainFrame.octavePanel.evaluate(filterName+"=fspecial("+shapeFilter[this.shapeFilterComboBox.getSelectedIndex()]+","+arg+");");
             ImageFilterDialog.spFilterComboBox.addItem(filterName);
             dispose();
         }

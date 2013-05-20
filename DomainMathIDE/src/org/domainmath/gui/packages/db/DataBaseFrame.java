@@ -310,7 +310,7 @@ public class DataBaseFrame extends javax.swing.JFrame {
          String cmd = this.sqlField.getText();
          if(!cmd.equals("")){
             listModel.addElement(this.sqlField.getText()); 
-            MainFrame.octavePanel.eval("sql("+Character.toString('"')+cmd+Character.toString('"')+");");
+            MainFrame.octavePanel.evaluate("sql("+Character.toString('"')+cmd+Character.toString('"')+");");
          }else {
             JOptionPane.showMessageDialog(this,"Please type any SQL Statement","DomainMath IDE",JOptionPane.ERROR_MESSAGE);
          }
@@ -326,13 +326,13 @@ public class DataBaseFrame extends javax.swing.JFrame {
          String cmd = this.sqlField.getText();
         String var_name = this.octVarField.getText();
         if(!cmd.equals("") && !var_name.equals("")) {
-            MainFrame.octavePanel.eval(octVarField.getText()+"=sql("+Character.toString('"')+cmd+Character.toString('"')+");");
+            MainFrame.octavePanel.evaluate(octVarField.getText()+"=sql("+Character.toString('"')+cmd+Character.toString('"')+");");
               
             MainFrame.octavePanel.evaluate(jar_path);
             MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+octVarField.getText()+"));");
        
         }else if(var_name.equals("") && !cmd.equals("")) {         
-            MainFrame.octavePanel.eval("sql("+Character.toString('"')+cmd+Character.toString('"')+");");
+            MainFrame.octavePanel.evaluate("sql("+Character.toString('"')+cmd+Character.toString('"')+");");
              
               MainFrame.octavePanel.evaluate(jar_path);
               MainFrame.octavePanel.evaluate("_obResult = javaObject('ResultsFrame',disp("+"sql("+Character.toString('"')+cmd+Character.toString('"')+")"+"));");
@@ -390,9 +390,9 @@ public void setPath(String path) {
         
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-             MainFrame.octavePanel.eval("pkg load database");
-             MainFrame.octavePanel.eval("sqlite3");
-             MainFrame.octavePanel.eval("default_db(sqlite3_db("+Character.toString('"')+fc.getSelectedFile()+Character.toString('"')+"));");
+             MainFrame.octavePanel.evaluate("pkg load database");
+             MainFrame.octavePanel.evaluate("sqlite3");
+             MainFrame.octavePanel.evaluate("default_db(sqlite3_db("+Character.toString('"')+fc.getSelectedFile()+Character.toString('"')+"));");
         }
         
     }//GEN-LAST:event_sqliteDirverItemActionPerformed
@@ -469,9 +469,9 @@ public void setPath(String path) {
             tableNameDelete = JOptionPane.showInputDialog("Enter Table Name:");
         
             if(!tableNameDelete.equals("")) {
-               MainFrame.octavePanel.eval("try");
-                MainFrame.octavePanel.eval("sql("+Character.toString('"')+"drop table "+tableNameDelete+Character.toString('"')+";)");
-                MainFrame.octavePanel.eval("catch");   
+               MainFrame.octavePanel.evaluate("try");
+                MainFrame.octavePanel.evaluate("sql("+Character.toString('"')+"drop table "+tableNameDelete+Character.toString('"')+";)");
+                MainFrame.octavePanel.evaluate("catch");   
             }
             
         }catch(NullPointerException ex) {

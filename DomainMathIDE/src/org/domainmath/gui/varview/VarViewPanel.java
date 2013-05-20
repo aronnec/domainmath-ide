@@ -234,8 +234,8 @@ public class VarViewPanel extends JPanel {
                  }else if(name.endsWith(".zip")) {
                      load(file,"-zip");
                  }else if(name.endsWith(".fis")) {
-                   MainFrame.octavePanel.eval("pkg load fuzzy-logic-toolkit");
-                   MainFrame.octavePanel.eval("readfis('"+file.getAbsolutePath()+"');");
+                   MainFrame.octavePanel.evaluate("pkg load fuzzy-logic-toolkit");
+                   MainFrame.octavePanel.evaluate("readfis('"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  }else if(name.endsWith(".csv")) {
@@ -299,13 +299,13 @@ public class VarViewPanel extends JPanel {
     }
     private void loadDCM(String path) {
         MainFrame.octavePanel.evaluate("pkg load dicom");
-        MainFrame.octavePanel.evalWithOutput("im=dicomread('"+path+"');");
+        MainFrame.octavePanel.evaluate("im=dicomread('"+path+"');");
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
         reload();
     }
     private void loadAudio1(String filename,String ext) {
         String txt ="loadaudio('"+filename+"','"+ext+"',8)";
-        MainFrame.octavePanel.eval(txt);
+        MainFrame.octavePanel.evaluate(txt);
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
          reload();
     }
@@ -329,11 +329,11 @@ public class VarViewPanel extends JPanel {
     
     private void saveImage(String filename,String var) {
         String txt ="imwrite("+var+",'"+filename+"');";
-       MainFrame.octavePanel.eval(txt);
+       MainFrame.octavePanel.evaluate(txt);
     }
     
     private void load(File file,String opt) {
-         MainFrame.octavePanel.eval("load('"+opt+"','"+file.getAbsolutePath()+"');");
+         MainFrame.octavePanel.evaluate("load('"+opt+"','"+file.getAbsolutePath()+"');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
          JOptionPane.showMessageDialog(table,file.getName()+" has been loaded.","DomainMath IDE",JOptionPane.INFORMATION_MESSAGE);
          reload();
@@ -341,14 +341,14 @@ public class VarViewPanel extends JPanel {
     }
     
      private void saveAll(File file,String opt) {
-         MainFrame.octavePanel.eval("save('"+opt+"','"+file.getAbsolutePath()+"');");
+         MainFrame.octavePanel.evaluate("save('"+opt+"','"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
     }
    
      private void save(File file,String opt,String var) {
-         MainFrame.octavePanel.eval("save('"+opt+"','"+file.getAbsolutePath()+"','"+var+"');");
+         MainFrame.octavePanel.evaluate("save('"+opt+"','"+file.getAbsolutePath()+"','"+var+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -433,8 +433,8 @@ public class VarViewPanel extends JPanel {
                  }else if(name.endsWith(".zip")) {
                      save(file,"-zip",var);
                  }else if(name.endsWith(".fis")) {
-                     MainFrame.octavePanel.eval("pkg load fuzzy-logic-toolkit");
-                   MainFrame.octavePanel.eval("writefis("+var+",'"+file.getAbsolutePath()+"');");
+                     MainFrame.octavePanel.evaluate("pkg load fuzzy-logic-toolkit");
+                   MainFrame.octavePanel.evaluate("writefis("+var+",'"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                     System.out.println(file.getAbsolutePath());
@@ -504,17 +504,17 @@ public class VarViewPanel extends JPanel {
     
     private void writeDCM(String path, String var) {
         MainFrame.octavePanel.evaluate("pkg load dicom");
-        MainFrame.octavePanel.evalWithOutput("dicomwrite("+var+",'"+path+"');");
+        MainFrame.octavePanel.evaluate("dicomwrite("+var+",'"+path+"');");
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
         reload();
     }
     private void writeAudio1(String name,String var,String ext) {
-        MainFrame.octavePanel.eval("saveaudio('"+name+"',"+var+",'"+ext+"');");
+        MainFrame.octavePanel.evaluate("saveaudio('"+name+"',"+var+",'"+ext+"');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
          reload();
     }
     private void writeAudio2(String name,String var) {
-        MainFrame.octavePanel.eval("wavwrite("+var+",'"+name+"');");
+        MainFrame.octavePanel.evaluate("wavwrite("+var+",'"+name+"');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
          reload();
     }
@@ -598,7 +598,7 @@ public class VarViewPanel extends JPanel {
        }
     
     private void exportXML(File file,String opt) {
-          MainFrame.octavePanel.eval("xmlwrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
+          MainFrame.octavePanel.evaluate("xmlwrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -608,7 +608,7 @@ public class VarViewPanel extends JPanel {
     }
     
     private void exportODS(File file,String opt) {
-          MainFrame.octavePanel.eval("odswrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
+          MainFrame.octavePanel.evaluate("odswrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -618,7 +618,7 @@ public class VarViewPanel extends JPanel {
     }
     
     private void exportXLSX(File file,String opt) {
-          MainFrame.octavePanel.eval("xlswrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
+          MainFrame.octavePanel.evaluate("xlswrite('"+file.getAbsolutePath()+"',"+opt+",'"+opt+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -627,7 +627,7 @@ public class VarViewPanel extends JPanel {
                           ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
     }
     private void saveCSV(File file,String opt) {
-          MainFrame.octavePanel.eval("csvwrite('"+file.getAbsolutePath()+"',"+opt+");");
+          MainFrame.octavePanel.evaluate("csvwrite('"+file.getAbsolutePath()+"',"+opt+");");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -636,7 +636,7 @@ public class VarViewPanel extends JPanel {
                           ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
     }
      private void loadCSV(File file) {
-          MainFrame.octavePanel.eval("csvread('"+file.getAbsolutePath()+"');");
+          MainFrame.octavePanel.evaluate("csvread('"+file.getAbsolutePath()+"');");
                    MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    reload();
                  System.out.println(file.getAbsolutePath());
@@ -700,7 +700,7 @@ public class VarViewPanel extends JPanel {
                         if(opt == JOptionPane.YES_OPTION)  {
              
                             
-                            MainFrame.octavePanel.eval("clear('"+variable+"');");
+                            MainFrame.octavePanel.evaluate("clear('"+variable+"');");
                             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                    
                             reload();
@@ -791,7 +791,7 @@ public class VarViewPanel extends JPanel {
         if(table.getSelectedRow() >= 0)  {
                      try {
                             String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
-                           MainFrame.octavePanel.eval(variable);
+                           MainFrame.octavePanel.evaluate(variable);
                           
                         } catch (Exception ex) {
                         }
@@ -861,7 +861,7 @@ public class VarViewPanel extends JPanel {
             }else{
                  String variable =table.getValueAt(table.getSelectedRow(), 0).toString();
                 
-                MainFrame.octavePanel.evalWithOutput("imshow("+variable+");");
+                MainFrame.octavePanel.evaluate("imshow("+variable+");");
                 
             }
                      
@@ -1041,7 +1041,7 @@ public class VarViewPanel extends JPanel {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                             String name =JOptionPane.showInputDialog("Enter new name:");
                             
-                            MainFrame.octavePanel.eval(name+"="+var+";");
+                            MainFrame.octavePanel.evaluate(name+"="+var+";");
                              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                 
                             reload();
@@ -1059,7 +1059,7 @@ public class VarViewPanel extends JPanel {
                             String var =table.getValueAt(table.getSelectedRow(), 0).toString();
                             String name =JOptionPane.showInputDialog("Enter suffix:");
                             
-                            MainFrame.octavePanel.eval(name+var+"="+var+";");
+                            MainFrame.octavePanel.evaluate(name+var+"="+var+";");
                            // MainFrame.octavePanel.evaluate("genvarname("+Character.toString('"')+var+Character.toString('"')+");");
                              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
                 
@@ -1093,7 +1093,7 @@ public class VarViewPanel extends JPanel {
     public void getDataFromRemote() {
         String s = JOptionPane.showInputDialog("Enter website address:");
                  if(s != null) {
-                          MainFrame.octavePanel.eval("url = urlread("+Character.toString('"')+s+Character.toString('"')+");");
+                          MainFrame.octavePanel.evaluate("url = urlread("+Character.toString('"')+s+Character.toString('"')+");");
             
                  }
     }

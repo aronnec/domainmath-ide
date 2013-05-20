@@ -336,7 +336,7 @@ public class QpPanel extends javax.swing.JPanel {
                         this.a_ubField.getText();
                 declare("x0",x0);
                  declare("H",h);
-                MainFrame.octavePanel.evalWithOutput(
+                MainFrame.octavePanel.evaluate(
                 "[x, obj, info, lambda] = qp ("+cmd+");");
                  MainFrame.octavePanel.evaluate(jar_path); 
                  MainFrame.octavePanel.evaluate("DomainMath_QpStatus(x0,H,info,x,obj);");
@@ -345,7 +345,7 @@ public class QpPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_runButtonActionPerformed
 
      private void declare(String name, String value) {
-        MainFrame.octavePanel.eval(name+"="+value+";");
+        MainFrame.octavePanel.evaluate(name+"="+value+";");
     }
      private String createOctMtx(String text) {
         String val = text.replaceAll("\t", ",");

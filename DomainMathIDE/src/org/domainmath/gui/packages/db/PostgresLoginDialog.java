@@ -168,9 +168,9 @@ public class PostgresLoginDialog extends javax.swing.JDialog {
                     "password="+buf.toString()+Character.toString('"');
                 
         
-        MainFrame.octavePanel.eval("pkg load database");
-        MainFrame.octavePanel.eval("postgres");
-        MainFrame.octavePanel.eval("default_db(postgres_db("+cmd+"));");
+        MainFrame.octavePanel.evaluate("pkg load database");
+        MainFrame.octavePanel.evaluate("postgres");
+        MainFrame.octavePanel.evaluate("default_db(postgres_db("+cmd+"));");
         dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 

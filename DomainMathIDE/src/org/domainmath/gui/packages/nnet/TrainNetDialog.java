@@ -162,7 +162,7 @@ public class TrainNetDialog extends javax.swing.JDialog {
             NnetFrame.declare("mOutput", mOutput);
             NnetFrame.declare("VV", VV);
             
-            MainFrame.octavePanel.evalWithOutput("[net] = train ("+net+",mInputN,mOutput,[],[],VV)");
+            MainFrame.octavePanel.evaluate("[net] = train ("+net+",mInputN,mOutput,[],[],VV)");
             MainFrame.octavePanel.evaluate(jar_path);
             MainFrame.octavePanel.evaluate("ob= javaObject('ResultsFrame','');");
             MainFrame.octavePanel.evaluate("ob.appendText(disp([net]));");

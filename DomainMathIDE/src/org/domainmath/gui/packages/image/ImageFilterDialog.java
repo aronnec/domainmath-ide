@@ -332,7 +332,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         String image_data_name = this.imageVarTextField.getText();
         
         if(!image_data_name.equals("")) {
-            MainFrame.octavePanel.evalWithOutput(image_data_name+"=imread('"+this.imagePathTextField.getText()+"');");
+            MainFrame.octavePanel.evaluate(image_data_name+"=imread('"+this.imagePathTextField.getText()+"');");
         }
     }//GEN-LAST:event_createImageVarButtonActionPerformed
 
@@ -346,12 +346,12 @@ public class ImageFilterDialog extends javax.swing.JDialog {
     }
      
     private void plotData(String image_var,String outputVar) {
-         MainFrame.octavePanel.evalWithOutput("figure(1)");
-         MainFrame.octavePanel.evalWithOutput("imshow("+image_var+");");
-         MainFrame.octavePanel.evalWithOutput("title('Image Data')");
-         MainFrame.octavePanel.evalWithOutput("figure(2)");
-         MainFrame.octavePanel.evalWithOutput("imshow("+outputVar+");");
-         MainFrame.octavePanel.evalWithOutput("title('Output Image')");
+         MainFrame.octavePanel.evaluate("figure(1)");
+         MainFrame.octavePanel.evaluate("imshow("+image_var+");");
+         MainFrame.octavePanel.evaluate("title('Image Data')");
+         MainFrame.octavePanel.evaluate("figure(2)");
+         MainFrame.octavePanel.evaluate("imshow("+outputVar+");");
+         MainFrame.octavePanel.evaluate("title('Output Image')");
     }
     private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
        if(this.optionsRadioButton.isSelected()) {
@@ -369,7 +369,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
              String outputVar = this.outputVarTextField.getText();
              if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
                  MainFrame.octavePanel.evaluate("pkg load image");
-                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
+                 MainFrame.octavePanel.evaluate(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
                  
                  if(this.imShowCheckBox.isSelected()) {
                      plotData(image_var, outputVar);
@@ -384,7 +384,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
              String outputVar = this.outputVarTextField.getText();
              if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
                  MainFrame.octavePanel.evaluate("pkg load image");
-                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
+                 MainFrame.octavePanel.evaluate(outputVar+"=imfilter("+image_var+","+spFilter+","+options[this.optionsComboBox.getSelectedIndex()]+");");
                  
                  if(this.imShowCheckBox.isSelected()) {
                      plotData(image_var, outputVar);
@@ -400,7 +400,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
              String outputVar = this.outputVarTextField.getText();
              if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
                  MainFrame.octavePanel.evaluate("pkg load image");
-                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+");");
+                 MainFrame.octavePanel.evaluate(outputVar+"=imfilter("+image_var+","+spFilter+");");
                  
                  if(this.imShowCheckBox.isSelected()) {
                      plotData(image_var, outputVar);
@@ -415,7 +415,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
              String outputVar = this.outputVarTextField.getText();
              if(!image_var.equals("") || !spFilter.equals("") || !outputVar.equals("")) {
                  MainFrame.octavePanel.evaluate("pkg load image");
-                 MainFrame.octavePanel.evalWithOutput(outputVar+"=imfilter("+image_var+","+spFilter+");");
+                 MainFrame.octavePanel.evaluate(outputVar+"=imfilter("+image_var+","+spFilter+");");
                  
                  if(this.imShowCheckBox.isSelected()) {
                      plotData(image_var, outputVar);

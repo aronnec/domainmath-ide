@@ -164,7 +164,7 @@ private  class ButtonActionListener implements ActionListener {
                 
                 if(numPairs == 2) {
                     s=list.get(0).getText();
-                    MainFrame.octavePanel.eval(list.get(numPairs-1).getText()+"="+cmd+"("+s+");");
+                    MainFrame.octavePanel.evaluate(list.get(numPairs-1).getText()+"="+cmd+"("+s+");");
                     
                     dispose();
                     if(isShowDlg()) {
@@ -176,7 +176,7 @@ private  class ButtonActionListener implements ActionListener {
                         
                     }
                     
-                     MainFrame.octavePanel.eval(list.get(numPairs-1).getText()+"="+cmd+s.substring(0, s.lastIndexOf(","))+");");
+                     MainFrame.octavePanel.evaluate(list.get(numPairs-1).getText()+"="+cmd+s.substring(0, s.lastIndexOf(","))+");");
                     dispose();
                     if(isShowDlg()) {
                         showDlg(isShowDlg(),list.get(numPairs-1).getText());

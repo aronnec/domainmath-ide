@@ -163,7 +163,7 @@ public class ExportImageDialog extends javax.swing.JDialog {
         String var = this.imageDataComboBox.getSelectedItem().toString();
         String file_name = this.imagePathTextField.getText();
         String txt ="imwrite("+var+",'"+file_name+"');";
-       MainFrame.octavePanel.eval(txt);
+       MainFrame.octavePanel.evaluate(txt);
        dispose();
     }//GEN-LAST:event_OKButtonActionPerformed
 

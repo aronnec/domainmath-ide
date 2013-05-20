@@ -132,7 +132,7 @@ public class NewVarDialog extends javax.swing.JDialog {
         try {
             String name =this.varNameField.getText();
             String val =this.valueNameField.getText();
-            MainFrame.octavePanel.eval(name+"="+val+";");  
+            MainFrame.octavePanel.evaluate(name+"="+val+";");  
             dispose();
         }catch(Exception e) {
             

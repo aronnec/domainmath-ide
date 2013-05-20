@@ -270,7 +270,7 @@ public class NewTableDialog extends javax.swing.JDialog {
                     b.append(",");
                 }        
             }
-           MainFrame.octavePanel.eval( "create table "+tableName+" ("+b.toString()+");");
+           MainFrame.octavePanel.evaluate( "create table "+tableName+" ("+b.toString()+");");
            dispose();
         }
     }//GEN-LAST:event_okButtonActionPerformed

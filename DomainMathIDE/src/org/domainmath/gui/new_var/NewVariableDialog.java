@@ -174,22 +174,22 @@ public class NewVariableDialog extends javax.swing.JDialog {
        if(jRadioButton1.isSelected()) {
            var = jRadioButton1.getText();
            if(valueField.getText().equals("")) {
-               MainFrame.octavePanel.eval(var+" "+var_name+";");
+               MainFrame.octavePanel.evaluate(var+" "+var_name+";");
            }else{
-               MainFrame.octavePanel.eval(var+" "+var_name+"="+valueField.getText()+";");
+               MainFrame.octavePanel.evaluate(var+" "+var_name+"="+valueField.getText()+";");
            }
        }else if(jRadioButton2.isSelected()) {
            var = jRadioButton2.getText();
            if(valueField.getText().equals("")) {
-               MainFrame.octavePanel.eval(var+" "+var_name+";");
+               MainFrame.octavePanel.evaluate(var+" "+var_name+";");
            }else{
-               MainFrame.octavePanel.eval(var+" "+var_name+"="+valueField.getText()+";");
+               MainFrame.octavePanel.evaluate(var+" "+var_name+"="+valueField.getText()+";");
            }
        }else{
            if(valueField.getText().equals("")) {
-               MainFrame.octavePanel.eval(var_name+";");
+               MainFrame.octavePanel.evaluate(var_name+";");
            }else{
-               MainFrame.octavePanel.eval(var_name+"="+valueField.getText()+";");
+               MainFrame.octavePanel.evaluate(var_name+"="+valueField.getText()+";");
            }
        }
        

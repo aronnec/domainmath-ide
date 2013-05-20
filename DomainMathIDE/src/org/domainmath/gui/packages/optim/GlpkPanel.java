@@ -39,7 +39,7 @@ public class GlpkPanel extends javax.swing.JPanel {
        return val.replaceAll(" ", ";");
     }
     private void declare(String name, String value) {
-        MainFrame.octavePanel.eval(name+"="+value+";");
+        MainFrame.octavePanel.evaluate(name+"="+value+";");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -609,7 +609,7 @@ public class GlpkPanel extends javax.swing.JPanel {
             }else{
                 declare("param.lpsolver","2");
             }
-            MainFrame.octavePanel.eval("[xopt, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, sense, param)");
+            MainFrame.octavePanel.evaluate("[xopt, fmin, status, extra] = glpk (c, A, b, lb, ub, ctype, vartype, sense, param)");
             
 
              MainFrame.octavePanel.evaluate(jar_path);

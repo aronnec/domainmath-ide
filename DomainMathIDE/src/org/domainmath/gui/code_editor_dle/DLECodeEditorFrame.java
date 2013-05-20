@@ -1023,10 +1023,10 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
     public void oct() {
         String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
            File f = new File(s);
-           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+           MainFrame.octavePanel.evaluate("cd '"+f.getParentFile().getAbsolutePath()+"'");
            MainFrame.setDir(f.getParentFile().getAbsolutePath());
-           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
-           MainFrame.octavePanel.eval("mkoctfile "+f.getName());
+          
+           MainFrame.octavePanel.evaluate("mkoctfile "+f.getName());
            String n = f.getName();
            
            String c = n.substring(0, n.lastIndexOf("."))+"()";
@@ -1044,10 +1044,10 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
      public void mex() {
          String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
            File f = new File(s);
-           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
-           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+           
+           MainFrame.octavePanel.evaluate("cd '"+f.getParentFile().getAbsolutePath()+"'");
            MainFrame.setDir(f.getParentFile().getAbsolutePath());
-           MainFrame.octavePanel.eval("mex "+f.getName());
+           MainFrame.octavePanel.evaluate("mex "+f.getName());
            String n = f.getName();
            String c = n.substring(0, n.lastIndexOf("."))+"()";
 
@@ -1063,15 +1063,15 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
     public void exe() {
         String s = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
            File f = new File(s);
-           MainFrame.octavePanel.outputArea.append("Building "+f.getAbsolutePath()+" ..."+"\n");
-           MainFrame.octavePanel.eval("cd '"+f.getParentFile().getAbsolutePath()+"'");
+          
+           MainFrame.octavePanel.evaluate("cd '"+f.getParentFile().getAbsolutePath()+"'");
            MainFrame.setDir(f.getParentFile().getAbsolutePath());
            String n = f.getName();
            String p = f.getParentFile().getAbsolutePath()+File.separator;
            String c = n.substring(0, n.lastIndexOf("."))+".exe";
-           MainFrame.octavePanel.eval("mkoctfile  --link-stand-alone "+f.getName()+" -o "+p+c);
+           MainFrame.octavePanel.evaluate("mkoctfile  --link-stand-alone "+f.getName()+" -o "+p+c);
            
-           MainFrame.octavePanel.eval("system('"+c+"')");
+           MainFrame.octavePanel.evaluate("system('"+c+"')");
     }
     private void exeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exeItemActionPerformed
         if(fileTab.getSelectedIndex()>= 0) {

@@ -272,7 +272,7 @@ public class BfanalisisDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-         MainFrame.octavePanel.eval("pkg load actuarial;");
+         MainFrame.octavePanel.evaluate("pkg load actuarial;");
         String jar_path2 = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
         MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('bfanalisis'),"+jar_path2+","+"'QuickHelpFrame');");
         
@@ -359,7 +359,7 @@ public class BfanalisisDialog extends javax.swing.JDialog {
     }
     
     private void hiddenWork(String cmd){
-         MainFrame.octavePanel.eval("pkg load actuarial;");
+         MainFrame.octavePanel.evaluate("pkg load actuarial;");
          findAns(cmd);
 
     }
@@ -369,12 +369,12 @@ public class BfanalisisDialog extends javax.swing.JDialog {
                 MainFrame.octavePanel.evaluate("tempName2=genvarname ('outcome',who());");
                 MainFrame.octavePanel.evaluate("eval ([tempName1 ' = quotas;']);");
                 MainFrame.octavePanel.evaluate("eval ([tempName2 ' = outcome;']);");
-                MainFrame.octavePanel.eval("[quotas,outcome]=bfanalisis("+cmd+")");
+                MainFrame.octavePanel.evaluate("[quotas,outcome]=bfanalisis("+cmd+")");
                 MainFrame.octavePanel.evaluate("clear('tempName1');");
                 MainFrame.octavePanel.evaluate("clear('tempName2');");
                 MainFrame.reloadWorkspace();
                 MainFrame.octavePanel.evaluate("else");
-                MainFrame.octavePanel.eval("[quotas,outcome]=bfanalisis("+cmd+")");
+                MainFrame.octavePanel.evaluate("[quotas,outcome]=bfanalisis("+cmd+")");
                 MainFrame.octavePanel.evaluate("endif");
                 MainFrame.reloadWorkspace();
 

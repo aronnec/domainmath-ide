@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<Setting>
+	<!-- Test configuration -->
+	<Profile name="test">
+		<!-- Welcome line -->
+		
+	
+		<!-- GUI Part -->
+		<PromptView useCache="true" value="com.artenum.rosetta.ui.PromptViewImpl"/>
+		<OutputView useCache="true" value="com.artenum.rosetta.ui.BufferedOutputViewImpl"/>
+		<InputCommandView useCache="true" value="com.artenum.rosetta.ui.InputCommandViewImpl"/>
+		<BackgroundColor useCache="true" value="#FFFFCC"/>
+		<ForegroundColor useCache="true" value="#000000"/>
+		<ScrollableUnitIncrement useCache="true" value="20"/>
+		<ScrollableBlockIncrement useCache="true" value="20"/>
+		<VerticalWrapAllowed useCache="true" value="false"/>
+		<HorizontalWrapAllowed useCache="true" value="true"/>
+		
+		<!-- Core part -->
+		<OutputViewStyledDocument useCache="true" value="javax.swing.text.DefaultStyledDocument"/>
+		<InputCommandViewStyledDocument useCache="true" value="javax.swing.text.DefaultStyledDocument"/>
+		<InputParsingManager useCache="true" value="com.artenum.rosetta.core.DefaultInputParsingManager"/>
+		<!-- 
+		   <GenericInterpreter useCache="true" value="com.artenum.rosetta.implementation.JSR270Interpreter"/>
+		-->
+		<GenericInterpreter useCache="true" value="com.artenum.rosetta.test.FakeGenericInterpreter"/>
+		FakeGenericInterpreter
+		<CompletionManager useCache="true" value="com.artenum.rosetta.implementation.FakeDictionnaryCompletionManager"/>
+		<CompletionWindow useCache="true" value="com.artenum.rosetta.ui.CompletionWindowImpl"/>
+		<HistoryManager useCache="true" value="com.artenum.rosetta.implementation.JSR270HistoryManager"/>
+		
+		<!-- Key mapping -->
+		<KeyMapping>
+			<Key name="VK_ENTER" mask="" action="VALIDATE"/>
+			<Key name="VK_SPACE" mask="CTRL_MASK" action="COMPLETION"/>
+		</KeyMapping>
+		
+		<!-- Key mapping -->
+		<ActionMapping>
+			<Action name="VALIDATE" className="com.artenum.rosetta.core.action.ValidationAction"/>
+			<Action name="COMPLETION" className="com.artenum.rosetta.core.action.CompletionAction"/>
+		</ActionMapping>
+		
+	</Profile>
+	
+</Setting>

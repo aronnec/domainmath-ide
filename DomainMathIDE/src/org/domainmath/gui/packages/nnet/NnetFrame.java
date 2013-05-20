@@ -177,7 +177,7 @@ public class NnetFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     public static void declare(String name, String value) {
-        MainFrame.octavePanel.eval(name+"="+value+";");
+        MainFrame.octavePanel.evaluate(name+"="+value+";");
     }
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         newNetworkDialog = new NewNetworkDialog(this,true);
@@ -188,7 +188,7 @@ public class NnetFrame extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         model.removeRow(this.netTable.getSelectedRow());
         if(netTable.getSelectedRow() >= 0) {
-            MainFrame.octavePanel.evalWithOutput("clear '"+netTable.getValueAt(netTable.getSelectedRow(), 0)+"'");
+            MainFrame.octavePanel.evaluate("clear '"+netTable.getValueAt(netTable.getSelectedRow(), 0)+"'");
             NewNetworkDialog.minusIndex();
         }
         

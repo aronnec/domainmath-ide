@@ -102,12 +102,7 @@ public final class MainFrame extends javax.swing.JFrame {
      */
     public static OctavePanel octavePanel;
     
-    /**
-     * Object of commandArea for special purpose
-     * @see OctavePanel
-     * @see RSyntaxTextArea
-     */
-    private final RSyntaxTextArea commandArea;
+   
     
     /**
      * Object of PreferencesDlg.
@@ -274,7 +269,7 @@ public final class MainFrame extends javax.swing.JFrame {
         log_root=logDir.getAbsolutePath()+File.separator;
         
         octavePanel = new OctavePanel(this,parent_root);
-        commandArea = octavePanel.commandArea;
+        
         
         preferencesDlg = new PreferencesDlg(this,true);
         octavePath =preferencesDlg.getPath();
@@ -520,7 +515,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }
      
      public static void  requestToChangeDir(String dir) {
-         octavePanel.evalWithOutput("chdir "+"'"+dirComboBox.getSelectedItem().toString()+"'"); 
+         octavePanel.evaluate("chdir "+"'"+dirComboBox.getSelectedItem().toString()+"'"); 
      }
       private void save() {
         if(fileTab.getSelectedIndex() >= 0) {
@@ -714,7 +709,6 @@ public final class MainFrame extends javax.swing.JFrame {
         closeAllItem = new javax.swing.JMenuItem();
         jSeparator18 = new javax.swing.JPopupMenu.Separator();
         printFileItem = new javax.swing.JMenuItem();
-        printItem = new javax.swing.JMenuItem();
         jSeparator19 = new javax.swing.JPopupMenu.Separator();
         setPathsItem = new javax.swing.JMenuItem();
         pkgItem = new javax.swing.JMenuItem();
@@ -1160,17 +1154,6 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(printFileItem);
-
-        printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        printItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("printItem.mnemonic").charAt(0));
-        printItem.setText(bundle.getString("printItem.name")); // NOI18N
-        printItem.setToolTipText(bundle.getString("printItem.tooltip")); // NOI18N
-        printItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(printItem);
         fileMenu.add(jSeparator19);
 
         setPathsItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("setPathsItem.mnemonic").charAt(0));
@@ -2015,57 +1998,12 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
         
 }//GEN-LAST:event_formWindowOpened
 
-public void deleteText() {
-      
-        RSyntaxTextArea textArea = commandArea;
-        boolean beep = true;
-			if ((textArea != null) && (textArea.isEditable())) {
-				try {
-					Document doc = textArea.getDocument();
-					Caret caret = textArea.getCaret();
-					int dot = caret.getDot();
-					int mark = caret.getMark();
-					if (dot != mark) {
-						doc.remove(Math.min(dot, mark), Math.abs(dot - mark));
-						beep = false;
-					}
-					else if (dot < doc.getLength()) {
-						int delChars = 1;
-						if (dot < doc.getLength() - 1) {
-							String dotChars = doc.getText(dot, 2);
-							char c0 = dotChars.charAt(0);
-							char c1 = dotChars.charAt(1);
-							if (c0 >= '\uD800' && c0 <= '\uDBFF' &&
-								c1 >= '\uDC00' && c1 <= '\uDFFF') {
-								delChars = 2;
-							}
-						}
-						doc.remove(dot, delChars);
-						beep = false;
-					}
-				} catch (Exception bl) {
-				}
-			}
 
-			if (beep) {
-                            UIManager.getLookAndFeel().provideErrorFeedback(textArea);
-                        }
-
-			textArea.requestFocusInWindow();
-}
 private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
       octavePanel.quit();  
       System.exit(0);
         
 }//GEN-LAST:event_exitItemActionPerformed
-
-private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
-        try {
-            octavePanel.outputArea.print();
-        } catch (PrinterException ex) {
-            
-        }
-}//GEN-LAST:event_printItemActionPerformed
 
 private void preferencesItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preferencesItemActionPerformed
         
@@ -2144,25 +2082,9 @@ public void saveAs1() {
             
 }
 
-   public void connect() {
-    commandArea.setText("");
-        octavePanel.outputArea.setText("");
-        octavePanel.start();
-         JOptionPane.showMessageDialog(this,"Octave connected.","DomainMath IDE",JOptionPane.INFORMATION_MESSAGE);
-                  
-        if(!commandArea.isEnabled()) {
-            commandArea.setEnabled(true);
-            
-        }
-}
-public void disconnect() {
-    octavePanel.quit();
-        commandArea.setEnabled(false);
-       JOptionPane.showMessageDialog(this,"Octave disconnected.","DomainMath IDE",JOptionPane.INFORMATION_MESSAGE);
-                
-}
+ 
 private void connectItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectItemActionPerformed
-        connect();
+        
          Preferences pr = Preferences.userNodeForPackage(this.getClass());
         String path =pr.get("DomainMath_DynarePath",null);
         if(path != null ) {
@@ -2190,7 +2112,7 @@ private void connectItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_connectItemActionPerformed
 
 private void disconnectItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectItemActionPerformed
-        disconnect();
+        
 }//GEN-LAST:event_disconnectItemActionPerformed
 
 private void clearOutWindowItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearOutWindowItemActionPerformed
@@ -2198,11 +2120,11 @@ private void clearOutWindowItemActionPerformed(java.awt.event.ActionEvent evt) {
 }//GEN-LAST:event_clearOutWindowItemActionPerformed
 
 private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-    connect();
+    
 }//GEN-LAST:event_connectButtonActionPerformed
 
 private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
-        disconnect();
+       
 }//GEN-LAST:event_disconnectButtonActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -2443,20 +2365,19 @@ public void saveplot() {
     }//GEN-LAST:event_octaveItemActionPerformed
 
     private void quickHelpItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quickHelpItemActionPerformed
-         String jar_path = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
-         String help_text = "help('"+octavePanel.outputArea.getSelectedText()+"')";
-         String sel =octavePanel.outputArea.getSelectedText();
-         if(sel ==null) {
-             String s = JOptionPane.showInputDialog("Enter text: ");
-             MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('"+s+"'),"+jar_path+","+"'QuickHelpFrame');");
-         }else{
-             MainFrame.octavePanel.evaluate("DomainMath_QuickHelp("+help_text+","+jar_path+","+"'QuickHelpFrame');");
-         }
+//         String jar_path = "'"+System.getProperty("user.dir")+File.separator+"QuickHelp.jar'";
+//        
+//         if(sel ==null) {
+//             String s = JOptionPane.showInputDialog("Enter text: ");
+//             MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('"+s+"'),"+jar_path+","+"'QuickHelpFrame');");
+//         }else{
+//             MainFrame.octavePanel.evaluate("DomainMath_QuickHelp("+help_text+","+jar_path+","+"'QuickHelpFrame');");
+//         }
         
     }//GEN-LAST:event_quickHelpItemActionPerformed
 
     private void dSmoothItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dSmoothItemActionPerformed
-         MainFrame.octavePanel.eval("pkg load data-smoothing;");
+         MainFrame.octavePanel.evaluate("pkg load data-smoothing;");
         DataSmoothFrame dataSmoothFrame = new DataSmoothFrame();
         dataSmoothFrame.setLocationRelativeTo(this);
         dataSmoothFrame.setVisible(true);
@@ -2559,7 +2480,7 @@ public void saveplot() {
     }//GEN-LAST:event_pasteItemActionPerformed
 
     private void deleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteItemActionPerformed
-        this.deleteText();
+        //this.deleteText();
     }//GEN-LAST:event_deleteItemActionPerformed
 
     private void selectAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllItemActionPerformed
@@ -2734,13 +2655,12 @@ public void saveplot() {
             String ext =name.substring(name.lastIndexOf("."));
             String m_file_name=name.substring(0, name.indexOf(".m")) ;
             if(ext.equalsIgnoreCase(".m")){
-                 MainFrame.octavePanel.evalWithOutput(m_file_name);
-                 MainFrame.octavePanel.commandArea.setText("");
-                 MainFrame.octavePanel.commandArea.setText(m_file_name);
+                 MainFrame.octavePanel.evaluate(m_file_name);
+                
                  reloadWorkspace();
             
             }else if(ext.equalsIgnoreCase(".pl")) {
-                MainFrame.octavePanel.evalWithOutput("perl("+"'"+path.toString()+"'"+");");
+                MainFrame.octavePanel.evaluate("perl("+"'"+path.toString()+"'"+");");
                 
             }else if(ext.equalsIgnoreCase(".mod")) {
                 setUpDynare(path);
@@ -2937,19 +2857,19 @@ public void saveplot() {
     }//GEN-LAST:event_multicoreItemActionPerformed
 
     private void finishDebugItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishDebugItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbquit");
+        MainFrame.octavePanel.evaluate("dbquit");
     }//GEN-LAST:event_finishDebugItemActionPerformed
 
     private void stepItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbstep");
+        MainFrame.octavePanel.evaluate("dbstep");
     }//GEN-LAST:event_stepItemActionPerformed
 
     private void stepInItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepInItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbstep in");
+        MainFrame.octavePanel.evaluate("dbstep in");
     }//GEN-LAST:event_stepInItemActionPerformed
 
     private void stepOutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepOutItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbstep out");
+        MainFrame.octavePanel.evaluate("dbstep out");
     }//GEN-LAST:event_stepOutItemActionPerformed
 
     private void setToggleBreakpoint() {
@@ -2964,7 +2884,7 @@ public void saveplot() {
                  RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
                  RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
                  
-             octavePanel.evalWithOutput( "dbstop ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
+             octavePanel.evaluate( "dbstop ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
            
                 }
                    
@@ -2986,7 +2906,7 @@ public void saveplot() {
                  RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
                  RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
                  
-                octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
+                octavePanel.evaluate( "dbclear ('"+ftn_name+"',"+ selectedArea.getCaretLineNumber()+")"); 
                 }
                    
             }else{
@@ -3021,7 +2941,7 @@ public void saveplot() {
                 String ftn_name=file_selected.substring(0,file_selected.indexOf(".m"));
                 
                  
-             octavePanel.evalWithOutput( "dbclear ('"+ftn_name+"',dbstatus('"+ftn_name+"'.line))"); 
+             octavePanel.evaluate( "dbclear ('"+ftn_name+"',dbstatus('"+ftn_name+"'.line))"); 
              
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
                     t.getGutter().removeAllTrackingIcons();
@@ -3047,19 +2967,19 @@ public void saveplot() {
     }//GEN-LAST:event_removeToggleBreakpointItemActionPerformed
 
     private void continueItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbcont");
+        MainFrame.octavePanel.evaluate("dbcont");
     }//GEN-LAST:event_continueItemActionPerformed
 
     private void stackItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stackItemActionPerformed
-       MainFrame.octavePanel.evalWithOutput("dbstack");
+       MainFrame.octavePanel.evaluate("dbstack");
     }//GEN-LAST:event_stackItemActionPerformed
 
     private void dbupItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbupItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbup");
+        MainFrame.octavePanel.evaluate("dbup");
     }//GEN-LAST:event_dbupItemActionPerformed
 
     private void dbdownItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbdownItemActionPerformed
-        MainFrame.octavePanel.evalWithOutput("dbdown");
+        MainFrame.octavePanel.evaluate("dbdown");
     }//GEN-LAST:event_dbdownItemActionPerformed
 
     private void nNetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nNetMenuItemActionPerformed
@@ -3269,7 +3189,6 @@ public void saveplot() {
     private javax.swing.JMenu pkgMenuItem;
     private javax.swing.JMenuItem preferencesItem;
     private javax.swing.JMenuItem printFileItem;
-    private javax.swing.JMenuItem printItem;
     private javax.swing.JMenuItem quickHelpItem;
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem referenceItem;

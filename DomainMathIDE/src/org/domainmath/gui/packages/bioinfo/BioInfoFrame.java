@@ -305,7 +305,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 
             }
-            MainFrame.octavePanel.eval("Sequencechar=fileread('"+fc.getSelectedFile().getAbsolutePath()+"');");
+            MainFrame.octavePanel.evaluate("Sequencechar=fileread('"+fc.getSelectedFile().getAbsolutePath()+"');");
             
          } 
     }//GEN-LAST:event_importItemActionPerformed
@@ -408,7 +408,7 @@ public class BioInfoFrame extends javax.swing.JFrame {
         MainFrame.octavePanel.evaluate("pkg load bioinfo;");
         String s2 = JOptionPane.showInputDialog(this,"Name of the variable:","DomainMath IDE",JOptionPane.QUESTION_MESSAGE);
         
-        MainFrame.octavePanel.eval("plot("+s2+");");
+        MainFrame.octavePanel.evaluate("plot("+s2+");");
     }//GEN-LAST:event_plotItemActionPerformed
 
     /**

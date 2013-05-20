@@ -426,11 +426,11 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
             s.deleteCharAt(s.length() - 1);
             s.append("]");
             String cmd = s.toString();
-            MainFrame.octavePanel.eval(cmd+";"); 
+            MainFrame.octavePanel.evaluate(cmd+";"); 
         }else{
              s.append("]");
             String cmd = s.toString();
-            MainFrame.octavePanel.eval(cmd+";"); 
+            MainFrame.octavePanel.evaluate(cmd+";"); 
         }
         
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");

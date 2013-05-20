@@ -167,7 +167,7 @@ public class ImageVarDialog extends javax.swing.JDialog {
         alpha = this.jTextField3.getText();
         
         String lhs ="["+image+","+map+","+alpha+"]=";
-        MainFrame.octavePanel.eval(lhs+txt);
+        MainFrame.octavePanel.evaluate(lhs+txt);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -147,12 +147,12 @@ public class SmoothImageDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void plotData(String image_var,String outputVar) {
-         MainFrame.octavePanel.evalWithOutput("figure(1)");
-         MainFrame.octavePanel.evalWithOutput("imshow("+image_var+");");
-         MainFrame.octavePanel.evalWithOutput("title('Image Data')");
-         MainFrame.octavePanel.evalWithOutput("figure(2)");
-         MainFrame.octavePanel.evalWithOutput("imshow("+outputVar+");");
-         MainFrame.octavePanel.evalWithOutput("title('Output Image')");
+         MainFrame.octavePanel.evaluate("figure(1)");
+         MainFrame.octavePanel.evaluate("imshow("+image_var+");");
+         MainFrame.octavePanel.evaluate("title('Image Data')");
+         MainFrame.octavePanel.evaluate("figure(2)");
+         MainFrame.octavePanel.evaluate("imshow("+outputVar+");");
+         MainFrame.octavePanel.evaluate("title('Output Image')");
     }
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dispose();
@@ -169,7 +169,7 @@ public class SmoothImageDialog extends javax.swing.JDialog {
         
         if(!output.equals("")) {
             MainFrame.octavePanel.evaluate("pkg load image");
-            MainFrame.octavePanel.evalWithOutput(output+"=imsmooth("+image_var+","+algorithm+");");
+            MainFrame.octavePanel.evaluate(output+"=imsmooth("+image_var+","+algorithm+");");
             
              if(this.imShowCheckBox.isSelected()) {
                      plotData(image_var, output);

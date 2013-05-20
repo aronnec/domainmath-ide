@@ -311,14 +311,14 @@ public class SqpPanel extends javax.swing.JPanel {
             StringBuilder b= new StringBuilder(c);
             if(c.endsWith(",")) {
                String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+b.deleteCharAt(c.length()-1) +");";
-               MainFrame.octavePanel.evalWithOutput(cmd2); 
+               MainFrame.octavePanel.evaluate(cmd2); 
                 MainFrame.octavePanel.evaluate(jar_path);
                 declare("x0",x0);
                MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
                
             }else{
                 String cmd2="[x, obj, info, iter, nf, lambda] = sqp ("+c.substring(c.lastIndexOf(","))+");";
-                MainFrame.octavePanel.evalWithOutput(cmd2); 
+                MainFrame.octavePanel.evaluate(cmd2); 
                  MainFrame.octavePanel.evaluate(jar_path);
                  declare("x0",x0);
                  MainFrame.octavePanel.evaluate("DomainMath_SqpStatus(x0,info,x,obj);");
@@ -329,7 +329,7 @@ public class SqpPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_runButtonActionPerformed
     private void declare(String name, String value) {
-        MainFrame.octavePanel.eval(name+"="+value+";");
+        MainFrame.octavePanel.evaluate(name+"="+value+";");
     }
     
      private String createOctMtx(String text) {

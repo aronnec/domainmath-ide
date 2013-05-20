@@ -165,7 +165,7 @@ public class AudioVarDialog extends javax.swing.JDialog {
         bps = this.jTextField3.getText();
         
         String lhs ="["+y+","+Fs+","+bps+"]=";
-        MainFrame.octavePanel.eval(lhs+txt);
+        MainFrame.octavePanel.evaluate(lhs+txt);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

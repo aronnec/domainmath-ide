@@ -151,9 +151,9 @@ public class OdbcLoginDialog extends javax.swing.JDialog {
                     ;
                 
         
-        MainFrame.octavePanel.eval("pkg load database");
-        MainFrame.octavePanel.eval("odbc");
-        MainFrame.octavePanel.eval("default_db(odbc_db("+cmd+"));");
+        MainFrame.octavePanel.evaluate("pkg load database");
+        MainFrame.octavePanel.evaluate("odbc");
+        MainFrame.octavePanel.evaluate("default_db(odbc_db("+cmd+"));");
         dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
