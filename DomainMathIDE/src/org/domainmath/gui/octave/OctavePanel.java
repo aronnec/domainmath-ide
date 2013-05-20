@@ -87,10 +87,11 @@ public class OctavePanel extends JPanel implements ExecProcessor{
                     
                     if (exh == null) {
                                  outputArea.append("Connecting..."+"\n");
-                                String path =frame.getOctavePath();
+                                String path2 =frame.getOctavePath()+" "+frame.getCmdLineOptions();
                                 String addpath = " --path "+Character.toString('"') +System.getProperty("user.dir")+File.separator+"scripts"+Character.toString('"');
                    
-				exh = ExecHelper.exec(this, path+addpath);
+				exh = ExecHelper.exec(this, path2+addpath);
+                                System.err.println(path2+addpath);
 				oc.find(frame.getStartupCmd());
                                 oc.find("warning off");
 			
@@ -331,6 +332,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
     }
 
      private void updateTextArea(JTextArea textArea, String line) {
+            line = line.replaceAll(">>", "");
+
 		outputArea.append(line);
 		outputArea.setSelectionStart(textArea.getText().length());
 		outputArea.setSelectionEnd(textArea.getText().length());
