@@ -38,5 +38,5 @@ public final class DomainMathFileFilter {
     public static FileNameExtensionFilter      SAVE_PLOT_FILE_FILTER              = new FileNameExtensionFilter("Octave Plot Format (*.ps; *.eps; *.jpg; *.png; *.emf; *.pdf)","ps", "eps", "jpg", "png", "emf", "pdf");
    public static FileNameExtensionFilter      DCM_FILE_FILTER              = new FileNameExtensionFilter("DICOM (*.dcm)","dcm");
    public static FileNameExtensionFilter      EXE_FILE_FILTER              = new FileNameExtensionFilter("Application (*.exe)","exe");
-   
+   public static FileNameExtensionFilter      FASTA_FILE_FILTER              = new FileNameExtensionFilter("Fasta (*.fasta; *.faa)","fasta","faa");
 }

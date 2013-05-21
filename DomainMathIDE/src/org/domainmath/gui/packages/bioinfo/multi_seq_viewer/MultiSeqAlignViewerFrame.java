@@ -36,6 +36,7 @@ import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
 
@@ -236,7 +237,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
        JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
-        
+        fc.setFileFilter(DomainMathFileFilter.FASTA_FILE_FILTER);
        
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {

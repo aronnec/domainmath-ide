@@ -48,6 +48,7 @@ import org.biojava3.core.sequence.io.FastaReader;
 import org.biojava3.core.sequence.io.GenericFastaHeaderParser;
 import org.biojava3.core.sequence.io.ProteinSequenceCreator;
 import org.domainmath.gui.MainFrame;
+import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
 
@@ -277,11 +278,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
                    
 
 		}
-                
-               
-                
-               
-                
+
         }catch(Exception e) {
         }
     }
@@ -289,7 +286,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
        JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
-        
+        fc.setFileFilter(DomainMathFileFilter.FASTA_FILE_FILTER);
        
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
