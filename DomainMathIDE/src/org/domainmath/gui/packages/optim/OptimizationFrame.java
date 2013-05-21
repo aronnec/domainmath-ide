@@ -428,8 +428,8 @@ public class OptimizationFrame extends javax.swing.JFrame {
   
       public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
 
-       private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    private Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+      public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
     private javax.swing.JMenuItem closeAllItem;
