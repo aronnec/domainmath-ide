@@ -62,10 +62,8 @@ import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
-import org.domainmath.gui.packages.bioinfo.BioInfoFrame;
 import org.domainmath.gui.packages.bioinfo.HmmerFrame;
 import org.domainmath.gui.packages.bioinfo.MultiSeqAlignViewerFrame;
-import org.domainmath.gui.packages.bioinfo.SeqFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
@@ -336,6 +334,7 @@ public final class MainFrame extends javax.swing.JFrame {
      * @param currentDirFileTab
      */
     public void setCurrentDirFileTab(String currentDir) {
+        
         this.currentDirFileTab = currentDir;
     }
     
@@ -484,8 +483,8 @@ public final class MainFrame extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         
         if(fileTab.getTabCount() >0) {
-              File f = new File(this.getCurrentDirFileTab());
-               fc.setCurrentDirectory(f);  
+              File f = new File(fileTab.getToolTipTextAt(fileTab.getSelectedIndex()));
+               fc.setCurrentDirectory(f.getParentFile());  
           }
            
        FileNameExtensionFilter filter = new FileNameExtensionFilter(
