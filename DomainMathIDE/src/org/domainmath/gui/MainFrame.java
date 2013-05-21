@@ -821,7 +821,7 @@ public final class MainFrame extends javax.swing.JFrame {
         octaveItem = new javax.swing.JMenuItem();
         AboutItem = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en"); // NOI18N
         setTitle(bundle.getString("DomainMath.title")); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -2206,27 +2206,29 @@ private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_disconnectButtonActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        octavePanel.quit();
-        File f = new File(System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"dmns.m");
-        f.deleteOnExit();
-        File dir_content[];
-        try {
-            dir_content =logDir.listFiles();
-            for(int i=0; i<dir_content.length;i++) {
-                Files.delete(dir_content[i].toPath());
-            }
-            Files.delete(logDir.toPath());
-        } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        int i=fileTab.getTabCount()-1;
-                while(i != -1) {
+        int j=fileTab.getTabCount()-1;
+                while(j != -1) {
                    
-                    askSave(i);
-                    i--;
+                    askSave(j);
+                    j--;
                 }
-      this.dispose();
+      int option =  JOptionPane.showConfirmDialog(this, "Really do you want to exit?", "DomainMath IDE", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                 if(option == JOptionPane.YES_OPTION) {
+                      octavePanel.quit();
+                        File f = new File(System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"dmns.m");
+                        f.deleteOnExit();
+                        File dir_content[];
+                        try {
+                            dir_content =logDir.listFiles();
+                            for(int i=0; i<dir_content.length;i++) {
+                                Files.delete(dir_content[i].toPath());
+                            }
+                            Files.delete(logDir.toPath());
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                     this.dispose();
+                 }
 }//GEN-LAST:event_formWindowClosing
 
 private void createFile(String path,String ext)  {
