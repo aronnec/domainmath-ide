@@ -17,33 +17,24 @@
  */
 
 
-package org.domainmath.gui.packages.bioinfo;
+package org.domainmath.gui.packages.bioinfo.multi_seq_viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.AbstractTableModel;
-import org.biojava3.core.sequence.ProteinSequence;
-import org.biojava3.core.sequence.compound.AminoAcidCompound;
-import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
-import org.biojava3.core.sequence.loader.UniprotProxySequenceReader;
-import org.biojava3.ws.hmmer.HmmerDomain;
-import org.biojava3.ws.hmmer.HmmerResult;
-import org.biojava3.ws.hmmer.HmmerScan;
-import org.biojava3.ws.hmmer.RemoteHmmerScan;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
@@ -52,66 +43,21 @@ import org.domainmath.gui.common.DomainMathDialog;
 
 
 
-public class HmmerFrame extends javax.swing.JFrame {
+public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
+
+       private String var_name;
+    private int tab_index=0;
     public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
     
-    private List data =Collections.synchronizedList(new ArrayList());
-    private  List col =Collections.synchronizedList(new ArrayList());
-
-  
-   
-
-   
-    private String var_name;
-    private final GridModel gridModel;
-    private final JTable table;
-    private String id;
-   
-    
-
-    public HmmerFrame() {
+    public MultiSeqAlignViewerFrame() {
         setIconImage(icon);
         
         setSize(800,600);
         setLocationRelativeTo(null);
         initComponents();
-        
-        
-        
-        gridModel = new GridModel();
-      
-        
-        table = new JTable();
-        gridModel.setCellEditable(false);
-        table.setModel(gridModel);
-
-        
-      
-     
-        table.getTableHeader().setReorderingAllowed(false);
-
-        table.setRowHeight(20);
-        JScrollPane scrollPane = new JScrollPane(table);
-        
-        
-        
-           
-        
-        this.jPanel1.add(scrollPane,BorderLayout.CENTER);
-        jPanel1.repaint();
-        
     }
 
- 
-     public void showTable() {
-          gridModel.fireTableStructureChanged();
-                gridModel.fireTableDataChanged();
-       
-                table.revalidate();
-                table.repaint();
-       
-    }
-
+   
     public String getExportVarName() {
         return this.var_name;
     }
@@ -122,11 +68,11 @@ public class HmmerFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        NewMenuItem = new javax.swing.JMenuItem();
-        uniProtSeqItem = new javax.swing.JMenuItem();
+        openItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -142,29 +88,27 @@ public class HmmerFrame extends javax.swing.JFrame {
         AboutItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Hmmer Service");
-
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        setTitle("Sequence Viewer");
 
         jMenu1.setText("File");
 
-        NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        NewMenuItem.setText("New");
-        NewMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openItem.setText("Open");
+        openItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NewMenuItemActionPerformed(evt);
+                openItemActionPerformed(evt);
             }
         });
-        jMenu1.add(NewMenuItem);
+        jMenu1.add(openItem);
 
-        uniProtSeqItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        uniProtSeqItem.setText("UniProt Sequence");
-        uniProtSeqItem.addActionListener(new java.awt.event.ActionListener() {
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsMenuItem.setText("Save As...");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uniProtSeqItemActionPerformed(evt);
+                saveAsMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(uniProtSeqItem);
+        jMenu1.add(saveAsMenuItem);
 
         jMenuItem1.setText("Export");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -265,17 +209,13 @@ public class HmmerFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -291,27 +231,20 @@ public class HmmerFrame extends javax.swing.JFrame {
         } catch (URISyntaxException | IOException ex) {
         }
 }
-     public void addRow(String r) {
-        data.add(r);
-      }
-      public void addCol(String c) {
-        col.add(c);
-        }
-    private void uniProtSeqItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uniProtSeqItemActionPerformed
-      DomainMathDialog dmnDialog = new DomainMathDialog(this,true,"UniProt Sequence ID:");
-        dmnDialog.setTitle("Get UniProt Sequence");
-        dmnDialog.setLocationRelativeTo(this);
-        dmnDialog.setVisible(true);
+   
+    private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
+       JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
         
-        setID(dmnDialog.getVar_name());
-        
-        String v=getID();
-      
-         getSeq(v);
-         this.uniProtSeqItem.setEnabled(false);
-         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-         
-    }//GEN-LAST:event_uniProtSeqItemActionPerformed
+       
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            this.jTabbedPane1.add(fc.getSelectedFile().getName(),new MultiSeqViewerPanel(fc.getSelectedFile()));
+            this.jTabbedPane1.setSelectedIndex(tab_index);
+            tab_index++;
+         } 
+    }//GEN-LAST:event_openItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
         dispose();
@@ -359,22 +292,45 @@ public class HmmerFrame extends javax.swing.JFrame {
         exportVarTo(exportDialog.getVar_name());
         
         String v=this.getExportVarName();
+        if(this.jTabbedPane1.getSelectedIndex() >= 0) {
+           MultiSeqViewerPanel p = (MultiSeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
          if(!v.equals("")){
                         
-                        for(int i=0; i<this.col.size();i++) {
+                        for(int i=0; i<p.Sequence.size();i++) {
                             
-                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Annotation='"+this.col.get(i)+"';");
-                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").HmmerResult='"+this.data.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Header='"+p.header.get(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Sequence='"+p.Sequence.get(i)+"';");
                         }
          }
-         MainFrame.reloadWorkspace();
+         MainFrame.reloadWorkspace(); 
+        }
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void NewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewMenuItemActionPerformed
-        HmmerFrame hmmerFrame = new HmmerFrame();
-        hmmerFrame.setLocationRelativeTo(this);
-        hmmerFrame.setVisible(true);
-    }//GEN-LAST:event_NewMenuItemActionPerformed
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+      if(this.jTabbedPane1.getSelectedIndex() >= 0) {
+           
+            try {
+                MultiSeqViewerPanel p = (MultiSeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
+                JList list = p.listSequence;
+           
+                List<String> s = list.getSelectedValuesList();
+                BufferedWriter w = new BufferedWriter(new FileWriter(new File("E:/Test.txt")));
+                w.write(">Test");
+                w.newLine();
+                
+                 for(int i=0; i<s.size(); i++) {
+                    w.append(s.get(i));
+                }
+                 w.newLine();
+                 w.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MultiSeqAlignViewerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          
+           System.out.println("Written");
+       }
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,16 +344,15 @@ public class HmmerFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HmmerFrame().setVisible(true);
+                new MultiSeqAlignViewerFrame().setVisible(true);
             }
         });
     }
 
-   
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
-    private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
@@ -407,136 +362,21 @@ public class HmmerFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem onlineHelpItem;
+    private javax.swing.JMenuItem openItem;
     private javax.swing.JMenuItem reportBugItem;
+    private javax.swing.JMenuItem saveAsMenuItem;
     private org.domainmath.gui.StatusPanel statusPanel2;
     private javax.swing.JMenuItem suggestionsItem;
-    private javax.swing.JMenuItem uniProtSeqItem;
     // End of variables declaration//GEN-END:variables
 
     private void exportVarTo(String var_name) {
         this.var_name=var_name;
     }
 
-    private void getSeq(String v) {
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        if(!v.equals("")) {
-             try {
-                 
-            String uniProtID = v;
-            System.out.println("uniProtID:"+uniProtID);
-            ProteinSequence seq = getUniprot(uniProtID);
-
-            HmmerScan hmmer = new RemoteHmmerScan();
-
-            SortedSet<HmmerResult> results = hmmer.scan(seq);
-
-            System.out.println(String.format("#\t%15s\t%10s\t%s\t%s\t%8s\t%s",
-                            "Domain","ACC", "Start","End","eValue","Description"));
-            addCol("#");
-            addCol("Domain");
-            addCol("ACC");
-            addCol("Start");
-            addCol("End");
-            addCol("eValue");
-            addCol("Description");
-            int counter = 0;
-            
-            for (HmmerResult hmmerResult : results) {
-                    //System.out.println(hmmerResult);
-
-                    for ( HmmerDomain domain : hmmerResult.getDomains()) {
-                            counter++;
-                            System.out.println(String.format("%d\t%15s\t%10s\t%5d\t%5d\t%.2e\t%s",
-							counter,
-							hmmerResult.getName(), domain.getHmmAcc(), 
-							domain.getSqFrom(),domain.getSqTo(),
-							hmmerResult.getEvalue(), hmmerResult.getDesc()
-							));
-                            addRow(Integer.toString(counter));
-                            addRow(hmmerResult.getName());
-                            addRow(domain.getHmmAcc());
-                            addRow(Integer.toString(domain.getSqFrom()));
-                            addRow(Integer.toString(domain.getSqTo()));
-                            addRow(Float.toString(hmmerResult.getEvalue()));
-                            addRow(hmmerResult.getDesc());
-
-                    }
-
-            }
-            showTable();
-            
-        } catch (Exception e) {
-        }
-        }
-       
-    }
-    private static ProteinSequence getUniprot(String uniProtID) throws Exception {
-		
-		AminoAcidCompoundSet set = AminoAcidCompoundSet.getAminoAcidCompoundSet();
-		UniprotProxySequenceReader<AminoAcidCompound> uniprotSequence = new UniprotProxySequenceReader<AminoAcidCompound>(uniProtID,set);
-		
-		ProteinSequence seq = new ProteinSequence(uniprotSequence);
-		
-		return seq;
-    }
-
-    private void setID(String id) {
-        this.id=id;
-    }
-
-    private String getID() {
-        return this.id;
-    }
-    class GridModel extends AbstractTableModel{
-        int i;
-        private boolean editable;
-  
-
-        @Override
-        public int getRowCount() {
-          try{
-                i = data.size() / getColumnCount();
-            }catch(Exception e) {
-
-            }
-
-
-           return i;
-        }
-
-        @Override
-        public int getColumnCount() {
-           return col.size();
-        }
-
-        @Override
-        public String getColumnName(int i) {
-            String c = "";
-            if(i <=getColumnCount()) {
-                c = (String)col.get(i);
-            }
-            return c;
-        }
-
-        public Class getColClass(int i) {
-            return String.class;
-        }
-
-        @Override
-        public boolean isCellEditable(int r,int c) {
-            return editable;
-        }
-        
-        public void setCellEditable(boolean editable) {
-            this.editable=editable;
-        }
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-           return  data.get((rowIndex*getColumnCount())+columnIndex);
-        }
-    }
+   
+    
 }

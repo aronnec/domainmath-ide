@@ -48,8 +48,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class BioInfoFrame extends javax.swing.JFrame {
-    public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     private CategoryDataset dataset;
     private JFreeChart chart;
     private ChartPanel chartPanel;

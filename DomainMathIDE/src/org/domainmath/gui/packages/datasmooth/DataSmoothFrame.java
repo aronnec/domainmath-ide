@@ -32,8 +32,8 @@ import org.domainmath.gui.tools.plot.PlotOptionsDialog;
 
 
 public class DataSmoothFrame extends javax.swing.JFrame {
-    public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     /**
      * Creates new form DataSmoothFrame
      */

@@ -531,8 +531,8 @@ public class ImageToolFrame extends javax.swing.JFrame {
             }
         });
     }
-    public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
     private javax.swing.JMenuItem closeAllItem;

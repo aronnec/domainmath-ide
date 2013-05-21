@@ -17,24 +17,36 @@
  */
 
 
-package org.domainmath.gui.packages.bioinfo;
+package org.domainmath.gui.packages.bioinfo.seq_viewer;
 
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.biojava3.core.sequence.ProteinSequence;
+import org.biojava3.core.sequence.compound.AminoAcidCompound;
+import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
+import org.biojava3.core.sequence.io.FastaReader;
+import org.biojava3.core.sequence.io.GenericFastaHeaderParser;
+import org.biojava3.core.sequence.io.ProteinSequenceCreator;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
@@ -43,13 +55,18 @@ import org.domainmath.gui.common.DomainMathDialog;
 
 
 
-public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
-    public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+public class SeqViewerFrame extends javax.swing.JFrame {
+    public List header =Collections.synchronizedList(new ArrayList());
+     
+   
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
        private String var_name;
     private int tab_index=0;
+    private DefaultListModel listSequenceModel;
+    private DefaultListModel listDetails;
+    private File selectedFile;
 
-    public MultiSeqAlignViewerFrame() {
+    public SeqViewerFrame() {
         setIconImage(icon);
         
         setSize(800,600);
@@ -231,7 +248,41 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         } catch (URISyntaxException | IOException ex) {
         }
 }
-   
+   private void getFasta() {
+        try{
+            String[] t ;
+            String s;
+            listDetails = new DefaultListModel();
+            
+		FileInputStream inStream = new FileInputStream( selectedFile );
+		FastaReader<ProteinSequence,AminoAcidCompound> fastaReader = 
+			new FastaReader<>(
+					inStream, 
+					new GenericFastaHeaderParser<ProteinSequence,AminoAcidCompound>(), 
+					new ProteinSequenceCreator(AminoAcidCompoundSet.getAminoAcidCompoundSet()));
+		LinkedHashMap<String, ProteinSequence> b = fastaReader.process();
+               
+		for (  Map.Entry<String, ProteinSequence> entry : b.entrySet() ) {
+                    listDetails.addElement(entry.getValue().getOriginalHeader());
+                    s=entry.getValue().getSequenceAsString();
+                    
+                     this.jTabbedPane1.add(entry.getValue().getOriginalHeader(),new SeqViewerPanel(listDetails,s));
+                    this.jTabbedPane1.setSelectedIndex(tab_index);
+                    tab_index++;
+                    
+                    this.header.add(entry.getValue().getOriginalHeader());
+                    
+                   
+
+		}
+                
+               
+                
+               
+                
+        }catch(Exception e) {
+        }
+    }
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
        JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -240,9 +291,8 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
        
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            this.jTabbedPane1.add(fc.getSelectedFile().getName(),new SeqViewerPanel(fc.getSelectedFile()));
-            this.jTabbedPane1.setSelectedIndex(tab_index);
-            tab_index++;
+            this.setSelectedFile(fc.getSelectedFile());
+            
          } 
     }//GEN-LAST:event_openItemActionPerformed
 
@@ -296,11 +346,11 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
            SeqViewerPanel p = (SeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
          if(!v.equals("")){
                         
-                        for(int i=0; i<p.Sequence.size();i++) {
+                       // for(int i=0; i<p.Sequence.size();i++) {
                             
-                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Header='"+p.header.get(i)+"';");
-                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Sequence='"+p.Sequence.get(i)+"';");
-                        }
+                           // MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Header='"+p.header.get(i)+"';");
+                           // MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Sequence='"+p.Sequence.get(i)+"';");
+                        //}
          }
          MainFrame.reloadWorkspace(); 
         }
@@ -325,7 +375,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
                  w.newLine();
                  w.close();
             } catch (IOException ex) {
-                Logger.getLogger(MultiSeqAlignViewerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SeqViewerFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
           
            System.out.println("Written");
@@ -344,7 +394,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MultiSeqAlignViewerFrame().setVisible(true);
+                new SeqViewerFrame().setVisible(true);
             }
         });
     }
@@ -377,6 +427,13 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         this.var_name=var_name;
     }
 
+    public void setSelectedFile(File selectedFile) {
+        this.selectedFile = selectedFile;
+    }
+
+    public File getSelectedFile() {
+        return this.selectedFile;
+    }
    
     
 }

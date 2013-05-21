@@ -63,7 +63,7 @@ import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.HmmerFrame;
-import org.domainmath.gui.packages.bioinfo.MultiSeqAlignViewerFrame;
+import org.domainmath.gui.packages.bioinfo.multi_seq_viewer.MultiSeqAlignViewerFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
@@ -3149,8 +3149,8 @@ public void saveplot() {
             }
         });
     }
-    public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
     private javax.swing.JMenu BioInfoMenu;

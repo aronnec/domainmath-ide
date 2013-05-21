@@ -39,8 +39,8 @@ import org.domainmath.gui.about.AboutDlg;
 public class DataBaseFrame extends javax.swing.JFrame {
     private final DefaultListModel listModel;
     private JFileChooser fc;
-     public  java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     private FileWriter fw;
      public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";
    

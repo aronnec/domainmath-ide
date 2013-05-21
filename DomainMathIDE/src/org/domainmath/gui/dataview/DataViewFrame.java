@@ -34,8 +34,8 @@ import org.domainmath.gui.about.AboutDlg;
 
 public class DataViewFrame extends javax.swing.JFrame {
 
-    private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    private Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     private final DataViewPanel newContentPane;
     
     public static String REARRANGE_MATRIX_FUNCTIONS[] = {   "fliplr",

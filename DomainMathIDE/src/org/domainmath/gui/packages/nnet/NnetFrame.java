@@ -249,8 +249,8 @@ public class NnetFrame extends javax.swing.JFrame {
             }
         });
     }
-    private java.net.URL imgURL = getClass().getResource("resources/DomainMath.png");
-    private Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton deleteButton;
