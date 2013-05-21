@@ -37,6 +37,7 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -69,14 +70,20 @@ public class SeqViewerPanel extends javax.swing.JPanel {
     public Path2D polygon = null;
     private final Font fontListConsensus;
     
-    private  final int row;
+    
     private final DefaultListModel seqModel;
     private final String[] t;
+    private final DefaultListModel seq_details;
+    char amino_acid[] ={'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',  'L',  'K',  'M',  'F',  'P',  'S',  'T',  'W',  'Y',  'V',  'B',  'Z',  'X',  '-'};
+    private  int count;
+    private double percent;
+    private int size;
+           
 
     
-     public SeqViewerPanel(DefaultListModel seq_details,String seq){
+     public SeqViewerPanel(String seq){
         fontListConsensus = new Font("Monospaced",Font.BOLD,11);
-        
+        seq_details = new DefaultListModel();
         listDetails = new JList();
        listDetails.setFont(fontListConsensus);
        
@@ -92,10 +99,29 @@ public class SeqViewerPanel extends javax.swing.JPanel {
                       seqModel.remove(i);
                     }
                 }
+       this.setRowCount(seqModel.getSize());
+        for(int j=0; j<amino_acid.length; j++) {
+            
+            
+                count = getCount(seq.toUpperCase(),amino_acid[j]);
+                percent = ((count*100)/this.getRowCount());
+                
+                if(count != 0) {
+                    if(amino_acid[j] == '-') {
+                        seq_details.addElement("Gap"+":"+count+"("+percent+"%"+")");
+                    }else{
+                        seq_details.addElement(amino_acid[j]+":"+count+"("+percent+"%"+")");
+                    }
+                    
+                }
+                
+                
+            
+        }
         listDetails.setModel(seq_details);
         listDetails.setSelectedIndex(0);
         listDetails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.row=seqModel.getSize();
+        
         listSequence = new JList() {
             
             private SeqListCellRenderer renderer;
@@ -144,55 +170,23 @@ public class SeqViewerPanel extends javax.swing.JPanel {
         splitPane= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(listDetails),new JScrollPane(listSequence));
         splitPane.setDividerLocation(250);
         
-        listDetails.addMouseListener(new MouseListener() {
-
-             @Override
-             public void mouseClicked(MouseEvent e) {
-                 
-                 int r = row /listConsensusModel.getSize();
-                 int c =r*listDetails.getSelectedIndex();
-                 int c_end =c+(r);
-                 
-                 ListSelectionModel sm = listSequence.getSelectionModel();
-                    sm.clearSelection();
-                    int size = listSequence.getModel().getSize();
-                    for (int i=c; i<c_end;i++ ) {
-                        if (i < size) {
-                            sm.addSelectionInterval(i, i);
-                        }
-                    }
-                    
-
-             }
-
-             @Override
-             public void mousePressed(MouseEvent e) {
-                 
-             }
-
-             @Override
-             public void mouseReleased(MouseEvent e) {
-                
-             }
-
-             @Override
-             public void mouseEntered(MouseEvent e) {
-                
-             }
-
-             @Override
-             public void mouseExited(MouseEvent e) {
-                 
-             }
-            
-        });
+       
         setLayout(new BorderLayout());
         add(splitPane,BorderLayout.CENTER);
         repaint();
 
     }
       
+     private int getCount(String text, char string) {
+        int k=0;
         
+        for(int i=0; i<text.length(); i++) {
+            if(text.charAt(i) == string) {
+                k++;
+            }
+        }
+        return k;
+    }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -214,6 +208,12 @@ public class SeqViewerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setRowCount(int size) {
+        this.size =size;
+    }
+    private int getRowCount(){
+        return this.size;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
  class DotBorder extends EmptyBorder {

@@ -107,6 +107,8 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sequence Viewer");
 
+        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+
         jMenu1.setText("File");
 
         openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
@@ -266,7 +268,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
                     listDetails.addElement(entry.getValue().getOriginalHeader());
                     s=entry.getValue().getSequenceAsString();
                     
-                     this.jTabbedPane1.add(entry.getValue().getOriginalHeader(),new SeqViewerPanel(listDetails,s));
+                     this.jTabbedPane1.add(entry.getValue().getOriginalHeader(),new SeqViewerPanel(s));
                     this.jTabbedPane1.setSelectedIndex(tab_index);
                     tab_index++;
                     
@@ -292,7 +294,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             this.setSelectedFile(fc.getSelectedFile());
-            
+            getFasta();
          } 
     }//GEN-LAST:event_openItemActionPerformed
 
