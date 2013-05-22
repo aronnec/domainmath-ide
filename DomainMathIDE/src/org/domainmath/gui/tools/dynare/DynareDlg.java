@@ -32,7 +32,6 @@ public class DynareDlg extends javax.swing.JDialog {
     private String savePath;
     private final MainFrame frame;
 
-    /** Creates new form DynareDlg */
     public DynareDlg(MainFrame frame, boolean modal) {
         
         super(frame, modal);
