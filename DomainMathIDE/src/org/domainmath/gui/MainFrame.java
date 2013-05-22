@@ -75,7 +75,7 @@ import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
 import org.domainmath.gui.tools.multicore.MulticoreDialog;
 import org.domainmath.gui.tools.worksheet.WorksheetFrame;
-import org.domainmath.gui.varview.VarViewPanel;
+import org.domainmath.gui.workspace.WorkspacePanel;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
@@ -164,7 +164,7 @@ public final class MainFrame extends javax.swing.JFrame {
     /**
      * Workspace Panel.
      */
-    public static VarViewPanel varView;
+    public static WorkspacePanel workspace;
     
     /**
      * Log Root.
@@ -285,10 +285,10 @@ public final class MainFrame extends javax.swing.JFrame {
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
         
-        varView =new VarViewPanel(parent_root+"DomainMath_OctaveVariables.dat",this);
+        workspace =new WorkspacePanel(parent_root+"DomainMath_OctaveVariables.dat",this);
 
         outlookBar = new JAccordion();
-        outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), varView);
+        outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), workspace);
         outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
         histPanel();
 
@@ -341,7 +341,7 @@ public final class MainFrame extends javax.swing.JFrame {
     public static void reloadWorkspace() {
         if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-        varView.reload();
+        workspace.reload();
         }
     }
     
@@ -1999,7 +1999,7 @@ private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
         
          MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+parent_root+"DomainMath_OctavePackages.dat');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+parent_root+"DomainMath_OctaveVariables.dat',whos);");
-        // MainFrame.varView.reload();
+        // MainFrame.workspace.reload();
         
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"symja.jar')");
        MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"DefaultApp.jar')");
@@ -2196,8 +2196,8 @@ private void connectItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
          
          MainFrame.octavePanel.evaluate("DomainMath_OctavePackages('"+parent_root+"DomainMath_OctavePackages.dat');");
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+parent_root+"DomainMath_OctaveVariables.dat',whos);");
-         MainFrame.varView.reload();
-         MainFrame.varView.reload(); 
+         MainFrame.workspace.reload();
+         MainFrame.workspace.reload(); 
          if(this.startupDir.equals("")) {
            setDir(System.getProperty("user.dir"));
            octavePanel.evaluate("chdir "+"'"+System.getProperty("user.dir") +"'"); 
@@ -3101,43 +3101,43 @@ public void saveplot() {
     }//GEN-LAST:event_dirComboBoxItemStateChanged
 
     private void deleteVariableItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVariableItemActionPerformed
-        varView.delete();
+        workspace.delete();
     }//GEN-LAST:event_deleteVariableItemActionPerformed
 
     private void newVariableItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newVariableItemActionPerformed
-        varView.addVariable();
+        workspace.addVariable();
     }//GEN-LAST:event_newVariableItemActionPerformed
 
     private void clearAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllItemActionPerformed
-        varView.clearAll();
+        workspace.clearAll();
     }//GEN-LAST:event_clearAllItemActionPerformed
 
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
-        varView.open();
+        workspace.open();
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
     private void saveDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDataItemActionPerformed
-        varView.saveData();
+        workspace.saveData();
     }//GEN-LAST:event_saveDataItemActionPerformed
 
     private void saveAllDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAllDataItemActionPerformed
-        varView.saveAll();
+        workspace.saveAll();
     }//GEN-LAST:event_saveAllDataItemActionPerformed
 
     private void importSpreadSheetDataItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSpreadSheetDataItemActionPerformed
-       varView.importSpreadSheetData();
+       workspace.importSpreadSheetData();
     }//GEN-LAST:event_importSpreadSheetDataItemActionPerformed
 
     private void exportItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportItemActionPerformed
-        varView.exportData();
+        workspace.exportData();
     }//GEN-LAST:event_exportItemActionPerformed
 
     private void exportAllItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportAllItemActionPerformed
-        varView.exportAll();
+        workspace.exportAll();
     }//GEN-LAST:event_exportAllItemActionPerformed
 
     private void refreshItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshItemActionPerformed
-        varView.refreshData();
+        workspace.refreshData();
     }//GEN-LAST:event_refreshItemActionPerformed
 
     private void sequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceViewerMenuItemActionPerformed

@@ -38,7 +38,7 @@ public class ImageFilterDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         model = new DefaultListModel();
-        varNames = MainFrame.varView.getVarNames();
+        varNames = MainFrame.workspace.getVarNames();
         for(int i=0;i<varNames.size();i++) {
             model.addElement(varNames.get(i));
             ImageFilterDialog.spFilterComboBox.addItem(varNames.get(i));

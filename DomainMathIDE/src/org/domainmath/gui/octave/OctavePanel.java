@@ -305,8 +305,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
          
          if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-            MainFrame.varView.reload();
-            MainFrame.varView.reload();
+            MainFrame.workspace.reload();
+            MainFrame.workspace.reload();
          }
          
          MainFrame.histArea.append(c+"\n");
@@ -325,8 +325,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
          oc.find(c);
          if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-            MainFrame.varView.reload();
-            MainFrame.varView.reload();
+            MainFrame.workspace.reload();
+            MainFrame.workspace.reload();
          }
          MainFrame.histArea.append(c+"\n");
     }
@@ -380,8 +380,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
             _eval(c);
              if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
                  MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-                MainFrame.varView.reload();
-                MainFrame.varView.reload();
+                MainFrame.workspace.reload();
+                MainFrame.workspace.reload();
              }
         }
          public void eval(String c,String tag) {
@@ -392,8 +392,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
             _eval(c);
             if(!c.contains("input") ||MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
              MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-             MainFrame.varView.reload();
-             MainFrame.varView.reload();
+             MainFrame.workspace.reload();
+             MainFrame.workspace.reload();
             }
          }
 }

@@ -34,7 +34,7 @@ public class ExportImageDialog extends javax.swing.JDialog {
     public ExportImageDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        varNames = MainFrame.varView.getVarNames();
+        varNames = MainFrame.workspace.getVarNames();
         for(int i=0;i<varNames.size();i++) {
             
             this.imageDataComboBox.addItem(varNames.get(i));

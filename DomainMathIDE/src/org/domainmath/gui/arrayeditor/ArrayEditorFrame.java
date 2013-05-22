@@ -434,7 +434,7 @@ public class ArrayEditorFrame extends javax.swing.JFrame {
         }
         
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-        MainFrame.varView.reload();
+        MainFrame.workspace.reload();
     }
     private void saveVarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveVarItemActionPerformed
         saveVar();

@@ -189,7 +189,7 @@ public class ArrayEditorPanel extends javax.swing.JPanel {
         }
         
          MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-        MainFrame.varView.reload();
+        MainFrame.workspace.reload();
     }
     private void savVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savVarButtonActionPerformed
         saveVar();
