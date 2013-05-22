@@ -16,7 +16,7 @@
  */
 
 
-package org.domainmath.gui.varview;
+package org.domainmath.gui.workspace;
 
 import org.domainmath.gui.MainFrame;
 

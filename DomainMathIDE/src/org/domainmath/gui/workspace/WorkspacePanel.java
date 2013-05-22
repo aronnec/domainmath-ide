@@ -16,7 +16,7 @@
  */
 
 
-package org.domainmath.gui.varview;
+package org.domainmath.gui.workspace;
 
 
 import java.awt.BorderLayout;
@@ -31,9 +31,9 @@ import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.dataview.DataViewFrame;
 
-public class VarViewPanel extends JPanel {
+public class WorkspacePanel extends JPanel {
     JTable table;
-    java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/varview/resources/varview_en"); 
+    java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/domainmath/gui/workspace/resources/workspace_en"); 
     public String jar_path = "javaaddpath('"+System.getProperty("user.dir")+File.separator+"Results.jar');";     
     private final JPopupMenu popup = new JPopupMenu();
     PopupActionListener popupActionListener;
@@ -76,7 +76,7 @@ public class VarViewPanel extends JPanel {
     
     
   
-    public VarViewPanel(String directory,MainFrame frame) {
+    public WorkspacePanel(String directory,MainFrame frame) {
         super(new BorderLayout());
         table = new JTable();
         this.frame =frame;

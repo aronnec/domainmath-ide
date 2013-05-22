@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.varview;
+package org.domainmath.gui.workspace;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.varview;
+package org.domainmath.gui.workspace;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -42,7 +42,7 @@ public class Main {
                  JFrame frame = new JFrame("Variables");
                 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                 VarViewPanel newContentPane = new VarViewPanel("E:/Test.txt",null);
+                 WorkspacePanel newContentPane = new WorkspacePanel("E:/Test.txt",null);
                     newContentPane.setOpaque(true);
                     frame.setContentPane(newContentPane);
                     frame.pack();

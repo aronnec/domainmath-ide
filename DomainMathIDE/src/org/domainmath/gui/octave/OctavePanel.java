@@ -360,46 +360,50 @@ public class OctavePanel extends JPanel implements ExecProcessor{
     }
 
     class OctaveEngine {
-    public void exit() {
-                _eval("exit");
-    }
-    
-    public void find(String c) {
-       _eval(c);
-    }
-     public void eval(String c) {
-         
-      
-        outputArea.append(">> ");
-         outputArea.append(c+"\n");
-         id++;
-        _eval(c);
-         if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
-             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-            MainFrame.varView.reload();
-            MainFrame.varView.reload();
-         }
-    }
-     public void eval(String c,String tag) {
-
-         outputArea.append(tag);
-         outputArea.append(c+"\n");
-         id++;
-        _eval(c);
-        if(!c.contains("input") ||MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
-         MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
-         MainFrame.varView.reload();
-         MainFrame.varView.reload();
+        
+        /**
+         * Kill process of Octave.
+         */
+        public void exit() {
+                    _eval("exit");
         }
-     }
+
+        public void find(String c) {
+           _eval(c);
+        }
+         public void eval(String c) {
+
+
+            outputArea.append(">> ");
+             outputArea.append(c+"\n");
+             id++;
+            _eval(c);
+             if(MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+                 MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+                MainFrame.varView.reload();
+                MainFrame.varView.reload();
+             }
+        }
+         public void eval(String c,String tag) {
+
+             outputArea.append(tag);
+             outputArea.append(c+"\n");
+             id++;
+            _eval(c);
+            if(!c.contains("input") ||MainFrame.automaticRefreshCheckBoxMenuItem.isSelected()) {
+             MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+MainFrame.parent_root+"DomainMath_OctaveVariables.dat',whos);");
+             MainFrame.varView.reload();
+             MainFrame.varView.reload();
+            }
+         }
 }
 
-  public void _eval(String text) {
-      if (exh != null) {
-			exh.println(text);
-			
-		}
-  }
+    public void _eval(String text) {
+        if (exh != null) {
+                          exh.println(text);
+
+                  }
+    }
       
    public void needOct(boolean need) {
           AutoCompletion ac = new AutoCompletion(provider);

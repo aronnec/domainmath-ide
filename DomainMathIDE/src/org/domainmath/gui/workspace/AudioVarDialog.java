@@ -15,25 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.domainmath.gui.varview;
-
+package org.domainmath.gui.workspace;
 
 import org.domainmath.gui.MainFrame;
 
-
-public class ImageVarDialog extends javax.swing.JDialog {
-    private String image;
-    private String map;
-    private String alpha;
+public class AudioVarDialog extends javax.swing.JDialog {
+    private String y;
+    private String Fs;
+    private String bps;
     
     private final String txt;
 
     
-    public ImageVarDialog(java.awt.Frame parent, boolean modal,String txt) {
+    public AudioVarDialog(java.awt.Frame parent, boolean modal,String txt) {
         super(parent, modal);
-        image ="image";
-        map ="map";
-        alpha ="alpha";
+        y ="y";
+        Fs ="Fs";
+        bps ="bps";
        
         this.txt =txt;
         initComponents();
@@ -62,17 +60,17 @@ public class ImageVarDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rename Variable");
 
-        jLabel1.setText("img:");
+        jLabel1.setText("y:");
 
-        jLabel2.setText("map:");
+        jLabel2.setText("Fs:");
 
-        jTextField1.setText("img");
+        jTextField1.setText("y");
 
-        jTextField2.setText("map");
+        jTextField2.setText("Fs");
 
-        jLabel3.setText("alpha:");
+        jLabel3.setText("bps:");
 
-        jTextField3.setText("Ra");
+        jTextField3.setText("bps");
 
         jLabel5.setForeground(new java.awt.Color(0, 84, 227));
         jLabel5.setText("Rename Variable");
@@ -108,7 +106,7 @@ public class ImageVarDialog extends javax.swing.JDialog {
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 9, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,11 +160,11 @@ public class ImageVarDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        image = this.jTextField1.getText();
-        map = this.jTextField2.getText();
-        alpha = this.jTextField3.getText();
+        y = this.jTextField1.getText();
+        Fs = this.jTextField2.getText();
+        bps = this.jTextField3.getText();
         
-        String lhs ="["+image+","+map+","+alpha+"]=";
+        String lhs ="["+y+","+Fs+","+bps+"]=";
         MainFrame.octavePanel.eval(lhs+txt);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
