@@ -1318,11 +1318,6 @@ public final class MainFrame extends javax.swing.JFrame {
         jMenuItem2.setAction(new RSyntaxTextAreaEditorKit.InsertTabAction());
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_TAB, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Increase Indent");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
         editMenu.add(jMenuItem2);
 
         jMenuItem3.setAction(new RSyntaxTextAreaEditorKit.DecreaseIndentAction());
@@ -2567,10 +2562,6 @@ public void saveplot() {
         this.selectAll();
     }//GEN-LAST:event_selectAllItemActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         if(fileTab.getSelectedIndex() >= 0) {
             RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
@@ -2786,9 +2777,7 @@ public void saveplot() {
       for(int i=0;i<a.size();i++) {
           provider.addCompletion(new BasicCompletion(provider, a.get(i).toString()));
       }
-     
 
-      
       return provider;
 
    }
@@ -2796,10 +2785,7 @@ public void saveplot() {
       
      try {
             try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
-                //setUpArea();
                 this.fileTab.setTitleAt(index,file.getName());
-               // System.out.println(FILE_TAB_INDEX+","+file.getAbsolutePath());
-                //this.areaFileTab.write(r);
                 RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(index);
                 RSyntaxTextArea a = (RSyntaxTextArea)t.getTextArea();
                 a.write(r);
