@@ -2053,33 +2053,13 @@ public void deleteText() {
 			textArea.requestFocusInWindow();
 }
 private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-    int j=fileTab.getTabCount()-1;
-                while(j != -1) {
-                   
-                    askSave(j);
-                    j--;
-                }
-      int option =  JOptionPane.showConfirmDialog(this, "Really do you want to exit?", "DomainMath IDE", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                 if(option == JOptionPane.YES_OPTION) {
-                      octavePanel.quit();
-                        File f = new File(System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"dmns.m");
-                        f.deleteOnExit();
-                        File dir_content[];
-                        try {
-                            dir_content =logDir.listFiles();
-                            for(int i=0; i<dir_content.length;i++) {
-                                Files.delete(dir_content[i].toPath());
-                            }
-                            Files.delete(logDir.toPath());
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                     this.dispose();
-                 }
+      octavePanel.quit();  
+      System.exit(0);
+        
 }//GEN-LAST:event_exitItemActionPerformed
 
 private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
-       try {
+        try {
             octavePanel.outputArea.print();
         } catch (PrinterException ex) {
             
