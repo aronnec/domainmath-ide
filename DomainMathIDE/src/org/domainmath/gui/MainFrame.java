@@ -2814,13 +2814,16 @@ public void saveplot() {
 }
 
     private void printdoc() {
-        try {
+        if(fileTab.getSelectedIndex() >=0) {
+            try {
              RTextScrollPane t =(RTextScrollPane) fileTab.getComponentAt(fileTab.getSelectedIndex());
 	RSyntaxTextArea selectedArea = (RSyntaxTextArea)t.getTextArea();
             selectedArea.print();
         } catch (PrinterException ex) {
             
         }
+        }
+        
     }
     
     private void popupTab(){
