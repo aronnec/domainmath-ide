@@ -291,7 +291,6 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         exportDialog.setLocationRelativeTo(this);
         exportDialog.setVisible(true);
         exportVarTo(exportDialog.getVar_name());
-        
         String v=this.getExportVarName();
         if(this.jTabbedPane1.getSelectedIndex() >= 0) {
            MultiSeqViewerPanel p = (MultiSeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
@@ -344,6 +343,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MultiSeqAlignViewerFrame().setVisible(true);
             }
