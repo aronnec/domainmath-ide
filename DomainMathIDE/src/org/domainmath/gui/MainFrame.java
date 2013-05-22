@@ -3073,7 +3073,10 @@ public void saveplot() {
     }//GEN-LAST:event_nNetMenuItemActionPerformed
 
     private void saveAsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsItemActionPerformed
-        saveAs();
+        if(fileTab.getSelectedIndex() >=0) {
+            saveAs();
+        }
+        
     }//GEN-LAST:event_saveAsItemActionPerformed
 
     private void dirComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dirComboBoxItemStateChanged
