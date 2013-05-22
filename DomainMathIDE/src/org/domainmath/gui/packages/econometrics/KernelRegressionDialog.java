@@ -14,7 +14,7 @@ public class KernelRegressionDialog extends javax.swing.JDialog {
     public KernelRegressionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        varNames = MainFrame.varView.getVarNames();
+        varNames = MainFrame.workspace.getVarNames();
         for(int i=0;i<varNames.size();i++) {
             
             this.jComboBox1.addItem(varNames.get(i));
