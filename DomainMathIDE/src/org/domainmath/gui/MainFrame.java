@@ -284,7 +284,7 @@ public final class MainFrame extends javax.swing.JFrame {
         histArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
-        
+        loadRecentFiles();
         workspace =new WorkspacePanel(parent_root+"DomainMath_OctaveVariables.dat",this);
 
         outlookBar = new JAccordion();
@@ -698,6 +698,7 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         newFileItem = new javax.swing.JMenuItem();
         openItem = new javax.swing.JMenuItem();
+        recentMenu = new javax.swing.JMenu();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         saveFileItem = new javax.swing.JMenuItem();
         saveAsItem = new javax.swing.JMenuItem();
@@ -1048,6 +1049,9 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openItem);
+
+        recentMenu.setText("Open Recent File");
+        fileMenu.add(recentMenu);
         fileMenu.add(jSeparator17);
 
         saveFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -2048,11 +2052,57 @@ public void deleteText() {
 			textArea.requestFocusInWindow();
 }
 private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-      octavePanel.quit();  
-      System.exit(0);
-        
+           int j=fileTab.getTabCount()-1;
+                while(j != -1) {
+                   
+                    askSave(j);
+                    j--;
+                }
+      int option =  JOptionPane.showConfirmDialog(this, "Really do you want to exit?", "DomainMath IDE", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                 if(option == JOptionPane.YES_OPTION) {
+                      octavePanel.quit();
+                        File f = new File(System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"dmns.m");
+                        f.deleteOnExit();
+                        File dir_content[];
+                        try {
+                            dir_content =logDir.listFiles();
+                            for(int i=0; i<dir_content.length;i++) {
+                                Files.delete(dir_content[i].toPath());
+                            }
+                            Files.delete(logDir.toPath());
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                     this.dispose();
+                 }
+        saveRecentFilesList(System.getProperty("user.dir")+File.separator+"recent_file.ini");
 }//GEN-LAST:event_exitItemActionPerformed
 
+    private void loadRecentFiles() {
+        String line;
+        File file;
+        try {
+            FileInputStream fin = new FileInputStream(System.getProperty("user.dir")+File.separator+"recent_file.ini");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+            try {
+               
+                    while((line=br.readLine()) != null) {
+                        StringTokenizer s2 = new StringTokenizer(line,"|");
+                        while(s2.hasMoreTokens()) {
+                             file = new File(s2.nextToken());
+                             this.addRecentMenuItem(file.getName(), file.getAbsolutePath());
+                        
+                        }
+                }
+                br.close();
+            } catch (IOException ex) {
+             //   ex.printStackTrace();
+            }
+              } catch (FileNotFoundException ex) {
+            //ex.printStackTrace();
+        }
+        
+    }
 private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
         try {
             octavePanel.outputArea.print();
@@ -2223,6 +2273,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
                         }
                      this.dispose();
                  }
+                 saveRecentFilesList(System.getProperty("user.dir")+File.separator+"recent_file.ini");
 }//GEN-LAST:event_formWindowClosing
 
 private void createFile(String path,String ext)  {
@@ -2862,21 +2913,52 @@ public void saveplot() {
                  int i =  JOptionPane.showConfirmDialog(this, "Do you want to save changes in "+f+" ?", "DomainMath IDE", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
                  if(i == JOptionPane.YES_OPTION) {
                      File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
+                       addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
+                      
+                   
                      save(selected_file,selectedIndex);
 
                  }else if (i == JOptionPane.NO_OPTION){
                       this.removeFileNameFromList(selectedIndex);
+                      File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
+                      addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
                      fileTab.remove(selectedIndex);
                      FILE_TAB_INDEX--;
                     
                  }
             }else {
                 removeFileNameFromList(selectedIndex);
+                File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
+              
+                 addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
+                   
                 fileTab.remove(selectedIndex);
                 FILE_TAB_INDEX--;
             }
     }
 
+    private void addRecentMenuItem(String name, String absolutePath) {
+    
+         recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
+
+    }
+    
+    private void saveRecentFilesList(String file){
+         try {
+            try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
+                
+               for(int i=0; i<recentMenu.getItemCount(); i++){
+                   r.append(recentMenu.getItem(i).getToolTipText()+"|");
+               }
+                r.close();
+                
+            }
+                       
+		} catch (Exception re) {
+		JOptionPane.showMessageDialog(this,re.toString(),"Error",JOptionPane.ERROR_MESSAGE);
+                
+		}
+    }
    
      class PopupListener extends MouseAdapter {
         JPopupMenu popup;
@@ -3264,6 +3346,7 @@ public void saveplot() {
     private javax.swing.JMenuItem printFileItem;
     private javax.swing.JMenuItem printItem;
     private javax.swing.JMenuItem quickHelpItem;
+    private javax.swing.JMenu recentMenu;
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem referenceItem;
     private javax.swing.JMenu referenceMenu;
