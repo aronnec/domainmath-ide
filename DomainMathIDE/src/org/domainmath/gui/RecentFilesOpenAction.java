@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 
 public class RecentFilesOpenAction extends BaseAction{
@@ -43,7 +44,8 @@ public class RecentFilesOpenAction extends BaseAction{
     @Override
     public void actionPerformed(ActionEvent action_event) {
         File file1=new File(fileName);
-       if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
+        if(file1.exists()) {
+            if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
 
            frame.open(file1, MainFrame.FILE_TAB_INDEX);
            frame.setCurrentDirFileTab(file1.getParent()); 
@@ -52,6 +54,12 @@ public class RecentFilesOpenAction extends BaseAction{
         }else {
             System.out.println(file1.getAbsolutePath()+" already open!");
         }
+        }else{
+            JOptionPane.showMessageDialog(frame, file1.getName()+" does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+            JMenuItem item = (JMenuItem) action_event.getSource();
+           menu.remove(item);
+        }
+       
 
     }
 }
