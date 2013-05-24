@@ -2938,8 +2938,13 @@ public void saveplot() {
     }
 
     private void addRecentMenuItem(String name, String absolutePath) {
-    
-         recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
+        if(recentMenu.getItemCount() >=10) {
+            recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
+            recentMenu.remove(0);
+        }else{
+            recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
+        }
+         
 
     }
     
