@@ -247,7 +247,16 @@ public final class MainFrame extends javax.swing.JFrame {
      * Start up or default directory.
      */
     private final String startupDir;
+    
+    /**
+     * Status bar.
+     */
     public static StatusPanel statusPanel;
+    
+    /**
+     * Menu contain recently opened files list.
+     */
+    private final RecentFileMenu recentFileMenu;
     
     /** 
      * Creates new form MainFrame.
@@ -285,7 +294,7 @@ public final class MainFrame extends javax.swing.JFrame {
         histArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
-        loadRecentFiles();
+        
         workspace =new WorkspacePanel(parent_root+"DomainMath_OctaveVariables.dat",this);
 
         outlookBar = new JAccordion();
@@ -293,6 +302,16 @@ public final class MainFrame extends javax.swing.JFrame {
         outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
         histPanel();
 
+        recentFileMenu=new RecentFileMenu("RecentFiles",10){
+            @Override
+        	public void onSelectFile(String filePath){
+        		onRecentFile(filePath);
+        	}
+
+           
+    	};
+        this.fileMenu.add(recentFileMenu,2);
+        
         splitPaneFileTab= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
         splitPaneFileTab.setDividerLocation(300);
        splitPaneFileTab.setOneTouchExpandable(true);
@@ -329,6 +348,22 @@ public final class MainFrame extends javax.swing.JFrame {
         return currentDirFileTab;
     }
 
+     private void onRecentFile(String fileName) {
+             File file1=new File(fileName);
+        if(file1.exists()) {
+            if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
+
+           open(file1, MainFrame.FILE_TAB_INDEX);
+          setCurrentDirFileTab(file1.getParent()); 
+         
+        }else {
+            System.out.println(file1.getAbsolutePath()+" already open!");
+        }
+        }else{
+            JOptionPane.showMessageDialog(this, file1.getName()+" does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+           
+        }    
+     }
     /**
      * Set folder or Parent of last selected file in file tab.
      * @param currentDirFileTab
@@ -698,7 +733,6 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         newFileItem = new javax.swing.JMenuItem();
         openItem = new javax.swing.JMenuItem();
-        recentMenu = new javax.swing.JMenu();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         saveFileItem = new javax.swing.JMenuItem();
         saveAsItem = new javax.swing.JMenuItem();
@@ -1049,9 +1083,6 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openItem);
-
-        recentMenu.setText("Open Recent File");
-        fileMenu.add(recentMenu);
         fileMenu.add(jSeparator17);
 
         saveFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -2076,34 +2107,10 @@ private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         System.exit(0);
                      this.dispose();
                  }
-        saveRecentFilesList(System.getProperty("user.dir")+File.separator+"recent_file.ini");
+     
 }//GEN-LAST:event_exitItemActionPerformed
 
-    private void loadRecentFiles() {
-        String line;
-        File file;
-        try {
-            FileInputStream fin = new FileInputStream(System.getProperty("user.dir")+File.separator+"recent_file.ini");
-            BufferedReader br = new BufferedReader(new InputStreamReader(fin));
-            try {
-               
-                    while((line=br.readLine()) != null) {
-                        StringTokenizer s2 = new StringTokenizer(line,"|");
-                        while(s2.hasMoreTokens()) {
-                             file = new File(s2.nextToken());
-                             this.addRecentMenuItem(file.getName(), file.getAbsolutePath());
-                        
-                        }
-                }
-                br.close();
-            } catch (IOException ex) {
-             //   ex.printStackTrace();
-            }
-              } catch (FileNotFoundException ex) {
-            //ex.printStackTrace();
-        }
-        
-    }
+ 
 private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
         try {
             octavePanel.outputArea.print();
@@ -2274,7 +2281,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
                         }
                      this.dispose();
                  }
-                 saveRecentFilesList(System.getProperty("user.dir")+File.separator+"recent_file.ini");
+               
 }//GEN-LAST:event_formWindowClosing
 
 private void createFile(String path,String ext)  {
@@ -2914,15 +2921,16 @@ public void saveplot() {
                  int i =  JOptionPane.showConfirmDialog(this, "Do you want to save changes in "+f+" ?", "DomainMath IDE", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
                  if(i == JOptionPane.YES_OPTION) {
                      File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
-                       addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
-                      
+                       
+                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
                    
                      save(selected_file,selectedIndex);
 
                  }else if (i == JOptionPane.NO_OPTION){
                       this.removeFileNameFromList(selectedIndex);
                       File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
-                      addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
+                     
+                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
                      fileTab.remove(selectedIndex);
                      FILE_TAB_INDEX--;
                     
@@ -2931,40 +2939,15 @@ public void saveplot() {
                 removeFileNameFromList(selectedIndex);
                 File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
               
-                 addRecentMenuItem(selected_file.getName(),selected_file.getAbsolutePath());
-                   
+               
+                 recentFileMenu.addEntry(selected_file.getAbsolutePath());  
                 fileTab.remove(selectedIndex);
                 FILE_TAB_INDEX--;
             }
     }
 
-    private void addRecentMenuItem(String name, String absolutePath) {
-        if(recentMenu.getItemCount() >=10) {
-            recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
-            recentMenu.remove(0);
-        }else{
-            recentMenu.add(new RecentFilesOpenAction(this,recentMenu,name,absolutePath));
-        }
-         
-
-    }
-    
-    private void saveRecentFilesList(String file){
-         try {
-            try (BufferedWriter r = new BufferedWriter(new FileWriter(file))) {
-                
-               for(int i=0; i<recentMenu.getItemCount(); i++){
-                   r.append(recentMenu.getItem(i).getToolTipText()+"|");
-               }
-                r.close();
-                
-            }
-                       
-		} catch (Exception re) {
-		JOptionPane.showMessageDialog(this,re.toString(),"Error",JOptionPane.ERROR_MESSAGE);
-                
-		}
-    }
+  
+   
    
      class PopupListener extends MouseAdapter {
         JPopupMenu popup;
@@ -3352,7 +3335,6 @@ public void saveplot() {
     private javax.swing.JMenuItem printFileItem;
     private javax.swing.JMenuItem printItem;
     private javax.swing.JMenuItem quickHelpItem;
-    private javax.swing.JMenu recentMenu;
     private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem referenceItem;
     private javax.swing.JMenu referenceMenu;
