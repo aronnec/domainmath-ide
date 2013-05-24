@@ -50,6 +50,9 @@ public class ExecHelper implements Runnable {
 		handler.processEnded(exitValue);
 	}
 
+        public void exit() {
+            process.destroy();
+        }
 	private void processNewInput(String input) {
 		// Handle process new input..
 		handler.processNewInput(input);

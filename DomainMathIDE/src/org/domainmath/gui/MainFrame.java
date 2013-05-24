@@ -2073,6 +2073,7 @@ private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         } catch (IOException ex) {
                             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        System.exit(0);
                      this.dispose();
                  }
         saveRecentFilesList(System.getProperty("user.dir")+File.separator+"recent_file.ini");
