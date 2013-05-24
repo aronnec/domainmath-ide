@@ -247,6 +247,7 @@ public final class MainFrame extends javax.swing.JFrame {
      * Start up or default directory.
      */
     private final String startupDir;
+    public static StatusPanel statusPanel;
     
     /** 
      * Creates new form MainFrame.
@@ -300,10 +301,9 @@ public final class MainFrame extends javax.swing.JFrame {
        //splitPane.setOneTouchExpandable(true);
        splitPaneOutLookBar.setDividerLocation(250);
        add(splitPaneOutLookBar,BorderLayout.CENTER);
-       
-       
-       // add(octavePanel,BorderLayout.CENTER);
-        add(new StatusPanel(),BorderLayout.PAGE_END);
+        // add(octavePanel,BorderLayout.CENTER);
+        statusPanel = new StatusPanel();
+        add(statusPanel,BorderLayout.PAGE_END);
         
         
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);

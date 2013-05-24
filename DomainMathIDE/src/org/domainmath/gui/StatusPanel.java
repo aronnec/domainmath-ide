@@ -35,5 +35,9 @@ public class StatusPanel extends JPanel{
         this.setBorder(BorderFactory.createEtchedBorder());
        add(status_label,BorderLayout.PAGE_END);
     }
+    
+    public void changeStatus(String status) {
+        this.status_label.setText(status);
+    }
 
 }

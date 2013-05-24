@@ -86,7 +86,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
                     
                     
                     if (exh == null) {
-                                 outputArea.append("Connecting..."+"\n");
+                                MainFrame.statusPanel.changeStatus("Connecting to Octave");
+                                 
                                 String path2 =frame.getOctavePath()+" "+frame.getCmdLineOptions();
                                 String addpath = " --path "+Character.toString('"') +System.getProperty("user.dir")+File.separator+"scripts"+Character.toString('"');
                    
@@ -94,13 +95,14 @@ public class OctavePanel extends JPanel implements ExecProcessor{
                                 System.err.println(path2+addpath);
 				oc.find(frame.getStartupCmd());
                                 oc.find("warning off");
-			
+                                MainFrame.statusPanel.changeStatus("Ready");
                     }
 
                    
                    
 
                  } catch (Exception ex) {
+                        MainFrame.statusPanel.changeStatus("Unable to find Octave");
                         JOptionPane.showMessageDialog(frame, "Unable to find Octave","DomainMath IDE",JOptionPane.ERROR_MESSAGE);
                         preferencesDlg = new PreferencesDlg(frame,true);
                          preferencesDlg.setLocationRelativeTo(this);
@@ -400,9 +402,12 @@ public class OctavePanel extends JPanel implements ExecProcessor{
 
     public void _eval(String text) {
         if (exh != null) {
+                       
                           exh.println(text);
+                          
 
                   }
+       
     }
       
    public void needOct(boolean need) {
