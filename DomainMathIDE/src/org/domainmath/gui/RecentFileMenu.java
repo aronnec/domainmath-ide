@@ -84,7 +84,7 @@ public abstract class RecentFileMenu extends JMenu{
 	 * @param filePath The new path to add.
 	 */
 	public void addEntry(String filePath){
-		this.addEntry(filePath,true);
+		this.addEntry(filePath,false);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public abstract class RecentFileMenu extends JMenu{
 				menuItem.addActionListener(new ActionListener(){
                                     @Override
 		            public void actionPerformed(ActionEvent actionEvent){
-		                onSelectFile(actionEvent.getActionCommand());
+		                onSelectFile(actionEvent.getActionCommand(),actionEvent);
 		            }
 		        });
 	        }
@@ -147,10 +147,24 @@ public abstract class RecentFileMenu extends JMenu{
 			}
 		}
 	}
-		
+	public void updateFile(){
+           try{
+                        try (FileWriter writer = new FileWriter(new File(this.pathToSavedFile))) {
+                            int topIndex=this.itemCount-1;
+                            for(int index=topIndex;index>=0;index--){
+                                    if(!this.recentEntries[index].equals(defaultText)){
+                                            writer.write(this.recentEntries[index]);
+                                            writer.write("\n");
+                                    }
+                            }
+                            writer.flush();
+                        }
+			} catch(Exception x){
+			} 
+        }
 	/**
 	 * Event that fires when a recent file is selected from the menu. Override this when implementing.
 	 * @param filePath The file that was selected.
 	 */
-	public abstract void onSelectFile(String filePath);
+	public abstract void onSelectFile(String filePath,ActionEvent action_event);
 }

@@ -304,8 +304,8 @@ public final class MainFrame extends javax.swing.JFrame {
 
         recentFileMenu=new RecentFileMenu("RecentFiles",10){
             @Override
-        	public void onSelectFile(String filePath){
-        		onRecentFile(filePath);
+        	public void onSelectFile(String filePath,ActionEvent action_event){
+        		onRecentFile(filePath,action_event);
         	}
 
            
@@ -348,7 +348,7 @@ public final class MainFrame extends javax.swing.JFrame {
         return currentDirFileTab;
     }
 
-     private void onRecentFile(String fileName) {
+     private void onRecentFile(String fileName,ActionEvent action_event) {
              File file1=new File(fileName);
         if(file1.exists()) {
             if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
@@ -361,7 +361,9 @@ public final class MainFrame extends javax.swing.JFrame {
         }
         }else{
             JOptionPane.showMessageDialog(this, file1.getName()+" does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
-           
+            JMenuItem item = (JMenuItem) action_event.getSource();
+            recentFileMenu.remove(item);
+            recentFileMenu.updateFile();
         }    
      }
     /**
