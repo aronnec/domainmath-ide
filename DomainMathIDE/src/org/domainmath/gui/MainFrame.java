@@ -363,7 +363,7 @@ public final class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, file1.getName()+" does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             JMenuItem item = (JMenuItem) action_event.getSource();
             recentFileMenu.remove(item);
-            recentFileMenu.updateFile();
+            
         }    
      }
     /**
