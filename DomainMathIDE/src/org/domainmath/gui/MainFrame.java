@@ -2082,8 +2082,8 @@ public void deleteText() {
 
 			textArea.requestFocusInWindow();
 }
-private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-           int j=fileTab.getTabCount()-1;
+private void exitDMI() {
+     int j=fileTab.getTabCount()-1;
                 while(j != -1) {
                    
                     askSave(j);
@@ -2108,6 +2108,9 @@ private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                      this.dispose();
                  }
      
+}
+private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
+         exitDMI() ;
 }//GEN-LAST:event_exitItemActionPerformed
 
  
@@ -2258,29 +2261,7 @@ private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_disconnectButtonActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        int j=fileTab.getTabCount()-1;
-                while(j != -1) {
-                   
-                    askSave(j);
-                    j--;
-                }
-      int option =  JOptionPane.showConfirmDialog(this, "Really do you want to exit?", "DomainMath IDE", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                 if(option == JOptionPane.YES_OPTION) {
-                      octavePanel.quit();
-                        File f = new File(System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"dmns.m");
-                        f.deleteOnExit();
-                        File dir_content[];
-                        try {
-                            dir_content =logDir.listFiles();
-                            for(int i=0; i<dir_content.length;i++) {
-                                Files.delete(dir_content[i].toPath());
-                            }
-                            Files.delete(logDir.toPath());
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                     this.dispose();
-                 }
+       exitDMI();
                
 }//GEN-LAST:event_formWindowClosing
 
@@ -2935,14 +2916,6 @@ public void saveplot() {
                      FILE_TAB_INDEX--;
                     
                  }
-            }else {
-                removeFileNameFromList(selectedIndex);
-                File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
-              
-               
-                 recentFileMenu.addEntry(selected_file.getAbsolutePath());  
-                fileTab.remove(selectedIndex);
-                FILE_TAB_INDEX--;
             }
     }
 
