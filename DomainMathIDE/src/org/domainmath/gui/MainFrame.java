@@ -64,6 +64,7 @@ import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.HmmerFrame;
 import org.domainmath.gui.packages.bioinfo.multi_seq_viewer.MultiSeqAlignViewerFrame;
+import org.domainmath.gui.packages.bioinfo.seq_viewer.SeqViewerFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
@@ -791,6 +792,7 @@ public final class MainFrame extends javax.swing.JFrame {
         pkgMenuItem = new javax.swing.JMenu();
         BioInfoMenu = new javax.swing.JMenu();
         sequenceViewerMenuItem = new javax.swing.JMenuItem();
+        multipleSequenceViewerMenuItem = new javax.swing.JMenuItem();
         hmmerItem = new javax.swing.JMenuItem();
         dataBaseMenuItem = new javax.swing.JMenuItem();
         dSmoothItem = new javax.swing.JMenuItem();
@@ -1471,6 +1473,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         BioInfoMenu.add(sequenceViewerMenuItem);
+
+        multipleSequenceViewerMenuItem.setText("Multiple Sequence Viewer");
+        multipleSequenceViewerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multipleSequenceViewerMenuItemActionPerformed(evt);
+            }
+        });
+        BioInfoMenu.add(multipleSequenceViewerMenuItem);
 
         hmmerItem.setText("Hmmer Service");
         hmmerItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3185,20 +3195,24 @@ public void saveplot() {
         workspace.refreshData();
     }//GEN-LAST:event_refreshItemActionPerformed
 
-    private void sequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceViewerMenuItemActionPerformed
-        //        SeqFrame seqFrame = new SeqFrame();
-        //        seqFrame.setLocationRelativeTo(this);
-        //        seqFrame.setVisible(true);
+    private void multipleSequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleSequenceViewerMenuItemActionPerformed
+      
         MultiSeqAlignViewerFrame multiSeqAlignViewerFrame = new MultiSeqAlignViewerFrame();
         multiSeqAlignViewerFrame.setLocationRelativeTo(this);
         multiSeqAlignViewerFrame.setVisible(true);
-    }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
+    }//GEN-LAST:event_multipleSequenceViewerMenuItemActionPerformed
 
     private void hmmerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmmerItemActionPerformed
         HmmerFrame hmmerFrame = new HmmerFrame();
         hmmerFrame.setLocationRelativeTo(this);
         hmmerFrame.setVisible(true);
     }//GEN-LAST:event_hmmerItemActionPerformed
+
+    private void sequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceViewerMenuItemActionPerformed
+                  SeqViewerFrame seqFrame = new SeqViewerFrame();
+                seqFrame.setLocationRelativeTo(this);
+                seqFrame.setVisible(true);
+    }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
 
     public static void main(String args[])   {
                  try {
@@ -3320,6 +3334,7 @@ public void saveplot() {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JMenuItem multicoreItem;
+    private javax.swing.JMenuItem multipleSequenceViewerMenuItem;
     private javax.swing.JMenuItem nNetMenuItem;
     private javax.swing.JMenuItem newFileItem;
     private javax.swing.JMenuItem newVariableItem;

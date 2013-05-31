@@ -655,6 +655,14 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sequenceViewerMenuItemActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="multipleSequenceViewerMenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Multiple Sequence Viewer"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleSequenceViewerMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="hmmerItem">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Hmmer Service"/>

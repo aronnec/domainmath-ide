@@ -89,7 +89,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         AboutItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sequence Viewer");
+        setTitle("Multiple Sequence Viewer");
 
         jMenu1.setText("File");
 

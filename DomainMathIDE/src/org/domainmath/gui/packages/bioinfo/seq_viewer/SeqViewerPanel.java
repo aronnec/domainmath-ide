@@ -76,8 +76,9 @@ public class SeqViewerPanel extends javax.swing.JPanel {
     private final DefaultListModel seq_details;
     char amino_acid[] ={'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',  'L',  'K',  'M',  'F',  'P',  'S',  'T',  'W',  'Y',  'V',  'B',  'Z',  'X',  '-'};
     private  int count;
-    private double percent;
+    private float percent;
     private int size;
+    private  float count_float;
            
 
     
@@ -104,7 +105,8 @@ public class SeqViewerPanel extends javax.swing.JPanel {
             
             
                 count = getCount(seq.toUpperCase(),amino_acid[j]);
-                percent = ((count*100)/this.getRowCount());
+                count_float = (float) (count*100);
+                percent = (count_float/this.getRowCount());
                 
                 if(count != 0) {
                     if(amino_acid[j] == '-') {
