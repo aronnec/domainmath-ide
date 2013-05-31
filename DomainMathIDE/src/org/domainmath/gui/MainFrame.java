@@ -291,7 +291,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         // set up histroy widget.
         histArea = new RSyntaxTextArea();
-        histArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        histArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_OCTAVE);
         histScrollPane  =new RTextScrollPane(histArea);
         histScrollPane.setWheelScrollingEnabled(true);
         
@@ -415,7 +415,7 @@ public final class MainFrame extends javax.swing.JFrame {
     public void setUpArea() {
         areaFileTab =new  RSyntaxTextArea();
       
-        areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_OCTAVE);
         scroll1 = new RTextScrollPane(areaFileTab);
          gutterFileTab = scroll1.getGutter();
         gutterFileTab.setVisible(true);
@@ -475,7 +475,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 setUpArea();
                 selectedFileToOpen= file.getName();
                 if(selectedFileToOpen.endsWith(".m")) {
-                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+                         areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_OCTAVE);
                         
                         needOct(true);
                     }else if(selectedFileToOpen.endsWith(".dyn")) {

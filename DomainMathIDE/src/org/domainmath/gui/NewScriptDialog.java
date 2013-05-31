@@ -202,7 +202,7 @@ public class NewScriptDialog extends javax.swing.JDialog {
         frame.setUpArea();
                 fname= file.getName();
                 if(fname.endsWith(".m")) {
-                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+                         frame.areaFileTab.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_OCTAVE);
                         
                          frame.areaFileTab.setCodeFoldingEnabled(true);
                     }else if(fname.endsWith(".dyn")) {

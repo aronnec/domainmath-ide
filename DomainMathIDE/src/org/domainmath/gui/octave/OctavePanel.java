@@ -122,7 +122,7 @@ public class OctavePanel extends JPanel implements ExecProcessor{
         Font font = new	Font("Monospaced",Font.PLAIN,13);
         outputArea.setFont(font);
         commandArea =new RSyntaxTextArea();
-        commandArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        commandArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_OCTAVE);
         outputArea.setDragEnabled(true);
         scrollOutputArea = new JScrollPane(outputArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         outputArea.setBackground(new Color(255,255,193));    
