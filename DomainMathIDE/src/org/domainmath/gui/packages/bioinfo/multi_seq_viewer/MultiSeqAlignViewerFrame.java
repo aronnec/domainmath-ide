@@ -111,7 +111,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         });
         jMenu1.add(saveAsMenuItem);
 
-        jMenuItem1.setText("Export");
+        jMenuItem1.setText("Export to Workspace");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
