@@ -246,7 +246,7 @@ public class MultiSeqViewerPanel extends javax.swing.JPanel {
                 listSequence.setVisibleRowCount(k);
                 this.setRowCount(listSequenceModel.getSize());
         }catch(Exception e) {
-            e.printStackTrace();
+            
         }
     }
     /**

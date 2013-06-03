@@ -63,7 +63,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
     public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
        private String var_name;
     private int tab_index=0;
-    private DefaultListModel listSequenceModel;
+    
     private DefaultListModel listDetails;
     private File selectedFile;
 

@@ -37,7 +37,6 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -59,8 +58,6 @@ public class SeqViewerPanel extends javax.swing.JPanel {
    
 
     public List header =Collections.synchronizedList(new ArrayList());
-    
-    private  DefaultListModel listConsensusModel;
 
     public JList listDetails;
     private JSplitPane splitPane;
@@ -245,9 +242,11 @@ public class SeqViewerPanel extends javax.swing.JPanel {
     private final Border empBorder = BorderFactory.createEmptyBorder(2,2,2,2);
     private final Point srcPoint = new Point();
     public Path2D polygon = null;
+        private final Font fontLabel;
     public SeqListCellRenderer() {
         super(new BorderLayout());
-        
+        fontLabel = new Font("Monospaced",Font.BOLD,13);
+        label.setFont(fontLabel);
         label.setOpaque(true);
         label.setForeground(getForeground());
         label.setBackground(getBackground());
@@ -331,56 +330,56 @@ public class SeqViewerPanel extends javax.swing.JPanel {
             }else{
                     
                     if(item.equalsIgnoreCase("A")) {
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(200,200,200));
+                        label.setForeground(new Color(200,200,200));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("C") ||
                             item.equalsIgnoreCase("M")) {
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(230,230,0));
+                        label.setForeground(new Color(230,230,0));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("N") ||
                             item.equalsIgnoreCase("Q")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color( 0,220,220));
+                        label.setForeground(new Color( 0,220,220));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("I") ||
                             item.equalsIgnoreCase("L") ||
                             item.equalsIgnoreCase("V")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(15,130,15));
+                        label.setForeground(new Color(15,130,15));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("F")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(20,90,255));
+                        label.setForeground(new Color(20,90,255));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("H")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(130,130,210));
+                        label.setForeground(new Color(130,130,210));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("K") ||
                             item.equalsIgnoreCase("R")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(20,90,255));
+                        label.setForeground(new Color(20,90,255));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("G")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(235,235,235));
+                        label.setForeground(new Color(235,235,235));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("S") ||
                             item.equalsIgnoreCase("T")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(250,150,0));
+                        label.setForeground(new Color(250,150,0));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("D") ||
                             item.equalsIgnoreCase("E")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(230,10,10));
+                        label.setForeground(new Color(230,10,10));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("Y")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(50,50,170));
+                        label.setForeground(new Color(50,50,170));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("B") ||
                             item.equalsIgnoreCase("Z") ||
                             item.equalsIgnoreCase("X")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(190,160,110));
+                        label.setForeground(new Color(190,160,110));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("P")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(220,150,130));
+                        label.setForeground(new Color(220,150,130));
+                        label.setBackground(listDetails.getBackground());
                     }else if(item.equalsIgnoreCase("W")) { 
-                        label.setForeground(listDetails.getForeground());
-                        label.setBackground(new Color(180,90,180));
+                        label.setForeground(new Color(180,90,180));
+                        label.setBackground(listDetails.getBackground());
                     }
                     
                     else{
