@@ -35,6 +35,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.biojava3.core.util.ConcurrencyTools;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
@@ -248,6 +249,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_openItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
+        ConcurrencyTools.shutdown();
         dispose();
     }//GEN-LAST:event_exitItemActionPerformed
 

@@ -54,6 +54,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
+import org.biojava3.alignment.Alignments;
+import org.biojava3.alignment.template.AlignedSequence;
+import org.biojava3.alignment.template.Profile;
 import org.biojava3.core.sequence.ProteinSequence;
 import org.biojava3.core.sequence.compound.AminoAcidCompound;
 import org.biojava3.core.sequence.compound.AminoAcidCompoundSet;
@@ -80,6 +83,7 @@ public class MultiSeqViewerPanel extends javax.swing.JPanel {
     public Path2D polygon = null;
     private final Font fontListConsensus;
     private int listRowCount;
+    private List<AlignedSequence<ProteinSequence, AminoAcidCompound>> p;
 
     
      public MultiSeqViewerPanel(File f){
@@ -208,21 +212,33 @@ public class MultiSeqViewerPanel extends javax.swing.JPanel {
                
 		for (  Map.Entry<String, ProteinSequence> entry : b.entrySet() ) {
                     listConsensusModel.addElement(entry.getValue().getOriginalHeader());
-                    s=entry.getValue().getSequenceAsString();
-                    t =s.split("");
-
-                    for(int j=0; j<t.length; j++) {
-                       listSequenceModel.addElement(t[j]);
-                    }
+                   
                     this.header.add(entry.getValue().getOriginalHeader());
-                    this.Sequence.add(entry.getValue().getSequenceAsString());
+                    this.Sequence.add(entry.getValue());
                    
 
 		}
+                  Profile<ProteinSequence, AminoAcidCompound> profile = Alignments.getMultipleSequenceAlignment(Sequence);
+                   
+                  p =profile.getAlignedSequences();
+                                  
+                  
+                  for(int i=0; i<p.size(); i++) {
+                      s=p.get(i).getSequenceAsString();
+                      t =s.split("");
+                      for(int j=0; j<t.length; j++) {
+                       listSequenceModel.addElement(t[j]);
+                    }
+                  }
+                    
                 
+                    
+                    
                 int k=0;
                 for(int i=0; i<listSequenceModel.getSize(); i++) {
-                    if(listSequenceModel.get(i).equals("")) {
+                    if(listSequenceModel.get(i)==null ||
+                            listSequenceModel.get(i).equals("\n") ||
+                            listSequenceModel.get(i).equals("") ) {
                       k++;
                       listSequenceModel.remove(i);
                     }
@@ -230,6 +246,7 @@ public class MultiSeqViewerPanel extends javax.swing.JPanel {
                 listSequence.setVisibleRowCount(k);
                 this.setRowCount(listSequenceModel.getSize());
         }catch(Exception e) {
+            e.printStackTrace();
         }
     }
     /**
