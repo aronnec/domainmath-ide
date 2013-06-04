@@ -91,6 +91,11 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Multiple Sequence Viewer");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -333,6 +338,11 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
            System.out.println("Written");
        }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       ConcurrencyTools.shutdown();
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
