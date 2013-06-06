@@ -22,6 +22,10 @@ package org.domainmath.gui.packages.bioinfo.seq_viewer;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +43,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.biojava3.core.sequence.ProteinSequence;
@@ -51,6 +57,8 @@ import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
+import org.domainmath.gui.packages.image.ImageLoadDialog;
+import org.domainmath.gui.packages.image.ImageToolFrame;
 
 
 
@@ -62,17 +70,23 @@ public class SeqViewerFrame extends javax.swing.JFrame {
    
     public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
        private String var_name;
-    private int tab_index=0;
+   
     
     private DefaultListModel listDetails;
     private File selectedFile;
-
+    private JPopupMenu popup;
+    private JMenuItem pcloseItem;
+    private JMenuItem pcloseAllItem;
+    
+    private  List fileNameList =Collections.synchronizedList(new ArrayList());
+    public static  int index;
     public SeqViewerFrame() {
         setIconImage(icon);
         
         setSize(800,600);
         setLocationRelativeTo(null);
         initComponents();
+        this.popupTab();
     }
 
    
@@ -86,12 +100,19 @@ public class SeqViewerFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         statusPanel2 = new org.domainmath.gui.StatusPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        fileTab = new javax.swing.JTabbedPane();
+        jToolBar1 = new javax.swing.JToolBar();
+        openButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         openItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        closeMenuItem = new javax.swing.JMenuItem();
+        closeAllMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
@@ -108,11 +129,38 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sequence Viewer");
 
-        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        fileTab.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+
+        jToolBar1.setFloatable(false);
+
+        openButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
+        openButton.setToolTipText("Open");
+        openButton.setFocusable(false);
+        openButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        openButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        openButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(openButton);
+
+        saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
+        saveButton.setToolTipText("Save");
+        saveButton.setFocusable(false);
+        saveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(saveButton);
 
         jMenu1.setText("File");
 
         openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-open.png"))); // NOI18N
         openItem.setText("Open");
         openItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +170,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         jMenu1.add(openItem);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-save.png"))); // NOI18N
         saveMenuItem.setText("Save");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +186,26 @@ public class SeqViewerFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator1);
+
+        closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        closeMenuItem.setText("Close");
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(closeMenuItem);
+
+        closeAllMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        closeAllMenuItem.setText("Close All..");
+        closeAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeAllMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(closeAllMenuItem);
+        jMenu1.add(jSeparator2);
 
         exitItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
         exitItem.setText("Exit");
@@ -230,12 +299,15 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(statusPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(fileTab)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(fileTab, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(statusPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -269,9 +341,11 @@ public class SeqViewerFrame extends javax.swing.JFrame {
                     listDetails.addElement(entry.getValue().getOriginalHeader());
                     s=entry.getValue().getSequenceAsString();
                     
-                     this.jTabbedPane1.add(entry.getValue().getOriginalHeader(),new SeqViewerPanel(s));
-                    this.jTabbedPane1.setSelectedIndex(tab_index);
-                    tab_index++;
+                     this.fileTab.add(entry.getValue().getOriginalHeader(),new SeqViewerPanel(s));
+                    this.fileTab.setSelectedIndex(index);
+                     this.addFileNameToList(entry.getValue().getOriginalHeader());
+                    index++;
+                   
                     
                     this.header.add(entry.getValue().getOriginalHeader());
                     
@@ -283,16 +357,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         }
     }
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
-       JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.setMultiSelectionEnabled(false);
-        fc.setFileFilter(DomainMathFileFilter.FASTA_FILE_FILTER);
-       
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            this.setSelectedFile(fc.getSelectedFile());
-            getFasta();
-         } 
+       open();
     }//GEN-LAST:event_openItemActionPerformed
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
@@ -341,8 +406,8 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         exportVarTo(exportDialog.getVar_name());
         
         String v=this.getExportVarName();
-        if(this.jTabbedPane1.getSelectedIndex() >= 0) {
-           SeqViewerPanel p = (SeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
+        if(this.fileTab.getSelectedIndex() >= 0) {
+           SeqViewerPanel p = (SeqViewerPanel) this.fileTab.getComponentAt(this.fileTab.getSelectedIndex());
          if(!v.equals("")){
                         
                         for(int i=0; i<p.listSequence.getModel().getSize();i++) {
@@ -357,7 +422,153 @@ public class SeqViewerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-      if(this.jTabbedPane1.getSelectedIndex() >= 0) {
+        save();
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+         if(fileTab.getSelectedIndex() >= 0) { 
+                   
+                    removeFileNameFromList(fileTab.getSelectedIndex());
+                   
+                   fileTab.remove(fileTab.getSelectedIndex());
+                   index--;
+               }
+    }//GEN-LAST:event_closeMenuItemActionPerformed
+
+    private void closeAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeAllMenuItemActionPerformed
+        int i=fileTab.getTabCount()-1;
+        while(i != -1) {
+
+            removeFileNameFromList(i);
+            fileTab.remove(i);
+            index--;
+            i--;
+        }
+    }//GEN-LAST:event_closeAllMenuItemActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        save();
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
+        open();
+    }//GEN-LAST:event_openButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+           try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+       } catch(ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+       }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new SeqViewerFrame().setVisible(true);
+            }
+        });
+    }
+
+  
+ public void addFileNameToList(String name) {
+        fileNameList.add(name);
+    }
+    
+    public void removeFileNameFromList(int index) {
+        fileNameList.remove(index);
+    }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AboutItem;
+    private javax.swing.JMenuItem closeAllMenuItem;
+    private javax.swing.JMenuItem closeMenuItem;
+    private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenuItem faqItem;
+    private javax.swing.JMenuItem feedBackItem;
+    private javax.swing.JTabbedPane fileTab;
+    private javax.swing.JMenuItem forumItem;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem howToItem;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem onlineHelpItem;
+    private javax.swing.JButton openButton;
+    private javax.swing.JMenuItem openItem;
+    private javax.swing.JMenuItem reportBugItem;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JMenuItem saveMenuItem;
+    private org.domainmath.gui.StatusPanel statusPanel2;
+    private javax.swing.JMenuItem suggestionsItem;
+    // End of variables declaration//GEN-END:variables
+
+    private void exportVarTo(String var_name) {
+        this.var_name=var_name;
+    }
+
+    public void setSelectedFile(File selectedFile) {
+        this.selectedFile = selectedFile;
+    }
+
+    public File getSelectedFile() {
+        return this.selectedFile;
+    }
+   
+    private void popupTab(){
+         popup = new JPopupMenu();
+         
+         pcloseItem = new JMenuItem("Close");
+         pcloseAllItem = new JMenuItem("Close All");
+       
+       
+        popup.add(pcloseItem);
+        popup.add(pcloseAllItem);
+       fileTab.addMouseListener(new PopupListener(popup));
+        pcloseItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 if(fileTab.getSelectedIndex() >= 0) { 
+                   
+                    removeFileNameFromList(fileTab.getSelectedIndex());
+                   
+                   fileTab.remove(fileTab.getSelectedIndex());
+                  index--;
+               }
+               
+            }
+  
+        });
+        
+        pcloseAllItem.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i=fileTab.getTabCount()-1;
+                while(i != -1) {
+
+                    removeFileNameFromList(i);
+                    fileTab.remove(i);
+                    index--;
+                    i--;
+                }
+ 
+           }
+
+        });
+        
+       
+    }
+
+    private void save() {
+         if(this.fileTab.getSelectedIndex() >= 0) {
           JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fc.setMultiSelectionEnabled(false);
@@ -368,7 +579,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
             this.setSelectedFile(fc.getSelectedFile());
              
              try {
-                SeqViewerPanel p = (SeqViewerPanel) this.jTabbedPane1.getComponentAt(this.jTabbedPane1.getSelectedIndex());
+                SeqViewerPanel p = (SeqViewerPanel) this.fileTab.getComponentAt(this.fileTab.getSelectedIndex());
                 JList list = p.listSequence;
                 DomainMathDialog getTagDialog = new DomainMathDialog(this,true,"Tag Name:");
                 getTagDialog.setTitle("Add Tag Name ");
@@ -393,61 +604,43 @@ public class SeqViewerFrame extends javax.swing.JFrame {
            
            System.out.println("Written");
        }
-    }//GEN-LAST:event_saveMenuItemActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-           try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-       } catch(ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-       }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new SeqViewerFrame().setVisible(true);
-            }
-        });
     }
 
-  
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem AboutItem;
-    private javax.swing.JMenuItem exitItem;
-    private javax.swing.JMenuItem faqItem;
-    private javax.swing.JMenuItem feedBackItem;
-    private javax.swing.JMenuItem forumItem;
-    private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem howToItem;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPopupMenu.Separator jSeparator14;
-    private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JMenuItem onlineHelpItem;
-    private javax.swing.JMenuItem openItem;
-    private javax.swing.JMenuItem reportBugItem;
-    private javax.swing.JMenuItem saveMenuItem;
-    private org.domainmath.gui.StatusPanel statusPanel2;
-    private javax.swing.JMenuItem suggestionsItem;
-    // End of variables declaration//GEN-END:variables
-
-    private void exportVarTo(String var_name) {
-        this.var_name=var_name;
+    private void open() {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        fc.setFileFilter(DomainMathFileFilter.FASTA_FILE_FILTER);
+       
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            this.setSelectedFile(fc.getSelectedFile());
+            getFasta();
+         } 
     }
-
-    public void setSelectedFile(File selectedFile) {
-        this.selectedFile = selectedFile;
-    }
-
-    public File getSelectedFile() {
-        return this.selectedFile;
-    }
-   
     
+     class PopupListener extends MouseAdapter {
+        JPopupMenu popup;
+
+        PopupListener(JPopupMenu popupMenu) {
+            popup = popupMenu;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            maybeShowPopup(e);
+        }
+
+        private void maybeShowPopup(MouseEvent e) {
+            if (e.isPopupTrigger() && fileTab.getTabCount() > 0) {
+                popup.show(e.getComponent(),
+                           e.getX(), e.getY());
+            }
+        }
+    }
 }
