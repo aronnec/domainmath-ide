@@ -408,12 +408,18 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         String v=this.getExportVarName();
         if(this.fileTab.getSelectedIndex() >= 0) {
            SeqViewerPanel p = (SeqViewerPanel) this.fileTab.getComponentAt(this.fileTab.getSelectedIndex());
+           String seq2 = null;
+            for(int i=0; i<p.listSequence.getModel().getSize();i++) {
+                            
+                         
+                            seq2 +=p.listSequence.getModel().getElementAt(i);
+             }
          if(!v.equals("")){
                         
                         for(int i=0; i<p.listSequence.getModel().getSize();i++) {
                             
                          
-                            MainFrame.octavePanel.evaluate(v+"("+(i+1)+").Sequence='"+p.listSequence.getModel().getElementAt(i)+"';");
+                            MainFrame.octavePanel.evaluate(v+"="+seq2+";");
                         }
          }
          MainFrame.reloadWorkspace(); 
