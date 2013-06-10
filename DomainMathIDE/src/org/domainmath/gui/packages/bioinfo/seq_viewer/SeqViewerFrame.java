@@ -23,7 +23,6 @@ import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
@@ -57,8 +56,6 @@ import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.common.DomainMathDialog;
-import org.domainmath.gui.packages.image.ImageLoadDialog;
-import org.domainmath.gui.packages.image.ImageToolFrame;
 
 
 
@@ -108,7 +105,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         openItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        exoprtMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         closeMenuItem = new javax.swing.JMenuItem();
         closeAllMenuItem = new javax.swing.JMenuItem();
@@ -179,13 +176,13 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         });
         jMenu1.add(saveMenuItem);
 
-        jMenuItem1.setText("Export to Workspace");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        exoprtMenuItem.setText("Export to Workspace");
+        exoprtMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                exoprtMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(exoprtMenuItem);
         jMenu1.add(jSeparator1);
 
         closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
@@ -398,7 +395,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
         aboutDlg.setVisible(true);
     }//GEN-LAST:event_AboutItemActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void exoprtMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exoprtMenuItemActionPerformed
         DomainMathDialog exportDialog = new DomainMathDialog(this,true,"Name:");
         exportDialog.setTitle("Export Sequence");
         exportDialog.setLocationRelativeTo(this);
@@ -426,7 +423,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
          MainFrame.reloadWorkspace(); 
         }
         
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_exoprtMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         save();
@@ -492,6 +489,7 @@ public class SeqViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem closeAllMenuItem;
     private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenuItem exoprtMenuItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JTabbedPane fileTab;
@@ -500,7 +498,6 @@ public class SeqViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem howToItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;

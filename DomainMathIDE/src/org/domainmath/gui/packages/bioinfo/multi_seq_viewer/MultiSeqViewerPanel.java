@@ -249,6 +249,9 @@ public class MultiSeqViewerPanel extends javax.swing.JPanel {
             
         }
     }
+        public int getCountListlistConsensus() {
+           return  this.listConsensus.getModel().getSize();
+        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

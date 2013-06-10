@@ -40,6 +40,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.biojava3.core.util.ConcurrencyTools;
@@ -92,7 +94,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         openItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        exportMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         closeMenuItem = new javax.swing.JMenuItem();
         closeAllMenuItem = new javax.swing.JMenuItem();
@@ -164,13 +166,13 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         });
         jMenu1.add(saveMenuItem);
 
-        jMenuItem1.setText("Export to Workspace");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        exportMenuItem.setText("Export to Workspace");
+        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                exportMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(exportMenuItem);
         jMenu1.add(jSeparator2);
 
         closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
@@ -352,7 +354,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
         aboutDlg.setVisible(true);
     }//GEN-LAST:event_AboutItemActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
         DomainMathDialog exportDialog = new DomainMathDialog(this,true,"Name:");
         exportDialog.setTitle("Export Sequence");
         exportDialog.setLocationRelativeTo(this);
@@ -372,12 +374,22 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
          MainFrame.reloadWorkspace(); 
         }
         
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_exportMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
       save();
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    private String getSequence(int size,int c,int r,ListModel model) {
+                    int c_end=c+r;
+                    String seq="";
+                    for (int i=c; i<c_end;i++ ) {
+                        if (i < size) {
+                            seq+=model.getElementAt(i);
+                        }
+                    }
+         return seq;
+    }
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        ConcurrencyTools.shutdown();
         dispose();
@@ -443,6 +455,7 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem closeAllMenuItem;
     private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JTabbedPane fileTab;
@@ -451,7 +464,6 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem howToItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -553,20 +565,20 @@ public class MultiSeqAlignViewerFrame extends javax.swing.JFrame {
              
              try {
                 MultiSeqViewerPanel p = (MultiSeqViewerPanel) this.fileTab.getComponentAt(this.fileTab.getSelectedIndex());
-                JList list = p.listSequence;
-                DomainMathDialog getTagDialog = new DomainMathDialog(this,true,"Tag Name:");
-                getTagDialog.setTitle("Add Tag Name ");
-                getTagDialog.setLocationRelativeTo(this);
-                getTagDialog.setVisible(true);
-                
-                BufferedWriter w = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
-                w.write(">"+getTagDialog.getVar_name());
-                w.newLine();
-                
-                 for(int i=0; i<list.getModel().getSize(); i++) {
-                    w.append(list.getModel().getElementAt(i).toString());
+
+                int r = p.getRowCount()/p.listConsensus.getModel().getSize();
+                ListModel model = p.listConsensus.getModel();
+                 int c =p.listConsensus.getModel().getSize();
+               BufferedWriter w = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
+                for(int i=0; i<c; i++)  {
+                     
+                        w.write(">"+model.getElementAt(i).toString());
+                        w.newLine();
+                   
+                    w.append(getSequence(p.listSequence.getModel().getSize(),(i*r),r,p.listSequence.getModel()));
+                    w.newLine();
                 }
-                 w.newLine();
+
                  w.close();
             } catch (IOException ex) {
                 Logger.getLogger(MultiSeqAlignViewerFrame.class.getName()).log(Level.SEVERE, null, ex);
