@@ -127,7 +127,10 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
         
          
     }
-    
+    public void initTabComponent(int i) {
+        fileTab.setTabComponentAt(file_index,
+                 new ButtonTabComponent(this));
+    }  
     public void saveAs() {
     JFileChooser fc = new JFileChooser();
 
@@ -173,6 +176,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
                 area.read(r, null);
                 r.close();
                 fileTab.addTab(file.getName(), scroll);
+                initTabComponent(file_index);
                 fileNameList.add(fileTab.getToolTipTextAt(file_index));
                 fileTab.setToolTipTextAt(file_index, file.getAbsolutePath());
                 fileTab.setSelectedIndex(file_index);

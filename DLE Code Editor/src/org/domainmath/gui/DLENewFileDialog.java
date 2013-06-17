@@ -243,6 +243,7 @@ public class DLENewFileDialog extends javax.swing.JDialog {
                     }
                
                 frame.fileTab.addTab(file.getName(), frame.scroll);
+                frame.initTabComponent(DLECodeEditorFrame.file_index);
                 frame.fileTab.setToolTipTextAt(DLECodeEditorFrame.file_index, file.getAbsolutePath());
                 frame.addFileNameToList(file.getAbsolutePath());
                 frame.fileTab.setSelectedIndex(DLECodeEditorFrame. file_index);

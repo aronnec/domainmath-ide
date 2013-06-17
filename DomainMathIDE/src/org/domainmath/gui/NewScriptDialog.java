@@ -224,6 +224,7 @@ public class NewScriptDialog extends javax.swing.JDialog {
                     }
                
                 frame.fileTab.addTab(file.getName(), frame.scroll1);
+                frame.initTabComponent(MainFrame.FILE_TAB_INDEX);
                 frame.fileTab.setToolTipTextAt(MainFrame.FILE_TAB_INDEX, file.getAbsolutePath());
                 frame.addFileNameToList(file.getAbsolutePath());
                 frame.fileTab.setSelectedIndex(MainFrame.FILE_TAB_INDEX);

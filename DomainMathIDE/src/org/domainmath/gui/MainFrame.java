@@ -341,6 +341,10 @@ public final class MainFrame extends javax.swing.JFrame {
  
     }
 
+     public void initTabComponent(int i) {
+        fileTab.setTabComponentAt(FILE_TAB_INDEX,
+                 new ButtonTabComponent(this));
+    }    
     /**
      * Returns folder or Parent of last selected file in file tab.
      * @return currentDirFileTab
@@ -500,8 +504,9 @@ public final class MainFrame extends javax.swing.JFrame {
                 r.close();
                 
                 fileTab.addTab(file.getName(), scroll1);
-               
+               initTabComponent(FILE_TAB_INDEX);
                 fileTab.setToolTipTextAt(FILE_TAB_INDEX, file.getAbsolutePath());
+                
                 fileTab.setSelectedIndex(FILE_TAB_INDEX);
                 this.addFileNameToList(file.getAbsolutePath());
                  FILE_TAB_INDEX++;

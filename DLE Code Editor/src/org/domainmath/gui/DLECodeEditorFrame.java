@@ -136,6 +136,10 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
 
     }
     
+    public void initTabComponent(int i) {
+        fileTab.setTabComponentAt(file_index,
+                 new ButtonTabComponent(this));
+    }  
     public void saveAs() {
         JFileChooser fc = new JFileChooser();
         fc.setMultiSelectionEnabled(false);
@@ -174,6 +178,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
                 area.read(r, null);
                 r.close();
                 fileTab.addTab(file.getName(), scroll);
+                initTabComponent(file_index);
                 fileTab.setToolTipTextAt(file_index, file.getAbsolutePath());
                 addFileNameToList(fileTab.getToolTipTextAt(file_index));
                 fileTab.setSelectedIndex(file_index);
@@ -1533,7 +1538,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
               
         } catch (Exception ioe) {
             //ioe.printStackTrace();
-            JOptionPane.showMessageDialog(null, file.getAbsolutePath() + " doesn't exist");
+           // JOptionPane.showMessageDialog(null, file.getAbsolutePath() + " doesn't exist");
         }
 }
     private void mex() {
@@ -1617,13 +1622,13 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
         }
     }
     private void fileCopy(String sdk,String des) {
-         Path src = Paths.get(sdk);
-        Path targ = Paths.get(des);
         try {
+             Path src = Paths.get(sdk);
+            Path targ = Paths.get(des);
             
             Files.copy(src, targ, StandardCopyOption.REPLACE_EXISTING,StandardCopyOption.COPY_ATTRIBUTES);
-        } catch (IOException ex) {
-           
+        } catch (Exception ex) {
+           JOptionPane.showMessageDialog(this, "Unable to find Microsoft(R) Compiler Tools.\nPlease set Microsoft(R) Compiler Tools path. Tools > Options", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

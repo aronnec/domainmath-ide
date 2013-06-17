@@ -367,7 +367,12 @@ public class OctavePanel extends JPanel implements ExecProcessor{
          * Kill process of Octave.
          */
         public void exit() {
-                   exh.exit();
+            try{
+               exh.exit(); 
+            }catch(Exception e) {
+                
+            }
+                   
         }
 
         public void find(String c) {
