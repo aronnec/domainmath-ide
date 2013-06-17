@@ -49,8 +49,9 @@ public class DataFileTableModel extends AbstractTableModel{
     @Override
     public String getColumnName(int i) {
         String c = "";
-        if(i <=getColumnCount())
+        if(i <=getColumnCount()) {
             c = (String)col.get(i);
+        }
         return c;
     }
     

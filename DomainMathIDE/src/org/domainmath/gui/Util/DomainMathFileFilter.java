@@ -35,7 +35,7 @@ public final class DomainMathFileFilter {
    public static FileNameExtensionFilter      ASCII_FILE_FILTER               = new FileNameExtensionFilter("ASCII Data  (*.txt)","txt");
    public static FileNameExtensionFilter      IMAGES_FILE_FILTER              = new FileNameExtensionFilter("Image Data  (*.bmp; *.gif; *.jpg; *.jpeg; *.pbm; *.pcx; *.pgm; *.png; *.pnm; *.ppm; *.ras; *.tif; *.tiff; *.xwd)","bmp", "gif", "jpg", "jpeg", "pbm", "pcx","pgm", "png", "pnm", "ppm", "ras", "tif" ,"tiff","xwd");
    public static FileNameExtensionFilter      AUDIO_FILE_FILTER              = new FileNameExtensionFilter("Audio Data  (*.lin; *.raw; *.au; *.mu; *.snd; *.wav; *.riff)","lin", "raw", "au", "mu", "snd", "wav","riff");
-    public static FileNameExtensionFilter      SAVE_PLOT_FILE_FILTER              = new FileNameExtensionFilter("Octave Plot Format (*.ps; *.eps; *.jpg; *.png; *.emf; *.pdf)","ps", "eps", "jpg", "png", "emf", "pdf");
+   public static FileNameExtensionFilter      SAVE_PLOT_FILE_FILTER              = new FileNameExtensionFilter("Octave Plot Format (*.ps; *.eps; *.jpg; *.png; *.emf; *.pdf)","ps", "eps", "jpg", "png", "emf", "pdf");
    public static FileNameExtensionFilter      DCM_FILE_FILTER              = new FileNameExtensionFilter("DICOM (*.dcm)","dcm");
    public static FileNameExtensionFilter      EXE_FILE_FILTER              = new FileNameExtensionFilter("Application (*.exe)","exe");
    public static FileNameExtensionFilter      FASTA_FILE_FILTER              = new FileNameExtensionFilter("Fasta (*.fasta; *.faa)","fasta","faa");

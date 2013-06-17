@@ -46,10 +46,12 @@ public  class BaseAction extends AbstractAction{
        putValue(SMALL_ICON,icon);
     }
 
+    @Override
    public void setEnabled(boolean enabled) {
        
    }
  
+    @Override
     public void actionPerformed(ActionEvent e) {
 
     }

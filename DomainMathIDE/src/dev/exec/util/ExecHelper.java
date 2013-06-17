@@ -39,12 +39,15 @@ public class ExecHelper implements Runnable {
 		processThread = new Thread(this);
 		inReadThread = new Thread(this);
 		errReadThread = new Thread(this);
-		// Start Threads..
+		startThreads();
+	}
+
+        private void startThreads() {
+            // Start Threads..
 		processThread.start();
 		inReadThread.start();
 		errReadThread.start();
-	}
-
+        }
 	private void processEnded(int exitValue) {
 		// Handle process end..
 		handler.processEnded(exitValue);
@@ -78,6 +81,7 @@ public class ExecHelper implements Runnable {
 		outputWriter.println(output);
 	}
 
+    @Override
 	public void run() {
 		// Are we on the process Thread?
 		if (processThread == Thread.currentThread()) {
@@ -85,7 +89,6 @@ public class ExecHelper implements Runnable {
 				// This Thread just waits for the process to end and notifies the handler..
 				processEnded(process.waitFor());
 			} catch (InterruptedException ex) {
-				ex.printStackTrace();
 			}
 			// Are we on the InputRead Thread?
 		} else if (inReadThread == Thread.currentThread()) {
@@ -96,7 +99,6 @@ public class ExecHelper implements Runnable {
 					processNewInput(new String(inBuffer, 0, i));
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
 			}
 			// Are we on the ErrorRead Thread?
 		} else if (errReadThread == Thread.currentThread()) {
@@ -107,7 +109,6 @@ public class ExecHelper implements Runnable {
 					processNewError(new String(errBuffer, 0, i));
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
 			}
 		}
 	}

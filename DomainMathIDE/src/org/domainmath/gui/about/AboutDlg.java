@@ -306,6 +306,7 @@ private void jLabel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:even
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 AboutDlg dialog = new AboutDlg(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

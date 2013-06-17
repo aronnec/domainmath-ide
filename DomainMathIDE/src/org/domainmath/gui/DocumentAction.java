@@ -48,7 +48,6 @@ public class DocumentAction extends BaseAction{
             desktop.open(file);
             
         } catch (Exception ioe) {
-            //ioe.printStackTrace();
             JOptionPane.showMessageDialog(null, file.getAbsolutePath() + " doesn't exist");
         }
     }

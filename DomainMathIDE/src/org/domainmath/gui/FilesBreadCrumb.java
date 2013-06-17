@@ -35,14 +35,13 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
-
+import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-
 import org.pushingpixels.flamingo.api.bcb.*;
 import org.pushingpixels.flamingo.api.bcb.core.BreadcrumbTreeAdapterSelector;
 import org.pushingpixels.flamingo.api.common.StringValuePair;
@@ -88,8 +87,9 @@ public class FilesBreadCrumb extends JPanel {
 			this.file = file;
 			this.parent = parent;
 			this.children = this.file.listFiles();
-			if (this.children == null)
-				this.children = new File[0];
+			if (this.children == null) {
+                        this.children = new File[0];
+                    }
 		}
 
 		/**
@@ -109,6 +109,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#children()
 		 */
+            @Override
 		public Enumeration<?> children() {
 			final int elementCount = this.children.length;
 			return new Enumeration<File>() {
@@ -119,6 +120,7 @@ public class FilesBreadCrumb extends JPanel {
 				 * 
 				 * @see java.util.Enumeration#hasMoreElements()
 				 */
+                            @Override
 				public boolean hasMoreElements() {
 					return this.count < elementCount;
 				}
@@ -128,6 +130,7 @@ public class FilesBreadCrumb extends JPanel {
 				 * 
 				 * @see java.util.Enumeration#nextElement()
 				 */
+                            @Override
 				public File nextElement() {
 					if (this.count < elementCount) {
 						return FileTreeNode.this.children[this.count++];
@@ -143,6 +146,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 		 */
+            @Override
 		public boolean getAllowsChildren() {
 			return true;
 		}
@@ -152,6 +156,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#getChildAt(int)
 		 */
+            @Override
 		public TreeNode getChildAt(int childIndex) {
 			return new FileTreeNode(this.children[childIndex], this);
 		}
@@ -161,6 +166,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#getChildCount()
 		 */
+            @Override
 		public int getChildCount() {
 			return this.children.length;
 		}
@@ -170,11 +176,13 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
 		 */
+            @Override
 		public int getIndex(TreeNode node) {
 			FileTreeNode ftn = (FileTreeNode) node;
 			for (int i = 0; i < this.children.length; i++) {
-				if (ftn.file.equals(this.children[i]))
-					return i;
+				if (ftn.file.equals(this.children[i])) {
+                                return i;
+                            }
 			}
 			return -1;
 		}
@@ -184,6 +192,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#getParent()
 		 */
+            @Override
 		public TreeNode getParent() {
 			return this.parent;
 		}
@@ -193,6 +202,7 @@ public class FilesBreadCrumb extends JPanel {
 		 * 
 		 * @see javax.swing.tree.TreeNode#isLeaf()
 		 */
+            @Override
 		public boolean isLeaf() {
 			boolean isNotFolder = (this.file != null) && (this.file.isFile());
 			return (this.getChildCount() == 0) && isNotFolder;
@@ -202,10 +212,10 @@ public class FilesBreadCrumb extends JPanel {
 	public class FileListRenderer extends JLabel implements ListCellRenderer {
 		public FileListRenderer() {
 			this.setBorder(new EmptyBorder(1, 1, 1, 1));
-			//this.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			this.setOpaque(true);
 		}
 
+            @Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			File file = (File) value;
@@ -216,8 +226,9 @@ public class FilesBreadCrumb extends JPanel {
 					.getSystemDisplayName(file));
 			Color back = (index % 2 == 0) ? new Color(250, 250, 250)
 					: new Color(240, 240, 240);
-			if (isSelected)
-				back = new Color(220, 220, 240);
+			if (isSelected) {
+                                        back = new Color(220, 220, 240);
+                                    }
 			this.setBackground(back);
 			return this;
 		}
@@ -225,7 +236,7 @@ public class FilesBreadCrumb extends JPanel {
 	}
 
 	public static class FileListModel extends AbstractListModel {
-		private ArrayList<File> files = new ArrayList<File>();
+		private ArrayList<File> files = new ArrayList<>();
 
 		public void add(File file) {
 			files.add(file);
@@ -233,21 +244,26 @@ public class FilesBreadCrumb extends JPanel {
 
 		public void sort() {
 			Collections.sort(files, new Comparator<File>() {
+                            @Override
 				public int compare(File o1, File o2) {
-					if (o1.isDirectory() && (!o2.isDirectory()))
-						return -1;
-					if (o2.isDirectory() && (!o1.isDirectory()))
-						return 1;
+					if (o1.isDirectory() && (!o2.isDirectory())) {
+                                        return -1;
+                                    }
+					if (o2.isDirectory() && (!o1.isDirectory())) {
+                                        return 1;
+                                    }
 					return o1.getName().toLowerCase().compareTo(
 							o2.getName().toLowerCase());
 				}
 			});
 		}
 
+            @Override
 		public Object getElementAt(int index) {
 			return files.get(index);
 		}
 
+            @Override
 		public int getSize() {
 			return files.size();
 		}
@@ -257,16 +273,14 @@ public class FilesBreadCrumb extends JPanel {
 
 		public MemoryListRenderer() {
 			this.setBorder(new EmptyBorder(1, 1, 1, 1));
-			//this.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			this.setOpaque(true);
 		}
 
+            @Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			BreadcrumbItem<File>[] path = (BreadcrumbItem<File>[]) value;
 			if (path.length > 0) {
-				// this.setIcon(bar.getFileSystemView().getSystemIcon(
-				// new File(path[0].getValue()[1])));
 				this.setText(path[path.length - 1].getData().getName());
 			} else {
 				this.setIcon(null);
@@ -280,7 +294,6 @@ public class FilesBreadCrumb extends JPanel {
 	}
 
 	public FilesBreadCrumb(final MainFrame frame) {
-		//super("BreadCrumb test");
                 this.frame =frame;
 		File[] roots = File.listRoots();
 		FileTreeNode rootTreeNode = new FileTreeNode(roots);
@@ -290,20 +303,23 @@ public class FilesBreadCrumb extends JPanel {
 			@Override
 			public String toString(Object node) {
 				FileTreeNode n = (FileTreeNode) node;
-				if (n.file == null)
-					return "Computer";
+				if (n.file == null) {
+                                return "Computer";
+                            }
 				String result = FileSystemView.getFileSystemView()
 						.getSystemDisplayName(n.file);
-				if (result.length() == 0)
-					result = n.file.getAbsolutePath();
+				if (result.length() == 0) {
+                                result = n.file.getAbsolutePath();
+                            }
 				return result;
 			}
 
 			@Override
 			public Icon getIcon(Object node) {
 				FileTreeNode n = (FileTreeNode) node;
-				if (n.file == null)
-					return null;
+				if (n.file == null) {
+                                return null;
+                            }
 				Icon result = FileSystemView.getFileSystemView().getSystemIcon(
 						n.file);
 				return result;
@@ -313,14 +329,16 @@ public class FilesBreadCrumb extends JPanel {
 			@Override
 			public void breadcrumbPathEvent(BreadcrumbPathEvent event) {
 				SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
 					public void run() {
 						final List<BreadcrumbItem<Object>> newPath = bar
 								.getModel().getItems();
 						System.out.println("New path is ");
 						for (BreadcrumbItem<Object> item : newPath) {
 							FileTreeNode node = (FileTreeNode) item.getData();
-							if (node.file == null)
-								continue;
+							if (node.file == null) {
+                                                        continue;
+                                                    }
 							System.out.println("\t" + node.file.getName());
 						}
 
@@ -344,13 +362,12 @@ public class FilesBreadCrumb extends JPanel {
 										}
 										model.sort();
 										fileList.setModel(model);
-									} catch (Exception exc) {
+									} catch (InterruptedException | ExecutionException exc) {
 									}
 								}
 							};
 							worker.execute();
 						}
-						return;
 
 					}
 				});
@@ -412,21 +429,4 @@ public class FilesBreadCrumb extends JPanel {
 		this.add(fileListScrollPane, BorderLayout.CENTER);
 	}
 
-	/**
-	 * Main method for testing.
-	 * 
-	 * @param args
-	 *            Ignored.
-	 */
-//	public static void main(String... args) {
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				FilesBreadCrumb test = new FilesBreadCrumb();
-//				test.setSize(700, 400);
-//				test.setLocation(300, 100);
-//				test.setVisible(true);
-//				test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			}
-//		});
-//	}
 }

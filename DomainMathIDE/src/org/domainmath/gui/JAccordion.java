@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -45,7 +44,7 @@ public class JAccordion extends JPanel implements ActionListener {
    * A LinkedHashMap of bars: we use a linked hash map to preserve the order
    * of the bars
    */
-  private Map<String, BarInfo> bars = new LinkedHashMap<String, BarInfo>();
+  private Map<String, BarInfo> bars = new LinkedHashMap<>();
 
   /**
    * The currently visible bar (zero-based index)
@@ -192,6 +191,7 @@ public class JAccordion extends JPanel implements ActionListener {
   /**
    * Invoked when one of our bars is selected
    */
+    @Override
   public void actionPerformed(ActionEvent e) {
     int currentBar = 0;
     for (Iterator<String> i = this.bars.keySet().iterator(); i.hasNext();) {
