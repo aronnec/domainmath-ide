@@ -2800,8 +2800,9 @@ public void saveplot() {
             
             String name =path.getFileName().toString();
             String ext =name.substring(name.lastIndexOf("."));
-            String m_file_name=name.substring(0, name.indexOf(".m")) ;
+            
             if(ext.equalsIgnoreCase(".m")){
+                String m_file_name=name.substring(0, name.indexOf(".m")) ;
                  MainFrame.octavePanel.evalWithOutput(m_file_name);
                  MainFrame.octavePanel.commandArea.setText("");
                  MainFrame.octavePanel.commandArea.setText(m_file_name);
@@ -2942,6 +2943,12 @@ public void saveplot() {
                       recentFileMenu.addEntry(selected_file.getAbsolutePath());
                    
                      save(selected_file,selectedIndex);
+                      this.removeFileNameFromList(selectedIndex);
+                      
+                     
+                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
+                     fileTab.remove(selectedIndex);
+                     FILE_TAB_INDEX--;
 
                  }else if (i == JOptionPane.NO_OPTION){
                       this.removeFileNameFromList(selectedIndex);
