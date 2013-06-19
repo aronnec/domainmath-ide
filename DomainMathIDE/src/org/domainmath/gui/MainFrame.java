@@ -19,6 +19,10 @@
 
 package org.domainmath.gui;
 
+import jalview.bin.Cache;
+import jalview.bin.Jalview;
+import jalview.gui.AlignFrame;
+import jalview.util.Platform;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Image;
@@ -33,6 +37,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,6 +48,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
@@ -63,7 +69,6 @@ import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel;
 import org.domainmath.gui.packages.bioinfo.HmmerFrame;
-import org.domainmath.gui.packages.bioinfo.multi_seq_viewer.MultiSeqAlignViewerFrame;
 import org.domainmath.gui.packages.bioinfo.seq_viewer.SeqViewerFrame;
 import org.domainmath.gui.packages.datasmooth.DataSmoothFrame;
 import org.domainmath.gui.packages.db.DataBaseFrame;
@@ -1479,7 +1484,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         BioInfoMenu.add(sequenceViewerMenuItem);
 
-        multipleSequenceViewerMenuItem.setText("Multiple Sequence Viewer");
+        multipleSequenceViewerMenuItem.setText("Jalview");
         multipleSequenceViewerMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 multipleSequenceViewerMenuItemActionPerformed(evt);
@@ -2970,6 +2975,75 @@ public void saveplot() {
             }
     }
 
+    private void startJalview() {
+        System.out.println("Java version: "
+            + System.getProperty("java.version"));
+    System.out.println(System.getProperty("os.arch") + " "
+            + System.getProperty("os.name") + " "
+            + System.getProperty("os.version"));
+    if (new Platform().isAMac())
+    {
+      System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+              "Jalview");
+      System.setProperty("apple.laf.useScreenMenuBar", "true");
+    }
+    String args[] = {""};
+    ArgsParser aparser = new ArgsParser(args);
+    boolean headless = false;
+
+
+   Cache.loadProperties(aparser.getValue("props")); // must do this before
+    // anything else!
+    String defs = aparser.getValue("setprop");
+    while (defs != null)
+    {
+      int p = defs.indexOf('=');
+      if (p == -1)
+      {
+        System.err.println("Ignoring invalid setprop argument : " + defs);
+      }
+      else
+      {
+        System.out.println("Executing setprop argument: " + defs);
+        // DISABLED FOR SECURITY REASONS
+        // TODO: add a property to allow properties to be overriden by cli args
+        // Cache.setProperty(defs.substring(0,p), defs.substring(p+1));
+      }
+      defs = aparser.getValue("setprop");
+    }
+    if (aparser.contains("nodisplay"))
+    {
+      System.setProperty("java.awt.headless", "true");
+    }
+    if (System.getProperty("java.awt.headless") != null
+            && System.getProperty("java.awt.headless").equals("true"))
+    {
+      headless = true;
+    }
+    System.setProperty("http.agent", "Jalview Desktop/"+Cache.getDefault("VERSION", "Unknown"));
+    try
+    {
+      Cache.initLogger();
+    } catch (java.lang.NoClassDefFoundError error)
+    {
+      System.out
+              .println("\nEssential logging libraries not found."
+                      + "\nUse: java -Djava.ext.dirs=$PATH_TO_LIB$ jalview.bin.Jalview");
+      System.exit(0);
+    }
+
+    jalview.gui.Desktop desktop = null;
+
+
+    if (!headless)
+    {
+      desktop = new jalview.gui.Desktop();
+      desktop.setInBatchMode(true); // indicate we are starting up
+      desktop.setVisible(true);
+      desktop.startServiceDiscovery();
+    }
+    }
+
   
    
    
@@ -3209,9 +3283,10 @@ public void saveplot() {
 
     private void multipleSequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleSequenceViewerMenuItemActionPerformed
       
-        MultiSeqAlignViewerFrame multiSeqAlignViewerFrame = new MultiSeqAlignViewerFrame();
-        multiSeqAlignViewerFrame.setLocationRelativeTo(this);
-        multiSeqAlignViewerFrame.setVisible(true);
+//        MultiSeqAlignViewerFrame multiSeqAlignViewerFrame = new MultiSeqAlignViewerFrame();
+//        multiSeqAlignViewerFrame.setLocationRelativeTo(this);
+//        multiSeqAlignViewerFrame.setVisible(true);
+        startJalview();
     }//GEN-LAST:event_multipleSequenceViewerMenuItemActionPerformed
 
     private void hmmerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmmerItemActionPerformed
@@ -3240,8 +3315,8 @@ public void saveplot() {
             }
         });
     }
-    
-    public   Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/domainmath/gui/resources/DomainMath.png"));
+    public  java.net.URL imgURL = getClass().getResource("/org/domainmath/gui/resources/DomainMath.png");
+    public   Image icon = Toolkit.getDefaultToolkit().getImage(imgURL);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AboutItem;
     private javax.swing.JMenu BioInfoMenu;
@@ -3392,4 +3467,149 @@ public void saveplot() {
     private javax.swing.JMenuItem wikiItem;
     private javax.swing.JMenuItem worksheetItem;
     // End of variables declaration//GEN-END:variables
+private class ArgsParser
+{
+  Vector vargs = null;
+
+  public ArgsParser(String[] args)
+  {
+      try {
+          vargs = new Vector();
+    for (int i = 0; i < args.length; i++)
+    {
+      String arg = args[i].trim();
+      if (arg.charAt(0) == '-')
+      {
+        arg = arg.substring(1);
+      }
+      vargs.addElement(arg);
+    }
+      }catch(Exception e) {
+          
+      }
+    
+  }
+
+  /**
+   * check for and remove first occurence of arg+parameter in arglist.
+   * 
+   * @param arg
+   * @return return the argument following the given arg if arg was in list.
+   */
+  public String getValue(String arg)
+  {
+    return getValue(arg, false);
+  }
+
+  public String getValue(String arg, boolean utf8decode)
+  {
+    int index = vargs.indexOf(arg);
+    String dc = null, ret = null;
+    if (index != -1)
+    {
+      ret = vargs.elementAt(index + 1).toString();
+      vargs.removeElementAt(index);
+      vargs.removeElementAt(index);
+      if (utf8decode && ret != null)
+      {
+        try
+        {
+          dc = URLDecoder.decode(ret, "UTF-8");
+          ret = dc;
+        } catch (Exception e)
+        {
+          // TODO: log failure to decode
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * check for and remove first occurence of arg in arglist.
+   * 
+   * @param arg
+   * @return true if arg was present in argslist.
+   */
+  public boolean contains(String arg)
+  {
+    if (vargs.contains(arg))
+    {
+      vargs.removeElement(arg);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public String nextValue()
+  {
+    return vargs.remove(0).toString();
+  }
+
+  public int getSize()
+  {
+    return vargs.size();
+  }
+
+}
+
+/**
+ * keep track of feature fetching tasks.
+ * 
+ * @author JimP
+ * 
+ */
+private class FeatureFetcher
+{
+  /*
+   * TODO: generalise to track all jalview events to orchestrate batch
+   * processing events.
+   */
+
+  private int queued = 0;
+
+  private int running = 0;
+
+  public FeatureFetcher()
+  {
+
+  }
+
+  public void addFetcher(final AlignFrame af, final Vector dasSources)
+  {
+    final long id = System.currentTimeMillis();
+    queued++;
+    final FeatureFetcher us = this;
+    new Thread(new Runnable()
+    {
+
+      public void run()
+      {
+        synchronized (us)
+        {
+          queued--;
+          running++;
+        }
+
+        af.setProgressBar("DAS features being retrieved...", id);
+        af.featureSettings_actionPerformed(null);
+        af.featureSettings.fetchDasFeatures(dasSources, true);
+        af.setProgressBar(null, id);
+        synchronized (us)
+        {
+          running--;
+        }
+      }
+    }).start();
+  }
+
+  public synchronized boolean allFinished()
+  {
+    return queued == 0 && running == 0;
+  }
+}
+
 }

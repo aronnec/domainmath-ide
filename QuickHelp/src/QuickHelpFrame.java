@@ -50,6 +50,7 @@ public class QuickHelpFrame extends javax.swing.JFrame {
         
         
         add(scroll,BorderLayout.CENTER);
+        add(new StatusPanel(),BorderLayout.PAGE_END);
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -66,7 +67,6 @@ public class QuickHelpFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        statusPanel1 = new StatusPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -74,7 +74,6 @@ public class QuickHelpFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quick Help");
         setMinimumSize(new java.awt.Dimension(600, 600));
-        getContentPane().add(statusPanel1, java.awt.BorderLayout.PAGE_END);
 
         jMenu1.setText("File");
 
@@ -146,6 +145,5 @@ public class QuickHelpFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private StatusPanel statusPanel1;
     // End of variables declaration//GEN-END:variables
 }
