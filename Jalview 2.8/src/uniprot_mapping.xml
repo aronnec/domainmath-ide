@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+  Jalview - A Sequence Alignment Editor and Viewer (Version 2.8)
+  Copyright (C) 2012 J Procter, AM Waterhouse, LM Lui, J Engelhardt, G Barton, M Clamp, S Searle
+  
+  This file is part of Jalview.
+  
+  Jalview is free software: you can redistribute it and/or
+  modify it under the terms of the GNU General Public License 
+  as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+   
+  Jalview is distributed in the hope that it will be useful, but 
+  WITHOUT ANY WARRANTY; without even the implied warranty 
+  of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+  PURPOSE.  See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with Jalview.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<mapping>
+	<class name="jalview.datamodel.UniprotFile">
+                 <map-to xml="uniprot"/>               
+                 <field name="UniprotEntries" type="jalview.datamodel.UniprotEntry" collection="vector">
+		      <bind-xml name="entry"/>
+		 </field>		
+        </class>
+		 
+	 <class name="jalview.datamodel.UniprotEntry">
+	        <field name="name" type="string" collection="vector"/>
+	 	<field name="accession" type="string" collection="vector"/>
+	 	<field name="protein" type="jalview.datamodel.UniprotProteinName"/>
+	    <field name="UniprotSequence" type="jalview.datamodel.UniprotSequence">
+	      	<bind-xml name="sequence"/> 
+	    </field>
+	    <field name="feature" type="jalview.datamodel.SequenceFeature" collection="vector"/>
+	    <field name="dbReference" type="jalview.datamodel.PDBEntry" collection="vector"/>
+	   	       
+	 </class>
+	<class name="jalview.datamodel.UniprotProteinName">
+		<field name="name" collection="vector" type="string">
+			<bind-xml name="fullName" location="recommendedName" node="element"/>
+		</field>
+	</class>
+	 <!-- uniprot protein name is now a collection of collections - the INCLUDES and CONTAINS entries of the uniprot
+	 	record. This means this doesn't exist anymore...
+	 <class name="jalview.datamodel.UniprotProteinName">
+	 	<field name="name" type="string" collection="vector">
+	 		<bind-xml name="name"/>
+	 	</field>	 	
+	 </class>
+	 -->
+	 
+	 <class name="jalview.datamodel.SequenceFeature">
+	 	<field name="type">
+	 		<bind-xml node="attribute"/>
+	 	</field>
+	 	<field name="description">
+			 <bind-xml node="attribute"/>
+	 	</field>
+	 	<field name="status">
+			<bind-xml node="attribute"/>
+	 	</field>
+	 	<field name="position">
+	 	 <bind-xml name="position" node="attribute" location="location/position"/>
+	 	 </field>
+		<field name="begin">
+		 <bind-xml name="position" node="attribute" location="location/begin"/>
+	 	 </field>
+		<field name="end">
+		 <bind-xml name="position" node="attribute" location="location/end"/>
+	 	 </field>
+	 </class>
+	
+          <class name="jalview.datamodel.UniprotSequence">
+		     <field name="content" type="string">
+		        <bind-xml name="sequence" node="text"/>
+		     </field>
+	 </class>
+	 
+	 <class name="jalview.datamodel.PDBEntry">
+	 	<field name="type"><bind-xml node="attribute"/></field>
+	 	<field name="id"><bind-xml node="attribute"/></field>
+	 	<field name="property" collection="hashtable">
+			<bind-xml name="property">
+			   <class name="org.exolab.castor.mapping.MapItem">
+			      <field name="key">
+				<bind-xml name="type" node="attribute"/>
+			      </field>
+			      <field name="value">
+			      	<bind-xml node="attribute"/>
+			      	</field>
+			   </class>
+			</bind-xml>
+		</field>
+	 </class>
+
+</mapping>

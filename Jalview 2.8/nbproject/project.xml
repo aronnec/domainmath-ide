@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <!-- Do not use Project Properties customizer when editing this file manually. -->
+            <name>Jalview 2.8</name>
+            <properties/>
+            <folders>
+                <source-folder>
+                    <label>src</label>
+                    <type>java</type>
+                    <location>src</location>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>compile</target>
+                </action>
+                <action name="clean">
+                    <target>clean</target>
+                </action>
+                <action name="run">
+                    <target>run</target>
+                </action>
+                <action name="rebuild">
+                    <target>clean</target>
+                    <target>compile</target>
+                </action>
+            </ide-actions>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>src</label>
+                        <location>src</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="rebuild"/>
+                    <ide-action name="clean"/>
+                    <ide-action name="run"/>
+                </context-menu>
+            </view>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/3">
+            <compilation-unit>
+                <package-root>src</package-root>
+                <classpath mode="compile">dist/DomainMathIDE.jar;dist/JGoogleAnalytics_0.3.jar;dist/Jmol-12.2.4.jar;dist/VARNAv3-9-dev.jar;dist/activation.jar;dist/apache-mime4j-0.6.jar;dist/autocomplete.jar;dist/axis.jar;dist/biojava3-alignment-3.0.5.jar;dist/biojava3-core-3.0.5.jar;dist/biojava3-sequencing-3.0.5.jar;dist/biojava3-ws-3.0.5.jar;dist/castor-1.1-cycle-xml.jar;dist/commons-beanutils.jar;dist/commons-codec-1.3.jar;dist/commons-collections-3.2.1.jar;dist/commons-discovery.jar;dist/commons-lang-2.3.jar;dist/commons-logging-1.1.1.jar;dist/commons-logging.jar;dist/ezmorph-1.0.6.jar;dist/flamingo-7.2.jar;dist/forester_1027.jar;dist/httpclient-4.0.3.jar;dist/httpcore-4.0.1.jar;dist/httpmime-4.0.3.jar;dist/jaxrpc.jar;dist/jcommon-1.0.17.jar;dist/jdas-1.0.4.jar;dist/jfreechart-1.0.14.jar;dist/jhall.jar;dist/json-lib-2.3-jdk15.jar;dist/jswingreader-0.3.jar;dist/log4j-1.2.8.jar;dist/mail.jar;dist/miglayout-4.0-swing.jar;dist/min-jaba-client-2.0.jar;dist/regex.jar;dist/rsyntaxtextarea.jar;dist/saaj.jar;dist/spring-core-3.0.5.RELEASE.jar;dist/spring-web-3.0.5.RELEASE.jar;dist/substance-7.2.jar;dist/substance-flamingo-7.2.jar;dist/trident-7.2.jar;dist/vamsas-client.jar;dist/wsdl4j.jar;dist/xercesImpl.jar;dist/xml-apis.jar</classpath>
+                <source-level>1.7</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

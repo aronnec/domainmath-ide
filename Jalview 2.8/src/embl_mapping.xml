@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+  Jalview - A Sequence Alignment Editor and Viewer (Version 2.8)
+  Copyright (C) 2012 J Procter, AM Waterhouse, LM Lui, J Engelhardt, G Barton, M Clamp, S Searle
+  
+  This file is part of Jalview.
+  
+  Jalview is free software: you can redistribute it and/or
+  modify it under the terms of the GNU General Public License 
+  as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+   
+  Jalview is distributed in the hope that it will be useful, but 
+  WITHOUT ANY WARRANTY; without even the implied warranty 
+  of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+  PURPOSE.  See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with Jalview.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<mapping xmlns="http://castor.exolab.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://castor.exolab.org/ ../schemas/castor-mapping.xsd">
+<!--
+	History: Originally created from EMBL_common_V1.0
+	Updated on 24th April 2007 for WsDBFetch Service move to EMBL_Services_V1.1.xsd
+	-->
+	<class name="jalview.datamodel.xdb.embl.EmblFile">
+		<map-to xml="EMBL_Services"/>
+		<field name="entries" type="jalview.datamodel.xdb.embl.EmblEntry" collection="vector">
+			<bind-xml name="entry"/>
+		</field>
+		
+		<field name="errors" type="jalview.datamodel.xdb.embl.EmblError" collection="vector">
+			<bind-xml name="Error"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.EmblEntry">
+		<map-to xml="entry"/>
+		<field name="accession" type="string">
+			<bind-xml location="accession" node="attribute"/>
+		</field>
+		<field name="lastUpdated" type="string">
+			<bind-xml location="last-updated" node="attribute"/>
+		</field>
+		<field name="version" type="string">
+			<bind-xml location="version" node="attribute"/>
+		</field>
+		
+		<field name="rCreated" type="string">
+			<bind-xml location="releaseCreated" node="attribute"/>
+		</field>
+		<field name="rLastUpdated" type="string">
+			<bind-xml location="releaseLastUpdated" node="attribute"/>
+		</field>
+		<field name="desc" type="string">
+			<bind-xml name="description" node="element"/>
+		</field>
+		<field name="Keywords" type="string" collection="vector">
+			<bind-xml name="keyword" node="element"/>
+		</field>
+		<field name="features" type="jalview.datamodel.xdb.embl.EmblFeature" collection="vector">
+			<bind-xml name="feature"/>
+		</field>
+		<field name="dbRefs" type="jalview.datamodel.DBRefEntry" collection="vector">
+			<bind-xml name="dbreference" />
+		</field>
+		<field name="sequence" type="jalview.datamodel.xdb.embl.EmblSequence">
+			<bind-xml name="sequence"/> <!-- location="sequence" node="element"/ -->
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.EmblSequence">
+		<map-to xml="sequence"/>
+		<field name="type" type="string">
+			<bind-xml name="type" node="attribute" location="type"/>
+		</field>
+		<field name="version" type="string">
+			<bind-xml name="version" node="attribute" location="version"/>
+		</field>
+		<field name="sequence" type="string">
+			<bind-xml node="text"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.EmblFeature" verify-constructable="false">
+		<map-to xml="feature"/>
+		<field name="name" type="string">
+			<bind-xml name="name" node="attribute"/>
+		</field>
+		<field name="dbRefs" type="jalview.datamodel.DBRefEntry" collection="vector">
+			<bind-xml name="dbreference" node="element"/>
+		</field>
+		<field name="qualifiers" type="jalview.datamodel.xdb.embl.Qualifier" collection="vector">
+			<bind-xml name="qualifier"/>
+		</field>					
+		<field name="locations" type="jalview.datamodel.xdb.embl.EmblFeatureLocations" collection="vector">
+			<bind-xml name="location"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.DBRefEntry" verify-constructable="false">
+		<field name="accessionId" type="java.lang.String"><!-- set-method="setAccessionId" get-method="getAccessionId"> -->
+			<bind-xml name="primary" node="attribute"/>
+		</field>
+		<field name="source" type="java.lang.String"> <!--set-method="setSource" get-method="getSource"> -->
+			<bind-xml name="db" node="attribute"/>
+		</field>
+		<field name="version" type="string"><!-- set-method="setVersion" get-method="getVersion"> -->
+			<bind-xml name="secondary" node="attribute"/>
+		</field>
+	</class>
+	<class  name="jalview.datamodel.xdb.embl.Qualifier" verify-constructable="false">
+		<map-to xml="Qualifier"/>
+		<field name="name">
+			<bind-xml name="name" node="attribute"/>
+		</field>
+		<field name="evidence" type="string" collection="array">
+			<bind-xml name="evidence" node="element"/>
+		</field>
+		<field name="values" type="string" collection="array">
+			<bind-xml name="value" node="element"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.EmblFeatureLocations">
+		<map-to xml="location"/>
+		<field name="locationType" type="string">
+			<bind-xml name="type" node="attribute"/>
+		</field>
+		<field name="locationComplement" type="boolean">
+			<bind-xml name="complement" node="attribute"/>
+		</field>
+		<field name="locElements" type="jalview.datamodel.xdb.embl.EmblFeatureLocElement" collection="vector">
+			<bind-xml name="locationElement"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.EmblFeatureLocElement">
+		<map-to xml="locationElement"/>
+		<field name="type" type="string">
+			<bind-xml name="type" node="attribute"/>
+		</field>
+		<field name="accession" type="string">
+			<bind-xml name="accession" node="attribute"/>			
+		</field>
+		<field name="version" type="string">
+			<bind-xml name="version" node="attribute"/>
+		</field>
+		<field name="complement" type="boolean">
+			<bind-xml name="complement"/>
+		</field>
+		<field name="basePositions" type="jalview.datamodel.xdb.embl.BasePosition" collection="array">
+			<bind-xml name="basePosition" node="element"/>
+		</field>
+	</class>
+	<class name="jalview.datamodel.xdb.embl.BasePosition">
+		<map-to xml="basePosition"/>
+		<field name="type">
+			<bind-xml name="type" node="attribute"/>
+		</field>
+		<field name="pos">
+			<bind-xml node="text"/>
+		</field>
+	</class>
+</mapping>
