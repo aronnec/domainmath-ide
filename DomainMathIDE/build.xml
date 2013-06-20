@@ -45,7 +45,7 @@
             </fileset>          
             <manifest>                
                 <attribute name="Main-Class" value="${main-class}"/>   
-                <attribute name="Class-Path" value="autocomplete.jar flamingo-7.2.jar substance-7.2.jar substance-flamingo-7.2.jar trident-7.2.jar jcommon-1.0.17.jar jfreechart-1.0.14.jar biojava3-core-3.0.5.jar biojava3-ws-3.0.5.jar commons-beanutils.jar commons-collections-3.2.1.jar commons-lang-2.3.jar commons-logging.jar ezmorph-1.0.6.jar json-lib-2.3-jdk15.jar rsyntaxtextarea.jar forester_1027.jar biojava3-alignment-3.0.5.jar biojava3-sequencing-3.0.5.jar Jalview_2.8.jar"/>     
+                <attribute name="Class-Path" value="autocomplete.jar flamingo-7.2.jar substance-7.2.jar substance-flamingo-7.2.jar trident-7.2.jar jcommon-1.0.17.jar jfreechart-1.0.14.jar biojava3-core-3.0.5.jar biojava3-ws-3.0.5.jar commons-beanutils.jar commons-collections-3.2.1.jar commons-lang-2.3.jar commons-logging.jar ezmorph-1.0.6.jar json-lib-2.3-jdk15.jar rsyntaxtextarea.jar forester_1027.jar biojava3-alignment-3.0.5.jar biojava3-sequencing-3.0.5.jar Jalview_2.8.jar filedrop.jar"/>     
               <attribute name="SplashScreen-Image" value="org/domainmath/gui/resources/Splash.png"/>           
             </manifest>        
         </jar>    

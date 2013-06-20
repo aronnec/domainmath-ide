@@ -50,7 +50,7 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/3">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="compile">dist/Jalview_2.8.jar;dist/autocomplete.jar;dist/biojava3-alignment-3.0.5.jar;dist/biojava3-core-3.0.5.jar;dist/biojava3-sequencing-3.0.5.jar;dist/biojava3-ws-3.0.5.jar;dist/commons-beanutils.jar;dist/commons-collections-3.2.1.jar;dist/commons-lang-2.3.jar;dist/commons-logging.jar;dist/ezmorph-1.0.6.jar;dist/flamingo-7.2.jar;dist/forester_1027.jar;dist/jcommon-1.0.17.jar;dist/jfreechart-1.0.14.jar;dist/json-lib-2.3-jdk15.jar;dist/rsyntaxtextarea.jar;dist/substance-7.2.jar;dist/substance-flamingo-7.2.jar;dist/trident-7.2.jar</classpath>
+                <classpath mode="compile">dist/Jalview_2.8.jar;dist/autocomplete.jar;dist/biojava3-alignment-3.0.5.jar;dist/biojava3-core-3.0.5.jar;dist/biojava3-sequencing-3.0.5.jar;dist/biojava3-ws-3.0.5.jar;dist/commons-beanutils.jar;dist/commons-collections-3.2.1.jar;dist/commons-lang-2.3.jar;dist/commons-logging.jar;dist/ezmorph-1.0.6.jar;dist/flamingo-7.2.jar;dist/forester_1027.jar;dist/jcommon-1.0.17.jar;dist/jfreechart-1.0.14.jar;dist/json-lib-2.3-jdk15.jar;dist/rsyntaxtextarea.jar;dist/substance-7.2.jar;dist/substance-flamingo-7.2.jar;dist/trident-7.2.jar;dist/filedrop.jar</classpath>
                 <source-level>1.7</source-level>
             </compilation-unit>
         </java-data>
