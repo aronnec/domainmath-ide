@@ -63,12 +63,11 @@ public class DLENewFileDialog extends javax.swing.JDialog {
         jLabel1.setText("New File:");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "C File", "CPP File", "Fortran File", "Text File" };
+            String[] strings = { "C File", "CPP File", "Header File", "Fortran File", "Text File" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList1.setSelectedIndex(0);
         jScrollPane1.setViewportView(jList1);
 
         jLabel2.setText("File Name with path:");
@@ -216,6 +215,9 @@ public class DLENewFileDialog extends javax.swing.JDialog {
         }else if(opt == 1) {
             browse( "CPP-Files  (*.cpp)", ".cpp","cpp");
         }else if(opt == 2) {
+            browse("Header-Files  (*.h)", ".h", "h");
+        }
+        else if(opt == 3) {
             browse("Fortran-Files  (*.f)", ".f", "f");
         }else if(opt == 3) {
             browse("Text Files   (*txt)",".txt","txt");
@@ -236,6 +238,10 @@ public class DLENewFileDialog extends javax.swing.JDialog {
                          frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_FORTRAN);
                          
                        
+                    }else if(fname.endsWith(".h")) {
+                         frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                        frame.area.setCodeFoldingEnabled(true);
+                        
                     }
                     else {
                          frame.area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
@@ -273,6 +279,9 @@ public class DLENewFileDialog extends javax.swing.JDialog {
                          
                     }
                     else if(jList1.getSelectedIndex() == 4) {
+                        setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
+                         
+                    }else if(jList1.getSelectedIndex() == 5) {
                         setFile(new File(this.jTextField1.getText()),frame.fileTab.getTabRunCount());
                          
                     }

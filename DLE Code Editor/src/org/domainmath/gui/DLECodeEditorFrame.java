@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Vinu K.N
+ * Copyright (C) 2013 Vinu K.N
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import net.iharder.dnd.FileDrop;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -87,7 +88,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
        add(fileTab);
        add(new StatusPanel(),BorderLayout.PAGE_END);
         
-       
+       dragNDrop();
     
     }
 
@@ -141,6 +142,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
                  new ButtonTabComponent(this));
     }  
     public void saveAs() {
+        if(fileTab.getSelectedIndex() >= 0) { 
         JFileChooser fc = new JFileChooser();
         fc.setMultiSelectionEnabled(false);
         fc.setDialogTitle("Save As");
@@ -151,7 +153,30 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
                String path = fc.getSelectedFile().getAbsolutePath();
                save(fc.getSelectedFile(),fileTab.getSelectedIndex()); 
         }
+        }
 }
+     private void dragNDrop() {
+        FileDrop fileDrop = new FileDrop( System.out, fileTab, /*dragBorder,*/ new FileDrop.Listener(){   
+            @Override
+            public void filesDropped( java.io.File[] files ){   
+                for( int i = 0; i < files.length; i++ ) { 
+                    try{   
+                         File file1=files[i];
+                           if(!fileNameList.contains(file1.getAbsolutePath())) {
+                               
+                               open(file1, DLECodeEditorFrame.file_index);
+                               setCurrentDir(file1.getParent());                
+                            }else {
+                                System.out.println(file1.getAbsolutePath()+" already open!");
+                            }
+                    }   
+                    catch( Exception e ) {
+                    }
+                 }   
+             }  
+        }); 
+
+    }
     public void open(File file ,int index) {
      try {
             BufferedReader r = new BufferedReader(new FileReader(file));
@@ -170,11 +195,12 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
                     }else if(fname.endsWith(".f") || fname.endsWith(".F") || fname.endsWith(".f90") || fname.endsWith(".F90")) {
                          area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_FORTRAN);
 
+                    }else if(fname.endsWith(".h")) {
+                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+                         area.setCodeFoldingEnabled(true);
+                        
                     }
-                    else {
-                         area.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-                       
-                    }
+                   
                 area.read(r, null);
                 r.close();
                 fileTab.addTab(file.getName(), scroll);
@@ -809,6 +835,9 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
         FileNameExtensionFilter filter_fortran = new FileNameExtensionFilter(
         "Fortran-Files  (*.f; *.F; *.f90; *.F90)", "f","F","f90","F90");
         
+        FileNameExtensionFilter filter_header = new FileNameExtensionFilter(
+        "Header-Files  (*.h)", "h");
+        fc.setFileFilter(filter_header);
         fc.setFileFilter(filter_fortran);
         fc.setFileFilter(filter_c);
         fc.setFileFilter(filter_cpp);
@@ -1288,8 +1317,9 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
 				}
 			}
 
-			if (beep)
-				UIManager.getLookAndFeel().provideErrorFeedback(textArea);
+			if (beep) {
+            UIManager.getLookAndFeel().provideErrorFeedback(textArea);
+        }
 
 			textArea.requestFocusInWindow();
 }
@@ -1303,13 +1333,13 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
             
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
        } catch(ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-           ex.printStackTrace();
        }
          
        
       
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new DLECodeEditorFrame().setVisible(true);
             }
@@ -1508,6 +1538,8 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
     }
     private void runOct(File fileName) {
         String src=fileName.getName();
+          String ext = src.substring(src.lastIndexOf("."));
+        if(!ext.equalsIgnoreCase(".h")) {
         String exe = fileName.getName().substring(0, src.indexOf("."))+".oct";
         String exe_string =fileName.getName().substring(0, src.indexOf("."))+"()";
         if(!oct_path.equals("")) {
@@ -1526,6 +1558,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
             fileCopy(sdk_path,"oct.bat");
             fileAppend("oct.bat",cmd);
             openscript(new File(System.getProperty("user.dir")+File.separator +"oct.bat"));
+        }
         }
     }
     private void openscript(File file) {
@@ -1579,28 +1612,34 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
 
     private void runMex(File fileName){
         String src=fileName.getName();
-        String exe = fileName.getName().substring(0, src.indexOf("."))+".mex";
-        String exe_string =fileName.getName().substring(0, src.indexOf("."))+"()";
-        if(!oct_path.equals("")) {
-            String cmd = oct_path+"  -qf --persist --eval "+Character.toString('"')+"mkoctfile --mex "+
-                           fileName.getAbsolutePath()+" -o "+fileName.getParent()+File.separator+exe+";cd "+fileName.getParent()+
-                                   ";"+exe_string+Character.toString('"');
-           System.out.println( cmd);
-            fileCopy(sdk_path,"mex.bat");
-            fileAppend("mex.bat",cmd);
-            openscript(new File(System.getProperty("user.dir")+File.separator +"mex.bat"));
-        }else{
-            String cmd = "octave.exe  -qf --persist --eval "+Character.toString('"')+"mkoctfile --mex "+
-                           fileName.getAbsolutePath()+" -o "+fileName.getParent()+File.separator+exe+";cd "+fileName.getParent()+
-                                   ";"+exe_string+Character.toString('"');
-           System.out.println( cmd);
-            fileCopy(sdk_path,"mex.bat");
-            fileAppend("mex.bat",cmd);
-            openscript(new File(System.getProperty("user.dir")+File.separator +"mex.bat"));
+        String ext = src.substring(src.lastIndexOf("."));
+        if(!ext.equalsIgnoreCase(".h")) {
+            String exe = fileName.getName().substring(0, src.indexOf("."))+".mex";
+            String exe_string =fileName.getName().substring(0, src.indexOf("."))+"()";
+            if(!oct_path.equals("")) {
+                String cmd = oct_path+"  -qf --persist --eval "+Character.toString('"')+"mkoctfile --mex "+
+                               fileName.getAbsolutePath()+" -o "+fileName.getParent()+File.separator+exe+";cd "+fileName.getParent()+
+                                       ";"+exe_string+Character.toString('"');
+               System.out.println( cmd);
+                fileCopy(sdk_path,"mex.bat");
+                fileAppend("mex.bat",cmd);
+                openscript(new File(System.getProperty("user.dir")+File.separator +"mex.bat"));
+            }else{
+                String cmd = "octave.exe  -qf --persist --eval "+Character.toString('"')+"mkoctfile --mex "+
+                               fileName.getAbsolutePath()+" -o "+fileName.getParent()+File.separator+exe+";cd "+fileName.getParent()+
+                                       ";"+exe_string+Character.toString('"');
+               System.out.println( cmd);
+                fileCopy(sdk_path,"mex.bat");
+                fileAppend("mex.bat",cmd);
+                openscript(new File(System.getProperty("user.dir")+File.separator +"mex.bat"));
+            }
         }
+        
     }
     private void runExe(File fileName){
         String src=fileName.getName();
+          String ext = src.substring(src.lastIndexOf("."));
+        if(!ext.equalsIgnoreCase(".h")) {
         String exe = fileName.getName().substring(0, src.indexOf("."))+".exe";
         String exe_string =fileName.getName().substring(0, src.indexOf("."))+".exe";
         if(!oct_path.equals("")) {
@@ -1619,6 +1658,7 @@ public class DLECodeEditorFrame extends javax.swing.JFrame {
             fileCopy(sdk_path,"exe.bat");
             fileAppend("exe.bat",cmd);
             openscript(new File(System.getProperty("user.dir")+File.separator +"exe.bat"));
+        }
         }
     }
     private void fileCopy(String sdk,String des) {
