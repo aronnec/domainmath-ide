@@ -20,7 +20,6 @@
 package org.domainmath.gui;
 
 import jalview.bin.Cache;
-import jalview.bin.Jalview;
 import jalview.gui.AlignFrame;
 import jalview.util.Platform;
 import java.awt.BorderLayout;
@@ -60,6 +59,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import net.iharder.dnd.FileDrop;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.arrayeditor.ArrayEditorFrame;
@@ -332,7 +332,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        
+       
        
         this.popupTab();
         Preferences pr2 = Preferences.userNodeForPackage(this.getClass());
@@ -343,6 +343,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
        startupDir=pr2.get("DomainMath_StartUpDir", null);
        currentDirFileTab = null;
+       dragNDrop();
  
     }
 
@@ -3281,6 +3282,28 @@ public void saveplot() {
         workspace.refreshData();
     }//GEN-LAST:event_refreshItemActionPerformed
 
+    public void dragNDrop() {
+        FileDrop fileDrop = new FileDrop( System.out, fileTab, /*dragBorder,*/ new FileDrop.Listener(){   
+            @Override
+            public void filesDropped( java.io.File[] files ){   
+                for( int i = 0; i < files.length; i++ ) { 
+                    try{   
+                         File file1=files[i];
+                           if(!MainFrame.fileNameList.contains(file1.getAbsolutePath())) {
+                               
+                               open(file1, MainFrame.FILE_TAB_INDEX);
+                               setCurrentDirFileTab(file1.getParent());                
+                            }else {
+                                System.out.println(file1.getAbsolutePath()+" already open!");
+                            }
+                    }   
+                    catch( Exception e ) {
+                    }
+                 }   // end for: through each dropped file
+             }   // end filesDropped
+        }); // end FileDrop.Listener
+
+    }
     private void multipleSequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleSequenceViewerMenuItemActionPerformed
       
 //        MultiSeqAlignViewerFrame multiSeqAlignViewerFrame = new MultiSeqAlignViewerFrame();
@@ -3469,12 +3492,12 @@ public void saveplot() {
     // End of variables declaration//GEN-END:variables
 private class ArgsParser
 {
-  Vector vargs = null;
-
+  
+    List vargs = null;
   public ArgsParser(String[] args)
   {
       try {
-          vargs = new Vector();
+          vargs =Collections.synchronizedList(new ArrayList());
     for (int i = 0; i < args.length; i++)
     {
       String arg = args[i].trim();
@@ -3482,7 +3505,7 @@ private class ArgsParser
       {
         arg = arg.substring(1);
       }
-      vargs.addElement(arg);
+      vargs.add(arg);
     }
       }catch(Exception e) {
           
@@ -3507,9 +3530,9 @@ private class ArgsParser
     String dc = null, ret = null;
     if (index != -1)
     {
-      ret = vargs.elementAt(index + 1).toString();
-      vargs.removeElementAt(index);
-      vargs.removeElementAt(index);
+      ret = vargs.get(index + 1).toString();
+      vargs.remove(index);
+      vargs.remove(index);
       if (utf8decode && ret != null)
       {
         try
@@ -3535,7 +3558,7 @@ private class ArgsParser
   {
     if (vargs.contains(arg))
     {
-      vargs.removeElement(arg);
+      vargs.remove(arg);
       return true;
     }
     else
