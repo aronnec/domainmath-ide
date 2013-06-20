@@ -27,6 +27,7 @@ import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import net.iharder.dnd.FileDrop;
 import org.domainmath.gui.MainFrame;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.dataview.DataViewFrame;
@@ -182,7 +183,7 @@ public class WorkspacePanel extends JPanel {
          add(scrollPane,BorderLayout.CENTER);
           
              
-          
+         dndWorkspace(); 
       
     }
 
@@ -286,6 +287,97 @@ public class WorkspacePanel extends JPanel {
 
             } 
        }
+    
+    public  void dndOpen(File file){
+
+        String name;
+        String ext;
+
+                 name =file.getName();
+                 if(name.endsWith(".mat")) {
+                     load(file,"-mat");
+                 }else if(name.endsWith(".hdf5")) {
+                     load(file,"-hdf5");
+                 }else if(name.endsWith(".fhdf5")) {
+                     load(file,"-float-hdf5");
+                 }else if(name.endsWith(".txt")) {
+                     load(file,"-ascii");
+                 }else if(name.endsWith(".bin")) {
+                     load(file,"-binary");
+                 }else if(name.endsWith(".fbin")) {
+                     load(file,"-float-binary");
+                 }else if(name.endsWith(".zip")) {
+                     load(file,"-zip");
+                 }else if(name.endsWith(".fis")) {
+                   MainFrame.octavePanel.eval("pkg load fuzzy-logic-toolkit");
+                   MainFrame.octavePanel.eval("readfis('"+file.getAbsolutePath()+"');");
+                   MainFrame.octavePanel.evaluate("DomainMath_OctaveVariables('"+directory+"',whos);");
+                   reload();
+                 }else if(name.endsWith(".csv")) {
+                     loadCSV(file);
+                 }
+                
+                 else if(name.endsWith(".bmp") ||
+                         name.endsWith(".gif") ||
+                         name.endsWith(".jpg") ||
+                         name.endsWith(".jpeg") ||
+                         name.endsWith(".pbm") ||
+                         name.endsWith(".pcx") ||
+                         name.endsWith(".pgm") ||
+                         name.endsWith(".png") ||
+                         name.endsWith(".pnm") ||
+                         name.endsWith(".ppm") ||
+                         name.endsWith(".ras") ||
+                         name.endsWith(".tif") ||
+                         name.endsWith(".tiff") ||
+                         name.endsWith(".xwd") ) {
+                     loadImage(file.getAbsolutePath());
+                      MainFrame.octavePanel.evaluate("obOctDefaultApp=javaObject("+
+                          Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
+                          ","+Character.toString('"')+file.getAbsolutePath()+Character.toString('"')+");");
+                 }
+                // "lin", "raw", "au", "mu", "snd", "wav","riff"
+                 
+                 else if(name.endsWith(".lin")) {
+                     loadAudio1(file.getParent()+File.separator+name.substring(0, name.indexOf(".")),"lin");
+                 }else if(name.endsWith(".raw")) {
+                      loadAudio1(file.getParent()+File.separator+name.substring(0, name.indexOf(".")),"raw");
+                 }else if(name.endsWith(".au")) {
+                      loadAudio1(file.getParent()+File.separator+name.substring(0, name.indexOf(".")),"au");
+                 }else if(name.endsWith(".mu")) {
+                      loadAudio1(file.getParent()+File.separator+name.substring(0, name.indexOf(".")),"mu");
+                 }
+                 else if(name.endsWith(".snd")) {
+                      loadAudio1(file.getAbsolutePath(),"snd");
+                 }
+                  else if(name.endsWith(".dcm")) {
+                      loadDCM(file.getAbsolutePath());
+                 }
+                 else if(name.endsWith(".wav") ||
+                         name.endsWith(".riff"))
+                         {
+                     loadAudio2(file.getAbsolutePath());
+                 }
+
+       }
+    
+    public void dndWorkspace() {
+        FileDrop fileDrop = new FileDrop( System.out, table, /*dragBorder,*/ new FileDrop.Listener(){   
+            @Override
+            public void filesDropped( java.io.File[] files ){   
+                
+                    try{   
+                         dndOpen(files[0]);
+                          
+                    }   
+                    catch( Exception e ) {
+                    }
+                 
+             }   // end filesDropped
+        }); // end FileDrop.Listener
+
+    }
+    
     /**
      * Returns a List contains names of variables in the workspace
      * @return names of variables in workspace.
