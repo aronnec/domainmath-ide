@@ -530,6 +530,7 @@ public final class MainFrame extends javax.swing.JFrame {
         fileNameList.add(name);
     }
     
+    
     public void removeFileNameFromList(int index) {
         fileNameList.remove(index);
     }
@@ -2018,7 +2019,13 @@ public final class MainFrame extends javax.swing.JFrame {
         jMenu2.add(closeAllItem);
         jMenu2.add(jSeparator18);
 
+        windowsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.SHIFT_MASK));
         windowsItem.setText(bundle.getString("windowsItem.title")); // NOI18N
+        windowsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                windowsItemActionPerformed(evt);
+            }
+        });
         jMenu2.add(windowsItem);
 
         jMenuBar1.add(jMenu2);
@@ -3663,7 +3670,7 @@ public void saveplot() {
          if(fileTab.getSelectedIndex() >=0) {
                  if(fileTab.getSelectedIndex() != 0){
                     fileTab.setSelectedIndex((fileTab.getSelectedIndex()-1));
-                 FILE_TAB_INDEX=(fileTab.getSelectedIndex()-1); 
+                // FILE_TAB_INDEX=(fileTab.getSelectedIndex()-1); 
                  }
                  
                  
@@ -3676,10 +3683,10 @@ public void saveplot() {
         if(fileTab.getSelectedIndex() >=0) {
             try{
                  fileTab.setSelectedIndex((fileTab.getSelectedIndex()+1));
-                 FILE_TAB_INDEX=(fileTab.getSelectedIndex()+1);
+                // FILE_TAB_INDEX=(fileTab.getSelectedIndex()+1);
             }catch(Exception e){
                  fileTab.setSelectedIndex(0);
-                 FILE_TAB_INDEX=(0);
+               //  FILE_TAB_INDEX=(0);
             }
                
 
@@ -3725,6 +3732,12 @@ public void saveplot() {
     private void historyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyItemActionPerformed
         focusView(this.historyView);
     }//GEN-LAST:event_historyItemActionPerformed
+
+    private void windowsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsItemActionPerformed
+        WindowsDialog windowsDialog = new WindowsDialog(this,true);
+        windowsDialog.setLocationRelativeTo(this);
+        windowsDialog.setVisible(true);
+    }//GEN-LAST:event_windowsItemActionPerformed
 
     public static void main(String args[])   {
                  try {
