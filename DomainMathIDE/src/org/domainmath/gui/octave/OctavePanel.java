@@ -136,8 +136,8 @@ public class OctavePanel extends JPanel implements ExecProcessor{
 
         commandArea.getInputMap().put(key, new ExecuteAction(commandArea,oc));
        
-        PathsViewPanel pathPanel = new PathsViewPanel(path+"DomainMath_OctavePaths.dat");
-        PkgViewPanel pkgView = new PkgViewPanel(path+"DomainMath_OctavePackages.dat",frame);
+        //PathsViewPanel pathPanel = new PathsViewPanel(path+"DomainMath_OctavePaths.dat");
+        //PkgViewPanel pkgView = new PkgViewPanel(path+"DomainMath_OctavePackages.dat",frame);
         
         
        outputArea.setEditable(false);
@@ -147,11 +147,11 @@ public class OctavePanel extends JPanel implements ExecProcessor{
        p.add(scrollOutputArea);
        p.add(new RTextScrollPane(commandArea));
        p.setOneTouchExpandable(true);
-       tab.addTab("Console",p);
-       tab.addTab("Set Paths", pathPanel);
-       tab.addTab("Packages", pkgView);
+       add(p);
+       //tab.addTab("Set Paths", pathPanel);
+       //tab.addTab("Packages", pkgView);
        
-       tab.addTab("Array Editor",new ArrayEditorPanel());
+       //tab.addTab("Array Editor",new ArrayEditorPanel());
 
 
        _p1 = new JPopupMenu();
@@ -215,7 +215,7 @@ public class OctavePanel extends JPanel implements ExecProcessor{
             }
            
        });
-       add(tab,BorderLayout.CENTER);
+      
        
        commandArea.addKeyListener(new KeyListener() {
 

@@ -23,6 +23,7 @@ import jalview.bin.Cache;
 import jalview.gui.AlignFrame;
 import jalview.util.Platform;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -44,6 +45,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -60,9 +62,29 @@ import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import net.iharder.dnd.FileDrop;
+import net.infonode.docking.DockingWindow;
+import net.infonode.docking.DockingWindowAdapter;
+import net.infonode.docking.FloatingWindow;
+import net.infonode.docking.OperationAbortedException;
+import net.infonode.docking.RootWindow;
+import net.infonode.docking.SplitWindow;
+import net.infonode.docking.TabWindow;
+import net.infonode.docking.View;
+import net.infonode.docking.ViewSerializer;
+import net.infonode.docking.WindowBar;
+import net.infonode.docking.mouse.DockingWindowActionMouseButtonListener;
+import net.infonode.docking.properties.RootWindowProperties;
+import net.infonode.docking.theme.DockingWindowsTheme;
+import net.infonode.docking.theme.ShapedGradientDockingTheme;
+import net.infonode.docking.util.DockingUtil;
+import net.infonode.docking.util.MixedViewHandler;
+import net.infonode.docking.util.PropertiesUtil;
+import net.infonode.docking.util.ViewMap;
+import net.infonode.util.Direction;
 import org.domainmath.gui.Util.DomainMathFileFilter;
 import org.domainmath.gui.about.AboutDlg;
 import org.domainmath.gui.arrayeditor.ArrayEditorFrame;
+import org.domainmath.gui.arrayeditor.ArrayEditorPanel;
 import org.domainmath.gui.code_editor_dle.DLECodeEditorFrame;
 import org.domainmath.gui.dialog.find_replace.FindAndReplaceDialog;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
@@ -76,7 +98,9 @@ import org.domainmath.gui.packages.image.ImageToolFrame;
 import org.domainmath.gui.packages.nnet.NnetFrame;
 import org.domainmath.gui.packages.optim.OptimizationFrame;
 import org.domainmath.gui.pathsview.PathsViewMain;
+import org.domainmath.gui.pathsview.PathsViewPanel;
 import org.domainmath.gui.pkgview.PkgViewMain;
+import org.domainmath.gui.pkgview.PkgViewPanel;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
 import org.domainmath.gui.tools.multicore.MulticoreDialog;
@@ -263,12 +287,40 @@ public final class MainFrame extends javax.swing.JFrame {
      * Menu contain recently opened files list.
      */
     private final RecentFileMenu recentFileMenu;
-    
+    private View fileTabView;
+    private final PathsViewPanel pathPanel;
+    private final PkgViewPanel pkgViewPanel;
+    private View pathsView;
+    private View pkgView;
+    private View consoleView;
+    private View arrayEditorView;
+    private ViewMap viewMap = new ViewMap();
+    private View workspaceView;
+     private HashMap dynamicViews = new HashMap();
+     private RootWindow rootWindow;
+    private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
+    private RootWindowProperties properties = new RootWindowProperties();
+    final RootWindowProperties titleBarStyleProperties = PropertiesUtil.createTitleBarStyleRootWindowProperties();
+    TabWindow toolsTabWindow = new TabWindow();
+    TabWindow workspaceAndFilesTabWindow = new TabWindow();
+    private final View filesView;
+    private View historyView;
     /** 
      * Creates new form MainFrame.
      */
     public MainFrame()  {
-
+        
+         // create folders called cache and log.
+        cache = new File(System.getProperty("user.dir")+File.separator+"cache");
+        logDir = new File(System.getProperty("user.dir")+File.separator+"log");
+        cache.mkdir();
+        logDir.mkdir();
+        
+        parent_root=cache.getAbsolutePath()+File.separator;
+        log_root=logDir.getAbsolutePath()+File.separator;
+        
+       
+       
         initComponents();
         makeMenu();
         
@@ -278,14 +330,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         FILE_TAB_INDEX =0;
         
-        // create folders called cache and log.
-        cache = new File(System.getProperty("user.dir")+File.separator+"cache");
-        logDir = new File(System.getProperty("user.dir")+File.separator+"log");
-        cache.mkdir();
-        logDir.mkdir();
-        
-        parent_root=cache.getAbsolutePath()+File.separator;
-        log_root=logDir.getAbsolutePath()+File.separator;
+       
         
         octavePanel = new OctavePanel(this,parent_root);
         commandArea = octavePanel.commandArea;
@@ -306,7 +351,7 @@ public final class MainFrame extends javax.swing.JFrame {
         outlookBar = new JAccordion();
         outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), workspace);
         outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
-        histPanel();
+        
 
         recentFileMenu=new RecentFileMenu("RecentFiles",10){
             @Override
@@ -317,7 +362,8 @@ public final class MainFrame extends javax.swing.JFrame {
            
     	};
         this.fileMenu.add(recentFileMenu,2);
-        
+         
+         
         splitPaneFileTab= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
         splitPaneFileTab.setDividerLocation(300);
        splitPaneFileTab.setOneTouchExpandable(true);
@@ -325,15 +371,19 @@ public final class MainFrame extends javax.swing.JFrame {
                 splitPaneFileTab);
        //splitPane.setOneTouchExpandable(true);
        splitPaneOutLookBar.setDividerLocation(250);
-       add(splitPaneOutLookBar,BorderLayout.CENTER);
+      // add(splitPaneOutLookBar,BorderLayout.CENTER);
         // add(octavePanel,BorderLayout.CENTER);
         statusPanel = new StatusPanel();
-        add(statusPanel,BorderLayout.PAGE_END);
+        
         
         
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-       
-       
+     
+        pathPanel = new PathsViewPanel(parent_root+"DomainMath_OctavePaths.dat");
+       pkgViewPanel = new PkgViewPanel(parent_root+"DomainMath_OctavePackages.dat",this);
+      
+        
+        histPanel();
         this.popupTab();
         Preferences pr2 = Preferences.userNodeForPackage(this.getClass());
         String path2 =pr2.get("DomainMath_DynarePath",null);
@@ -343,6 +393,18 @@ public final class MainFrame extends javax.swing.JFrame {
         
        startupDir=pr2.get("DomainMath_StartUpDir", null);
        currentDirFileTab = null;
+        fileTabView=new View("Code Editor", null, fileTab);
+       pathsView=new View("Set Paths", null, pathPanel);
+       pkgView = new View("Packages", null, pkgViewPanel);
+       consoleView = new View("Console", null, octavePanel);
+       arrayEditorView = new View("Array Editor", null, new ArrayEditorPanel());
+       workspaceView=new View("Workspace", null, workspace);
+       filesView=new View("Files", null, new FilesBreadCrumb(this));
+       createRootWindow();
+        setDefaultLayout();
+      
+        add(rootWindow, BorderLayout.CENTER);
+        add(statusPanel,BorderLayout.PAGE_END);
        dragNDrop();
  
     }
@@ -680,7 +742,7 @@ public final class MainFrame extends javax.swing.JFrame {
             
         });
         outlookBar.addBar("History", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/history.png")), p);
-        
+        historyView=new View("History", null, p);
     }
     public  String DynareOptions() {
         Preferences pr = Preferences.userNodeForPackage(this.getClass());
@@ -758,9 +820,6 @@ public final class MainFrame extends javax.swing.JFrame {
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         diarySaveItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        closeItem = new javax.swing.JMenuItem();
-        closeAllItem = new javax.swing.JMenuItem();
-        jSeparator18 = new javax.swing.JPopupMenu.Separator();
         printFileItem = new javax.swing.JMenuItem();
         printItem = new javax.swing.JMenuItem();
         jSeparator19 = new javax.swing.JPopupMenu.Separator();
@@ -793,6 +852,15 @@ public final class MainFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         clearOutWindowItem = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        codeEditorItem = new javax.swing.JMenuItem();
+        pathsItem = new javax.swing.JMenuItem();
+        pkgsItem = new javax.swing.JMenuItem();
+        consoleItem = new javax.swing.JMenuItem();
+        arrayEditItem = new javax.swing.JMenuItem();
+        workspaceItem = new javax.swing.JMenuItem();
+        filesItem = new javax.swing.JMenuItem();
+        historyItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         findItem = new javax.swing.JMenuItem();
         replaceItem = new javax.swing.JMenuItem();
@@ -851,6 +919,14 @@ public final class MainFrame extends javax.swing.JFrame {
         dynareItem = new javax.swing.JMenuItem();
         worksheetItem = new javax.swing.JMenuItem();
         optimItem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        previousWindowItem = new javax.swing.JMenuItem();
+        nextWindowItem = new javax.swing.JMenuItem();
+        jSeparator29 = new javax.swing.JPopupMenu.Separator();
+        closeItem = new javax.swing.JMenuItem();
+        closeAllItem = new javax.swing.JMenuItem();
+        jSeparator18 = new javax.swing.JPopupMenu.Separator();
+        windowsItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         forumItem = new javax.swing.JMenuItem();
         octaveInfoItem = new javax.swing.JMenuItem();
@@ -1179,27 +1255,6 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu.add(diaryMenu);
         fileMenu.add(jSeparator1);
 
-        closeItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
-        closeItem.setText(bundle1.getString("closeItem.name")); // NOI18N
-        closeItem.setToolTipText(bundle1.getString("closeItem.tooltip")); // NOI18N
-        closeItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(closeItem);
-
-        closeAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        closeAllItem.setText(bundle1.getString("closeAllItem.name")); // NOI18N
-        closeAllItem.setToolTipText(bundle1.getString("closeAllItem.tooltip")); // NOI18N
-        closeAllItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeAllItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(closeAllItem);
-        fileMenu.add(jSeparator18);
-
         printFileItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         printFileItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/document-print2.png"))); // NOI18N
         printFileItem.setText("Print");
@@ -1418,6 +1473,74 @@ public final class MainFrame extends javax.swing.JFrame {
         editMenu.add(clearOutWindowItem);
 
         jMenuBar1.add(editMenu);
+
+        jMenu3.setText(bundle.getString("viewMenu.title")); // NOI18N
+
+        codeEditorItem.setText(bundle.getString("codeEditorItem.title")); // NOI18N
+        codeEditorItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codeEditorItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(codeEditorItem);
+
+        pathsItem.setText(bundle.getString("setPathsItem.title")); // NOI18N
+        pathsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pathsItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(pathsItem);
+
+        pkgsItem.setText(bundle.getString("pkgsItem.title")); // NOI18N
+        pkgsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pkgsItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(pkgsItem);
+
+        consoleItem.setText(bundle.getString("consoleItem.title")); // NOI18N
+        consoleItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoleItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(consoleItem);
+
+        arrayEditItem.setText(bundle.getString("arrayEidtorItem.title")); // NOI18N
+        arrayEditItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arrayEditItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(arrayEditItem);
+
+        workspaceItem.setText(bundle.getString("worksaceItem.title")); // NOI18N
+        workspaceItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                workspaceItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(workspaceItem);
+
+        filesItem.setText(bundle.getString("filesItem.title")); // NOI18N
+        filesItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filesItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(filesItem);
+
+        historyItem.setText(bundle.getString("historyItem.title")); // NOI18N
+        historyItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historyItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(historyItem);
+
+        jMenuBar1.add(jMenu3);
 
         jMenu1.setMnemonic('S');
         jMenu1.setText("Search");
@@ -1849,6 +1972,56 @@ public final class MainFrame extends javax.swing.JFrame {
         toolsMenu.add(optimItem);
 
         jMenuBar1.add(toolsMenu);
+
+        jMenu2.setText(bundle.getString("windowMenu.title")); // NOI18N
+
+        previousWindowItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
+        previousWindowItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/go-previous.png"))); // NOI18N
+        previousWindowItem.setText(bundle.getString("previousWindowItem.title")); // NOI18N
+        previousWindowItem.setToolTipText(bundle.getString("previousWindowItem.tooltip")); // NOI18N
+        previousWindowItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousWindowItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(previousWindowItem);
+
+        nextWindowItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
+        nextWindowItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/go-next.png"))); // NOI18N
+        nextWindowItem.setText(bundle.getString("nextWindowItem.title")); // NOI18N
+        nextWindowItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextWindowItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(nextWindowItem);
+        jMenu2.add(jSeparator29);
+
+        closeItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
+        closeItem.setText(bundle1.getString("closeItem.name")); // NOI18N
+        closeItem.setToolTipText(bundle1.getString("closeItem.tooltip")); // NOI18N
+        closeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(closeItem);
+
+        closeAllItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        closeAllItem.setText(bundle1.getString("closeAllItem.name")); // NOI18N
+        closeAllItem.setToolTipText(bundle1.getString("closeAllItem.tooltip")); // NOI18N
+        closeAllItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeAllItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(closeAllItem);
+        jMenu2.add(jSeparator18);
+
+        windowsItem.setText(bundle.getString("windowsItem.title")); // NOI18N
+        jMenu2.add(windowsItem);
+
+        jMenuBar1.add(jMenu2);
 
         helpMenu.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("helpMenu.mnemonic").charAt(0));
         helpMenu.setText(bundle.getString("helpMenu.name")); // NOI18N
@@ -3045,6 +3218,168 @@ public void saveplot() {
     }
     }
 
+    private void createRootWindow() {
+      
+       
+       viewMap.addView(0, fileTabView);
+       viewMap.addView(1, pathsView);
+       viewMap.addView(2, pkgView);
+       viewMap.addView(3, consoleView);
+       viewMap.addView(4, arrayEditorView);
+       viewMap.addView(5, workspaceView);
+       viewMap.addView(6, filesView);
+       viewMap.addView(7, historyView);
+       
+      MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
+          @Override
+      public void writeView(View view, ObjectOutputStream out) throws IOException {
+        out.writeInt(((DynamicView) view).getId());
+      }
+
+          @Override
+      public View readView(ObjectInputStream in) throws IOException {
+        return getDynamicView(in.readInt());
+      }
+    });
+     rootWindow = DockingUtil.createRootWindow(viewMap, handler, true);
+
+
+    properties.addSuperObject(currentTheme.getRootWindowProperties());
+    properties.addSuperObject(titleBarStyleProperties);
+    rootWindow.getRootWindowProperties().addSuperObject(properties);
+
+    rootWindow.getWindowBar(Direction.DOWN).setEnabled(true);
+
+    rootWindow.addListener(new DockingWindowAdapter() {
+        @Override
+      public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
+        updateViews(addedWindow, true);
+
+        // If the added window is a floating window, then update it
+        if (addedWindow instanceof FloatingWindow) {
+           //   updateFloatingWindow((FloatingWindow) addedWindow);
+          }
+      }
+
+        @Override
+      public void windowRemoved(DockingWindow removedFromWindow, DockingWindow removedWindow) {
+        updateViews(removedWindow, false);
+      }
+
+        @Override
+      public void windowClosing(DockingWindow window) throws OperationAbortedException {
+        // Confirm close operation
+        if (JOptionPane.showConfirmDialog(null, "Really close window '" + window + "'?") != JOptionPane.YES_OPTION) {
+              throw new OperationAbortedException("Window close was aborted!");
+          }
+      }
+
+        @Override
+      public void windowDocking(DockingWindow window) throws OperationAbortedException {
+        // Confirm dock operation
+        if (JOptionPane.showConfirmDialog(null, "Really dock window '" + window + "'?") != JOptionPane.YES_OPTION) {
+              throw new OperationAbortedException("Window dock was aborted!");
+          }
+      }
+
+        @Override
+      public void windowUndocking(DockingWindow window) throws OperationAbortedException {
+        // Confirm undock operation 
+        if (JOptionPane.showConfirmDialog(null, "Really undock window '" + window + "'?") != JOptionPane.YES_OPTION) {
+              throw new OperationAbortedException("Window undock was aborted!");
+          }
+      }  
+            });
+    rootWindow.addTabMouseButtonListener(DockingWindowActionMouseButtonListener.MIDDLE_BUTTON_CLOSE_LISTENER);
+    }
+   
+     private void updateViews(DockingWindow window, boolean added) {
+    if (window instanceof View) {
+      if (window instanceof DynamicView) {
+        if (added) {
+              dynamicViews.put(new Integer(((DynamicView) window).getId()), window);
+          }
+        else {
+              dynamicViews.remove(new Integer(((DynamicView) window).getId()));
+          }
+      }
+      else {
+       
+            if (this.fileTabView == window && this.codeEditorItem != null) {
+                this.codeEditorItem .setEnabled(!added);
+            }else if (this.pathsView == window && this.pathsItem != null) {
+                this.pathsItem .setEnabled(!added);
+            }else if (this.pkgView == window && this.pkgItem != null) {
+                this.pkgsItem.setEnabled(!added);
+            }else if (this.consoleView == window && this.consoleItem != null) {
+                this.consoleItem .setEnabled(!added);
+            }else if (this.arrayEditorView == window && this.arrayEditItem != null) {
+                this.arrayEditItem.setEnabled(!added);
+            }else if (this.workspaceView == window && this.workspaceItem != null) {
+                this.workspaceItem .setEnabled(!added);
+            }else if (this.filesView == window && this.filesItem != null) {
+                this.filesItem .setEnabled(!added);
+            }else if (this.historyView == window && this.historyItem != null) {
+                this.historyItem .setEnabled(!added);
+            }
+          
+      }
+    }
+    else {
+      for (int i = 0; i < window.getChildWindowCount(); i++) {
+            updateViews(window.getChildWindow(i), added);
+        }
+    }
+  }
+    private View getDynamicView(int id) {
+    View view = (View) dynamicViews.get(new Integer(id));
+
+    if (view == null) {
+        if(id == 0) {
+            view =fileTabView;
+        }else if(id ==1) {
+            view=pathsView;
+        }else if(id ==2) {
+            view=pkgView;
+        }else if(id ==3) {
+            view=consoleView;
+        }else if(id ==4) {
+            view=arrayEditorView;
+        }else if(id ==5) {
+            view=workspaceView;
+        }else if(id ==6) {
+            view=filesView;
+        }else if(id ==7) {
+            view=historyView;
+        }
+          
+      }
+
+    return view;
+  }
+  
+    private void setDefaultLayout() {
+       workspaceAndFilesTabWindow.addTab(this.workspaceView);
+       workspaceAndFilesTabWindow.addTab(this.filesView);
+        
+       workspaceView.restoreFocus();
+       toolsTabWindow.addTab(this.consoleView);
+       toolsTabWindow.addTab(this.pathsView);
+       toolsTabWindow.addTab(this.pkgView);
+       toolsTabWindow.addTab(this.arrayEditorView);
+       consoleView.restoreFocus();
+        SplitWindow leftSplitWindow = new SplitWindow(false, 0.7f,this.workspaceAndFilesTabWindow,this.historyView);
+        SplitWindow rightSplitWindow = new SplitWindow(false, 0.7f,this.fileTabView,this.toolsTabWindow);
+       rootWindow.setWindow(new SplitWindow(true,
+                                         0.3f,leftSplitWindow,rightSplitWindow));
+
+    WindowBar windowBar = rootWindow.getWindowBar(Direction.DOWN);
+
+    while (windowBar.getChildWindowCount() > 0) {
+          windowBar.getChildWindow(0).close();
+      }
+    }
+
   
    
    
@@ -3299,9 +3634,9 @@ public void saveplot() {
                     }   
                     catch( Exception e ) {
                     }
-                 }   // end for: through each dropped file
-             }   // end filesDropped
-        }); // end FileDrop.Listener
+                 }   
+             }   
+        }); 
 
     }
     private void multipleSequenceViewerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleSequenceViewerMenuItemActionPerformed
@@ -3324,6 +3659,73 @@ public void saveplot() {
                 seqFrame.setVisible(true);
     }//GEN-LAST:event_sequenceViewerMenuItemActionPerformed
 
+    private void previousWindowItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousWindowItemActionPerformed
+         if(fileTab.getSelectedIndex() >=0) {
+                 if(fileTab.getSelectedIndex() != 0){
+                    fileTab.setSelectedIndex((fileTab.getSelectedIndex()-1));
+                 FILE_TAB_INDEX=(fileTab.getSelectedIndex()-1); 
+                 }
+                 
+                 
+           
+         }
+        
+    }//GEN-LAST:event_previousWindowItemActionPerformed
+
+    private void nextWindowItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextWindowItemActionPerformed
+        if(fileTab.getSelectedIndex() >=0) {
+            try{
+                 fileTab.setSelectedIndex((fileTab.getSelectedIndex()+1));
+                 FILE_TAB_INDEX=(fileTab.getSelectedIndex()+1);
+            }catch(Exception e){
+                 fileTab.setSelectedIndex(0);
+                 FILE_TAB_INDEX=(0);
+            }
+               
+
+         }
+    }//GEN-LAST:event_nextWindowItemActionPerformed
+
+    private void focusView(View view) {
+        if (view.getRootWindow() != null) {
+            view.restoreFocus();
+        }
+          else {
+            DockingUtil.addWindow(view, rootWindow);
+          }
+    }
+    private void codeEditorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeEditorItemActionPerformed
+       focusView(this.fileTabView);
+    }//GEN-LAST:event_codeEditorItemActionPerformed
+
+    private void pathsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathsItemActionPerformed
+        focusView(this.pathsView);
+    }//GEN-LAST:event_pathsItemActionPerformed
+
+    private void pkgsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pkgsItemActionPerformed
+        focusView(this.pkgView);
+    }//GEN-LAST:event_pkgsItemActionPerformed
+
+    private void consoleItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleItemActionPerformed
+        focusView(this.consoleView);
+    }//GEN-LAST:event_consoleItemActionPerformed
+
+    private void arrayEditItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrayEditItemActionPerformed
+        focusView(this.arrayEditorView);
+    }//GEN-LAST:event_arrayEditItemActionPerformed
+
+    private void workspaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workspaceItemActionPerformed
+        focusView(this.workspaceView);
+    }//GEN-LAST:event_workspaceItemActionPerformed
+
+    private void filesItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesItemActionPerformed
+        focusView(this.filesView);
+    }//GEN-LAST:event_filesItemActionPerformed
+
+    private void historyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyItemActionPerformed
+        focusView(this.historyView);
+    }//GEN-LAST:event_historyItemActionPerformed
+
     public static void main(String args[])   {
                  try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -3345,6 +3747,7 @@ public void saveplot() {
     private javax.swing.JMenu BioInfoMenu;
     private javax.swing.JMenu WorkspaceMenu;
     private javax.swing.JButton addButton;
+    private javax.swing.JMenuItem arrayEditItem;
     private javax.swing.JMenuItem arrayEditorItem;
     public static javax.swing.JCheckBoxMenuItem automaticRefreshCheckBoxMenuItem;
     private javax.swing.JButton browseButton;
@@ -3354,8 +3757,10 @@ public void saveplot() {
     private javax.swing.JMenuItem clearOutWindowItem;
     private javax.swing.JMenuItem closeAllItem;
     private javax.swing.JMenuItem closeItem;
+    private javax.swing.JMenuItem codeEditorItem;
     private javax.swing.JButton connectButton;
     private javax.swing.JMenuItem connectItem;
+    private javax.swing.JMenuItem consoleItem;
     private javax.swing.JMenuItem continueItem;
     private javax.swing.JMenuItem copyItem;
     private javax.swing.JMenuItem cutItem;
@@ -3383,6 +3788,7 @@ public void saveplot() {
     private javax.swing.JMenuItem faqItem;
     private javax.swing.JMenuItem feedBackItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem filesItem;
     private javax.swing.JMenuItem findItem;
     private javax.swing.JMenuItem finishDebugItem;
     private javax.swing.JMenuItem fltkplotItem;
@@ -3391,6 +3797,7 @@ public void saveplot() {
     private javax.swing.JMenuItem googleItem;
     private javax.swing.JMenuItem gotoItem;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem historyItem;
     private javax.swing.JMenuItem hmmerItem;
     private javax.swing.JMenuItem howToItem;
     private javax.swing.JMenuItem imageToolItem;
@@ -3405,6 +3812,8 @@ public void saveplot() {
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -3434,6 +3843,7 @@ public void saveplot() {
     private javax.swing.JPopupMenu.Separator jSeparator26;
     private javax.swing.JPopupMenu.Separator jSeparator27;
     private javax.swing.JPopupMenu.Separator jSeparator28;
+    private javax.swing.JPopupMenu.Separator jSeparator29;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
@@ -3448,6 +3858,7 @@ public void saveplot() {
     private javax.swing.JMenuItem nNetMenuItem;
     private javax.swing.JMenuItem newFileItem;
     private javax.swing.JMenuItem newVariableItem;
+    private javax.swing.JMenuItem nextWindowItem;
     private javax.swing.JMenuItem octaveCmdItem;
     private javax.swing.JMenuItem octaveInfoItem;
     private javax.swing.JMenuItem octaveItem;
@@ -3455,10 +3866,13 @@ public void saveplot() {
     private javax.swing.JMenuItem openItem;
     private javax.swing.JMenuItem optimItem;
     private javax.swing.JMenuItem pasteItem;
+    private javax.swing.JMenuItem pathsItem;
     private javax.swing.JMenuItem phyConstItem;
     private javax.swing.JMenuItem pkgItem;
     private javax.swing.JMenu pkgMenuItem;
+    private javax.swing.JMenuItem pkgsItem;
     private javax.swing.JMenuItem preferencesItem;
+    private javax.swing.JMenuItem previousWindowItem;
     private javax.swing.JMenuItem printFileItem;
     private javax.swing.JMenuItem printItem;
     private javax.swing.JMenuItem quickHelpItem;
@@ -3488,7 +3902,9 @@ public void saveplot() {
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem undoItem;
     private javax.swing.JMenuItem wikiItem;
+    private javax.swing.JMenuItem windowsItem;
     private javax.swing.JMenuItem worksheetItem;
+    private javax.swing.JMenuItem workspaceItem;
     // End of variables declaration//GEN-END:variables
 private class ArgsParser
 {
@@ -3635,4 +4051,29 @@ private class FeatureFetcher
   }
 }
 
+private static class DynamicView extends View {
+    private int id;
+
+    /**
+     * Constructor.
+     *
+     * @param title     the view title
+     * @param icon      the view icon
+     * @param component the view component
+     * @param id        the view id
+     */
+    DynamicView(String title, Icon icon, Component component, int id) {
+      super(title, icon, component);
+      this.id = id;
+    }
+
+    /**
+     * Returns the view id.
+     *
+     * @return the view id
+     */
+    public int getId() {
+      return id;
+    }
+  }
 }
