@@ -1,4 +1,3 @@
-E:\Test.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\wavwrite.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\wavread.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\setaudio.m
@@ -6,5 +5,6 @@ G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\saveaudio.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\record.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\playaudio.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\mu2lin.m
+G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\loadaudio.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\loadaudio.m
 G:\Software\Octave-3.7.2+\share\octave\3.7.2+\m\audio\lin2mu.m
