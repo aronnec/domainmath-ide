@@ -1058,7 +1058,7 @@ public class Desktop extends jalview.jbgui.GDesktop implements
       dialogExecutor.shutdownNow();
     }
 
-    System.exit(0);
+    dispose();
   }
 
   private void storeLastKnownDimensions(String string, Rectangle jc)
