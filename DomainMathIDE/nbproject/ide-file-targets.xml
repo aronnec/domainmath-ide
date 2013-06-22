@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="DomainMathIDE-IDE">
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#compilesingle) -->
+    <target name="compile-selected-files-in-src">
+        <fail unless="files">Must set property 'files'</fail>
+        <mkdir dir="build/classes"/>
+        <javac destdir="build/classes" includes="${files}" source="1.7" srcdir="src">
+            <classpath path="dist/Jalview_2.8.jar;dist/autocomplete.jar;dist/biojava3-alignment-3.0.5.jar;dist/biojava3-core-3.0.5.jar;dist/biojava3-sequencing-3.0.5.jar;dist/biojava3-ws-3.0.5.jar;dist/commons-beanutils.jar;dist/commons-collections-3.2.1.jar;dist/commons-lang-2.3.jar;dist/commons-logging.jar;dist/ezmorph-1.0.6.jar;dist/flamingo-7.2.jar;dist/forester_1027.jar;dist/jcommon-1.0.17.jar;dist/jfreechart-1.0.14.jar;dist/json-lib-2.3-jdk15.jar;dist/rsyntaxtextarea.jar;dist/substance-7.2.jar;dist/substance-flamingo-7.2.jar;dist/trident-7.2.jar;dist/filedrop.jar;dist/idw-gpl.jar"/>
+        </javac>
+    </target>
+</project>
