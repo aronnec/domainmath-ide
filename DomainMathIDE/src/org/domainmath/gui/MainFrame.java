@@ -2264,8 +2264,9 @@ private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         } catch (IOException ex) {
                             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        System.exit(0);
+                        
                      this.dispose();
+                     System.exit(0);
                  }
      
 }//GEN-LAST:event_exitItemActionPerformed
@@ -2440,6 +2441,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
                             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
                      this.dispose();
+                     System.exit(0);
                  }
                
 }//GEN-LAST:event_formWindowClosing
