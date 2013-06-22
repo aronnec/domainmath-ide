@@ -287,7 +287,7 @@ public class Desktop extends jalview.jbgui.GDesktop implements
     doGroovyCheck();
 
     setTitle("Jalview " + jalview.bin.Cache.getProperty("VERSION"));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     boolean selmemusage = jalview.bin.Cache.getDefault("SHOW_MEMUSAGE",
             false);
     boolean showjconsole = jalview.bin.Cache.getDefault(
