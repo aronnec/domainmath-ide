@@ -39,12 +39,9 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.*;
 import org.domainmath.gui.MainFrame;
-import org.domainmath.gui.arrayeditor.ArrayEditorPanel;
 import org.domainmath.gui.editor.AutoCompleteListCellRenderer;
 import org.domainmath.gui.editor.OctaveM;
 import org.domainmath.gui.octave.OctavePanel.OctaveEngine;
-import org.domainmath.gui.pathsview.PathsViewPanel;
-import org.domainmath.gui.pkgview.PkgViewPanel;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.fife.ui.autocomplete.*;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -135,24 +132,15 @@ public class OctavePanel extends JPanel implements ExecProcessor{
                     KeyEvent.VK_ENTER, 0);
 
         commandArea.getInputMap().put(key, new ExecuteAction(commandArea,oc));
-       
-        //PathsViewPanel pathPanel = new PathsViewPanel(path+"DomainMath_OctavePaths.dat");
-        //PkgViewPanel pkgView = new PkgViewPanel(path+"DomainMath_OctavePackages.dat",frame);
-        
-        
+      
        outputArea.setEditable(false);
        commandArea.setBorder(null);
        JSplitPane p  = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-       p.setDividerLocation(130);
+       p.setDividerLocation(400);
        p.add(scrollOutputArea);
        p.add(new RTextScrollPane(commandArea));
        p.setOneTouchExpandable(true);
        add(p);
-       //tab.addTab("Set Paths", pathPanel);
-       //tab.addTab("Packages", pkgView);
-       
-       //tab.addTab("Array Editor",new ArrayEditorPanel());
-
 
        _p1 = new JPopupMenu();
 

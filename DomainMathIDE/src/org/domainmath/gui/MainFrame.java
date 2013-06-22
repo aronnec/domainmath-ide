@@ -25,7 +25,9 @@ import jalview.util.Platform;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,9 +99,7 @@ import org.domainmath.gui.packages.db.DataBaseFrame;
 import org.domainmath.gui.packages.image.ImageToolFrame;
 import org.domainmath.gui.packages.nnet.NnetFrame;
 import org.domainmath.gui.packages.optim.OptimizationFrame;
-import org.domainmath.gui.pathsview.PathsViewMain;
 import org.domainmath.gui.pathsview.PathsViewPanel;
-import org.domainmath.gui.pkgview.PkgViewMain;
 import org.domainmath.gui.pkgview.PkgViewPanel;
 import org.domainmath.gui.preferences.PreferencesDlg;
 import org.domainmath.gui.tools.dynare.DynareDlg;
@@ -185,11 +185,6 @@ public final class MainFrame extends javax.swing.JFrame {
      */
     private final RTextScrollPane histScrollPane;
     
-    /**
-     * SplitPane between Outlook bar and another split pane contains
-     * FileTab and OctavePanel.
-     */
-    private final JSplitPane splitPaneOutLookBar;
     
     /**
      * Workspace Panel.
@@ -243,10 +238,7 @@ public final class MainFrame extends javax.swing.JFrame {
      */
     public static  List fileNameList =Collections.synchronizedList(new ArrayList());
 
-    /**
-     * SplitPane between file tab and Octave panel.
-     */
-    private final JSplitPane splitPaneFileTab;
+  
     
     /**
      * Create a folder called log.
@@ -268,10 +260,6 @@ public final class MainFrame extends javax.swing.JFrame {
      */
     private URL urlDebugImageStop;
     
-    /**
-     * Outlook Bar.
-     */
-    private final JAccordion outlookBar;
     
     /**
      * Start up or default directory.
@@ -348,10 +336,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         workspace =new WorkspacePanel(parent_root+"DomainMath_OctaveVariables.dat",this);
 
-        outlookBar = new JAccordion();
-        outlookBar.addBar("Workspace", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/workspace.png")), workspace);
-        outlookBar.addBar("Files", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/folder.png")), new FilesBreadCrumb(this));
-        
+      
 
         recentFileMenu=new RecentFileMenu("RecentFiles",10){
             @Override
@@ -362,21 +347,8 @@ public final class MainFrame extends javax.swing.JFrame {
            
     	};
         this.fileMenu.add(recentFileMenu,2);
-         
-         
-        splitPaneFileTab= new JSplitPane(JSplitPane.VERTICAL_SPLIT,fileTab,octavePanel);
-        splitPaneFileTab.setDividerLocation(300);
-       splitPaneFileTab.setOneTouchExpandable(true);
-        splitPaneOutLookBar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,outlookBar,
-                splitPaneFileTab);
-       //splitPane.setOneTouchExpandable(true);
-       splitPaneOutLookBar.setDividerLocation(250);
-      // add(splitPaneOutLookBar,BorderLayout.CENTER);
-        // add(octavePanel,BorderLayout.CENTER);
+        
         statusPanel = new StatusPanel();
-        
-        
-        
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
      
         pathPanel = new PathsViewPanel(parent_root+"DomainMath_OctavePaths.dat");
@@ -580,7 +552,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 this.addFileNameToList(file.getAbsolutePath());
                  FILE_TAB_INDEX++;
                 dirty();
-                
+                 openInFlotingWindow(this.fileTabView);
                  
             } catch (IOException ex) {
                
@@ -590,6 +562,15 @@ public final class MainFrame extends javax.swing.JFrame {
         }
      }
         
+    }
+    
+    public void openInFlotingWindow(View view) {
+       if(!this.fileTabView.isShowing()) {
+                      FloatingWindow fw = rootWindow.createFloatingWindow(new Point(50, 50),
+                                                            new Dimension(600, 400),
+                                                            view);
+                    fw.getTopLevelAncestor().setVisible(true);
+                  } 
     }
      public void open(){
         JFileChooser fc = new JFileChooser();
@@ -626,7 +607,7 @@ public final class MainFrame extends javax.swing.JFrame {
                                 System.out.println(file1[i].getAbsolutePath()+" already open!");
                             }
                     }  
-      
+   
         }
     }
      
@@ -742,7 +723,6 @@ public final class MainFrame extends javax.swing.JFrame {
             }
             
         });
-        outlookBar.addBar("History", new ImageIcon(getClass().getResource("/org/domainmath/gui/icons/size16x16/history.png")), p);
         historyView=new View("History", null, p);
     }
     public  String DynareOptions() {
@@ -824,8 +804,6 @@ public final class MainFrame extends javax.swing.JFrame {
         printFileItem = new javax.swing.JMenuItem();
         printItem = new javax.swing.JMenuItem();
         jSeparator19 = new javax.swing.JPopupMenu.Separator();
-        setPathsItem = new javax.swing.JMenuItem();
-        pkgItem = new javax.swing.JMenuItem();
         preferencesItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         connectItem = new javax.swing.JMenuItem();
@@ -1277,27 +1255,6 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         fileMenu.add(printItem);
         fileMenu.add(jSeparator19);
-
-        setPathsItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("setPathsItem.mnemonic").charAt(0));
-        setPathsItem.setText(bundle.getString("setPathsItem.name")); // NOI18N
-        setPathsItem.setToolTipText(bundle.getString("setPathsItem.tooltip")); // NOI18N
-        setPathsItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setPathsItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(setPathsItem);
-
-        pkgItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/package.png"))); // NOI18N
-        pkgItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("pkgItem.mnemonic").charAt(0));
-        pkgItem.setText(bundle.getString("pkgItem.name")); // NOI18N
-        pkgItem.setToolTipText(bundle.getString("pkgItem.tooltip")); // NOI18N
-        pkgItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pkgItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(pkgItem);
 
         preferencesItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/domainmath/gui/icons/preferences.png"))); // NOI18N
         preferencesItem.setMnemonic(java.util.ResourceBundle.getBundle("org/domainmath/gui/resources/DomainMath_en").getString("preferecesItem.mnemonic").charAt(0));
@@ -2519,14 +2476,6 @@ private void openscript(File file) {
             JOptionPane.showMessageDialog(null, file.getAbsolutePath() + " doesn't exist");
         }
 }
-private void setPathsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPathsItemActionPerformed
-        //pathDlg.setLocationRelativeTo(this);
-         //pathDlg.setVisible(true);
-    
-        PathsViewMain ma =new PathsViewMain(parent_root+"DomainMath_OctavePaths.dat",this.getIconImage());
-            ma.show();
-}//GEN-LAST:event_setPathsItemActionPerformed
-
 private void fltkplotItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fltkplotItemActionPerformed
     String path=System.getProperty("user.dir")+File.separator+"scripts"+File.separator;
     String os =System.getProperty("os.name").toLowerCase();
@@ -2585,11 +2534,6 @@ private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         
         
     }//GEN-LAST:event_dynareItemActionPerformed
-
-    private void pkgItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pkgItemActionPerformed
-         PkgViewMain m =new PkgViewMain(this,parent_root+"DomainMath_OctavePackages.dat",this.getIconImage());
-            m.show();
-    }//GEN-LAST:event_pkgItemActionPerformed
 
     private void octaveInfoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_octaveInfoItemActionPerformed
     MainFrame.octavePanel.evaluate("javaaddpath('"+System.getProperty("user.dir")+File.separator+"scripts"+File.separator+"Grid.jar')");
@@ -2953,6 +2897,7 @@ public void saveplot() {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         newFile();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
      private void setUpDynare(Path path) {
@@ -3007,6 +2952,7 @@ public void saveplot() {
         NewScriptDialog newFileDlg =new NewScriptDialog(this,true,this.dynareOptions,this.dynarePath);
         newFileDlg.setLocationRelativeTo(this);
         newFileDlg.setVisible(true);
+        this.openInFlotingWindow(this.fileTabView);
     }
    
      public void needOct(boolean need) {
@@ -3262,10 +3208,6 @@ public void saveplot() {
       public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
         updateViews(addedWindow, true);
 
-        // If the added window is a floating window, then update it
-        if (addedWindow instanceof FloatingWindow) {
-           //   updateFloatingWindow((FloatingWindow) addedWindow);
-          }
       }
 
         @Override
@@ -3316,7 +3258,7 @@ public void saveplot() {
                 this.codeEditorItem .setEnabled(!added);
             }else if (this.pathsView == window && this.pathsItem != null) {
                 this.pathsItem .setEnabled(!added);
-            }else if (this.pkgView == window && this.pkgItem != null) {
+            }else if (this.pkgView == window && this.pkgsItem != null) {
                 this.pkgsItem.setEnabled(!added);
             }else if (this.consoleView == window && this.consoleItem != null) {
                 this.consoleItem .setEnabled(!added);
@@ -3370,15 +3312,11 @@ public void saveplot() {
        workspaceAndFilesTabWindow.addTab(this.filesView);
         
        workspaceView.restoreFocus();
-       toolsTabWindow.addTab(this.consoleView);
-       toolsTabWindow.addTab(this.pathsView);
-       toolsTabWindow.addTab(this.pkgView);
-       toolsTabWindow.addTab(this.arrayEditorView);
-       consoleView.restoreFocus();
+       
         SplitWindow leftSplitWindow = new SplitWindow(false, 0.7f,this.workspaceAndFilesTabWindow,this.historyView);
-        SplitWindow rightSplitWindow = new SplitWindow(false, 0.7f,this.fileTabView,this.toolsTabWindow);
+       
        rootWindow.setWindow(new SplitWindow(true,
-                                         0.3f,leftSplitWindow,rightSplitWindow));
+                                         0.3f,leftSplitWindow,consoleView));
 
     WindowBar windowBar = rootWindow.getWindowBar(Direction.DOWN);
 
@@ -3706,11 +3644,11 @@ public void saveplot() {
     }//GEN-LAST:event_codeEditorItemActionPerformed
 
     private void pathsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathsItemActionPerformed
-        focusView(this.pathsView);
+        this.openInFlotingWindow(this.pathsView);
     }//GEN-LAST:event_pathsItemActionPerformed
 
     private void pkgsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pkgsItemActionPerformed
-        focusView(this.pkgView);
+        this.openInFlotingWindow(this.pkgView);
     }//GEN-LAST:event_pkgsItemActionPerformed
 
     private void consoleItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleItemActionPerformed
@@ -3718,7 +3656,7 @@ public void saveplot() {
     }//GEN-LAST:event_consoleItemActionPerformed
 
     private void arrayEditItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrayEditItemActionPerformed
-        focusView(this.arrayEditorView);
+        this.openInFlotingWindow(this.arrayEditorView);
     }//GEN-LAST:event_arrayEditItemActionPerformed
 
     private void workspaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workspaceItemActionPerformed
@@ -3881,7 +3819,6 @@ public void saveplot() {
     private javax.swing.JMenuItem pasteItem;
     private javax.swing.JMenuItem pathsItem;
     private javax.swing.JMenuItem phyConstItem;
-    private javax.swing.JMenuItem pkgItem;
     private javax.swing.JMenu pkgMenuItem;
     private javax.swing.JMenuItem pkgsItem;
     private javax.swing.JMenuItem preferencesItem;
@@ -3905,7 +3842,6 @@ public void saveplot() {
     private javax.swing.JMenuItem savePlotItem;
     private javax.swing.JMenuItem selectAllItem;
     private javax.swing.JMenuItem sequenceViewerMenuItem;
-    private javax.swing.JMenuItem setPathsItem;
     private javax.swing.JMenuItem stackItem;
     private javax.swing.JMenuItem stepInItem;
     private javax.swing.JMenuItem stepItem;
