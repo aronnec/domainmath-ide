@@ -281,7 +281,7 @@ public class OctavePanel extends JPanel implements ExecProcessor{
         String showline;
                 if(histLine != 0) {
                      showline = (String)history.get( history.size() - histLine);
-                commandArea.setText(showline);
+                commandArea.append(showline);
 
                 }
                 
