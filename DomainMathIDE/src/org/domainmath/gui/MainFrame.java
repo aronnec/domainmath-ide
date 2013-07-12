@@ -832,14 +832,14 @@ public final class MainFrame extends javax.swing.JFrame {
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         clearOutWindowItem = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        consoleItem = new javax.swing.JMenuItem();
+        historyItem = new javax.swing.JMenuItem();
+        filesItem = new javax.swing.JMenuItem();
+        workspaceItem = new javax.swing.JMenuItem();
         codeEditorItem = new javax.swing.JMenuItem();
         pathsItem = new javax.swing.JMenuItem();
         pkgsItem = new javax.swing.JMenuItem();
-        consoleItem = new javax.swing.JMenuItem();
         arrayEditItem = new javax.swing.JMenuItem();
-        workspaceItem = new javax.swing.JMenuItem();
-        filesItem = new javax.swing.JMenuItem();
-        historyItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         findItem = new javax.swing.JMenuItem();
         replaceItem = new javax.swing.JMenuItem();
@@ -1434,30 +1434,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jMenu3.setText(bundle.getString("viewMenu.title")); // NOI18N
 
-        codeEditorItem.setText(bundle.getString("codeEditorItem.title")); // NOI18N
-        codeEditorItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                codeEditorItemActionPerformed(evt);
-            }
-        });
-        jMenu3.add(codeEditorItem);
-
-        pathsItem.setText(bundle.getString("setPathsItem.title")); // NOI18N
-        pathsItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pathsItemActionPerformed(evt);
-            }
-        });
-        jMenu3.add(pathsItem);
-
-        pkgsItem.setText(bundle.getString("pkgsItem.title")); // NOI18N
-        pkgsItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pkgsItemActionPerformed(evt);
-            }
-        });
-        jMenu3.add(pkgsItem);
-
+        consoleItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_MASK));
         consoleItem.setText(bundle.getString("consoleItem.title")); // NOI18N
         consoleItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1466,22 +1443,16 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(consoleItem);
 
-        arrayEditItem.setText(bundle.getString("arrayEidtorItem.title")); // NOI18N
-        arrayEditItem.addActionListener(new java.awt.event.ActionListener() {
+        historyItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        historyItem.setText(bundle.getString("historyItem.title")); // NOI18N
+        historyItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                arrayEditItemActionPerformed(evt);
+                historyItemActionPerformed(evt);
             }
         });
-        jMenu3.add(arrayEditItem);
+        jMenu3.add(historyItem);
 
-        workspaceItem.setText(bundle.getString("worksaceItem.title")); // NOI18N
-        workspaceItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                workspaceItemActionPerformed(evt);
-            }
-        });
-        jMenu3.add(workspaceItem);
-
+        filesItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         filesItem.setText(bundle.getString("filesItem.title")); // NOI18N
         filesItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1490,13 +1461,50 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(filesItem);
 
-        historyItem.setText(bundle.getString("historyItem.title")); // NOI18N
-        historyItem.addActionListener(new java.awt.event.ActionListener() {
+        workspaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        workspaceItem.setText(bundle.getString("worksaceItem.title")); // NOI18N
+        workspaceItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                historyItemActionPerformed(evt);
+                workspaceItemActionPerformed(evt);
             }
         });
-        jMenu3.add(historyItem);
+        jMenu3.add(workspaceItem);
+
+        codeEditorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
+        codeEditorItem.setText(bundle.getString("codeEditorItem.title")); // NOI18N
+        codeEditorItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codeEditorItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(codeEditorItem);
+
+        pathsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
+        pathsItem.setText(bundle.getString("setPathsItem.title")); // NOI18N
+        pathsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pathsItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(pathsItem);
+
+        pkgsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
+        pkgsItem.setText(bundle.getString("pkgsItem.title")); // NOI18N
+        pkgsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pkgsItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(pkgsItem);
+
+        arrayEditItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_7, java.awt.event.InputEvent.CTRL_MASK));
+        arrayEditItem.setText(bundle.getString("arrayEidtorItem.title")); // NOI18N
+        arrayEditItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arrayEditItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(arrayEditItem);
 
         jMenuBar1.add(jMenu3);
 
