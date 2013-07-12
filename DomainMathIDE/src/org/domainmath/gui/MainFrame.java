@@ -3264,23 +3264,23 @@ public void saveplot() {
       }
       else {
        
-            if (this.fileTabView == window && this.codeEditorItem != null) {
-                this.codeEditorItem .setEnabled(!added);
-            }else if (this.pathsView == window && this.pathsItem != null) {
-                this.pathsItem .setEnabled(!added);
-            }else if (this.pkgView == window && this.pkgsItem != null) {
-                this.pkgsItem.setEnabled(!added);
-            }else if (this.consoleView == window && this.consoleItem != null) {
-                this.consoleItem .setEnabled(!added);
-            }else if (this.arrayEditorView == window && this.arrayEditItem != null) {
-                this.arrayEditItem.setEnabled(!added);
-            }else if (this.workspaceView == window && this.workspaceItem != null) {
-                this.workspaceItem .setEnabled(!added);
-            }else if (this.filesView == window && this.filesItem != null) {
-                this.filesItem .setEnabled(!added);
-            }else if (this.historyView == window && this.historyItem != null) {
-                this.historyItem .setEnabled(!added);
-            }
+//            if (this.fileTabView == window && this.codeEditorItem != null) {
+//                this.codeEditorItem .setEnabled(!added);
+//            }else if (this.pathsView == window && this.pathsItem != null) {
+//                this.pathsItem .setEnabled(!added);
+//            }else if (this.pkgView == window && this.pkgsItem != null) {
+//                this.pkgsItem.setEnabled(!added);
+//            }else if (this.consoleView == window && this.consoleItem != null) {
+//                this.consoleItem .setEnabled(!added);
+//            }else if (this.arrayEditorView == window && this.arrayEditItem != null) {
+//                this.arrayEditItem.setEnabled(!added);
+//            }else if (this.workspaceView == window && this.workspaceItem != null) {
+//                this.workspaceItem .setEnabled(!added);
+//            }else if (this.filesView == window && this.filesItem != null) {
+//                this.filesItem .setEnabled(!added);
+//            }else if (this.historyView == window && this.historyItem != null) {
+//                this.historyItem .setEnabled(!added);
+//            }
           
       }
     }
@@ -3648,6 +3648,7 @@ public void saveplot() {
           else {
             DockingUtil.addWindow(view, rootWindow);
           }
+         
     }
     private void codeEditorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeEditorItemActionPerformed
        focusView(this.fileTabView);
