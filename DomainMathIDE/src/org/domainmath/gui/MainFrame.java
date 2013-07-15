@@ -2592,6 +2592,7 @@ public void saveplot() {
                  name =file_plot.getName();
                  MainFrame.octavePanel.evaluate("saveas(1,"+"'"+file_plot.getAbsolutePath()+"');");
                  
+                 // open saved image using default image viewer.
                  MainFrame.octavePanel.evaluate("obOctDefaultApp=javaObject("+
                           Character.toString('"')+"OctDefaultApp"+Character.toString('"')+
                           ","+Character.toString('"')+file_plot.getAbsolutePath()+Character.toString('"')+");");
@@ -2677,7 +2678,7 @@ public void saveplot() {
          String help_text = "help('"+octavePanel.outputArea.getSelectedText()+"')";
          String sel =octavePanel.outputArea.getSelectedText();
          if(sel ==null) {
-             String s = JOptionPane.showInputDialog("Enter text: ");
+             String s = JOptionPane.showInputDialog("Enter a keyword to search\nExample hilb");
              MainFrame.octavePanel.evaluate("DomainMath_QuickHelp(help('"+s+"'),"+jar_path+","+"'QuickHelpFrame');");
          }else{
              MainFrame.octavePanel.evaluate("DomainMath_QuickHelp("+help_text+","+jar_path+","+"'QuickHelpFrame');");
@@ -2686,7 +2687,7 @@ public void saveplot() {
     }//GEN-LAST:event_quickHelpItemActionPerformed
 
     private void dSmoothItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dSmoothItemActionPerformed
-         MainFrame.octavePanel.eval("pkg load data-smoothing;");
+        MainFrame.octavePanel.eval("pkg load data-smoothing;");
         DataSmoothFrame dataSmoothFrame = new DataSmoothFrame();
         dataSmoothFrame.setLocationRelativeTo(this);
         dataSmoothFrame.setVisible(true);
@@ -2955,21 +2956,26 @@ public void saveplot() {
                      reloadWorkspace();
                 }
         }
+        
+     
+        /**
+         * Run script.
+         */
         private void runFile(Path path) {
-            
+
             String name =path.getFileName().toString();
             String ext =name.substring(name.lastIndexOf("."));
-            
+
             if(ext.equalsIgnoreCase(".m")){
                 String m_file_name=name.substring(0, name.indexOf(".m")) ;
                  MainFrame.octavePanel.evalWithOutput(m_file_name);
                  MainFrame.octavePanel.commandArea.setText("");
                  MainFrame.octavePanel.commandArea.setText(m_file_name);
                  reloadWorkspace();
-            
+
             }else if(ext.equalsIgnoreCase(".pl")) {
                 MainFrame.octavePanel.evalWithOutput("perl("+"'"+path.toString()+"'"+");");
-                
+
             }else if(ext.equalsIgnoreCase(".mod")) {
                 setUpDynare(path);
             }else if(ext.equalsIgnoreCase(".dyn")) {
@@ -3031,7 +3037,7 @@ public void saveplot() {
             }
                        
 		} catch (Exception re) {
-		JOptionPane.showMessageDialog(this,re.toString(),"Error",JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this,re.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
                 
 		}
 }
@@ -3091,45 +3097,62 @@ public void saveplot() {
            
         });
     }
+    
+    /**
+     * It closes a file.
+     * @param selectedIndex 
+     */
     public void askSave(int selectedIndex) {
             String s = fileTab.getTitleAt(selectedIndex) ; 
             
-            if(s.endsWith("*")) {
+            if(s.endsWith("*")) {   //modified document.
                 String f =s.substring(0, s.lastIndexOf("*"));
+                
+                 // ask to save file.
                  int i =  JOptionPane.showConfirmDialog(this, "Do you want to save changes in "+f+" ?", "DomainMath IDE", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
-                 if(i == JOptionPane.YES_OPTION) {
-                     File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
-                       
-                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
-                   
-                     save(selected_file,selectedIndex);
-                      this.removeFileNameFromList(selectedIndex);
-                      
+                 
+                 if(i == JOptionPane.YES_OPTION) {  //need to save file
                      
-                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
+                     // add this file to recent menu list.
+                     File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));  
+                     recentFileMenu.addEntry(selected_file.getAbsolutePath()); 
+                   
+                     // save the file.
+                     save(selected_file,selectedIndex);     
+                     
+                     // close the file.
+                     this.removeFileNameFromList(selectedIndex);
                      fileTab.remove(selectedIndex);
                      FILE_TAB_INDEX--;
 
-                 }else if (i == JOptionPane.NO_OPTION){
-                      this.removeFileNameFromList(selectedIndex);
-                      File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
+                 }else if (i == JOptionPane.NO_OPTION){    // I dont need to save the file.
                      
-                      recentFileMenu.addEntry(selected_file.getAbsolutePath());
+                     // add this file to recent menu list.
+                     File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
+                     recentFileMenu.addEntry(selected_file.getAbsolutePath());
+                     
+                     // close the file.
+                     this.removeFileNameFromList(selectedIndex);
                      fileTab.remove(selectedIndex);
                      FILE_TAB_INDEX--;
                     
                  }
-            }else {
-                removeFileNameFromList(selectedIndex);
+            }else {     //unmodified file.
+                
+                // add this file to recent menu list.
                 File selected_file = new File(fileTab.getToolTipTextAt(selectedIndex));
-              
-               
-                 recentFileMenu.addEntry(selected_file.getAbsolutePath());  
+                recentFileMenu.addEntry(selected_file.getAbsolutePath());  
+                
+                // close the file.
+                removeFileNameFromList(selectedIndex);
                 fileTab.remove(selectedIndex);
                 FILE_TAB_INDEX--;
             }
     }
 
+    /**
+     * Start Jalview.
+     */
     private void startJalview() {
         System.out.println("Java version: "
             + System.getProperty("java.version"));
@@ -3200,8 +3223,7 @@ public void saveplot() {
     }
 
     private void createRootWindow() {
-      
-       
+
        viewMap.addView(0, fileTabView);
        viewMap.addView(1, pathsView);
        viewMap.addView(2, pkgView);
