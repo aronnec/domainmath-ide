@@ -260,6 +260,15 @@ public final class MainFrame extends javax.swing.JFrame {
      */
     private URL urlDebugImageStop;
     
+    /**
+     * Maximum number of recent files list.
+     */
+    private static int MAX_NUM_RECENT_FILES=10;
+    
+    /**
+     * Recent menu's order.
+     */
+    private static int RECENT_MENU_ORDER=2;
     
     /**
      * Start up or default directory.
@@ -275,17 +284,23 @@ public final class MainFrame extends javax.swing.JFrame {
      * Menu contain recently opened files list.
      */
     private final RecentFileMenu recentFileMenu;
-    private View fileTabView;
+    
     private final PathsViewPanel pathPanel;
     private final PkgViewPanel pkgViewPanel;
+    
+    /**
+     * Views of different panels.
+     */
+    private View fileTabView;
     private View pathsView;
     private View pkgView;
     private View consoleView;
     private View arrayEditorView;
-    private ViewMap viewMap = new ViewMap();
     private View workspaceView;
-     private HashMap dynamicViews = new HashMap();
-     private RootWindow rootWindow;
+    private RootWindow rootWindow;
+    
+    private ViewMap viewMap = new ViewMap();
+    private HashMap dynamicViews = new HashMap();
     private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
     private RootWindowProperties properties = new RootWindowProperties();
     final RootWindowProperties titleBarStyleProperties = PropertiesUtil.createTitleBarStyleRootWindowProperties();
@@ -293,6 +308,7 @@ public final class MainFrame extends javax.swing.JFrame {
     TabWindow workspaceAndFilesTabWindow = new TabWindow();
     private final View filesView;
     private View historyView;
+    
     /** 
      * Creates new form MainFrame.
      */
@@ -306,9 +322,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         parent_root=cache.getAbsolutePath()+File.separator;
         log_root=logDir.getAbsolutePath()+File.separator;
-        
-       
-       
+
         initComponents();
         makeMenu();
         
@@ -318,8 +332,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         FILE_TAB_INDEX =0;
         
-       
-        
+        //create octavepanel.
         octavePanel = new OctavePanel(this,parent_root);
         commandArea = octavePanel.commandArea;
         
@@ -338,7 +351,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
       
 
-        recentFileMenu=new RecentFileMenu("RecentFiles",10){
+        recentFileMenu=new RecentFileMenu("RecentFiles",MAX_NUM_RECENT_FILES){
             @Override
         	public void onSelectFile(String filePath,ActionEvent action_event){
         		onRecentFile(filePath,action_event);
@@ -346,7 +359,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
            
     	};
-        this.fileMenu.add(recentFileMenu,2);
+        this.fileMenu.add(recentFileMenu,MainFrame.RECENT_MENU_ORDER);
         
         statusPanel = new StatusPanel();
          fileTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -384,7 +397,8 @@ public final class MainFrame extends javax.swing.JFrame {
      public void initTabComponent(int i) {
         fileTab.setTabComponentAt(FILE_TAB_INDEX,
                  new ButtonTabComponent(this));
-    }    
+    } 
+     
     /**
      * Returns folder or Parent of last selected file in file tab.
      * @return currentDirFileTab
@@ -457,6 +471,10 @@ public final class MainFrame extends javax.swing.JFrame {
                     
                 });
     }
+    
+    /**
+     * Set TextArea with octave syntax style.
+     */
     public void setUpArea() {
         areaFileTab =new  RSyntaxTextArea();
       
@@ -478,9 +496,7 @@ public final class MainFrame extends javax.swing.JFrame {
     
      
     public void saveAs() {
-    JFileChooser fc = new JFileChooser();
-
-       
+        JFileChooser fc = new JFileChooser();
         fc.setMultiSelectionEnabled(false);
 
         fc.setDialogTitle("Save As");
@@ -489,15 +505,14 @@ public final class MainFrame extends javax.swing.JFrame {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
                 String path = fc.getSelectedFile().getAbsolutePath();
-               
+                String oldfile = fileTab.getToolTipTextAt(fileTab.getSelectedIndex());
                     save(fc.getSelectedFile(),fileTab.getSelectedIndex());
-                
-                 
+                    this.removeFileNameFromList(oldfile);
+                    fileTab.setToolTipTextAt(fileTab.getSelectedIndex(), fc.getSelectedFile().getAbsolutePath());
+                    this.addFileNameToList(fc.getSelectedFile().getAbsolutePath());
         }
-                 
-
-            
-}
+       
+    }
     public void addFileNameToList(String name) {
         fileNameList.add(name);
     }
@@ -505,6 +520,9 @@ public final class MainFrame extends javax.swing.JFrame {
     
     public void removeFileNameFromList(int index) {
         fileNameList.remove(index);
+    }
+    public void removeFileNameFromList(String name) {
+        fileNameList.remove(name);
     }
     public void open(File file ,int file_index) {
      selectedFileToOpen= file.getName();
@@ -3648,7 +3666,6 @@ public void saveplot() {
           else {
             DockingUtil.addWindow(view, rootWindow);
           }
-         
     }
     private void codeEditorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeEditorItemActionPerformed
        focusView(this.fileTabView);
